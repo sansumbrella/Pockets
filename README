@@ -1,1 +1,12 @@
 Pockets
+
+Catch-all collection of utilities intended for use with Cinder.
+
+Current:
+GLKVbo from Ryan Alexander
+Other GLKit-related code from Ryan.
+
+Planned:
+Line expansion.
+Processing-style curve-through-points, using Path2d.
+Some svg manipulation.
