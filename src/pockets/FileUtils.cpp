@@ -1,7 +1,11 @@
 
 #include "FileUtils.h"
+#include "cinder/Utilities.h"
 
-std::string getUniquePath( const fs::path &path, const std::string &sep, int padding, bool numberFirstFile )
+using namespace ci;
+using namespace std;
+
+std::string pockets::getUniquePath( const fs::path &path, const std::string &sep, int padding, bool numberFirstFile )
 {
 	fs::path p( path );
 	string extension = p.extension().string();
@@ -20,7 +24,7 @@ std::string getUniquePath( const fs::path &path, const std::string &sep, int pad
 	return p.generic_string();
 }
 
-std::string leftPaddedString( const std::string &input, int minSize, const std::string pad )
+std::string pockets::leftPaddedString( const std::string &input, int minSize, const std::string pad )
 {
 	std::string output(input);
 	while ( output.size() < minSize )

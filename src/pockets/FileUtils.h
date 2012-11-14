@@ -1,10 +1,7 @@
-#include <string>
-#include <vector>
-#include "cinder/Cinder.h"
+#include "Pockets.h"
+#include "cinder/Filesystem.h"
 
-namespace cinder
-{
-namespace pockets
+namespace cinder { namespace pockets
 {
 //! Returns unique, numbered pathname based on the provided path in the form some/filename-##.ext
 std::string getUniquePath( const fs::path &path, const std::string &sep = "-", int padding = 2, bool numberFirstFile = true );
