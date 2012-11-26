@@ -2,8 +2,7 @@
 
 #include "cinder/Cinder.h"
 
-namespace cinder { namespace pockets
+namespace pockets
 {
 }
 namespace pk = pockets;
-}

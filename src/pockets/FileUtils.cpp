@@ -6,7 +6,7 @@
 using namespace ci;
 using namespace std;
 
-std::string pockets::getUniquePath( const fs::path &path, const std::string &sep, int padding, bool numberFirstFile )
+std::string pockets::getUniquePath( const fs::path &path, int padding, bool numberFirstFile )
 {
 	fs::path p( path );
 	string extension = p.extension().string();
@@ -15,11 +15,11 @@ std::string pockets::getUniquePath( const fs::path &path, const std::string &sep
 
 	int count = 0;
 	if( numberFirstFile )
-		p = parent_path / ( stem + sep + leftPaddedString( toString(count++), padding ) + extension );
+		p = parent_path / ( stem + leftPaddedString( toString(count++), padding ) + extension );
 
 	while ( fs::exists( p ) )
 	{
-		p = parent_path / ( stem + sep + leftPaddedString( toString(count++), padding ) + extension );
+		p = parent_path / ( stem + leftPaddedString( toString(count++), padding ) + extension );
 	}
 
 	return p.generic_string();

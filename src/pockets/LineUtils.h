@@ -3,7 +3,7 @@
 #include "Pockets.h"
 #include <vector>
 
-namespace cinder { namespace pockets
+namespace pockets
 {
 
 //! returns a vector of points and control points suitable for constructing
@@ -12,4 +12,4 @@ namespace cinder { namespace pockets
 template <typename T>
 std::vector<T> curveThrough( const std::vector<T> &points );
 
-}} // ci::su
+} // pockets
