@@ -90,11 +90,6 @@ void VboSampleApp::draw()
 	gl::enableDepthRead();
 	
 	mTex.bind();
-	gl::setMatrices( mCam );
-	glPushMatrix();
-		gl::multModelView( mCubeRotation );
-		gl::drawCube( Vec3f::zero(), Vec3f( 2.0f, 2.0f, 2.0f ) );
-	glPopMatrix();
 }
 
 CINDER_APP_COCOA_TOUCH( VboSampleApp, RendererGl )
