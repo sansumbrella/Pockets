@@ -12,13 +12,9 @@ using namespace std;
 
 struct VertexData
 {
-//	float position;
-//  float normal;
-//  float color;
-//  float texcoord;
   Vec3f	position;
   Vec3f normal;
-  Color	color;
+  ColorA	color;
   Vec2f texcoord;
 };
 

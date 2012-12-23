@@ -58,7 +58,7 @@ namespace pockets { namespace gl
     {
       mAttributes.push_back( attr );
     }
-  	//! add an attribute to set; must be added in order stored on CPU
+  	//! add an attribute to set
     void addAttribute( const std::string &name, GLint size, GLenum type, GLsizei offset=0 );
     GLsizei getStride() const { return mStride; }
     void setStride( GLsizei stride ){ mStride = stride; }
