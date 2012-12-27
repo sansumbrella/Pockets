@@ -3,6 +3,8 @@
 #include "Pockets.h"
 #include <vector>
 
+#pragma once
+
 namespace pockets
 {
 

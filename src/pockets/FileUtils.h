@@ -3,6 +3,8 @@
 #include "Pockets.h"
 #include "cinder/Filesystem.h"
 
+#pragma once
+
 namespace pockets
 {
 //! Returns unique, numbered pathname based on the provided path in the form some/filename-##.ext
