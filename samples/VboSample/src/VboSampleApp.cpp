@@ -21,7 +21,6 @@ struct VertexData
 class VboSampleApp : public AppCocoaTouch {
   public:
 	virtual void	setup();
-	virtual void	resize( ResizeEvent event );
 	virtual void	update();
 	virtual void	draw();
 	virtual void	mouseDown( MouseEvent event );
@@ -67,12 +66,6 @@ void VboSampleApp::setup()
   mesh->addBuffer( vertices );
 }
 
-void VboSampleApp::resize( ResizeEvent event )
-{
-	mCam.lookAt( Vec3f( 3, 2, -3 ), Vec3f::zero() );
-	mCam.setPerspective( 60, event.getAspectRatio(), 1, 1000 );
-}
-
 void VboSampleApp::mouseDown( MouseEvent event )
 {
 	console() << "Mouse down @ " << event.getPos() << std::endl;
@@ -90,6 +83,7 @@ void VboSampleApp::draw()
 	gl::enableDepthRead();
 	
 	mTex.bind();
+  gl::draw( mTex );
 }
 
 CINDER_APP_COCOA_TOUCH( VboSampleApp, RendererGl )
