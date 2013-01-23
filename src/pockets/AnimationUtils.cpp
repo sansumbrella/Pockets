@@ -7,14 +7,19 @@
 //
 
 #include "AnimationUtils.h"
+#include <cmath>
 
 using namespace ci;
 using namespace pockets;
+using namespace std;
 
 Quatf pk::lerpQuaternion( const ci::Quatf &start, const ci::Quatf &end, float time )
 {
-	return start.slerp( time, end ).normalized();
+  auto val = start.slerp( time, end ).normalized();
+	return isfinite( val.getAxis() ) ? val : Quatf::identity();
 }
+
+bool pk::isfinite( const ci::Vec3f &vec ){ return std::isfinite( vec.x ) && std::isfinite( vec.y ) && std::isfinite( vec.z ); }
 
 float pk::lerpShortestNormalized(float start, float end, float time)
 {
