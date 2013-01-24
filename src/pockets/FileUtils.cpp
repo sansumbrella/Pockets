@@ -6,7 +6,7 @@
 using namespace ci;
 using namespace std;
 
-std::string pockets::getUniquePath( const fs::path &path, int padding, bool numberFirstFile )
+std::string pockets::getNextNumberedPath( const fs::path &path, int padding, bool numberFirstFile )
 {
 	fs::path p( path );
 	string extension = p.extension().string();
