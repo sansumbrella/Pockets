@@ -65,6 +65,7 @@ void SplineArcLengthParameterizer::sampleCurve( const ci::BSpline3f &spline, con
 {
   mSpline = spline;
   mArcLength = spline.getLength( 0.0f, 1.0f );
+  mSamples.clear();
   Sample sample;
   mSamples.push_back( sample );
   for( int i = 1; i < numSamples; ++i )
@@ -79,12 +80,12 @@ void SplineArcLengthParameterizer::sampleCurve( const ci::BSpline3f &spline, con
 
 float SplineArcLengthParameterizer::getTime( float s ) const
 {
-  if( s < 0 ){ return 0; }
-  else if( s > 1 ){ return 1; }
-  int index = s * mSamples.size();
+  if( s <= 0 ){ return mSamples[0].t; }
+  else if( s >= 1 ){ return mSamples.back().t; }
+  size_t index = s * (mSamples.size() - 1);
   Sample sample = mSamples.at(index);
   Sample next = mSamples.at(index + 1);
-  float t = sample.t + next.slope*(s * mSamples.size() - index);
+  float t = sample.t + next.slope * (s * mArcLength - sample.s);
   return t;
 }
 

@@ -32,7 +32,7 @@ public:
   float getTime( float s ) const;
   // Get the curve position from normalized arc-length s
   ci::Vec3f getPosition( float s ) const;
-  void sampleCurve( const ci::BSpline3f &spline, const int numSamples = 50 );
+  void sampleCurve( const ci::BSpline3f &spline, const int numSamples = 64 );
 private:
   std::vector<Sample> mSamples;
   float         mArcLength = 1.0f;
