@@ -59,3 +59,38 @@ vector<T> pockets::curveThrough(const vector<T> &points)
 
 template vector<Vec2f> pockets::curveThrough<Vec2f>(const vector<Vec2f> &points);
 template vector<Vec3f> pockets::curveThrough<Vec3f>(const vector<Vec3f> &points);
+
+using namespace pockets;
+void SplineArcLengthParameterizer::sampleCurve( const ci::BSpline3f &spline, const int numSamples )
+{
+  mSpline = spline;
+  mArcLength = spline.getLength( 0.0f, 1.0f );
+  Sample sample;
+  mSamples.push_back( sample );
+  for( int i = 1; i < numSamples; ++i )
+  {
+    Sample previous = mSamples.at( i - 1 );
+    sample.s = mArcLength * i / (numSamples - 1.0f);
+    sample.t = spline.getTime( sample.s );
+    sample.slope = (sample.t - previous.t) / (sample.s - previous.s);
+    mSamples.push_back( sample );
+  }
+}
+
+float SplineArcLengthParameterizer::getTime( float s ) const
+{
+  if( s < 0 ){ return 0; }
+  else if( s > 1 ){ return 1; }
+  int index = s * mSamples.size();
+  Sample sample = mSamples.at(index);
+  Sample next = mSamples.at(index + 1);
+  float t = sample.t + next.slope*(s * mSamples.size() - index);
+  return t;
+}
+
+Vec3f SplineArcLengthParameterizer::getPosition( float s ) const
+{
+  return mSpline.getPosition( getTime( s ) );
+}
+
+
