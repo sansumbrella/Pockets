@@ -29,6 +29,7 @@ namespace pockets
 
     void setWidth( float w ){ mLineWidth = w; }
     float getLineWidth() const { return mLineWidth; }
+    void setPositions( const std::vector<ci::Vec3f> &through_points );
 
     void update();
     void draw();

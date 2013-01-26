@@ -47,10 +47,18 @@ mIsClosed( closed )
       ++iter;
     }
   }
+  update();
 }
 
 FatSpline::~FatSpline()
 {}
+
+void FatSpline::setPositions( const std::vector<ci::Vec3f> &through_points )
+{
+  assert( through_points.size() == mBasePositions.size() );
+  mBasePositions = through_points;
+  update();
+}
 
 void FatSpline::update()
 {
