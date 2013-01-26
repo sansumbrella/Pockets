@@ -35,8 +35,7 @@ FatLine3d::FatLine3d( size_t length )
     layout.setDynamicPositions();
     layout.setStaticTexCoords2d();
     layout.setStaticColorsRGB();
-//    layout.setStaticIndices();
-    mVbo = gl::VboMesh( length * 2, 0, layout, GL_QUAD_STRIP );
+    mVbo = gl::VboMesh( length * 2, 0, layout, GL_TRIANGLE_STRIP );
     mVbo.bufferTexCoords2d( 0, texcoords );
     mVbo.bufferColorsRGB( colors );
     auto iter = mVbo.mapVertexBuffer();
@@ -46,58 +45,42 @@ FatLine3d::FatLine3d( size_t length )
       ++iter;
     }
   }
-  buildOutline();
 }
 
 FatLine3d::~FatLine3d()
 {}
 
-void FatLine3d::setPositions( const vector<Vec3f> &positions )
+void FatLine3d::setPositions( const vector<Vec3f> &positions, const Vec3f &eye_axis )
 {
   assert( positions.size() == mSkeleton.size() );
   mSkeleton = positions;
-  buildOutline();
+  buildOutline( eye_axis );
 }
 
-void FatLine3d::buildOutline()
+void FatLine3d::buildOutline( const Vec3f &eye_axis )
 {
-  Vec3f eye_axis = Vec3f::yAxis();
-  Vec3f a, b, c;
+  Vec3f a, b;
   // first vertex
   a = mSkeleton.at( 0 );
   b = mSkeleton.at( 1 );
-  c = mSkeleton.at( 2 );
   Vec3f edge = (b - a).normalized();
-  Vec3f nextEdge = (c - b).normalized();
-  Vec3f tangent = edge.cross( nextEdge );
+  Vec3f tangent = edge.cross( eye_axis );
   Vec3f north = tangent.normalized();
   Vec3f south = -north;
   mOutline.at( 0 ) = a + north;
   mOutline.at( 0 + 1) = a + south;
-  // intermediate vertices
-  for( int i = 1; i < mSkeleton.size() - 1; ++i )
+  // remaining vertices
+  for( int i = 1; i < mSkeleton.size(); ++i )
   {
     a = mSkeleton.at(i - 1);
     b = mSkeleton.at(i);
-    c = mSkeleton.at(i + 1);
     edge = (b - a).normalized();
-    Vec3f nextEdge = (c - b).normalized();
-    Vec3f tangent = edge.cross( nextEdge );
+    tangent = edge.cross( eye_axis );
     north = tangent.normalized();
     south = -north;
     mOutline.at( i * 2 ) = b + north;
     mOutline.at( i * 2 + 1 ) = b + south;
   }
-  // last vertex
-  c = mSkeleton.back();
-  edge = nextEdge;
-  nextEdge = (c - b).normalized();
-  tangent = edge.cross( nextEdge );
-  north = tangent.normalized();
-  south = -north;
-  int end = mSkeleton.size() - 1;
-  mOutline.at( end * 2 ) = c + north;
-  mOutline.at( end * 2 + 1) = c + south;
 
   auto iter = mVbo.mapVertexBuffer();
   for( const auto &loc : mOutline )

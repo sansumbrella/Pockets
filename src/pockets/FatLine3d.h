@@ -19,15 +19,15 @@ namespace pockets
   public:
     FatLine3d( size_t length );
     ~FatLine3d();
-    void setPositions( const std::vector<ci::Vec3f> &positions );
+    void setPositions( const std::vector<ci::Vec3f> &positions, const ci::Vec3f &eye_axis=ci::Vec3f::zAxis() );
     void setWidth( float w ){ mLineWidth = w; }
     void draw();
   private:
-    void buildOutline();
+    void buildOutline( const ci::Vec3f &eye_axis );
     //! skeleton of vertices
     std::vector<ci::Vec3f>  mSkeleton;
     std::vector<ci::Vec3f>  mOutline;
-    float                   mLineWidth = 2.0f;
+    float                   mLineWidth = 4.0f;
     ci::gl::VboMesh         mVbo;
   };
   
