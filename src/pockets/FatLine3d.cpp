@@ -19,14 +19,14 @@ FatLine3d::FatLine3d( size_t length )
   mOutline.assign( length * 2, Vec3f::zero() );
 
   vector<Vec2f> texcoords;
-  vector<Color> colors;
+//  vector<Color> colors;
   for ( int i = 0; i != length; ++i )
   {
     float factor = i / (length - 1.0f);
     texcoords.push_back( Vec2f( factor, 0 ) ); // north
     texcoords.push_back( Vec2f( factor, 1 ) ); // south
-    colors.push_back( Color( CM_HSV, lmap<float>( i, 0, length-1, 0.0f, 1.0f ), 1.0f, 1.0f ) );
-    colors.push_back( Color( CM_HSV, 0.0f, 0.0f, 1.0f ) );
+//    colors.push_back( Color( CM_HSV, lmap<float>( i, 0, length-1, 0.0f, 1.0f ), 1.0f, 1.0f ) );
+//    colors.push_back( Color( CM_HSV, 0.0f, 0.0f, 1.0f ) );
   }
 
   if( !mVbo )
@@ -34,10 +34,10 @@ FatLine3d::FatLine3d( size_t length )
     gl::VboMesh::Layout layout;
     layout.setDynamicPositions();
     layout.setStaticTexCoords2d();
-    layout.setStaticColorsRGB();
+//    layout.setStaticColorsRGB();
     mVbo = gl::VboMesh( length * 2, 0, layout, GL_TRIANGLE_STRIP );
     mVbo.bufferTexCoords2d( 0, texcoords );
-    mVbo.bufferColorsRGB( colors );
+//    mVbo.bufferColorsRGB( colors );
     auto iter = mVbo.mapVertexBuffer();
     for( const auto &loc : mOutline )
     {
@@ -60,12 +60,13 @@ void FatLine3d::setPositions( const vector<Vec3f> &positions, const Vec3f &eye_a
 void FatLine3d::buildOutline( const Vec3f &eye_axis )
 {
   Vec3f a, b;
+  const float last_index = mSkeleton.size() - 1.0f;
   // first vertex
   a = mSkeleton.at( 0 );
   b = mSkeleton.at( 1 );
   Vec3f edge = (b - a).normalized();
   Vec3f tangent = edge.cross( eye_axis );
-  Vec3f north = tangent.normalized();
+  Vec3f north = tangent.normalized() * getHalfWidth( 0 );
   Vec3f south = -north;
   mOutline.at( 0 ) = a + north;
   mOutline.at( 0 + 1) = a + south;
@@ -76,7 +77,7 @@ void FatLine3d::buildOutline( const Vec3f &eye_axis )
     b = mSkeleton.at(i);
     edge = (b - a).normalized();
     tangent = edge.cross( eye_axis );
-    north = tangent.normalized();
+    north = tangent.normalized() * getHalfWidth( i / last_index );
     south = -north;
     mOutline.at( i * 2 ) = b + north;
     mOutline.at( i * 2 + 1 ) = b + south;
@@ -88,6 +89,11 @@ void FatLine3d::buildOutline( const Vec3f &eye_axis )
     iter.setPosition( loc );
     ++iter;
   }
+}
+
+float FatLine3d::getHalfWidth( float t )
+{
+  return mShapeFn( t ) * mLineHalfWidth;
 }
 
 void FatLine3d::draw()
