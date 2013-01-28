@@ -13,6 +13,11 @@ using namespace ci;
 using namespace pockets;
 using namespace std;
 
+float pk::quantize( float f, float steps )
+{
+	return math<float>::floor(f * steps + 0.5f) / steps;
+}
+
 Quatf pk::lerpQuaternion( const ci::Quatf &start, const ci::Quatf &end, float time )
 {
   auto val = start.slerp( time, end ).normalized();

@@ -12,6 +12,8 @@
 
 namespace pockets
 {
+  //! returns f with precision of 1/steps (e.g. for 0.31 with 5 steps, yields 0.4, with 10 steps, yields 0.3 )
+	float quantize( float f, float steps );
 
   //! quaternion lerp function suitable for passing to ci::Timeline
   ci::Quatf lerpQuaternion( const ci::Quatf &start, const ci::Quatf &end, float time );
