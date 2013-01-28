@@ -12,24 +12,21 @@
 using namespace pockets;
 using namespace cinder;
 
-ColorPalette::ColorPalette()
-{}
-
 ColorPalette::~ColorPalette()
 {}
 
-ColorA ColorPalette::getColor(float t)
+ColorA ColorPalette::getColor(float t) const
 {
   return ColorA( 1.0f, 0.0f, 0.0f, 0.0f );
 }
 
 
-ColorA ColorPalette::getColorClamped(float t)
+ColorA ColorPalette::getColorClamped(float t) const
 {
 	return getColor( math<float>::clamp( t, 0.0f, 1.0f ) );
 }
 
-ColorA ColorPalette::getColorWrapped(float t)
+ColorA ColorPalette::getColorWrapped(float t) const
 {
   if( t > 1.0f ){ t = t - math<float>::floor( t ); }
   else if( t < 0.0f ){ t = 1.0f + (t - math<float>::ceil( t )); }
@@ -45,7 +42,7 @@ SurfacePaletteRef SurfacePalette::create(const ci::Surface &surf)
   return SurfacePaletteRef( new SurfacePalette( surf ) );
 }
 
-ColorA SurfacePalette::getColor( float t )
+ColorA SurfacePalette::getColor( float t ) const
 {
   return mSurface.getPixel( Vec2i( math<float>::floor( t * (mSurface.getWidth() - 1) + 0.5f ), 0 ) );
 }
