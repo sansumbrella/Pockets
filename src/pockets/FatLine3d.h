@@ -13,7 +13,9 @@
 
 namespace pockets
 {
-
+  /**
+  An expanded line that attempts to orient the bulk of its width toward the viewer.
+  */
   class FatLine3d
   {
   public:
