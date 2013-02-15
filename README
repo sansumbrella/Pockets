@@ -15,3 +15,5 @@ Animation Utilities
 - lerp function for quaternions, colors, wrapped numbers
 File Utilities
 - Get next sequential filename
+
+All code is available for use under the BSD license.
