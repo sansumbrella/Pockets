@@ -1,15 +1,17 @@
-Pockets
+What have I got in my pocket?
+A collection of utilities of varying utility.
+Intended for use with Cinder.
+Written against clang/C++11.
 
-Catch-all collection of utilities intended for use with Cinder.
-
-Current:
-cinder-glkit
-- GLKVbo from Ryan Alexander
-- Other GLKit-related code from Ryan.
-pockets
-- Get next sequential filename
+Current Contents:
+Line Utilities
 - curve through a collection of points
-
-Planned:
-Line expansion.
-Some svg manipulation helpers.
+- FatLine3d for path expansion to geometry
+SpriteSheet
+- simple spritesheet generator and renderer
+Color Palette
+- color selection from an image
+Animation Utilities
+- lerp function for quaternions, colors, wrapped numbers
+File Utilities
+- Get next sequential filename
