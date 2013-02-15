@@ -36,7 +36,7 @@ namespace pockets { namespace gl {
   {
     for( auto &attr : mAttributes )
     {
-//      attr.setIndex( shader.getAttribLocation( attr.getName() ) );
+      attr.setIndex( shader.getAttribLocation( attr.getName() ) );
     }
   }
 
