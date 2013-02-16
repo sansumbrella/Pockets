@@ -28,6 +28,7 @@
 #include "ImagePacker.h"
 #include "cinder/Text.h"
 #include "cinder/ip/Trim.h"
+#include "cinder/ip/Fill.h"
 
 using namespace ci;
 using namespace std;
@@ -64,11 +65,11 @@ void ImagePacker::addGlyphs( const ci::Font &font, const std::string &glyphs, bo
 void ImagePacker::addString( const string &id, const Font &font, const string &str, bool trim_alpha )
 {
   TextLayout layout;
-  layout.clear( ColorA( 0, 0, 0, 0 ) );
+  layout.clear( ColorA( 1, 1, 1, 0 ) );
   layout.setFont( font );
   layout.setColor( Color::white() );
   layout.addLine( str );
-  Surface image = layout.render( true );
+  Surface image = layout.render( true, false );
   addImage( id, image, trim_alpha );
 }
 
@@ -94,6 +95,7 @@ JsonTree ImagePacker::surfaceDescription()
 Surface ImagePacker::packedSurface()
 {
   Surface output( mWidth, mHeight, true, SurfaceChannelOrder::RGBA );
+  ip::fill( &output, ColorA( 1, 1, 1, 0 ) );
   for( ImageData &sprite : mImages )
   {
     output.copyFrom( sprite.getSurface(), sprite.getBounds(), sprite.getLoc() );
