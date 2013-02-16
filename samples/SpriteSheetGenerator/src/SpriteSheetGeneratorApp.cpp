@@ -78,6 +78,7 @@ void SpriteSheetGeneratorApp::prepareSettings(Settings *settings)
 void SpriteSheetGeneratorApp::setup()
 {
   mParams = params::InterfaceGl( "SpriteSheet Generator", Vec2i( 200, 200 ) );
+  mParams.setOptions( "", "position='50 450'" );
   mParams.addParam( "Preview scaling", &mWindowScaling, "min=0.1 max=2.0 step=0.05");
   mParams.addParam( "Output name", &mFilename );
   mParams.addButton( "Save sheet", [this](){ saveSpriteSheet(); } );
@@ -117,7 +118,6 @@ void SpriteSheetGeneratorApp::draw()
 	// clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) );
   gl::pushModelView();
-  gl::translate( Vec2i( 50, 50 ) );
   gl::scale( mWindowScaling, mWindowScaling );
   gl::color( Color::white() );
   gl::enableAlphaBlending();
