@@ -88,28 +88,7 @@ void SpriteSheet::draw( const SpriteData &sprite, const Vec2f &loc )
   Rectf coords = sprite.getTextureBounds();
   Rectf rect( loc, loc + sprite.getSize() );
 
-  glEnableClientState( GL_VERTEX_ARRAY );
-	GLfloat verts[8];
-	glVertexPointer( 2, GL_FLOAT, 0, verts );
-	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-	GLfloat texCoords[8];
-	glTexCoordPointer( 2, GL_FLOAT, 0, texCoords );
-	verts[0*2+0] = rect.getX2(); texCoords[0*2+0] = coords.getX2();
-	verts[0*2+1] = rect.getY1(); texCoords[0*2+1] = coords.getY1();
-
-	verts[1*2+0] = rect.getX1(); texCoords[1*2+0] = coords.getX1();
-	verts[1*2+1] = rect.getY1(); texCoords[1*2+1] = coords.getY1();
-
-  verts[2*2+0] = rect.getX2(); texCoords[2*2+0] = coords.getX2();
-	verts[2*2+1] = rect.getY2(); texCoords[2*2+1] = coords.getY2();
-
-  verts[3*2+0] = rect.getX1(); texCoords[3*2+0] = coords.getX1();
-	verts[3*2+1] = rect.getY2(); texCoords[3*2+1] = coords.getY2();
-
-	glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
-
-	glDisableClientState( GL_VERTEX_ARRAY );
-	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+  drawRect( rect, coords );
 }
 
 void SpriteSheet::draw( const SpriteData &sprite, const Vec2f &loc, const Vec2f &offsets )
@@ -138,27 +117,36 @@ void SpriteSheet::draw( const SpriteData &sprite, const Vec2f &loc, const Vec2f 
     rect.y1 = loc.y + sprite.getSize().y * offsets.y;
   }
 
+  drawRect( rect, coords );
+}
+
+void SpriteSheet::drawRect( const ci::Rectf &position_rect, const ci::Rectf &tex_coord_rect )
+{
   glEnableClientState( GL_VERTEX_ARRAY );
-	GLfloat verts[8];
-	glVertexPointer( 2, GL_FLOAT, 0, verts );
+	GLfloat positions[8];
+	glVertexPointer( 2, GL_FLOAT, 0, positions );
 	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 	GLfloat texCoords[8];
 	glTexCoordPointer( 2, GL_FLOAT, 0, texCoords );
-	verts[0*2+0] = rect.getX2(); texCoords[0*2+0] = coords.getX2();
-	verts[0*2+1] = rect.getY1(); texCoords[0*2+1] = coords.getY1();
+	positions[0*2+0] = position_rect.getX2(); texCoords[0*2+0] = tex_coord_rect.getX2();
+	positions[0*2+1] = position_rect.getY1(); texCoords[0*2+1] = tex_coord_rect.getY1();
 
-	verts[1*2+0] = rect.getX1(); texCoords[1*2+0] = coords.getX1();
-	verts[1*2+1] = rect.getY1(); texCoords[1*2+1] = coords.getY1();
+	positions[1*2+0] = position_rect.getX1(); texCoords[1*2+0] = tex_coord_rect.getX1();
+	positions[1*2+1] = position_rect.getY1(); texCoords[1*2+1] = tex_coord_rect.getY1();
 
-  verts[2*2+0] = rect.getX2(); texCoords[2*2+0] = coords.getX2();
-	verts[2*2+1] = rect.getY2(); texCoords[2*2+1] = coords.getY2();
+  positions[2*2+0] = position_rect.getX2(); texCoords[2*2+0] = tex_coord_rect.getX2();
+	positions[2*2+1] = position_rect.getY2(); texCoords[2*2+1] = tex_coord_rect.getY2();
 
-  verts[3*2+0] = rect.getX1(); texCoords[3*2+0] = coords.getX1();
-	verts[3*2+1] = rect.getY2(); texCoords[3*2+1] = coords.getY2();
+  positions[3*2+0] = position_rect.getX1(); texCoords[3*2+0] = tex_coord_rect.getX1();
+	positions[3*2+1] = position_rect.getY2(); texCoords[3*2+1] = tex_coord_rect.getY2();
 
 	glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
 
 	glDisableClientState( GL_VERTEX_ARRAY );
 	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+}
+
+void SpriteSheet::draw( const SpriteSheet::SpriteData &sprite, const ci::Rectf &inside_rect )
+{
 }
 
