@@ -30,7 +30,7 @@ void SpriteSheetTesterApp::setup()
   try
   {
     JsonTree sprite_json( loadAsset( "sprite_sheet.json" ) );
-    Surface  sprite_surf( loadImage( loadAsset("sprite_sheet.png") ) );
+    Surface  sprite_surf( loadImage( loadAsset("sprite_sheet.jpg") ) );
     mSheet = make_shared<SpriteSheet>( sprite_surf, sprite_json );
     mSpriteNames = mSheet->getSpriteNames();
     mCurrentSprite = mSpriteNames.begin();
@@ -61,7 +61,11 @@ void SpriteSheetTesterApp::update()
   double now = getElapsedSeconds();
   float delta = now - mLastUpdate;
   mOffset += delta * mOffsetDirection;
-  if( mOffset > 1 || mOffset < 0 ){ mOffsetDirection *= -1; mOffset += delta * mOffsetDirection; }
+  if( mOffset > 1 || mOffset < 0 )
+  {
+    mOffsetDirection *= -1;
+    mOffset += delta * mOffsetDirection;
+  }
   mLastUpdate = now;
 }
 

@@ -91,12 +91,14 @@ public:
   inline void unbind(){ mTexture.unbind(); }
   //! draw named sprite with top-left at location
   void        draw( const std::string &sprite_name, const ci::Vec2f &loc );
-  //! draw named sprite with normalized offsets in texture
-  void        draw( const std::string &sprite_name, const ci::Vec2f &loc, const ci::Vec2f &offsets );
+  //! draw named sprite with normalized scroll in texture
+  void        draw( const std::string &sprite_name, const ci::Vec2f &loc, const ci::Vec2f &scroll );
   //! draw sprite at location
   void        draw( const SpriteData &sprite, const ci::Vec2f &loc );
-  //! draw sprite at location with texture offset; for sliding texture within bounds (like a rectangular mask)
-  void        draw( const SpriteData &sprite, const ci::Vec2f &loc, const ci::Vec2f &offsets );
+  //! draw sprite at location with texture scroll; for sliding texture within bounds (like a rectangular mask)
+  void        draw( const SpriteData &sprite, const ci::Vec2f &loc, const ci::Vec2f &scroll );
+  //! TODO: draw sprite proportionally fitted within rect
+  void        draw( const SpriteData &sprite, const ci::Rectf &inside_rect ){};
   //! returns a collection of all the sprites names; not in any order
   std::vector<std::string>  getSpriteNames(){ return map_keys( mSpriteData ); }
   //! get information about the named sprite. Useful for getting the size of the sprite for alignment purposes.
