@@ -92,7 +92,8 @@ public:
 	~ImagePacker();
   //! add an image to the sheet
   void          addImage( ci::Surface surface, const std::string &id, const ci::fs::path &file_path="" );
-  void          addFont( const ci::Font &font, const std::string &glyphs );
+  //! add the specified glyphs from a font; trims the whitespace padding around character if trim_space==true
+  void          addFont( const ci::Font &font, const std::string &glyphs, bool trim_space=false );
   void          write( const ci::fs::path &destination_dir, const std::string &file_base_name );
   void          calculatePositions();
   void          draw();

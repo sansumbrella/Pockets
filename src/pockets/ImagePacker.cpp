@@ -26,6 +26,9 @@
  */
 
 #include "ImagePacker.h"
+#include "cinder/Text.h"
+#include "cinder/ip/Trim.h"
+
 using namespace ci;
 using namespace std;
 using namespace pockets;
@@ -41,16 +44,34 @@ void ImagePacker::addImage( ci::Surface surface, const std::string &id, const ci
   mImages.push_back( ImageData( surface, id, file_path ) );
 }
 
-void ImagePacker::addFont(const ci::Font &font, const std::string &glyphs)
+void ImagePacker::addFont(const ci::Font &font, const std::string &glyphs, bool trim_space )
 {
-  
+  for( const char glyph : glyphs )
+  {
+    TextLayout layout;
+    layout.clear( ColorA( 0, 0, 0, 0 ) );
+    layout.setFont( font );
+    layout.setColor( Color::white() );
+    layout.addLine( toString<char>(glyph) );
+    Surface image = layout.render( true );
+    if( trim_space )
+    {
+      Area bounds = ip::findNonTransparentArea( image, image.getBounds() );
+      bounds.x2 += 1;
+      bounds.y2 += 1;
+      Surface trimmed_copy( bounds.getWidth(), bounds.getHeight(), true, SurfaceChannelOrder::RGBA );
+      trimmed_copy.copyFrom( image, bounds, -bounds.getUL() );
+      image = trimmed_copy;
+    }
+    addImage( image, toString<char>(glyph) );
+  }
 }
 
 JsonTree ImagePacker::surfaceDescription()
 {
   JsonTree description;
   JsonTree metaData = JsonTree::makeObject("meta");
-  metaData.pushBack( JsonTree("created_by", "David Wicks' ImagePacker") );
+  metaData.pushBack( JsonTree("created_by", "David Wicks' pockets::ImagePacker") );
   metaData.pushBack( JsonTree("width", mWidth ) );
   metaData.pushBack( JsonTree("height", mHeight ) );
   description.pushBack( metaData );
@@ -77,10 +98,10 @@ Surface ImagePacker::packedSurface()
 
 void ImagePacker::calculatePositions()
 {
-  auto rev_area_compare = []( const ImageData &lhs, const ImageData &rhs )
-  {
-    return lhs.getBounds().calcArea() > rhs.getBounds().calcArea();
-  };
+//  auto rev_area_compare = []( const ImageData &lhs, const ImageData &rhs )
+//  {
+//    return lhs.getBounds().calcArea() > rhs.getBounds().calcArea();
+//  };
   auto rev_height_compare = []( const ImageData &lhs, const ImageData &rhs )
   {
     return lhs.getBounds().getHeight() > rhs.getBounds().getHeight();

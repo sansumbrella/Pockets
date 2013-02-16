@@ -81,6 +81,12 @@ void SpriteSheetGeneratorApp::setup()
   mParams.addParam( "Preview scaling", &mWindowScaling, "min=0.1 max=2.0 step=0.05");
   mParams.addParam( "Output name", &mFilename );
   mParams.addButton( "Save sheet", [this](){ saveSpriteSheet(); } );
+
+  Font font( "Hoefler Text", 48 );
+  mImagePacker.addFont( font, "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+  Font large_font( "Hoefler Text", 48 * 2 );
+  mImagePacker.addFont( large_font, "*", true );
+  mImagePacker.calculatePositions();
 }
 
 void SpriteSheetGeneratorApp::mouseDown( MouseEvent event )
@@ -131,7 +137,7 @@ void SpriteSheetGeneratorApp::saveSpriteSheet()
   if( file )
   {
     mImagePacker.surfaceDescription().write( file );
-    writeImage( output_path / (mFilename + ".jpg"), mImagePacker.packedSurface() );
+    writeImage( output_path / (mFilename + ".png"), mImagePacker.packedSurface() );
   }
 }
 

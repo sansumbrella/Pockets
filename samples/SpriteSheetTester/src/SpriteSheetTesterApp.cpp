@@ -30,7 +30,7 @@ void SpriteSheetTesterApp::setup()
   try
   {
     JsonTree sprite_json( loadAsset( "sprite_sheet.json" ) );
-    Surface  sprite_surf( loadImage( loadAsset("sprite_sheet.jpg") ) );
+    Surface  sprite_surf( loadImage( loadAsset("sprite_sheet.png") ) );
     mSheet = make_shared<SpriteSheet>( sprite_surf, sprite_json );
     mSpriteNames = mSheet->getSpriteNames();
     mCurrentSprite = mSpriteNames.begin();
