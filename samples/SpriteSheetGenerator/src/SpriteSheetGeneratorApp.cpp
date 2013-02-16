@@ -83,9 +83,10 @@ void SpriteSheetGeneratorApp::setup()
   mParams.addButton( "Save sheet", [this](){ saveSpriteSheet(); } );
 
   Font font( "Hoefler Text", 48 );
-  mImagePacker.addFont( font, "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+  mImagePacker.addGlyphs( font, "ABCDEFGHIKLMNOPQRSTUVWXYZ", true );
+  mImagePacker.addString( "J", font, " J", true ); // hack to render left edge of Hoefler J
   Font large_font( "Hoefler Text", 48 * 2 );
-  mImagePacker.addFont( large_font, "*", true );
+  mImagePacker.addGlyphs( large_font, "*", true );
   mImagePacker.calculatePositions();
 }
 
@@ -101,7 +102,7 @@ void SpriteSheetGeneratorApp::fileDrop(cinder::app::FileDropEvent event)
     {
       Surface img = loadImage( file );
       string id = file.stem().string();
-      mImagePacker.addImage( img, file.stem().string(), file );
+      mImagePacker.addImage( id, img );
     }
   }
   mImagePacker.calculatePositions();
@@ -116,6 +117,7 @@ void SpriteSheetGeneratorApp::draw()
 	// clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) );
   gl::pushModelView();
+  gl::translate( Vec2i( 50, 50 ) );
   gl::scale( mWindowScaling, mWindowScaling );
   gl::color( Color::white() );
   gl::enableAlphaBlending();

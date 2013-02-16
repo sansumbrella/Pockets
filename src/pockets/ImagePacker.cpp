@@ -39,32 +39,37 @@ ImagePacker::ImagePacker()
 ImagePacker::~ImagePacker()
 {}
 
-void ImagePacker::addImage( ci::Surface surface, const std::string &id, const ci::fs::path &file_path )
+void ImagePacker::addImage( const std::string &id, ci::Surface surface, bool trim_alpha )
 {
-  mImages.push_back( ImageData( surface, id, file_path ) );
+  if( trim_alpha )
+  {
+    Area bounds = ip::findNonTransparentArea( surface, surface.getBounds() );
+    assert( bounds.getWidth() <= surface.getWidth() );
+    assert( bounds.getHeight() <= surface.getHeight() );
+    Surface trimmed_copy( bounds.getWidth(), bounds.getHeight(), true, SurfaceChannelOrder::RGBA );
+    trimmed_copy.copyFrom( surface, bounds, -bounds.getUL() );
+    surface = trimmed_copy;
+  }
+  mImages.push_back( ImageData( surface, id ) );
 }
 
-void ImagePacker::addFont(const ci::Font &font, const std::string &glyphs, bool trim_space )
+void ImagePacker::addGlyphs( const ci::Font &font, const std::string &glyphs, bool trim_alpha )
 {
   for( const char glyph : glyphs )
   {
-    TextLayout layout;
-    layout.clear( ColorA( 0, 0, 0, 0 ) );
-    layout.setFont( font );
-    layout.setColor( Color::white() );
-    layout.addLine( toString<char>(glyph) );
-    Surface image = layout.render( true );
-    if( trim_space )
-    {
-      Area bounds = ip::findNonTransparentArea( image, image.getBounds() );
-      bounds.x2 += 1;
-      bounds.y2 += 1;
-      Surface trimmed_copy( bounds.getWidth(), bounds.getHeight(), true, SurfaceChannelOrder::RGBA );
-      trimmed_copy.copyFrom( image, bounds, -bounds.getUL() );
-      image = trimmed_copy;
-    }
-    addImage( image, toString<char>(glyph) );
+    addString( toString<char>(glyph), font, toString<char>(glyph), trim_alpha );
   }
+}
+
+void ImagePacker::addString( const string &id, const Font &font, const string &str, bool trim_alpha )
+{
+  TextLayout layout;
+  layout.clear( ColorA( 0, 0, 0, 0 ) );
+  layout.setFont( font );
+  layout.setColor( Color::white() );
+  layout.addLine( str );
+  Surface image = layout.render( true );
+  addImage( id, image, trim_alpha );
 }
 
 JsonTree ImagePacker::surfaceDescription()

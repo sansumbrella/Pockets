@@ -45,19 +45,14 @@ class ImagePacker
    Contains positional information and bitmap data.
    Drawable for previewing the texture.
    Converts to Json for export.
-
-   Currently stores the original file since we might want to refer back to it when
-   rebuilding sprite sheets. No support yet for reloading an existing sprite sheet
-   with new versions of images.
    */
   class ImageData
   {
   public:
-    ImageData( ci::Surface surface, const std::string &id, const ci::fs::path &file_path ):
+    ImageData( ci::Surface surface, const std::string &id ):
     mSurface( surface )
     , mTexture( surface )
     , mId( id )
-    , mFilePath( file_path )
     {}
     ci::Area            getBounds() const { return mSurface.getBounds(); }
     const ci::Surface&  getSurface() const { return mSurface; }
@@ -76,7 +71,6 @@ class ImagePacker
       tree.pushBack( JsonTree( "y1", mLoc.y ) );
       tree.pushBack( JsonTree( "x2", mLoc.x + getBounds().getWidth() ) );
       tree.pushBack( JsonTree( "y2", mLoc.y + getBounds().getHeight() ) );
-      tree.pushBack( JsonTree( "file", mFilePath.string() ) );
       return tree;
     }
   private:
@@ -84,19 +78,23 @@ class ImagePacker
     ci::gl::Texture mTexture;
     ci::Vec2i       mLoc = ci::Vec2i::zero();
     std::string     mId;
-    ci::fs::path    mFilePath;
   };
 
 public:
 	ImagePacker();
 	~ImagePacker();
-  //! add an image to the sheet
-  void          addImage( ci::Surface surface, const std::string &id, const ci::fs::path &file_path="" );
-  //! add the specified glyphs from a font; trims the whitespace padding around character if trim_space==true
-  void          addFont( const ci::Font &font, const std::string &glyphs, bool trim_space=false );
-  void          write( const ci::fs::path &destination_dir, const std::string &file_base_name );
+  //! add an image to the sheet. If trim_alpha, trims image bounds to non-alpha area
+  void          addImage( const std::string &id, ci::Surface surface, bool trim_alpha=false );
+  //! add the specified glyphs from a font; id is equal to the character, e.g. "a"
+  void          addGlyphs( const ci::Font &font, const std::string &glyphs, bool trim_alpha=false );
+  //! add the specified string set in a font
+  void          addString( const std::string &id, const ci::Font &font, const std::string &str, bool trim_alpha=false );
+  //! assign positions to images
   void          calculatePositions();
+  //! do a preview render of packed ImageData layout
   void          draw();
+  //! set the width of the output Surface
+  void          setWidth( uint32_t full_width ){ mWidth = full_width; }
   //! generates a surface containing all added images in their packed locations
   ci::Surface   packedSurface();
   //! returns a JSON-formatted description of all images and their packed locations
