@@ -75,8 +75,10 @@ void SpriteSheetTesterApp::draw()
   gl::enableAlphaBlending();
   if( mSheet )
   {
+    gl::color( Color::white() );
     mSheet->enableAndBind();
-    Vec2i size = mSheet->getSpriteData( *mCurrentSprite ).getSize();
+    SpriteSheet::SpriteData sprite = mSheet->getSpriteData( *mCurrentSprite );
+    Vec2i size = sprite.getSize();
     mSheet->draw( *mCurrentSprite, mLoc - size );
     mSheet->draw( *mCurrentSprite, mLoc - Vec2i( 0, size.y )
                  , Vec2f( -1, 0 ) * easeInQuad(mOffset) );
@@ -84,6 +86,15 @@ void SpriteSheetTesterApp::draw()
                  , Vec2f( 1, 1 ) * easeInQuint(mOffset) );
     mSheet->draw( *mCurrentSprite, mLoc
                  , Vec2f( 0, -1 ) * easeInElastic(mOffset , 2.0f, 2.0f) );
+
+
+    Rectf bounds( getWindowWidth() - 100, 0, getWindowWidth(), 100 );
+    gl::color( Color( 1, 1, 0 ) );
+    gl::disable( GL_TEXTURE_2D );
+    gl::drawSolidRect( bounds );
+    gl::color( Color::white() );
+    gl::enable( GL_TEXTURE_2D );
+    mSheet->draw( sprite, bounds );
   }
 }
 

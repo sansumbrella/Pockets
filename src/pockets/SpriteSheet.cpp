@@ -146,7 +146,10 @@ void SpriteSheet::draw( const SpriteData &sprite, const Vec2f &loc, const Vec2f 
   drawRect( rect, coords );
 }
 
-void SpriteSheet::draw( const SpriteSheet::SpriteData &sprite, const ci::Rectf &inside_rect )
+void SpriteSheet::draw( const SpriteSheet::SpriteData &sprite, const ci::Rectf &bounding_rect )
 {
+  Rectf positions = Rectf( Vec2i::zero(), sprite.getSize() ).getCenteredFit( bounding_rect, false );
+  Rectf tex_coords = sprite.getTextureBounds();
+  drawRect( positions, tex_coords );
 }
 
