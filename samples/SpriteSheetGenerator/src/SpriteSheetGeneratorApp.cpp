@@ -87,8 +87,13 @@ void SpriteSheetGeneratorApp::setup()
   mImagePacker.addGlyphs( font, "ABCDEFGHIKLMNOPQRSTUVWXYZ", true );
   mImagePacker.addString( "J", font, " J", true ); // hack to render left edge of Hoefler J
   Font large_font( "Hoefler Text", 48 * 2 );
-  mImagePacker.addGlyphs( large_font, "*", true );
+  mImagePacker.addString( "*", large_font, "*", true );
   mImagePacker.calculatePositions();
+
+  /**
+  TODO: figure out premultiplied issue
+  don't create a bunch of independent textures, probs
+  **/
 }
 
 void SpriteSheetGeneratorApp::mouseDown( MouseEvent event )
@@ -116,7 +121,7 @@ void SpriteSheetGeneratorApp::update()
 void SpriteSheetGeneratorApp::draw()
 {
 	// clear out the window with black
-	gl::clear( Color( 0, 0, 0 ) );
+	gl::clear( Color( 1, 1, 0 ) );
   gl::pushModelView();
   gl::scale( mWindowScaling, mWindowScaling );
   gl::color( Color::white() );
@@ -133,7 +138,7 @@ void SpriteSheetGeneratorApp::saveSpriteSheet()
   fs::path output_path = getAppPath().parent_path();
   if( output_path.stem() == "Debug" || output_path.stem() == "Release" )
   { // running from inside XCode or similar, so back up a bunch of directories
-    output_path = output_path / "../../../output";
+    output_path = output_path / "../../../../SpriteSheetTester/assets";
   }
   auto file = writeFile( output_path / (mFilename + ".json") );
   if( file )

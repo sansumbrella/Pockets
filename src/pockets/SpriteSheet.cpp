@@ -63,7 +63,10 @@ mSize( size )
 
 SpriteSheet::SpriteSheet( const Surface &images, const JsonTree &description, ParseFunction parse )
 {
-  mTexture = gl::Texture( images );
+  gl::Texture::Format format;
+  format.setMagFilter( GL_NEAREST );
+  format.setMinFilter( GL_NEAREST );
+  mTexture = gl::Texture( images, format );
   SpriteDataCollection sprite_info = parse( description );
   for( auto &pair : sprite_info )
   {
