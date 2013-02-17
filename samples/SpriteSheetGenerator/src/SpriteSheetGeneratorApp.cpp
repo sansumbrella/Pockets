@@ -91,8 +91,9 @@ void SpriteSheetGeneratorApp::setup()
   mImagePacker.calculatePositions();
 
   /**
-  TODO: figure out premultiplied issue
-  don't create a bunch of independent textures, probs
+  TODO: don't create a bunch of independent textures, so this is usable at runtime
+  if desired. Though spritesheet generation is generally an offline task, could be
+  useful for something like super-8-recording/gif-playback/what-have-you
   **/
 }
 
