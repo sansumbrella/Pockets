@@ -40,7 +40,7 @@ ImagePacker::ImagePacker()
 ImagePacker::~ImagePacker()
 {}
 
-void ImagePacker::addImage( const std::string &id, ci::Surface surface, bool trim_alpha )
+ImagePacker::ImageDataRef ImagePacker::addImage( const std::string &id, ci::Surface surface, bool trim_alpha )
 {
   if( trim_alpha )
   {
@@ -51,18 +51,21 @@ void ImagePacker::addImage( const std::string &id, ci::Surface surface, bool tri
     trimmed_copy.copyFrom( surface, bounds, -bounds.getUL() );
     surface = trimmed_copy;
   }
-  mImages.push_back( ImageData( surface, id ) );
+  mImages.push_back( make_shared<ImageData>( surface, id ) );
+  return mImages.back();
 }
 
-void ImagePacker::addGlyphs( const ci::Font &font, const std::string &glyphs, bool trim_alpha )
+vector<ImagePacker::ImageDataRef> ImagePacker::addGlyphs( const ci::Font &font, const std::string &glyphs, bool trim_alpha )
 {
+  vector<ImageDataRef> ret;
   for( const char glyph : glyphs )
   {
-    addString( toString<char>(glyph), font, toString<char>(glyph), trim_alpha );
+    ret.push_back( addString( toString<char>(glyph), font, toString<char>(glyph), trim_alpha ));
   }
+  return ret;
 }
 
-void ImagePacker::addString( const string &id, const Font &font, const string &str, bool trim_alpha )
+ImagePacker::ImageDataRef ImagePacker::addString( const string &id, const Font &font, const string &str, bool trim_alpha )
 {
   TextLayout layout;
   layout.clear( ColorA( 1.0f, 1.0f, 1.0f, 0 ) );
@@ -70,7 +73,7 @@ void ImagePacker::addString( const string &id, const Font &font, const string &s
   layout.setColor( ColorA::white() );
   layout.addLine( str );
   Surface image = layout.render( true, false );
-  addImage( id, image, trim_alpha );
+  return addImage( id, image, trim_alpha );
 }
 
 JsonTree ImagePacker::surfaceDescription()
@@ -83,9 +86,9 @@ JsonTree ImagePacker::surfaceDescription()
   description.pushBack( metaData );
 
   JsonTree sprites = JsonTree::makeArray("sprites");
-  for( ImageData &sprite : mImages )
+  for( ImageDataRef sprite : mImages )
   {
-    sprites.pushBack( sprite.toJson() );
+    sprites.pushBack( sprite->toJson() );
   }
   description.pushBack( sprites );
 
@@ -96,9 +99,9 @@ Surface ImagePacker::packedSurface()
 {
   Surface output( mWidth, mHeight, true, SurfaceChannelOrder::RGBA );
   ip::fill( &output, ColorA( 1.0f, 1.0f, 1.0f, 0 ) );
-  for( ImageData &sprite : mImages )
+  for( ImageDataRef sprite : mImages )
   {
-    output.copyFrom( sprite.getSurface(), sprite.getBounds(), sprite.getLoc() );
+    output.copyFrom( sprite->getSurface(), sprite->getBounds(), sprite->getLoc() );
   }
   return output;
 }
@@ -109,36 +112,34 @@ void ImagePacker::calculatePositions()
 //  {
 //    return lhs.getBounds().calcArea() > rhs.getBounds().calcArea();
 //  };
-  auto rev_height_compare = []( const ImageData &lhs, const ImageData &rhs )
+  auto rev_height_compare = []( const ImageDataRef &lhs, const ImageDataRef &rhs )
   {
-    return lhs.getBounds().getHeight() > rhs.getBounds().getHeight();
+    return lhs->getBounds().getHeight() > rhs->getBounds().getHeight();
   };
   sort( mImages.begin(), mImages.end(), rev_height_compare );
   Vec2i loc( 0, 0 );
   Vec2i padding( 1, 1 );
   int bottom_y = 0;
-  for( ImageData &sprite : mImages )
+  for( ImageDataRef sprite : mImages )
   {
-    if( loc.x + sprite.getBounds().getWidth() > mWidth )
+    if( loc.x + sprite->getBounds().getWidth() > mWidth )
     {
       loc.y = bottom_y + padding.y;
       loc.x = 0;
     }
-    sprite.setLoc( loc );
-    loc.x += sprite.getBounds().getWidth() + padding.x;
-    bottom_y = math<int>::max( sprite.getBounds().getHeight() + loc.y, bottom_y );
+    sprite->setLoc( loc );
+    loc.x += sprite->getBounds().getWidth() + padding.x;
+    bottom_y = math<int>::max( sprite->getBounds().getHeight() + loc.y, bottom_y );
   }
   mHeight = bottom_y;
 }
 
 void ImagePacker::draw()
 {
-  for( ImageData &sprite : mImages )
+  for( ImageDataRef sprite : mImages )
   {
-    sprite.draw();
+    sprite->draw();
   }
 }
-
-
 
 

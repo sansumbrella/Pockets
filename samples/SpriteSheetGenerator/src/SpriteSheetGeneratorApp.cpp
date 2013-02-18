@@ -65,6 +65,7 @@ private:
   params::InterfaceGl mParams;
   const int           cOutputSize = 1024;
   float               mWindowScaling = 1.0f;
+  Vec2f               mPreviewOffset;
   int                 mHeight = 1;
   std::string         mFilename = "sprite_sheet";
   pk::ImagePacker     mImagePacker;
@@ -80,16 +81,24 @@ void SpriteSheetGeneratorApp::setup()
   mParams = params::InterfaceGl( "SpriteSheet Generator", Vec2i( 200, 200 ) );
   mParams.setOptions( "", "position='50 450'" );
   mParams.addParam( "Preview scaling", &mWindowScaling, "min=0.1 max=2.0 step=0.05");
+  mParams.addParam( "Preview offset", &mPreviewOffset.y );
   mParams.addParam( "Output name", &mFilename );
   mParams.addButton( "Save sheet", [this](){ saveSpriteSheet(); } );
 
   Font font( "Hoefler Text", 48 );
-  mImagePacker.addGlyphs( font, "ABCDEFGHIKLMNOPQRSTUVWXYZ", true );
-  mImagePacker.addString( "J", font, " J", true ); // hack to render left edge of Hoefler J
+  auto glyphs = mImagePacker.addGlyphs( font, "ABCDEFGHIKLMNOPQRSTUVWXYZ", false );
+  for( auto glyph : glyphs )
+  {
+    glyph->setRegistrationPoint( glyph->getSize() / 2 - Vec2i( 0, 7 ) );
+  }
+  auto j = mImagePacker.addString( "J", font, " J", true ); // hack to render left edge of Hoefler J
+  j->setRegistrationPoint( j->getSize() / 2 + Vec2i( 2, -6 ) );
+//  auto q = mImagePacker.addString( "Q", font, "Q", false );
+//  q->setRegistrationPoint( q->getSize() / 2 - Vec2i( 0, 5 ) );
   Font large_font( "Hoefler Text", 48 * 2 );
-  mImagePacker.addString( "*", large_font, "*", true );
+  auto asterisk = mImagePacker.addString( "*", large_font, "*", true );
+  asterisk->setRegistrationPoint( asterisk->getSize() / 2 );
   mImagePacker.calculatePositions();
-
   /**
   TODO: don't create a bunch of independent textures, so this is usable at runtime
   if desired. Though spritesheet generation is generally an offline task, could be
@@ -122,8 +131,9 @@ void SpriteSheetGeneratorApp::update()
 void SpriteSheetGeneratorApp::draw()
 {
 	// clear out the window with black
-	gl::clear( Color( 1, 1, 0 ) );
+	gl::clear( Color( 0, 0, 0 ) );
   gl::pushModelView();
+  gl::translate( mPreviewOffset );
   gl::scale( mWindowScaling, mWindowScaling );
   gl::color( Color::white() );
   gl::enableAlphaBlending();

@@ -93,7 +93,7 @@ void SpriteSheetTesterApp::draw()
                  , Vec2f( 0, -1 ) * easeInElastic(mOffset, 2.0f, 2.0f) );
 
     float t = easeInOutQuint( mOffset );
-    Vec2i loc( lerp( bounds.getUpperLeft(), bounds.getLowerRight() + sprite.getRegistrationPoint(), t ) );
+    Vec2i loc( lerp( bounds.getCenter(), bounds.getLowerRight() + sprite.getRegistrationPoint(), t ) );
     mSheet->drawInRect( *mCurrentSprite, loc, bounds );
   }
 }

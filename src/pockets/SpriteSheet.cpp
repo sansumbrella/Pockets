@@ -88,10 +88,12 @@ SpriteSheet::SpriteDataCollection SpriteSheet::defaultParseFunction( const JsonT
   {
     Rectf bounds( child["x1"].getValue<int>(), child["y1"].getValue<int>()
                  , child["x2"].getValue<int>(), child["y2"].getValue<int>() );
+    Vec2i registration_point( child["rx"].getValue<int>(), child["ry"].getValue<int>() );
     string id = child["id"].getValue();
     SpriteData sprite( bounds.getSize()
                      , Rectf( bounds.getUpperLeft() / bitmap_size
-                             , bounds.getLowerRight() / bitmap_size ) );
+                             , bounds.getLowerRight() / bitmap_size )
+                     , registration_point );
     ret.push_back( NameDataPair( id, sprite ) );
   }
   return ret;

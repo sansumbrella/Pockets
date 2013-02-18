@@ -40,6 +40,7 @@ namespace pockets
 */
 class ImagePacker
 {
+  public:
   /*
    Source data for a sprite.
    Contains positional information and bitmap data.
@@ -58,9 +59,17 @@ class ImagePacker
     const ci::Surface&  getSurface() const { return mSurface; }
     ci::Vec2i           getLoc() const { return mLoc; }
     void                setLoc( const ci::Vec2i &loc ){ mLoc = loc; }
+    void                setRegistrationPoint( const ci::Vec2i &reg ){ mRegistrationPoint = reg; }
+    ci::Vec2i           getSize() const { return mSurface.getSize(); }
+    int                 getWidth() const { return mSurface.getWidth(); }
+    int                 getHeight() const { return mSurface.getHeight(); }
+    std::string         getId() const { return mId; }
     void                draw()
     {
+      ci::gl::color( ci::Color::white() );
       ci::gl::draw( mTexture, mLoc );
+      ci::gl::color( ci::Color( 1, 1, 0 ) );
+      ci::gl::drawStrokedCircle( mLoc + mRegistrationPoint, 4.0f );
     }
     ci::JsonTree        toJson()
     {
@@ -71,24 +80,26 @@ class ImagePacker
       tree.pushBack( JsonTree( "y1", mLoc.y ) );
       tree.pushBack( JsonTree( "x2", mLoc.x + getBounds().getWidth() ) );
       tree.pushBack( JsonTree( "y2", mLoc.y + getBounds().getHeight() ) );
+      tree.pushBack( JsonTree( "rx", mRegistrationPoint.x ) );
+      tree.pushBack( JsonTree( "ry", mRegistrationPoint.y ) );
       return tree;
     }
   private:
     ci::Surface     mSurface;
     ci::gl::Texture mTexture;
     ci::Vec2i       mLoc = ci::Vec2i::zero();
+    ci::Vec2i       mRegistrationPoint = ci::Vec2i::zero();
     std::string     mId;
   };
-
-public:
+  typedef std::shared_ptr<ImageData> ImageDataRef;
 	ImagePacker();
 	~ImagePacker();
   //! add an image to the sheet. If trim_alpha, trims image bounds to non-alpha area
-  void          addImage( const std::string &id, ci::Surface surface, bool trim_alpha=false );
+  ImageDataRef  addImage( const std::string &id, ci::Surface surface, bool trim_alpha=false );
   //! add the specified glyphs from a font; id is equal to the character, e.g. "a"
-  void          addGlyphs( const ci::Font &font, const std::string &glyphs, bool trim_alpha=false );
+  std::vector<ImageDataRef> addGlyphs( const ci::Font &font, const std::string &glyphs, bool trim_alpha=false );
   //! add the specified string set in a font
-  void          addString( const std::string &id, const ci::Font &font, const std::string &str, bool trim_alpha=false );
+  ImageDataRef    addString( const std::string &id, const ci::Font &font, const std::string &str, bool trim_alpha=false );
   //! assign positions to images
   void          calculatePositions();
   //! do a preview render of packed ImageData layout
@@ -99,11 +110,13 @@ public:
   ci::Surface   packedSurface();
   //! returns a JSON-formatted description of all images and their packed locations
   ci::JsonTree  surfaceDescription();
+  std::vector<ImageDataRef>::iterator begin(){ return mImages.begin(); }
+  std::vector<ImageDataRef>::iterator end(){ return mImages.end(); }
 private:
   //! width should be set to maximum desired width
   uint32_t                mWidth = 1024;
   //! height expands as elements are added
   uint32_t                mHeight = 1;
-  std::vector<ImageData>  mImages;
+  std::vector<ImageDataRef>  mImages;
 };
 } // ns pockets
