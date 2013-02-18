@@ -66,12 +66,15 @@ public:
   public:
     SpriteData(){}; // need default constructor to use in a std::map
     //! construct sprite data from its pixel size and normalized texture coordinates
-    SpriteData( const ci::Vec2i &pixel_size, const ci::Rectf &textureBounds );
+    SpriteData( const ci::Vec2i &pixel_size, const ci::Rectf &textureBounds, const ci::Vec2i &registration_point=ci::Vec2i::zero() );
     //! returns the Sprite's pixel dimensions
     inline ci::Vec2i getSize() const { return mSize; }
     //! returns the normalized texture coordinates of the sprite graphic
     inline ci::Rectf getTextureBounds() const { return mTextureBounds; }
+    //! returns the registration point of the sprite, treated as the origin of the artwork
+    inline ci::Vec2i getRegistrationPoint() const { return mRegistrationPoint; }
   private:
+    ci::Vec2i mRegistrationPoint;
     ci::Vec2i mSize = ci::Vec2i::zero();
     ci::Rectf mTextureBounds = ci::Rectf(0,0,0,0);
   };
@@ -97,12 +100,15 @@ public:
   void        draw( const SpriteData &sprite, const ci::Vec2f &loc );
   //! draw sprite at location with texture scroll; for sliding texture within bounds (like a rectangular mask)
   void        draw( const SpriteData &sprite, const ci::Vec2f &loc, const ci::Vec2f &scroll );
-  //! TODO: draw sprite proportionally fitted within rect
-  void        draw( const SpriteData &sprite, const ci::Rectf &bounding_rect );
+  //! draw portion of sprite at location
+  void        draw( const SpriteData &sprite, const ci::Vec2f &loc, const ci::Rectf &portion );
+  //! draws sprite clipped to rect
+  void        drawInRect( const std::string &sprite_name, const ci::Vec2f &loc, const ci::Rectf &bounding_rect );
+  void        drawInRect( const SpriteData &sprite, const ci::Vec2f &loc, const ci::Rectf &bounding_rect );
   //! returns a collection of all the sprites names; not in any order
   std::vector<std::string>  getSpriteNames(){ return map_keys( mSpriteData ); }
   //! get information about the named sprite. Useful for getting the size of the sprite for alignment purposes.
-  SpriteData                getSpriteData( const std::string &sprite_name ){ return mSpriteData[sprite_name]; }
+  inline const SpriteData&  getSpriteData( const std::string &sprite_name ){ return mSpriteData[sprite_name]; }
 private:
 // map name to texture coordinates
   std::map<std::string, SpriteData>   mSpriteData;

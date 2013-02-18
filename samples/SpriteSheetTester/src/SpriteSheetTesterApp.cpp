@@ -21,7 +21,7 @@ private:
   vector<string>::iterator mCurrentSprite;
   Vec2i           mLoc = Vec2i::zero();
   float           mOffset = 0;
-  float           mOffsetDirection = 1.5f;
+  float           mOffsetDirection = 1.2f;
   double          mLastUpdate = 0;
 };
 
@@ -91,7 +91,10 @@ void SpriteSheetTesterApp::draw()
                  , Vec2f( 1, 1 ) * easeInQuint(mOffset) );
     mSheet->draw( *mCurrentSprite, mLoc
                  , Vec2f( 0, -1 ) * easeInElastic(mOffset, 2.0f, 2.0f) );
-    mSheet->draw( sprite, bounds );
+
+    float t = easeInOutQuint( mOffset );
+    Vec2i loc( lerp( bounds.getUpperLeft(), bounds.getLowerRight() + sprite.getRegistrationPoint(), t ) );
+    mSheet->drawInRect( *mCurrentSprite, loc, bounds );
   }
 }
 

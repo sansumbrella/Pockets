@@ -56,9 +56,10 @@ inline void drawRect( const ci::Rectf &position_rect, const ci::Rectf &tex_coord
 	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
 }
 
-SpriteSheet::SpriteData::SpriteData( const Vec2i &size, const Rectf &texture_bounds ):
+SpriteSheet::SpriteData::SpriteData( const Vec2i &size, const Rectf &texture_bounds, const Vec2i &registration_point ):
 mSize( size )
 , mTextureBounds( texture_bounds )
+, mRegistrationPoint( registration_point )
 {}
 
 SpriteSheet::SpriteSheet( const Surface &images, const JsonTree &description, ParseFunction parse )
@@ -117,7 +118,7 @@ void SpriteSheet::draw( const SpriteData &sprite, const Vec2f &loc )
   Rectf coords = sprite.getTextureBounds();
   Rectf rect( loc, loc + sprite.getSize() );
 
-  drawRect( rect, coords );
+  drawRect( rect - sprite.getRegistrationPoint(), coords );
 }
 
 void SpriteSheet::draw( const SpriteData &sprite, const Vec2f &loc, const Vec2f &offsets )
@@ -146,13 +147,40 @@ void SpriteSheet::draw( const SpriteData &sprite, const Vec2f &loc, const Vec2f 
     rect.y1 = loc.y + sprite.getSize().y * offsets.y;
   }
 
-  drawRect( rect, coords );
+  drawRect( rect - sprite.getRegistrationPoint(), coords );
 }
 
-void SpriteSheet::draw( const SpriteSheet::SpriteData &sprite, const ci::Rectf &bounding_rect )
+void SpriteSheet::drawInRect(const std::string &sprite_name, const ci::Vec2f &loc, const ci::Rectf &bounding_rect)
 {
-  Rectf positions = Rectf( Vec2i::zero(), sprite.getSize() ).getCenteredFit( bounding_rect, false );
-  Rectf tex_coords = sprite.getTextureBounds();
-  drawRect( positions, tex_coords );
+  drawInRect( getSpriteData(sprite_name), loc, bounding_rect );
+}
+
+void SpriteSheet::drawInRect( const SpriteData &sprite, const Vec2f &loc, const Rectf &bounding_rect )
+{
+  Rectf sprite_bounds( Vec2f::zero(), sprite.getSize() );
+  sprite_bounds.offset( loc - sprite.getRegistrationPoint() );
+  Rectf clipped_size = sprite_bounds.getClipBy( bounding_rect );
+  clipped_size.offset( sprite.getRegistrationPoint() - loc );
+  Rectf portion( clipped_size.getX1() / sprite.getSize().x, clipped_size.getY1() / sprite.getSize().y
+                , clipped_size.getX2() / sprite.getSize().x, clipped_size.getY2() / sprite.getSize().y );
+  draw( sprite, loc, portion );
+}
+
+void SpriteSheet::draw( const SpriteData &sprite, const Vec2f &loc, const Rectf &portion )
+{
+  Rectf tex_coords;
+  tex_coords.x1 = lerp( sprite.getTextureBounds().getX1(), sprite.getTextureBounds().getX2(), portion.getX1() );
+  tex_coords.x2 = lerp( sprite.getTextureBounds().getX1(), sprite.getTextureBounds().getX2(), portion.getX2() );
+  tex_coords.y1 = lerp( sprite.getTextureBounds().getY1(), sprite.getTextureBounds().getY2(), portion.getY1() );
+  tex_coords.y2 = lerp( sprite.getTextureBounds().getY1(), sprite.getTextureBounds().getY2(), portion.getY2() );
+
+  Vec2f br( loc + sprite.getSize() );
+  Rectf positions;
+  positions.x1 = lerp( loc.x, br.x, portion.getX1() );
+  positions.x2 = lerp( loc.x, br.x, portion.getX2() );
+  positions.y1 = lerp( loc.y, br.y, portion.getY1() );
+  positions.y2 = lerp( loc.y, br.y, portion.getY2() );
+
+  drawRect( positions - sprite.getRegistrationPoint(), tex_coords );
 }
 
