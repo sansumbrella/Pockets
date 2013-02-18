@@ -85,25 +85,12 @@ void SpriteSheetGeneratorApp::setup()
   mParams.addParam( "Output name", &mFilename );
   mParams.addButton( "Save sheet", [this](){ saveSpriteSheet(); } );
 
-  Font font( "Hoefler Text", 48 );
-  auto glyphs = mImagePacker.addGlyphs( font, "ABCDEFGHIKLMNOPQRSTUVWXYZ", false );
-  for( auto glyph : glyphs )
-  {
-    glyph->setRegistrationPoint( glyph->getSize() / 2 - Vec2i( 0, 7 ) );
-  }
-  auto j = mImagePacker.addString( "J", font, " J", true ); // hack to render left edge of Hoefler J
-  j->setRegistrationPoint( j->getSize() / 2 + Vec2i( 2, -6 ) );
-//  auto q = mImagePacker.addString( "Q", font, "Q", false );
-//  q->setRegistrationPoint( q->getSize() / 2 - Vec2i( 0, 5 ) );
-  Font large_font( "Hoefler Text", 48 * 2 );
+  Font font( "Helvetica Bold", 48 );
+  mImagePacker.addGlyphs( font, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", false );
+  Font large_font( "Helvetica Bold", 48 * 2 );
   auto asterisk = mImagePacker.addString( "*", large_font, "*", true );
   asterisk->setRegistrationPoint( asterisk->getSize() / 2 );
   mImagePacker.calculatePositions();
-  /**
-  TODO: don't create a bunch of independent textures, so this is usable at runtime
-  if desired. Though spritesheet generation is generally an offline task, could be
-  useful for something like super-8-recording/gif-playback/what-have-you
-  **/
 }
 
 void SpriteSheetGeneratorApp::mouseDown( MouseEvent event )
