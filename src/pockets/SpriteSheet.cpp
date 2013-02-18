@@ -26,9 +26,11 @@
  */
 
 #include "SpriteSheet.h"
+#include "cinder/app/App.h"
 
 using namespace std;
 using namespace ci;
+using namespace pockets;
 
 inline void drawRect( const ci::Rectf &position_rect, const ci::Rectf &tex_coord_rect )
 {
@@ -57,9 +59,9 @@ inline void drawRect( const ci::Rectf &position_rect, const ci::Rectf &tex_coord
 }
 
 SpriteSheet::SpriteData::SpriteData( const Vec2i &size, const Rectf &texture_bounds, const Vec2i &registration_point ):
-mSize( size )
+mSize( app::toPoints( size ) )
 , mTextureBounds( texture_bounds )
-, mRegistrationPoint( registration_point )
+, mRegistrationPoint( app::toPoints( registration_point ) )
 {}
 
 SpriteSheet::SpriteSheet( const Surface &images, const JsonTree &description, ParseFunction parse )
