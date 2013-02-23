@@ -66,8 +66,11 @@ mSize( app::toPoints( size ) )
 SpriteSheet::SpriteSheet( const Surface &images, const JsonTree &description, ParseFunction parse )
 {
   gl::Texture::Format format;
-  format.setMagFilter( GL_NEAREST );
-  format.setMinFilter( GL_NEAREST );
+  // nearest filter results in bad jagginess on non-retina devices
+  // using nearest gets rid of strange black rim artifact when moving
+  // need to learn about the edge artifact and fix that some other way
+//  format.setMagFilter( GL_NEAREST );
+//  format.setMinFilter( GL_NEAREST );
   mTexture = gl::Texture( images, format );
   SpriteDataCollection sprite_info = parse( description );
   for( auto &pair : sprite_info )
