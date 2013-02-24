@@ -112,6 +112,7 @@ public:
   std::vector<std::string>  getSpriteNames(){ return map_keys( mSpriteData ); }
   //! get information about the named sprite. Useful for getting the size of the sprite for alignment purposes.
   inline const SpriteData&  getSpriteData( const std::string &sprite_name ){ return mSpriteData[sprite_name]; }
+  static SpriteSheetRef  load( const ci::fs::path &base_path, const std::string &file_base_name );
 private:
 // map name to texture coordinates
   std::map<std::string, SpriteData>   mSpriteData;

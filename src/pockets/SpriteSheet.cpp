@@ -82,6 +82,18 @@ SpriteSheet::SpriteSheet( const Surface &images, const JsonTree &description, Pa
 SpriteSheet::~SpriteSheet()
 {}
 
+SpriteSheetRef SpriteSheet::load(const ci::fs::path &base_path, const string &file_base_name )
+{
+  string suffix("");
+  if( app::getWindow()->getContentScale() > 1.0f )
+  {
+    suffix = "@2x";
+  }
+  JsonTree sprite_json( loadFile( base_path / (file_base_name + suffix + ".json") ) );
+  Surface  sprite_surf( loadImage( loadFile( base_path / (file_base_name + suffix + ".png") ) ) );
+  return SpriteSheetRef( new SpriteSheet( sprite_surf, sprite_json) );
+}
+
 SpriteSheet::SpriteDataCollection SpriteSheet::defaultParseFunction( const JsonTree &desc )
 {
   SpriteDataCollection ret;
