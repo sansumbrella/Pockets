@@ -85,9 +85,9 @@ void SpriteSheetGeneratorApp::setup()
   mParams.addParam( "Output name", &mFilename );
   mParams.addButton( "Save sheet", [this](){ saveSpriteSheet(); } );
 
-  Font font( "Helvetica Bold", 48 );
+  Font font( "Hoefler Text Black", 48 );
   mImagePacker.addGlyphs( font, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", false );
-  Font large_font( "Helvetica Bold", 48 * 2 );
+  Font large_font( "Hoefler Text Black", 48 * 2 );
   auto asterisk = mImagePacker.addString( "*", large_font, "*", true );
   asterisk->setRegistrationPoint( asterisk->getSize() / 2 );
   mImagePacker.calculatePositions();

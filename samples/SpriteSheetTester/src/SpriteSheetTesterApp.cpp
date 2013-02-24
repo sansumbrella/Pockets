@@ -39,7 +39,7 @@ void SpriteSheetTesterApp::setup()
   {
     console() << __PRETTY_FUNCTION__ << ": " << exc.what() << endl;
   }
-  setWindowSize( 1024, 768 );
+  setWindowSize( 640, 480 );
   mLoc = getWindowCenter();
 }
 
@@ -72,7 +72,7 @@ void SpriteSheetTesterApp::update()
 
 void SpriteSheetTesterApp::draw()
 {
-	gl::clear( Color::gray( 0.1f ) );
+	gl::clear( Color::gray( 0.85f ) );
   gl::enableAlphaBlending();
   if( mSheet )
   {
