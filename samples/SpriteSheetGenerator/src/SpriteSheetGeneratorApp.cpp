@@ -123,7 +123,7 @@ void SpriteSheetGeneratorApp::draw()
   gl::translate( mPreviewOffset );
   gl::scale( mWindowScaling, mWindowScaling );
   gl::color( Color::white() );
-  gl::enableAlphaBlending();
+  gl::enableAlphaBlending( true );
   mImagePacker.draw();
 //  gl::color( Color( 1, 0, 1 ) );
 //  gl::drawStrokedRect( Rectf( 0, 0, cOutputSize, mHeight ) );

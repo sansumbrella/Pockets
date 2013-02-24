@@ -29,6 +29,7 @@
 #include "cinder/Text.h"
 #include "cinder/ip/Trim.h"
 #include "cinder/ip/Fill.h"
+#include "cinder/ip/Premultiply.h"
 
 using namespace ci;
 using namespace std;
@@ -68,10 +69,11 @@ vector<ImagePacker::ImageDataRef> ImagePacker::addGlyphs( const ci::Font &font, 
 ImagePacker::ImageDataRef ImagePacker::addString( const string &id, const Font &font, const string &str, bool trim_alpha )
 {
   TextLayout layout;
-  layout.clear( ColorA( 1.0f, 1.0f, 1.0f, 0 ) );
+  layout.clear( ColorA( 0, 0, 0, 0 ) );
   layout.setFont( font );
   layout.setColor( ColorA::white() );
   layout.addLine( str );
+  // don't premultiply now, since we do that at the end
   Surface image = layout.render( true, false );
   return addImage( id, image, trim_alpha );
 }
@@ -98,11 +100,13 @@ JsonTree ImagePacker::surfaceDescription()
 Surface ImagePacker::packedSurface()
 {
   Surface output( mWidth, mHeight, true, SurfaceChannelOrder::RGBA );
-  ip::fill( &output, ColorA( 1.0f, 1.0f, 1.0f, 0 ) );
+  ip::fill( &output, ColorA( 0, 0, 0, 0 ) );
   for( ImageDataRef sprite : mImages )
   {
     output.copyFrom( sprite->getSurface(), sprite->getBounds(), sprite->getLoc() );
   }
+  // premultiply alpha for correct edge interpolation when drawing
+  ip::premultiply( &output );
   return output;
 }
 

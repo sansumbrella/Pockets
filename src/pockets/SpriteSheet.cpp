@@ -117,6 +117,8 @@ SpriteSheet::SpriteDataCollection SpriteSheet::defaultParseFunction( const JsonT
 
 void SpriteSheet::enableAndBind()
 {
+  // blend with premultiplied alpha
+  gl::enableAlphaBlending( true );
   gl::enable( GL_TEXTURE_2D );
   bind();
 }

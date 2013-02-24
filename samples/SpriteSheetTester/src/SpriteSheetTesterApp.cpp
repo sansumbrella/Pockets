@@ -73,7 +73,6 @@ void SpriteSheetTesterApp::update()
 void SpriteSheetTesterApp::draw()
 {
 	gl::clear( Color::gray( 0.85f ) );
-  gl::enableAlphaBlending();
   if( mSheet )
   {
     Rectf bounds( getWindowWidth() - 100, 0, getWindowWidth(), 100 );
@@ -97,6 +96,7 @@ void SpriteSheetTesterApp::draw()
     Vec2i loc( lerp( bounds.getCenter(), bounds.getLowerRight() + sprite.getRegistrationPoint(), t ) );
     mSheet->drawInRect( *mCurrentSprite, loc, bounds );
   }
+  gl::drawSolidRect( Rectf( 0, 0, 1024, 97 ) * 1.01f );
 }
 
 CINDER_APP_NATIVE( SpriteSheetTesterApp, RendererGl )
