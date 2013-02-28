@@ -102,7 +102,7 @@ class ImagePacker
   //! add an image to the sheet. If trim_alpha, trims image bounds to non-alpha area
   ImageDataRef  addImage( const std::string &id, ci::Surface surface, bool trim_alpha=false );
   //! add the specified glyphs from a font; id is equal to the character, e.g. "a"
-  std::vector<ImageDataRef> addGlyphs( const ci::Font &font, const std::string &glyphs, bool trim_alpha=false );
+  std::vector<ImageDataRef> addGlyphs( const ci::Font &font, const std::string &glyphs, const std::string &id_prefix="", bool trim_alpha=false );
   //! add the specified string set in a font
   ImageDataRef  addString( const std::string &id, const ci::Font &font, const std::string &str, bool trim_alpha=false );
   //! assign positions to images

@@ -56,12 +56,12 @@ ImagePacker::ImageDataRef ImagePacker::addImage( const std::string &id, ci::Surf
   return mImages.back();
 }
 
-vector<ImagePacker::ImageDataRef> ImagePacker::addGlyphs( const ci::Font &font, const std::string &glyphs, bool trim_alpha )
+vector<ImagePacker::ImageDataRef> ImagePacker::addGlyphs( const ci::Font &font, const string &glyphs, const string &id_prefix, bool trim_alpha )
 {
   vector<ImageDataRef> ret;
   for( const char glyph : glyphs )
   {
-    ret.push_back( addString( toString<char>(glyph), font, toString<char>(glyph), trim_alpha ));
+    ret.push_back( addString( id_prefix + toString<char>(glyph), font, toString<char>(glyph), trim_alpha ));
   }
   return ret;
 }
