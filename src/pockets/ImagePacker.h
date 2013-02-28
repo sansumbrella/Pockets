@@ -104,7 +104,7 @@ class ImagePacker
   //! add the specified glyphs from a font; id is equal to the character, e.g. "a"
   std::vector<ImageDataRef> addGlyphs( const ci::Font &font, const std::string &glyphs, bool trim_alpha=false );
   //! add the specified string set in a font
-  ImageDataRef    addString( const std::string &id, const ci::Font &font, const std::string &str, bool trim_alpha=false );
+  ImageDataRef  addString( const std::string &id, const ci::Font &font, const std::string &str, bool trim_alpha=false );
   //! assign positions to images
   void          calculatePositions();
   //! do a preview render of packed ImageData layout
@@ -112,7 +112,8 @@ class ImagePacker
   //! set the width of the output Surface
   void          setWidth( uint32_t full_width ){ mWidth = full_width; }
   //! generates a surface containing all added images in their packed locations
-  ci::Surface   packedSurface();
+  //! premultiply unless you are using this spritesheet on iOS, in which case XCode will do that later
+  ci::Surface   packedSurface( bool premultiply=false );
   //! returns a JSON-formatted description of all images and their packed locations
   ci::JsonTree  surfaceDescription();
   std::vector<ImageDataRef>::iterator begin(){ return mImages.begin(); }

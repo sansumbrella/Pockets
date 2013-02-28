@@ -73,7 +73,6 @@ ImagePacker::ImageDataRef ImagePacker::addString( const string &id, const Font &
   layout.setFont( font );
   layout.setColor( ColorA::white() );
   layout.addLine( str );
-  // don't premultiply now, since we do that at the end
   Surface image = layout.render( true, false );
   return addImage( id, image, trim_alpha );
 }
@@ -97,7 +96,7 @@ JsonTree ImagePacker::surfaceDescription()
   return description;
 }
 
-Surface ImagePacker::packedSurface()
+Surface ImagePacker::packedSurface( bool premultiply )
 {
   Surface output( mWidth, mHeight, true, SurfaceChannelOrder::RGBA );
   ip::fill( &output, ColorA( 0, 0, 0, 0 ) );
@@ -105,8 +104,13 @@ Surface ImagePacker::packedSurface()
   {
     output.copyFrom( sprite->getSurface(), sprite->getBounds(), sprite->getLoc() );
   }
-  // premultiply alpha for correct edge interpolation when drawing
-  ip::premultiply( &output );
+// XCode premultiplies anything going to an iOS device (ignores flag telling it not to)
+// Double-premultiplication makes everything have dark edges
+// So we'll just premultiply on the client side if the graphics aren't already
+  if( premultiply )
+  {
+    ip::premultiply( &output );
+  }
   return output;
 }
 

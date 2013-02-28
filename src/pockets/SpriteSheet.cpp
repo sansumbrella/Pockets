@@ -26,6 +26,7 @@
  */
 
 #include "SpriteSheet.h"
+#include "cinder/ip/Premultiply.h"
 
 using namespace std;
 using namespace ci;
@@ -91,6 +92,11 @@ SpriteSheetRef SpriteSheet::load(const ci::fs::path &base_path, const string &fi
   }
   JsonTree sprite_json( loadFile( base_path / (file_base_name + suffix + ".json") ) );
   Surface  sprite_surf( loadImage( loadFile( base_path / (file_base_name + suffix + ".png") ) ) );
+  if( ! sprite_surf.isPremultiplied() )
+  {
+    cout << "Premultiplying sprite sheet for cleaner edges." << endl;
+    ip::premultiply( &sprite_surf );
+  }
   return SpriteSheetRef( new SpriteSheet( sprite_surf, sprite_json) );
 }
 
