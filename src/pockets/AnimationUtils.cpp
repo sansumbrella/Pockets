@@ -56,6 +56,15 @@ float pk::lerpShortestNormalized(float start, float end, float time)
 	return shortest->getPosition( time );
 }
 
+//function<float (float, float, float)> pk::wrappedLerpFn( float min_val, float max_val )
+//{
+//  return [=](float start, float end, float time)
+//  {
+//
+//    return 0.0f;
+//  };
+//}
+
 ColorA pk::lerpHSVA(const ci::ColorA &start, const ci::ColorA &finish, float time)
 {
 	if( time == 0.0f ){ return start; }

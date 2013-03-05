@@ -38,6 +38,8 @@ namespace pockets
   ci::Quatf lerpQuaternion( const ci::Quatf &start, const ci::Quatf &end, float time );
   //! lerp between two values over the shortest path that wraps around at 0 and 1
   float lerpShortestNormalized( float start, float end, float time );
+  //! TODO: returns a function that lerps between two values over the shortest path
+//  std::function<float (float, float, float)> wrappedLerpFn( float min_val, float max_val );
   //! lerp color through HSV space; wraps Hue from 0—1
   ci::ColorA lerpHSVA( const ci::ColorA &start, const ci::ColorA &finish, float time );
   //! are all components of a vector finite?
