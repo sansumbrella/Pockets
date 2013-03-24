@@ -34,5 +34,6 @@ void Locus2d::calculateTransform()
   mTransform.translate( mLoc + mRegistrationPoint );
   mTransform.rotate( mRotation );
   mTransform.translate( -mRegistrationPoint );
+  mDirty = false;
 }
 

@@ -41,28 +41,32 @@ namespace pockets
   {
   public:
     ci::Vec2f           getLoc() const { return mLoc; }
-    void                setLoc( const ci::Vec2f &loc ){ mLoc = loc; }
+    void                setLoc( const ci::Vec2f &loc ){ mLoc = loc; setDirty(); }
     float               getRotation() const { return mRotation; }
-    void                setRotation( float radians ){ mRotation = radians; }
+    void                setRotation( float radians ){ mRotation = radians; setDirty(); }
     //! returns the point around which rotation occurs, in local coordinates
     ci::Vec2f           getRegistrationPoint() const { return mRegistrationPoint; }
     //! set the point around which rotation occurs, in local coordinates
-    void                setRegistrationPoint( const ci::Vec2f &loc ){ mRegistrationPoint = loc; }
+    void                setRegistrationPoint( const ci::Vec2f &loc ){ mRegistrationPoint = loc; setDirty(); }
     //! returns transformation matrix multiplied by parent (if any)
-    ci::MatrixAffine2f  getTransform() const { return mParent ? mParent->getTransform() * mTransform : mTransform; }
+    ci::MatrixAffine2f  getTransform() { if( mDirty ){ calculateTransform(); } return mParent ? mParent->getTransform() * mTransform : mTransform; }
     //! returns this locus' local transformation matrix, with no parent transforms
-    ci::MatrixAffine2f  getLocalTransform() const { return mTransform; }
+    ci::MatrixAffine2f  getLocalTransform() { if( mDirty ){ calculateTransform(); } return mTransform; }
     //! set a locus as a parent for this one; we then inherit transformations
     void                setParent( Locus2dRef parent ){ mParent = parent; }
     //! stop having a parent locus
     void                unsetParent(){ mParent.reset(); }
     //! calculate the local transformation matrix
     void                calculateTransform();
+    void                setDirty(){ mDirty = true; }
+    //! conversion to Matrix44f for OpenGL transformation; just pass the Locus to gl::multModelView();
+    operator            ci::Matrix44f() { return ci::Matrix44f(getTransform()); }
   private:
     ci::MatrixAffine2f          mTransform;
     ci::Vec2f                   mLoc = ci::Vec2f::zero();
     ci::Vec2f                   mRegistrationPoint = ci::Vec2f::zero();
     float                       mRotation = 0;
     Locus2dRef                  mParent;
+    bool                        mDirty = true;
   };
 } // pockets::
