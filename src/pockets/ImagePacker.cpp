@@ -142,12 +142,4 @@ void ImagePacker::calculatePositions()
   mHeight = bottom_y;
 }
 
-void ImagePacker::draw()
-{
-  for( ImageDataRef sprite : mImages )
-  {
-    sprite->draw();
-  }
-}
-
 

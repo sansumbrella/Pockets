@@ -28,7 +28,6 @@
 #pragma once
 #include "Pockets.h"
 #include "cinder/Json.h"
-#include "cinder/gl/Texture.h"
 
 namespace pockets
 {
@@ -57,7 +56,6 @@ class ImagePacker
   public:
     ImageData( ci::Surface surface, const std::string &id ):
     mSurface( surface )
-    , mTexture( surface )
     , mId( id )
     {}
     ci::Area            getBounds() const { return mSurface.getBounds(); }
@@ -69,13 +67,6 @@ class ImagePacker
     int                 getWidth() const { return mSurface.getWidth(); }
     int                 getHeight() const { return mSurface.getHeight(); }
     std::string         getId() const { return mId; }
-    void                draw()
-    {
-      ci::gl::color( ci::Color::white() );
-      ci::gl::draw( mTexture, mLoc );
-      ci::gl::color( ci::Color( 1, 1, 0 ) );
-      ci::gl::drawStrokedCircle( mLoc + mRegistrationPoint, 4.0f );
-    }
     ci::JsonTree        toJson()
     {
       using ci::JsonTree;
@@ -91,7 +82,6 @@ class ImagePacker
     }
   private:
     ci::Surface     mSurface;
-    ci::gl::Texture mTexture;
     ci::Vec2i       mLoc = ci::Vec2i::zero();
     ci::Vec2i       mRegistrationPoint = ci::Vec2i::zero();
     std::string     mId;
@@ -107,8 +97,6 @@ class ImagePacker
   ImageDataRef  addString( const std::string &id, const ci::Font &font, const std::string &str, bool trim_alpha=false );
   //! assign positions to images
   void          calculatePositions();
-  //! do a preview render of packed ImageData layout
-  void          draw();
   //! set the width of the output Surface
   void          setWidth( uint32_t full_width ){ mWidth = full_width; }
   //! generates a surface containing all added images in their packed locations
