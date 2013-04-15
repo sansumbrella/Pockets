@@ -88,11 +88,14 @@ void ExpandedLine2d::buildTexCoords()
 
 void ExpandedLine2d::draw()
 {
-  glEnableClientState( GL_VERTEX_ARRAY );
-  glVertexPointer( 2, GL_FLOAT, 0, &mPositions[0] );
-  glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-  glTexCoordPointer( 2, GL_FLOAT, 0, &mTexCoords[0] );
-  glDrawArrays( GL_TRIANGLE_STRIP, 0, mPositions.size() );
-  glDisableClientState( GL_VERTEX_ARRAY );
-  glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+  if( mScale > 0 )
+  {
+    glEnableClientState( GL_VERTEX_ARRAY );
+    glVertexPointer( 2, GL_FLOAT, 0, &mPositions[0] );
+    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+    glTexCoordPointer( 2, GL_FLOAT, 0, &mTexCoords[0] );
+    glDrawArrays( GL_TRIANGLE_STRIP, 0, mPositions.size() );
+    glDisableClientState( GL_VERTEX_ARRAY );
+    glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+  }
 }
