@@ -34,12 +34,12 @@ namespace pockets
   /**
   An expanded line in two dimensions.
   */
-  typedef std::shared_ptr<class FatLine2d> FatLine2dRef;
-  class FatLine2d
+  typedef std::shared_ptr<class FatPath2d> FatPath2dRef;
+  class FatPath2d
   {
   public:
-    FatLine2d( size_t vertex_count );
-    ~FatLine2d();
+    FatPath2d( size_t vertex_count );
+    ~FatPath2d();
     //! accepts a float in range [0,1] and returns a float (probably in range [0,1])
     typedef std::function<float (float)> ShapeFn;
     //! set the shape function for the width of the line along its length
@@ -47,8 +47,8 @@ namespace pockets
     void setPositions( const std::vector<ci::Vec2f> &positions, bool closed=false );
     void setWidth( float w ){ mLineHalfWidth = w / 2; }
     void draw();
-    static FatLine2dRef create( size_t vertex_count ){
-      return FatLine2dRef( new FatLine2d( vertex_count ) );
+    static FatPath2dRef create( size_t vertex_count ){
+      return FatPath2dRef( new FatPath2d( vertex_count ) );
     }
   private:
     void buildOutline();

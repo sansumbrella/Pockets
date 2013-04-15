@@ -25,7 +25,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "FatLine2d.h"
+#include "FatPath2d.h"
 #include "cinder/CinderMath.h"
 #include "cinder/gl/gl.h"
 
@@ -33,7 +33,7 @@ using namespace pockets;
 using namespace std;
 using namespace ci;
 
-FatLine2d::FatLine2d( size_t length )
+FatPath2d::FatPath2d( size_t length )
 {
   mSkeleton.assign( length, Vec2f::zero() );
   mOutline.assign( length * 2, Vec2f::zero() );
@@ -62,10 +62,10 @@ FatLine2d::FatLine2d( size_t length )
   // }
 }
 
-FatLine2d::~FatLine2d()
+FatPath2d::~FatPath2d()
 {}
 
-void FatLine2d::setPositions( const vector<Vec2f> &positions, bool closed )
+void FatPath2d::setPositions( const vector<Vec2f> &positions, bool closed )
 {
   assert( positions.size() == mSkeleton.size() );
   mSkeleton = positions;
@@ -73,9 +73,9 @@ void FatLine2d::setPositions( const vector<Vec2f> &positions, bool closed )
   buildOutline();
 }
 
-void FatLine2d::buildOutline()
+void FatPath2d::buildOutline()
 {
-  Vec2f a, b;
+  Vec2f a, b, c;
   const float last_index = mSkeleton.size() - 1.0f;
   // first vertex
   a = mSkeleton.at( 0 );
@@ -86,26 +86,25 @@ void FatLine2d::buildOutline()
   mOutline.at( 0 ) = a + north;
   mOutline.at( 0 + 1) = a - north;
   // remaining vertices
-  for( int i = 1; i < mSkeleton.size(); ++i )
+  for( int i = 1; i < mSkeleton.size() - 1; ++i )
   {
     a = mSkeleton.at(i - 1);
     b = mSkeleton.at(i);
-    // c = mSkeleton.at(i + 1);
-    edge = b - a; // c - a .normalized() + (c - b).normalized()) * 0.5;
+    c = mSkeleton.at(i + 1);
+    edge = ((b - a).normalized() + (c - b).normalized()) * 0.5;
     tangent = Vec2f( -edge.y, edge.x );
-//    edge.rotate( M_PI / 2 );
     north = tangent.normalized() * getHalfWidth( i / last_index );
     mOutline.at( i * 2 ) = b + north;
     mOutline.at( i * 2 + 1 ) = b - north;
   }
   // final vertex
-//  c = mSkeleton.back();
-//  edge = mClosed ? (mSkeleton.at( 1 ) - c) : (c - b);
-//  tangent = Vec2f( -edge.y, edge.x );
-//  north = tangent.normalized() * getHalfWidth( 1.0f );
-//  size_t end = mSkeleton.size() - 1;
-//  mOutline.at( end * 2 ) = c + north;
-//  mOutline.at( end * 2 + 1 ) = c - north;
+  c = mSkeleton.back();
+  edge = mClosed ? (mSkeleton.at( 1 ) - c) : (c - b);
+  tangent = Vec2f( -edge.y, edge.x );
+  north = tangent.normalized() * getHalfWidth( 1.0f );
+  size_t end = mSkeleton.size() - 1;
+  mOutline.at( end * 2 ) = c + north;
+  mOutline.at( end * 2 + 1 ) = c - north;
 
   // assign positions to VBO
   // auto iter = mVbo.mapVertexBuffer();
@@ -116,12 +115,12 @@ void FatLine2d::buildOutline()
   // }
 }
 
-float FatLine2d::getHalfWidth( float t )
+float FatPath2d::getHalfWidth( float t )
 {
   return mShapeFn( t ) * mLineHalfWidth;
 }
 
-void FatLine2d::draw()
+void FatPath2d::draw()
 {
 //  gl::draw( mVbo );
   glEnableClientState( GL_VERTEX_ARRAY );
