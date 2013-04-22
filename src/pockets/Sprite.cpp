@@ -53,6 +53,34 @@ mData( sprite )
 Sprite::~Sprite()
 {}
 
+void Sprite::clipBy(const ci::Rectf &bounding_rect)
+{
+  Rectf sprite_bounds( Vec2f::zero(), mData.getSize() );
+  sprite_bounds.offset( mLocus.getLoc() - mData.getRegistrationPoint() );
+  Rectf clipped_size = sprite_bounds.getClipBy( bounding_rect );
+  clipped_size.offset( mData.getRegistrationPoint() - mLocus.getLoc() );
+  Rectf portion( clipped_size.getX1() / mData.getSize().x, clipped_size.getY1() / mData.getSize().y
+                , clipped_size.getX2() / mData.getSize().x, clipped_size.getY2() / mData.getSize().y );
+  setRegion( portion );
+}
+
+void Sprite::setRegion(const ci::Rectf &portion)
+{
+  Rectf tex_coords;
+  tex_coords.x1 = lerp( mData.getTextureBounds().getX1(), mData.getTextureBounds().getX2(), portion.getX1() );
+  tex_coords.x2 = lerp( mData.getTextureBounds().getX1(), mData.getTextureBounds().getX2(), portion.getX2() );
+  tex_coords.y1 = lerp( mData.getTextureBounds().getY1(), mData.getTextureBounds().getY2(), portion.getY1() );
+  tex_coords.y2 = lerp( mData.getTextureBounds().getY1(), mData.getTextureBounds().getY2(), portion.getY2() );
+
+  Vec2f br( mLocus.getLoc() + mData.getSize() );
+  Vec2f tl( mLocus.getLoc() );
+  Rectf positions;
+  positions.x1 = lerp( tl.x, br.x, portion.getX1() );
+  positions.x2 = lerp( tl.x, br.x, portion.getX2() );
+  positions.y1 = lerp( tl.y, br.y, portion.getY1() );
+  positions.y2 = lerp( tl.y, br.y, portion.getY2() );
+}
+
 void Sprite::render()
 {
 	gl::pushModelView();

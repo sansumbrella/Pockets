@@ -42,6 +42,11 @@ namespace pockets
   public:
     Sprite( const SpriteData &data );
     ~Sprite();
+    //! clip region with rectangle; only parts contained by rect will be visible
+    void clipBy( const ci::Rectf &rect );
+    //! set portion of texture to render (used by clipBy)
+    void setRegion( const ci::Rectf &portion );
+    //! render the sprite to screen
     void render();
     Locus2d& getLocus(){ return mLocus; }
   private:
