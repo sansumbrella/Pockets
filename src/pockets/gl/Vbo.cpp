@@ -7,7 +7,7 @@
 //
 
 #include "Vbo.h"
-
+#if defined( CINDER_GLES )
 using namespace std;
 
 namespace pockets { namespace gl {
@@ -108,3 +108,5 @@ namespace pockets { namespace gl {
   }
 
 }} // ns pockets::gl
+
+#endif

@@ -8,6 +8,7 @@
 
 #pragma once
 
+#if defined( CINDER_GLES )
 #include <OpenGLES/ES2/gl.h>
 #include <vector>
 #include <string>
@@ -114,3 +115,5 @@ namespace pockets { namespace gl
   };
 
 }} // ns pockets::gl
+
+#endif

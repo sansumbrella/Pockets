@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cinder>
+<block
+	name="Pockets"
+	id="com.sansumbrella.pockets"
+	author="David Wicks"
+	summary="What have I got in my pockets?"
+	>
+	<sourcePattern>src/pockets/*.cpp</sourcePattern>
+	<headerPattern>src/pockets/*.h</headerPattern>
+	<sourcePattern>src/pockets/gl/*.cpp</sourcePattern>
+	<headerPattern>src/pockets/gl/*.h</headerPattern>
+	<header>src/pockets/Pockets.h</header>
+	<includePath system="false">src</includePath>
+</block>
+</cinder>
