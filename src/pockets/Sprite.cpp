@@ -36,6 +36,7 @@ mData( sprite )
 {
   Rectf tex_coord_rect = sprite.getTextureBounds();
   Rectf position_rect( Vec2f::zero(), sprite.getSize() );
+  position_rect -= mData.getRegistrationPoint();
 
   mPositions[0*2+0] = position_rect.getX2(); mTexCoords[0*2+0] = tex_coord_rect.getX2();
 	mPositions[0*2+1] = position_rect.getY1(); mTexCoords[0*2+1] = tex_coord_rect.getY1();

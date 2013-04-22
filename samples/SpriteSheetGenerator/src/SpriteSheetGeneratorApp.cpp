@@ -86,7 +86,7 @@ void SpriteSheetGeneratorApp::setup()
   mParams.addButton( "Save sheet", [this](){ saveSpriteSheet(); } );
 
   Font font( "Hoefler Text Black", 48 );
-  mImagePacker.addGlyphs( font, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", false );
+  mImagePacker.addGlyphs( font, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "", false );
   Font large_font( "Hoefler Text Black", 48 * 2 );
   auto asterisk = mImagePacker.addString( "*", large_font, "*", true );
   asterisk->setRegistrationPoint( asterisk->getSize() / 2 );
@@ -105,7 +105,8 @@ void SpriteSheetGeneratorApp::fileDrop(cinder::app::FileDropEvent event)
     {
       Surface img = loadImage( file );
       string id = file.stem().string();
-      mImagePacker.addImage( id, img );
+      auto sprite = mImagePacker.addImage( id, img );
+      sprite->setRegistrationPoint( Vec2i( sprite->getWidth() / 2, sprite->getHeight() ) );
     }
   }
   mImagePacker.calculatePositions();
@@ -117,18 +118,7 @@ void SpriteSheetGeneratorApp::update()
 
 void SpriteSheetGeneratorApp::draw()
 {
-	// clear out the window with black
-	gl::clear( Color( 0, 0, 0 ) );
-  gl::pushModelView();
-  gl::translate( mPreviewOffset );
-  gl::scale( mWindowScaling, mWindowScaling );
-  gl::color( Color::white() );
-  gl::enableAlphaBlending( true );
-  mImagePacker.draw();
-//  gl::color( Color( 1, 0, 1 ) );
-//  gl::drawStrokedRect( Rectf( 0, 0, cOutputSize, mHeight ) );
-  gl::popModelView();
-  params::InterfaceGl::draw();
+  mParams.draw();
 }
 
 void SpriteSheetGeneratorApp::saveSpriteSheet()

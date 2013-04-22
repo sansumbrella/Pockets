@@ -87,6 +87,7 @@ public:
   typedef std::function<SpriteDataCollection (const ci::JsonTree &)>  ParseFunction;
   //! Generate a spritesheet from a source bitmap and description.
   //! Description is parsed according to the parser function.
+  //! The Surface passed in should be premultiplied for proper blending
 	SpriteSheet( const ci::Surface &images, const ci::JsonTree &description, ParseFunction parser=&defaultParseFunction );
 	~SpriteSheet();
   //! enable texturing and bind our texture
@@ -111,7 +112,10 @@ public:
   std::vector<std::string>  getSpriteNames(){ return map_keys( mSpriteData ); }
   //! get information about the named sprite. Useful for getting the size of the sprite for alignment purposes.
   inline const SpriteData&  getSpriteData( const std::string &sprite_name ){ return mSpriteData[sprite_name]; }
-  static SpriteSheetRef  load( const ci::fs::path &base_path, const std::string &file_base_name );
+
+  //! construct a sprite sheet from files located at base_path; this is the preferred way to build a SpriteSheet
+  //! makes sure that the underlying bitmap is premultiplied.
+  static SpriteSheetRef  load( const ci::fs::path &base_path );
 private:
 // map name to texture coordinates
   std::map<std::string, SpriteData>   mSpriteData;

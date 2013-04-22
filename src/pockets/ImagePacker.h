@@ -37,9 +37,7 @@ namespace pockets
  Place all elements, largest-first, into a single Surface
  Height expands to fit
 
- TODO:
- Don't create a bunch of independent textures, so this is usable at runtime
- if desired. Though spritesheet generation is generally an offline task, it
+ Though spritesheet generation is generally an offline task, it
  could be useful for things like super-8-style-recording and gif-playback
 */
 class ImagePacker
@@ -48,7 +46,6 @@ class ImagePacker
   /*
    Source data for a sprite.
    Contains positional information and bitmap data.
-   Drawable for previewing the texture.
    Converts to Json for export.
    */
   class ImageData

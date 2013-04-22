@@ -78,15 +78,17 @@ SpriteSheet::SpriteSheet( const Surface &images, const JsonTree &description, Pa
 SpriteSheet::~SpriteSheet()
 {}
 
-SpriteSheetRef SpriteSheet::load(const ci::fs::path &base_path, const string &file_base_name )
+SpriteSheetRef SpriteSheet::load( const ci::fs::path &base_path )
 {
   string suffix("");
   if( app::getWindow()->getContentScale() > 1.0f )
   {
     suffix = "@2x";
   }
-  JsonTree sprite_json( loadFile( base_path / (file_base_name + suffix + ".json") ) );
-  Surface  sprite_surf( loadImage( loadFile( base_path / (file_base_name + suffix + ".png") ) ) );
+  std::string file_base_name = base_path.stem().string();
+  fs::path parent_path = base_path.parent_path();
+  JsonTree sprite_json( loadFile( parent_path / (file_base_name + suffix + ".json") ) );
+  Surface  sprite_surf( loadImage( loadFile( parent_path / (file_base_name + suffix + ".png") ) ) );
   if( ! sprite_surf.isPremultiplied() )
   {
     cout << "Premultiplying sprite sheet for cleaner edges." << endl;

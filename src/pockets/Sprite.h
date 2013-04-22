@@ -37,6 +37,7 @@ namespace pockets
 {
   typedef SpriteSheet::SpriteData SpriteData;
 
+  typedef std::shared_ptr<class Sprite> SpriteRef;
   class Sprite : public SimpleRenderer::IRenderable
   {
   public:
@@ -64,6 +65,7 @@ namespace pockets
     float finish;
   };
 
+  typedef std::shared_ptr<class SpriteAnimation> SpriteAnimationRef;
   class SpriteAnimation : public SimpleRenderer::IRenderable
   {
   public:

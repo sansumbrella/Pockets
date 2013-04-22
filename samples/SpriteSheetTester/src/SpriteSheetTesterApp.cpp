@@ -30,9 +30,7 @@ void SpriteSheetTesterApp::setup()
 {
   try
   {
-    JsonTree sprite_json( loadAsset( "sprite_sheet.json" ) );
-    Surface  sprite_surf( loadImage( loadAsset("sprite_sheet.png") ) );
-    mSheet = make_shared<SpriteSheet>( sprite_surf, sprite_json );
+    mSheet = SpriteSheet::load( getAssetPath( "sprite_sheet.json" ) );
     mSpriteNames = mSheet->getSpriteNames();
     mCurrentSprite = mSpriteNames.begin();
   } catch ( exception &exc )
@@ -75,7 +73,7 @@ void SpriteSheetTesterApp::draw()
 	gl::clear( Color::gray( 0.85f ) );
   if( mSheet )
   {
-    Rectf bounds( getWindowWidth() - 100, 0, getWindowWidth(), 100 );
+    Rectf bounds( 0, 0, 100, 100 );
     gl::color( Color( 1, 0, 1 ) );
     gl::disable( GL_TEXTURE_2D );
     gl::drawSolidRect( bounds );
@@ -85,18 +83,17 @@ void SpriteSheetTesterApp::draw()
     SpriteSheet::SpriteData sprite = mSheet->getSpriteData( *mCurrentSprite );
     Vec2i size = sprite.getSize();
     mSheet->draw( *mCurrentSprite, mLoc - size );
-    mSheet->draw( *mCurrentSprite, mLoc - Vec2i( 0, size.y )
-                 , Vec2f( -1, 0 ) * easeInQuad(mOffset) );
-    mSheet->draw( *mCurrentSprite, mLoc - Vec2i( size.x, 0 )
-                 , Vec2f( 1, 1 ) * easeInQuint(mOffset) );
-    mSheet->draw( *mCurrentSprite, mLoc
-                 , Vec2f( 0, -1 ) * easeInElastic(mOffset, 2.0f, 2.0f) );
+    mSheet->drawScrolled( *mCurrentSprite, mLoc - Vec2i( 0, size.y )
+                        , Vec2f( -1, 0 ) * easeInQuad(mOffset) );
+    mSheet->drawScrolled( *mCurrentSprite, mLoc - Vec2i( size.x, 0 )
+                        , Vec2f( 1, 1 ) * easeInQuint(mOffset) );
+    mSheet->drawScrolled( *mCurrentSprite, mLoc
+                        , Vec2f( 0, -1 ) * easeInElastic(mOffset, 2.0f, 2.0f) );
 
     float t = easeInOutQuint( mOffset );
     Vec2i loc( lerp( bounds.getCenter(), bounds.getLowerRight() + sprite.getRegistrationPoint(), t ) );
     mSheet->drawInRect( *mCurrentSprite, loc, bounds );
   }
-  gl::drawSolidRect( Rectf( 0, 0, 1024, 97 ) * 1.01f );
 }
 
 CINDER_APP_NATIVE( SpriteSheetTesterApp, RendererGl )

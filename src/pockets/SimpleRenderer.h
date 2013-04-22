@@ -73,6 +73,8 @@ public:
   void setPostDrawFn( const PrepFn &fn ){ mPostDraw = fn; }
   //! set function for sorting elements to be drawn
   void setSortFn( const SortFn &fn ){ mSortFn = fn; }
+
+  static SimpleRendererRef create(){ return SimpleRendererRef( new SimpleRenderer ); }
 private:
   std::vector<IRenderableRef> mRenderables;
   PrepFn  mPreDraw;
