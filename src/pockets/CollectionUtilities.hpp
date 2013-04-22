@@ -27,11 +27,15 @@
 
 #pragma once
 
-namespace cascade
+/**
+ Functions for easier manipulation of STL containers.
+*/
+
+#include "Pockets.h"
+
+namespace pockets
 {
-	//! remove all elements from \a map for which \a compare returns true
-	//! Would like to write such that map_erase_if( &map, [](const V&){ return true; } works
-	//! without adding the template specification up front
+	//! Remove all elements from \a map for which \a compare returns true
 	template<class MAP_TYPE, class COMPARATOR>
 	void map_erase_if( MAP_TYPE *map, COMPARATOR compare )
 	{
@@ -49,6 +53,7 @@ namespace cascade
 		}
 	}
 
+  //! Remove all elements from \a vec that match \a compare
   template<class ELEMENT_TYPE, class COMPARATOR>
   void vector_erase_if( std::vector<ELEMENT_TYPE> *vec, COMPARATOR compare )
   {
@@ -58,6 +63,7 @@ namespace cascade
                , vec->end() );
   }
 
+  //! Remove all copies of the element \a compare from \a vec
   template<class ELEMENT_TYPE>
   void vector_remove( std::vector<ELEMENT_TYPE> *vec, const ELEMENT_TYPE &compare )
   {
@@ -67,12 +73,14 @@ namespace cascade
                , vec->end() );
   }
 
+  //! Returns true if \a vec contains the element \a compare
   template<class ELEMENT_TYPE>
   bool vector_contains( const std::vector<ELEMENT_TYPE> &vec, const ELEMENT_TYPE &compare )
   {
     return std::find( vec.begin(), vec.end(), compare ) != vec.end();
   }
 
+  //! Returns true if \a compare function returns true for an element in \a vec
   template<class ELEMENT_TYPE, class COMPARATOR>
   bool vector_contains( const std::vector<ELEMENT_TYPE> &vec, COMPARATOR compare )
   {
