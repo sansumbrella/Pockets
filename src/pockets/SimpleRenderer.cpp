@@ -25,57 +25,48 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "SpriteRenderer.h"
+#include "SimpleRenderer.h"
+#include "CollectionUtilities.hpp"
 
 using namespace std;
 using namespace ci;
 using namespace pockets;
 
-SpriteRenderer::SpriteRenderer()
+SimpleRenderer::SimpleRenderer()
 {}
 
-SpriteRenderer::~SpriteRenderer()
+SimpleRenderer::~SimpleRenderer()
 {}
 
-void SpriteRenderer::add( const Geometry &geo, int layer )
+void SimpleRenderer::add( IRenderableRef renderable )
 {
-  mGeometry.push_back( geo );
+	mRenderables.push_back( renderable );
 }
 
-void SpriteRenderer::draw()
+void SimpleRenderer::remove( IRenderableRef renderable )
 {
-  vector<Vec2f> positions;
-  vector<Vec2f> texcoords;
-  int layer = baseLayer();
 
-  mSpriteSheet->enableAndBind();
+}
 
-  for( const Geometry &geo : mGeometry )
+bool SimpleRenderer::defaultSort(const IRenderableRef &lhs, const IRenderableRef &rhs)
+{
+  return lhs->getLayer() < rhs->getLayer();
+}
+
+void SimpleRenderer::update()
+{
+	stable_sort( mRenderables.begin(), mRenderables.end(), mSortFn );
+}
+
+void SimpleRenderer::draw()
+{
+  if( mPreDraw ){ mPreDraw(); }
+
+  for( const auto &obj : mRenderables )
   {
-    positions.insert( positions.end(), geo.positions.begin(), geo.positions.end() );
-    texcoords.insert( texcoords.end(), geo.texcoords.begin(), geo.texcoords.end() );
-    if( geo.layer != layer )
-    { // send to GPU
-      render( positions, texcoords );
-      positions.clear();
-      texcoords.clear();
-      layer = geo.layer;
-    }
+    obj->render();
   }
 
-  render( positions, texcoords );
-  mSpriteSheet->unbind();
+  if( mPostDraw ){ mPostDraw(); }
 }
 
-void SpriteRenderer::render(const std::vector<ci::Vec2f> &positions, const std::vector<ci::Vec2f> &texcoords)
-{
-  glEnableClientState( GL_VERTEX_ARRAY );
-	glVertexPointer( 2, GL_FLOAT, 0, &positions[0] );
-	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-	glTexCoordPointer( 2, GL_FLOAT, 0, &texcoords[0] );
-
-	glDrawArrays( GL_TRIANGLES, 0, positions.size() );
-
-	glDisableClientState( GL_VERTEX_ARRAY );
-	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
-}

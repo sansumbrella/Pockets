@@ -95,19 +95,18 @@ public:
   inline void bind(){ mTexture.bind(); }
   //! unbind the spritesheet's texture
   inline void unbind(){ mTexture.unbind(); }
-  //! draw named sprite with top-left at location
+
+  //! draw named sprite with registration point at location
   void        draw( const std::string &sprite_name, const ci::Vec2f &loc );
-  //! draw named sprite with normalized scroll in texture
-  void        draw( const std::string &sprite_name, const ci::Vec2f &loc, const ci::Vec2f &scroll );
-  //! draw sprite at location
   void        draw( const SpriteData &sprite, const ci::Vec2f &loc );
   //! draw sprite at location with texture scroll; for sliding texture within bounds (like a rectangular mask)
-  void        draw( const SpriteData &sprite, const ci::Vec2f &loc, const ci::Vec2f &scroll );
-  //! draw portion of sprite at location
-  void        draw( const SpriteData &sprite, const ci::Vec2f &loc, const ci::Rectf &portion );
+  void        drawScrolled( const std::string &sprite_name, const ci::Vec2f &loc, const ci::Vec2f &scroll );
+  void        drawScrolled( const SpriteData &sprite, const ci::Vec2f &loc, const ci::Vec2f &scroll );
   //! draws sprite clipped to rect
   void        drawInRect( const std::string &sprite_name, const ci::Vec2f &loc, const ci::Rectf &bounding_rect );
   void        drawInRect( const SpriteData &sprite, const ci::Vec2f &loc, const ci::Rectf &bounding_rect );
+  //! draw portion of sprite at location (used by drawInRect)
+  void        drawPortion( const SpriteData &sprite, const ci::Vec2f &loc, const ci::Rectf &portion );
   //! returns a collection of all the sprites names; not in any order
   std::vector<std::string>  getSpriteNames(){ return map_keys( mSpriteData ); }
   //! get information about the named sprite. Useful for getting the size of the sprite for alignment purposes.

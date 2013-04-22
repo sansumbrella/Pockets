@@ -86,7 +86,7 @@ void ExpandedLine2d::buildTexCoords()
   mTexCoords.at(7) = Vec2f( 1, 0 );
 }
 
-void ExpandedLine2d::draw()
+void ExpandedLine2d::render()
 {
   if( mScale > 0 )
   {

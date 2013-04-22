@@ -28,6 +28,7 @@
 #pragma once
 
 #include "Pockets.h"
+#include "SimpleRenderer.h"
 #include <array>
 
 namespace pockets
@@ -37,7 +38,7 @@ namespace pockets
     TODO: store in VBO (not well supported on iOS right now)
   */
   typedef std::shared_ptr<class ExpandedLine2d> ExpandedLine2dRef;
-  class ExpandedLine2d
+  class ExpandedLine2d : public SimpleRenderer::IRenderable
   {
   public:
     ExpandedLine2d( const ci::Vec2f &begin, const ci::Vec2f &end );
@@ -47,7 +48,7 @@ namespace pockets
     void setWidth( float width ){ mWidth = width; }
     //! adjusts length of line as proportion of distance from begin->end
     void scaleLength( float scale );
-    void draw();
+    void render();
     static ExpandedLine2dRef create( const ci::Vec2f &begin, const ci::Vec2f &end )
     {
       return ExpandedLine2dRef( new ExpandedLine2d( begin, end ) );

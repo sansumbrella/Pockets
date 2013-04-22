@@ -67,11 +67,6 @@ mSize( app::toPoints( size ) )
 SpriteSheet::SpriteSheet( const Surface &images, const JsonTree &description, ParseFunction parse )
 {
   gl::Texture::Format format;
-  // nearest filter results in bad jagginess on non-retina devices
-  // using nearest gets rid of strange black rim artifact when moving
-  // need to learn about the edge artifact and fix that some other way
-//  format.setMagFilter( GL_NEAREST );
-//  format.setMinFilter( GL_NEAREST );
   mTexture = gl::Texture( images, format );
   SpriteDataCollection sprite_info = parse( description );
   for( auto &pair : sprite_info )
@@ -133,12 +128,6 @@ void SpriteSheet::draw(const string &sprite_name, const Vec2f &loc)
 {
   draw( mSpriteData[sprite_name], loc );
 }
-
-void SpriteSheet::draw(const string &sprite_name, const Vec2f &loc, const Vec2f &offsets)
-{
-  draw( mSpriteData[sprite_name], loc, offsets );
-}
-
 void SpriteSheet::draw( const SpriteData &sprite, const Vec2f &loc )
 {
   Rectf coords = sprite.getTextureBounds();
@@ -147,7 +136,13 @@ void SpriteSheet::draw( const SpriteData &sprite, const Vec2f &loc )
   drawRect( rect - sprite.getRegistrationPoint(), coords );
 }
 
-void SpriteSheet::draw( const SpriteData &sprite, const Vec2f &loc, const Vec2f &offsets )
+
+void SpriteSheet::drawScrolled(const string &sprite_name, const Vec2f &loc, const Vec2f &offsets)
+{
+  drawScrolled( mSpriteData[sprite_name], loc, offsets );
+}
+
+void SpriteSheet::drawScrolled( const SpriteData &sprite, const Vec2f &loc, const Vec2f &offsets )
 {
   Rectf coords = sprite.getTextureBounds();
   Rectf rect( loc, loc + sprite.getSize() );
@@ -189,10 +184,10 @@ void SpriteSheet::drawInRect( const SpriteData &sprite, const Vec2f &loc, const 
   clipped_size.offset( sprite.getRegistrationPoint() - loc );
   Rectf portion( clipped_size.getX1() / sprite.getSize().x, clipped_size.getY1() / sprite.getSize().y
                 , clipped_size.getX2() / sprite.getSize().x, clipped_size.getY2() / sprite.getSize().y );
-  draw( sprite, loc, portion );
+  drawPortion( sprite, loc, portion );
 }
 
-void SpriteSheet::draw( const SpriteData &sprite, const Vec2f &loc, const Rectf &portion )
+void SpriteSheet::drawPortion( const SpriteData &sprite, const Vec2f &loc, const Rectf &portion )
 {
   Rectf tex_coords;
   tex_coords.x1 = lerp( sprite.getTextureBounds().getX1(), sprite.getTextureBounds().getX2(), portion.getX1() );
