@@ -11,7 +11,7 @@ using namespace std;
 class SpriteRendererApp : public AppNative {
 public:
 	void setup();
-	void mouseDown( MouseEvent event );
+  void mouseMove( MouseEvent event );
   void update();
 private:
   pk::SpriteSheetRef      mSpriteSheet;
@@ -51,7 +51,7 @@ void SpriteRendererApp::setup()
   mLastUpdate = getElapsedSeconds();
 }
 
-void SpriteRendererApp::mouseDown( MouseEvent event )
+void SpriteRendererApp::mouseMove( MouseEvent event )
 {
   mSprite->getLocus().setLoc( event.getPos() );
 }
