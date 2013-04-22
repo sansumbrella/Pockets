@@ -33,6 +33,12 @@
 A basic renderer for grouping rendered content and rendering in order.
 Defaults to sorting content by layer before rendering.
 Pre- and post- draw hooks let you set up the proper render context.
+
+Note that SimpleRenderer only accepts pointers to IRenderable elements.
+You will need to manage the lifetime of your renderable objects yourself.
+
+When IRenderable objects destruct, they automatically remove themselves from
+the SimpleRenderer.
 */
 namespace pockets
 {
@@ -45,24 +51,26 @@ public:
   {
   public:
     IRenderable() = default;
-    virtual ~IRenderable(){}
+    virtual ~IRenderable();
     virtual void render() = 0;
+    //! set the object layer to affect render order (higher => later)
     void setLayer( int layer ){ mLayer = layer; }
     int getLayer() const { return mLayer; }
   private:
-    int mLayer = 0;
+    friend class SimpleRenderer;
+    SimpleRenderer*  mHost = nullptr;
+    int              mLayer = 0;
   };
 
-  typedef std::shared_ptr<IRenderable> IRenderableRef;
   typedef std::function<void ()>  PrepFn;
-  typedef std::function<bool (const IRenderableRef, const IRenderableRef)>  SortFn;
+  typedef std::function<bool (const IRenderable*, const IRenderable*)>  SortFn;
 
   SimpleRenderer();
   ~SimpleRenderer();
   //! add an element to be rendered
-  void add( IRenderableRef renderable );
+  void add( IRenderable *renderable );
   //! remove an element from the renderer
-  void remove( IRenderableRef renderable );
+  void remove( IRenderable *renderable );
   //! sorts the renderable contents by layer (or by custom method if provided)
   void update();
   //! draw everything in sorted order
@@ -76,12 +84,12 @@ public:
 
   static SimpleRendererRef create(){ return SimpleRendererRef( new SimpleRenderer ); }
 private:
-  std::vector<IRenderableRef> mRenderables;
+  std::vector<IRenderable*> mRenderables;
   PrepFn  mPreDraw;
   PrepFn  mPostDraw;
   SortFn  mSortFn = &SimpleRenderer::defaultSort;
 
-  static bool defaultSort( const IRenderableRef &lhs, const IRenderableRef &rhs );
+  static bool defaultSort( const IRenderable *lhs, const IRenderable *rhs );
 };
 
 } // pockets::

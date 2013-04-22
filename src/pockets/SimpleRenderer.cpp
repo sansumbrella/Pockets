@@ -32,23 +32,38 @@ using namespace std;
 using namespace ci;
 using namespace pockets;
 
+SimpleRenderer::IRenderable::~IRenderable()
+{
+  if( mHost )
+  { mHost->remove( this ); }
+}
+
 SimpleRenderer::SimpleRenderer()
 {}
 
 SimpleRenderer::~SimpleRenderer()
-{}
-
-void SimpleRenderer::add( IRenderableRef renderable )
 {
+  for( auto child : mRenderables )
+  {
+    child->mHost = nullptr;
+  }
+}
+
+void SimpleRenderer::add( IRenderable *renderable )
+{
+  if( renderable->mHost )
+  { renderable->mHost->remove( renderable ); }
 	mRenderables.push_back( renderable );
+  renderable->mHost = this;
 }
 
-void SimpleRenderer::remove( IRenderableRef renderable )
+void SimpleRenderer::remove( IRenderable *renderable )
 {
-
+  vector_remove( &mRenderables, renderable );
+  renderable->mHost = nullptr;
 }
 
-bool SimpleRenderer::defaultSort(const IRenderableRef &lhs, const IRenderableRef &rhs)
+bool SimpleRenderer::defaultSort(const IRenderable *lhs, const IRenderable *rhs)
 {
   return lhs->getLayer() < rhs->getLayer();
 }

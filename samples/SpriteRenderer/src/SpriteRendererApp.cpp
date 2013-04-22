@@ -38,8 +38,8 @@ void SpriteRendererApp::setup()
   }
 
   mRenderer = pk::SimpleRenderer::create();
-  mRenderer->add( mSprite );
-  mRenderer->add( mSpriteAnimation );
+  mRenderer->add( mSprite.get() );
+  mRenderer->add( mSpriteAnimation.get() );
   mRenderer->setPreDrawFn( [=](){ mSpriteSheet->enableAndBind(); } );
   mRenderer->setPostDrawFn( [=](){ mSpriteSheet->unbind(); } );
 
