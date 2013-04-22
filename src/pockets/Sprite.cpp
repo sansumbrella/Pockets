@@ -98,6 +98,10 @@ void Sprite::render()
 	gl::popModelView();
 }
 
+SpriteAnimation::SpriteAnimation():
+mDuration( 0 )
+{}
+
 SpriteAnimation::SpriteAnimation( const vector<SpriteWithTiming> &sprites ):
 mData( sprites )
 , mDuration( sprites.back().finish )
@@ -111,26 +115,27 @@ void SpriteAnimation::addFrame(const SpriteData &sprite, float duration)
 
 void SpriteAnimation::nextFrame()
 {
-  auto next = mCurrentData;
+  size_t next = mCurrentIndex;
   next++;
-  if( next >= mData.end() )
+  if( next >= mData.size() )
   {
     if( mLooping )
     {
       mTime -= mDuration;
-      next = mData.begin();
+      next = 0;
     }
     else
     {
-      next = mCurrentData;
+      next = mCurrentIndex;
     }
   }
 
-  if( next != mCurrentData )
+  if( next != mCurrentIndex )
   {
-    mCurrentData = next;
+    mCurrentIndex = next;
     Rectf tex_coord_rect = currentSprite().getTextureBounds();
     Rectf position_rect( Vec2f::zero(), currentSprite().getSize() );
+    position_rect -= currentSprite().getRegistrationPoint();
 
     mPositions[0*2+0] = position_rect.getX2(); mTexCoords[0*2+0] = tex_coord_rect.getX2();
     mPositions[0*2+1] = position_rect.getY1(); mTexCoords[0*2+1] = tex_coord_rect.getY1();
@@ -149,7 +154,7 @@ void SpriteAnimation::nextFrame()
 void SpriteAnimation::update( float deltaTime )
 {
   mTime += deltaTime;
-  if( mTime >= currentTiming().finish )
+  if( mTime >= currentData().finish )
   {
     nextFrame();
   }

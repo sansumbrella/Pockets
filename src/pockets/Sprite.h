@@ -59,7 +59,11 @@ namespace pockets
 
   struct SpriteWithTiming
   {
-    SpriteWithTiming( const SpriteData &sprite, float start, float end );
+    SpriteWithTiming( const SpriteData &sprite, float start, float finish ):
+    sprite( sprite )
+    , start( start )
+    , finish( finish )
+    {}
     SpriteData sprite;
     float start;
     float finish;
@@ -69,20 +73,22 @@ namespace pockets
   class SpriteAnimation : public SimpleRenderer::IRenderable
   {
   public:
+    SpriteAnimation();
     SpriteAnimation( const std::vector<SpriteWithTiming> &sprites );
-    const SpriteData& currentSprite(){ return mCurrentData->sprite; }
-    const SpriteWithTiming& currentTiming(){ return *mCurrentData; }
+    const SpriteData& currentSprite(){ return currentData().sprite; }
+    const SpriteWithTiming& currentData(){ return mData.at(mCurrentIndex); }
     //! add a frame at end of animation
     void addFrame( const SpriteData &sprite, float duration );
     //! update the animation
     void update( float deltaTime );
     //! render the current frame of animation
     void render();
+    Locus2d& getLocus(){ return mLocus; }
   private:
     typedef std::vector<SpriteWithTiming>::iterator DataIter;
     Locus2d                             mLocus;
     std::vector<SpriteWithTiming>       mData;
-    DataIter                            mCurrentData;
+    size_t                              mCurrentIndex;
     float                               mTime = 0;
     float                               mDuration;
     bool                                mLooping = true;
