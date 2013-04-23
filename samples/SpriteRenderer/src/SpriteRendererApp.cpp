@@ -40,10 +40,11 @@ void SpriteRendererApp::setup()
   mRenderer = pk::SimpleRenderer::create();
   mRenderer->add( mSprite.get() );
   mRenderer->add( mSpriteAnimation.get() );
+  // update
+  mRenderer->update();
   mRenderer->setPreDrawFn( [=](){ mSpriteSheet->enableAndBind(); } );
   mRenderer->setPostDrawFn( [=](){ mSpriteSheet->unbind(); } );
 
-  getSignalUpdate().connect( [this](){ mRenderer->update(); } );
   getWindow()->getSignalDraw().connect( [this](){
                                         gl::clear( Color::black() );
                                         mRenderer->draw();

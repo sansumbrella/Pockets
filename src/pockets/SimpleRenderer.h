@@ -72,6 +72,7 @@ public:
   //! remove an element from the renderer
   void remove( IRenderable *renderable );
   //! sorts the renderable contents by layer (or by custom method if provided)
+  //! only needs to be called if the draw order is changing (or after adding new content)
   void update();
   //! draw everything in sorted order
   void draw();
