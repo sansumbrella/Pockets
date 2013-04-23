@@ -39,6 +39,10 @@ You will need to manage the lifetime of your renderable objects yourself.
 
 When IRenderable objects destruct, they automatically remove themselves from
 the SimpleRenderer.
+
+When you copy an IRenderable, it doesn't affect either object's relationship
+to their host. This way you can easily update a renderable object without needing
+to go through and make sure it is re-added to a renderer.
 */
 namespace pockets
 {
@@ -51,6 +55,15 @@ public:
   {
   public:
     IRenderable() = default;
+    IRenderable( const IRenderable &other )
+    {
+      mLayer = other.mLayer;
+    }
+    IRenderable& operator=(const IRenderable &rhs)
+    {
+      mLayer = rhs.mLayer;
+      return *this;
+    }
     virtual ~IRenderable();
     virtual void render() = 0;
     //! set the object layer to affect render order (higher => later)

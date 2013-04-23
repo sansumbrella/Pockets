@@ -60,6 +60,15 @@ public:
   //! The Surface passed in should be premultiplied for proper blending
 	SpriteSheet( const ci::Surface &images, const ci::JsonTree &description, ParseFunction parser=&defaultParseFunction );
 	~SpriteSheet();
+
+  //! returns a collection of all the sprites names; not in any order
+  std::vector<std::string>  getSpriteNames(){ return map_keys( mSpriteData ); }
+  //! get information about the named sprite. Useful for getting the size of the sprite for alignment purposes.
+  inline const SpriteData&  getSpriteData( const std::string &sprite_name ) const { return mSpriteData.find(sprite_name)->second; }
+  //! return a Sprite built from the data with \a sprite_name
+  inline Sprite getSprite( const std::string &sprite_name ) const { return Sprite( getSpriteData(sprite_name) ); }
+  inline SpriteRef getSpriteRef( const std::string &sprite_name ) const { return SpriteRef( new Sprite( getSpriteData(sprite_name) ) ); }
+
   //! enable texturing and bind our texture
   void        enableAndBind();
   //! bind the spritesheet's texture
@@ -78,13 +87,6 @@ public:
   void        drawInRect( const SpriteData &sprite, const ci::Vec2f &loc, const ci::Rectf &bounding_rect );
   //! draw portion of sprite at location (used by drawInRect)
   void        drawPortion( const SpriteData &sprite, const ci::Vec2f &loc, const ci::Rectf &portion );
-  //! returns a collection of all the sprites names; not in any order
-  std::vector<std::string>  getSpriteNames(){ return map_keys( mSpriteData ); }
-  //! get information about the named sprite. Useful for getting the size of the sprite for alignment purposes.
-  inline const SpriteData&  getSpriteData( const std::string &sprite_name ) const { return mSpriteData.find(sprite_name)->second; }
-  //! return a Sprite built from the data with \a sprite_name
-  inline Sprite getSprite( const std::string &sprite_name ) const { return Sprite( getSpriteData(sprite_name) ); }
-  inline SpriteRef getSpriteRef( const std::string &sprite_name ) const { return SpriteRef( new Sprite( getSpriteData(sprite_name) ) ); }
   // TODO: return animations based on info from the JsonTree description
 
   //! construct a sprite sheet from files located at base_path; this is the preferred way to build a SpriteSheet
