@@ -67,6 +67,7 @@ namespace pockets
   class Sprite : public SimpleRenderer::IRenderable
   {
   public:
+    Sprite() = default;
     Sprite( const SpriteData &data );
     ~Sprite();
     //! clip region with rectangle; only parts contained by rect will be visible

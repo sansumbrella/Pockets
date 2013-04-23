@@ -15,7 +15,7 @@ public:
   void update();
 private:
   pk::SpriteSheetRef      mSpriteSheet;
-  pk::SpriteRef           mSprite;
+  pk::Sprite              mSprite;
   pk::SpriteAnimationRef  mSpriteAnimation;
   pk::SimpleRendererRef   mRenderer;
   float                   mLastUpdate;
@@ -26,9 +26,9 @@ void SpriteRendererApp::setup()
   mSpriteSheet = pk::SpriteSheet::load( getAssetPath( "sprite_sheet.json" ) );
   auto sprites = mSpriteSheet->getSpriteNames();
 
-  mSprite = pk::SpriteRef( new pk::Sprite( mSpriteSheet->getSpriteData("wood_cracked") ) );
-  mSprite->getLocus().setLoc( getWindowSize() / 2 );
-  mSprite->setLayer( 2 ); // an arbitrary number > 0 to be in front of other content
+  mSprite = mSpriteSheet->getSprite("wood_cracked");
+  mSprite.getLocus().setLoc( getWindowSize() / 2 );
+  mSprite.setLayer( 2 ); // an arbitrary number > 0 to be in front of other content
 
   mSpriteAnimation = pk::SpriteAnimationRef( new pk::SpriteAnimation );
   mSpriteAnimation->getLocus().setLoc( getWindowSize() / 2 );
@@ -38,7 +38,7 @@ void SpriteRendererApp::setup()
   }
 
   mRenderer = pk::SimpleRenderer::create();
-  mRenderer->add( mSprite.get() );
+  mRenderer->add( &mSprite );
   mRenderer->add( mSpriteAnimation.get() );
   // update
   mRenderer->update();
@@ -54,7 +54,7 @@ void SpriteRendererApp::setup()
 
 void SpriteRendererApp::mouseMove( MouseEvent event )
 {
-  mSprite->getLocus().setLoc( event.getPos() );
+  mSprite.getLocus().setLoc( event.getPos() );
 }
 
 void SpriteRendererApp::update()
