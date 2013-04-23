@@ -199,10 +199,10 @@
 		2A2A3CC47D4E4A379A1BC392 /* pockets */ = {
 			isa = PBXGroup;
 			children = (
+				E9310EC5813A424B8B389142 /* AnimationUtils.cpp */,
 				150E69291725A3E800C014BE /* CollectionUtilities.hpp */,
 				1595B97F1725808300381A63 /* SimpleRenderer.cpp */,
 				1595B9801725808300381A63 /* SimpleRenderer.h */,
-				E9310EC5813A424B8B389142 /* AnimationUtils.cpp */,
 				67509EE439BF409EBCC481F9 /* ColorPalette.cpp */,
 				FB003E7F29B349FBB00D4C68 /* ExpandedLine2d.cpp */,
 				4C964BC5D61F4E918E489D0E /* FatLine3d.cpp */,
@@ -212,6 +212,7 @@
 				BC2538D279D0453FBEFB7167 /* LineUtils.cpp */,
 				2B7FF05EAB414C46ADD66C6A /* Locus2d.cpp */,
 				944FABD83106414DB10AE164 /* SpriteSheet.cpp */,
+				150E692C1725A6F500C014BE /* Sprite.cpp */,
 				E3014F8C96B64757BCD731DF /* AnimationUtils.h */,
 				D8299BE50CE04E2FB363ED19 /* ColorPalette.h */,
 				921B05AA44FD450BB0CF0395 /* ExpandedLine2d.h */,
@@ -225,7 +226,6 @@
 				C8570E279BE14E038ACC66B9 /* SpriteSheet.h */,
 				1E4F6A7C641F49639514B3AF /* gl */,
 				04FE9E40A6BB4F808E77F576 /* Pockets.h */,
-				150E692C1725A6F500C014BE /* Sprite.cpp */,
 				150E692D1725A6F500C014BE /* Sprite.h */,
 			);
 			name = pockets;

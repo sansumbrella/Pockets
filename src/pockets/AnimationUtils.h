@@ -35,6 +35,8 @@ namespace pockets
 	float quantize( float f, float steps );
 
   //! quaternion lerp function suitable for passing to ci::Timeline
+  //! NOTE: as of Cinder 0.8.5, there is a template specialization to ci::tweenLerp<T> that does this.
+  //! https://github.com/cinder/Cinder/commit/c987159dc28f72e94a568f6dd824bf759ebfb43f
   ci::Quatf lerpQuaternion( const ci::Quatf &start, const ci::Quatf &end, float time );
   //! lerp between two values over the shortest path that wraps around at 0 and 1
   float lerpShortestNormalized( float start, float end, float time );
