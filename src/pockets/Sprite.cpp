@@ -31,6 +31,12 @@ using namespace pockets;
 using namespace ci;
 using namespace std;
 
+SpriteData::SpriteData( const Vec2i &size, const Rectf &texture_bounds, const Vec2i &registration_point ):
+mSize( app::toPoints( size ) )
+, mTextureBounds( texture_bounds )
+, mRegistrationPoint( app::toPoints( registration_point ) )
+{}
+
 Sprite::Sprite( const SpriteData &sprite ):
 mData( sprite )
 {

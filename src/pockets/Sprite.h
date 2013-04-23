@@ -27,16 +27,42 @@
 
 #pragma once
 #include "SimpleRenderer.h"
-#include "SpriteSheet.h"
 #include "Locus2d.h"
+#include <array>
 
 /**
- An renderable Sprite
+ Sprite data and a few representations for that data.
+
+ SpriteData: holds information about where a graphic lives on a sheet
+ Sprite: renderable sprite
+ SpriteAnimation: renderable sequence of sprites
 */
 namespace pockets
 {
-  typedef SpriteSheet::SpriteData SpriteData;
+  /**
+   SpriteData holds information about a sprite's dimensions and texture coordinates.
+  */
+  class SpriteData
+  {
+  public:
+    SpriteData(){}; // need default constructor to use in a std::map
+    //! construct sprite data from its pixel size and normalized texture coordinates
+    SpriteData( const ci::Vec2i &pixel_size, const ci::Rectf &textureBounds, const ci::Vec2i &registration_point=ci::Vec2i::zero() );
+    //! returns the Sprite's pixel dimensions
+    inline ci::Vec2i getSize() const { return mSize; }
+    //! returns the normalized texture coordinates of the sprite graphic
+    inline ci::Rectf getTextureBounds() const { return mTextureBounds; }
+    //! returns the registration point of the sprite, treated as the origin of the artwork
+    inline ci::Vec2i getRegistrationPoint() const { return mRegistrationPoint; }
+  private:
+    ci::Vec2i mRegistrationPoint;
+    ci::Vec2i mSize = ci::Vec2i::zero();
+    ci::Rectf mTextureBounds = ci::Rectf(0,0,0,0);
+  };
 
+  /**
+   Sprite renders a textured rectangle based on SpriteData specifications.
+  */
   typedef std::shared_ptr<class Sprite> SpriteRef;
   class Sprite : public SimpleRenderer::IRenderable
   {
@@ -57,6 +83,10 @@ namespace pockets
     std::array<GLfloat, 8>    mTexCoords;
   };
 
+  /**
+   SpriteWithTiming is a SpriteData wrapper to include animation timing.
+   I want to rename this.
+  */
   struct SpriteWithTiming
   {
     SpriteWithTiming( const SpriteData &sprite, float start, float finish ):
@@ -69,6 +99,10 @@ namespace pockets
     float finish;
   };
 
+  /**
+   SpriteAnimations hold a collection of SpriteData and render the appropriate
+   Sprite given the current time.
+  */
   typedef std::shared_ptr<class SpriteAnimation> SpriteAnimationRef;
   class SpriteAnimation : public SimpleRenderer::IRenderable
   {

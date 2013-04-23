@@ -30,6 +30,7 @@
 #include <map>
 #include "cinder/gl/Texture.h"
 #include "cinder/Json.h"
+#include "Sprite.h"
 #include "Pockets.h"
 
 // TODO: add to CollectionUtils, move those to Pockets
@@ -64,23 +65,6 @@ typedef std::shared_ptr<class SpriteSheet> SpriteSheetRef;
 class SpriteSheet
 {
 public:
-  class SpriteData
-  {
-  public:
-    SpriteData(){}; // need default constructor to use in a std::map
-    //! construct sprite data from its pixel size and normalized texture coordinates
-    SpriteData( const ci::Vec2i &pixel_size, const ci::Rectf &textureBounds, const ci::Vec2i &registration_point=ci::Vec2i::zero() );
-    //! returns the Sprite's pixel dimensions
-    inline ci::Vec2i getSize() const { return mSize; }
-    //! returns the normalized texture coordinates of the sprite graphic
-    inline ci::Rectf getTextureBounds() const { return mTextureBounds; }
-    //! returns the registration point of the sprite, treated as the origin of the artwork
-    inline ci::Vec2i getRegistrationPoint() const { return mRegistrationPoint; }
-  private:
-    ci::Vec2i mRegistrationPoint;
-    ci::Vec2i mSize = ci::Vec2i::zero();
-    ci::Rectf mTextureBounds = ci::Rectf(0,0,0,0);
-  };
   typedef std::pair<std::string, SpriteData> NameDataPair;
   typedef std::vector<NameDataPair> SpriteDataCollection;
   //! ParseFunctions return a vector of name/SpriteData pairs from the JsonTree description
