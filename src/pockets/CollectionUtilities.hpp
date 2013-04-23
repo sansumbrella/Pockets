@@ -53,6 +53,18 @@ namespace pockets
 		}
 	}
 
+  // Return a vector of all the keys in a map
+  template<typename K, typename V>
+  std::vector<K> map_keys( const std::map<K, V> &map )
+  {
+    std::vector<K> ret;
+    for( auto &pair : map )
+    {
+      ret.push_back( pair.first );
+    }
+    return ret;
+  }
+
   //! Remove all elements from \a vec that match \a compare
   template<class ELEMENT_TYPE, class COMPARATOR>
   void vector_erase_if( std::vector<ELEMENT_TYPE> *vec, COMPARATOR compare )
