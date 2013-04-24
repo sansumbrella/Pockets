@@ -42,7 +42,6 @@ mData( sprite )
 {
   Rectf tex_coord_rect = sprite.getTextureBounds();
   Rectf position_rect( Vec2f::zero(), sprite.getSize() );
-  position_rect -= mData.getRegistrationPoint();
   updatePositions( position_rect );
   updateTexCoords( tex_coord_rect );
 }
@@ -50,8 +49,9 @@ mData( sprite )
 Sprite::~Sprite()
 {}
 
-void Sprite::updatePositions(const ci::Rectf &position_rect)
+void Sprite::updatePositions(const ci::Rectf &positions)
 {
+  Rectf position_rect = positions - mData.getRegistrationPoint();
   mPositions[0*2+0] = position_rect.getX2();
 	mPositions[0*2+1] = position_rect.getY1();
 
@@ -106,7 +106,6 @@ void Sprite::setRegion(const ci::Rectf &portion)
   positions.x2 = lerp( tl.x, br.x, portion.getX2() );
   positions.y1 = lerp( tl.y, br.y, portion.getY1() );
   positions.y2 = lerp( tl.y, br.y, portion.getY2() );
-  positions -= mData.getRegistrationPoint();
 
   updatePositions( positions );
   updateTexCoords( tex_coords );

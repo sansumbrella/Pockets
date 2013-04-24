@@ -78,7 +78,7 @@ namespace pockets
     //! render the sprite to screen
     void render();
     void setTint( const ci::Color &color ){ mTint = color; }
-    void setRegistrationPoint( const ci::Vec2i &point ){ mData.setRegistrationPoint( point ); updatePositions( ci::Rectf( ci::Vec2f::zero(), mData.getSize() ) - mData.getRegistrationPoint() ); }
+    void setRegistrationPoint( const ci::Vec2i &point ){ mData.setRegistrationPoint( point ); updatePositions( ci::Rectf( ci::Vec2f::zero(), mData.getSize() ) ); }
     ci::Vec2i getSize() const { return mData.getSize(); }
     Locus2d& getLocus(){ return mLocus; }
   private:
