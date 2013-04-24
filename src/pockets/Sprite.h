@@ -79,6 +79,7 @@ namespace pockets
     void render();
     void setTint( const ci::Color &color ){ mTint = color; }
     void setRegistrationPoint( const ci::Vec2i &point ){ mData.setRegistrationPoint( point ); }
+    ci::Vec2i getSize() const { return mData.getSize(); }
     Locus2d& getLocus(){ return mLocus; }
   private:
     ci::Color                 mTint = ci::Color::white();
