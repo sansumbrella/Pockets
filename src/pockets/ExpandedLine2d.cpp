@@ -47,6 +47,12 @@ void ExpandedLine2d::setEndPoints(const ci::Vec2f &begin, const ci::Vec2f &end)
   buildOutline();
 }
 
+void ExpandedLine2d::matchSprite(const pockets::SpriteData &sprite)
+{
+  mWidth = sprite.getSize().y / 2;
+  buildTexCoords( sprite.getTextureBounds() );
+}
+
 void ExpandedLine2d::scaleLength( float scale )
 {
   mScale = scale;
@@ -74,16 +80,17 @@ void ExpandedLine2d::buildOutline()
   mPositions.at(7) = end + NE;
 }
 
-void ExpandedLine2d::buildTexCoords()
+void ExpandedLine2d::buildTexCoords( const ci::Rectf &bounds )
 {
-  mTexCoords.at(0) = Vec2f( 0, 1 );
-  mTexCoords.at(1) = Vec2f( 0, 0 );
-  mTexCoords.at(2) = Vec2f( 0.5, 1 );
-  mTexCoords.at(3) = Vec2f( 0.5, 0 );
-  mTexCoords.at(4) = Vec2f( 0.5, 1 );
-  mTexCoords.at(5) = Vec2f( 0.5, 0 );
-  mTexCoords.at(6) = Vec2f( 1, 1 );
-  mTexCoords.at(7) = Vec2f( 1, 0 );
+  float mid_s = bounds.getX1() + bounds.getWidth() * 0.5f;
+  mTexCoords.at(0) = Vec2f( bounds.getX1(), bounds.getY2() );
+  mTexCoords.at(1) = Vec2f( bounds.getX1(), bounds.getY1() );
+  mTexCoords.at(2) = Vec2f( mid_s, bounds.getY2() );
+  mTexCoords.at(3) = Vec2f( mid_s, bounds.getY1() );
+  mTexCoords.at(4) = Vec2f( mid_s, bounds.getY2() );
+  mTexCoords.at(5) = Vec2f( mid_s, bounds.getY1() );
+  mTexCoords.at(6) = Vec2f( bounds.getX2(), bounds.getY2() );
+  mTexCoords.at(7) = Vec2f( bounds.getX2(), bounds.getY1() );
 }
 
 void ExpandedLine2d::render()

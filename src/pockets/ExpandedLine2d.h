@@ -29,6 +29,7 @@
 
 #include "Pockets.h"
 #include "SimpleRenderer.h"
+#include "Sprite.h"
 #include <array>
 
 namespace pockets
@@ -48,6 +49,9 @@ namespace pockets
     void setWidth( float width ){ mWidth = width; }
     //! adjusts length of line as proportion of distance from begin->end
     void scaleLength( float scale );
+    void matchSprite( const SpriteData &sprite );
+    //! returns the total length of the line (without scaling)
+    float getLength() const { return mRay.length(); }
     void render();
     static ExpandedLine2dRef create( const ci::Vec2f &begin, const ci::Vec2f &end )
     {
@@ -60,7 +64,7 @@ namespace pockets
     float                     mWidth = 6.0f;
     float                     mScale = 1.0f;
     void  buildOutline();
-    void  buildTexCoords();
+    void  buildTexCoords( const ci::Rectf &bounds = ci::Rectf( 0, 0, 1, 1 ) );
   };
 
 }
