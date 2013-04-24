@@ -75,13 +75,16 @@ namespace pockets
     void clipBy( const ci::Rectf &rect );
     //! set portion of texture to render (used by clipBy)
     void setRegion( const ci::Rectf &portion );
-    //! render the sprite to screen
+    //! render the sprite to screen with local transformations
     void render();
+    //! draw the sprite without applying transform/tint/etc
+    void draw();
     void setTint( const ci::Color &color ){ mTint = color; }
     void setRegistrationPoint( const ci::Vec2i &point ){ mData.setRegistrationPoint( point ); updatePositions( ci::Rectf( ci::Vec2f::zero(), mData.getSize() ) ); }
     ci::Vec2i getSize() const { return mData.getSize(); }
     ci::Vec2i getLoc() const { return mLocus.getLoc(); }
     void setLoc( const ci::Vec2f &loc ){ mLocus.setLoc( loc ); }
+//    void setParent( Locus2dRef parent ){ mLocus.setParent( parent ); }
     Locus2d& getLocus(){ return mLocus; }
   private:
     ci::Color                 mTint = ci::Color::white();

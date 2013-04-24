@@ -111,9 +111,23 @@ void Sprite::setRegion(const ci::Rectf &portion)
   updateTexCoords( tex_coords );
 }
 
+void Sprite::draw()
+{
+  glEnableClientState( GL_VERTEX_ARRAY );
+	glVertexPointer( 2, GL_FLOAT, 0, &mPositions[0] );
+	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+	glTexCoordPointer( 2, GL_FLOAT, 0, &mTexCoords[0] );
+
+	glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
+
+	glDisableClientState( GL_VERTEX_ARRAY );
+	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+}
+
 void Sprite::render()
 {
 	gl::pushModelView();
+  gl::color( mTint );
 	gl::multModelView( mLocus );
   glEnableClientState( GL_VERTEX_ARRAY );
 	glVertexPointer( 2, GL_FLOAT, 0, &mPositions[0] );
