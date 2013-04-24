@@ -40,9 +40,8 @@ You will need to manage the lifetime of your renderable objects yourself.
 When IRenderable objects destruct, they automatically remove themselves from
 the SimpleRenderer.
 
-When you copy an IRenderable, it doesn't affect either object's relationship
-to their host. This way you can easily update a renderable object without needing
-to go through and make sure it is re-added to a renderer.
+The copy-constructor and copy-assignment operators are designed to preserve the
+expected behavior in case you have a std::vector of renderables.
 */
 namespace pockets
 {
@@ -57,10 +56,16 @@ public:
     IRenderable() = default;
     IRenderable( const IRenderable &other )
     {
+      if( mHost == nullptr && other.mHost ){
+        other.mHost->add( this );
+      }
       mLayer = other.mLayer;
     }
     IRenderable& operator=(const IRenderable &rhs)
     {
+      if( mHost == nullptr && rhs.mHost ){
+        rhs.mHost->add( this );
+      }
       mLayer = rhs.mLayer;
       return *this;
     }
