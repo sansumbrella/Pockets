@@ -54,6 +54,7 @@ namespace pockets
     inline ci::Rectf getTextureBounds() const { return mTextureBounds; }
     //! returns the registration point of the sprite, treated as the origin of the artwork
     inline ci::Vec2i getRegistrationPoint() const { return mRegistrationPoint; }
+    void setRegistrationPoint( const ci::Vec2i &point ){ mRegistrationPoint = point; }
   private:
     ci::Vec2i mRegistrationPoint;
     ci::Vec2i mSize = ci::Vec2i::zero();
@@ -76,12 +77,17 @@ namespace pockets
     void setRegion( const ci::Rectf &portion );
     //! render the sprite to screen
     void render();
+    void setTint( const ci::Color &color ){ mTint = color; }
+    void setRegistrationPoint( const ci::Vec2i &point ){ mData.setRegistrationPoint( point ); }
     Locus2d& getLocus(){ return mLocus; }
   private:
+    ci::Color                 mTint = ci::Color::white();
     SpriteData                mData;
     Locus2d                   mLocus;
     std::array<GLfloat, 8>    mPositions;
     std::array<GLfloat, 8>    mTexCoords;
+    void updatePositions( const ci::Rectf &position_rect );
+    void updateTexCoords( const ci::Rectf &tex_coord_rect );
   };
 
   /**

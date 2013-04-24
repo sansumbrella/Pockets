@@ -43,22 +43,42 @@ mData( sprite )
   Rectf tex_coord_rect = sprite.getTextureBounds();
   Rectf position_rect( Vec2f::zero(), sprite.getSize() );
   position_rect -= mData.getRegistrationPoint();
-
-  mPositions[0*2+0] = position_rect.getX2(); mTexCoords[0*2+0] = tex_coord_rect.getX2();
-	mPositions[0*2+1] = position_rect.getY1(); mTexCoords[0*2+1] = tex_coord_rect.getY1();
-
-	mPositions[1*2+0] = position_rect.getX1(); mTexCoords[1*2+0] = tex_coord_rect.getX1();
-	mPositions[1*2+1] = position_rect.getY1(); mTexCoords[1*2+1] = tex_coord_rect.getY1();
-
-  mPositions[2*2+0] = position_rect.getX2(); mTexCoords[2*2+0] = tex_coord_rect.getX2();
-	mPositions[2*2+1] = position_rect.getY2(); mTexCoords[2*2+1] = tex_coord_rect.getY2();
-
-  mPositions[3*2+0] = position_rect.getX1(); mTexCoords[3*2+0] = tex_coord_rect.getX1();
-	mPositions[3*2+1] = position_rect.getY2(); mTexCoords[3*2+1] = tex_coord_rect.getY2();
+  updatePositions( position_rect );
+  updateTexCoords( tex_coord_rect );
 }
 
 Sprite::~Sprite()
 {}
+
+void Sprite::updatePositions(const ci::Rectf &position_rect)
+{
+  mPositions[0*2+0] = position_rect.getX2();
+	mPositions[0*2+1] = position_rect.getY1();
+
+	mPositions[1*2+0] = position_rect.getX1();
+	mPositions[1*2+1] = position_rect.getY1();
+
+  mPositions[2*2+0] = position_rect.getX2();
+	mPositions[2*2+1] = position_rect.getY2();
+
+  mPositions[3*2+0] = position_rect.getX1();
+	mPositions[3*2+1] = position_rect.getY2();
+}
+
+void Sprite::updateTexCoords(const ci::Rectf &tex_coord_rect)
+{
+  mTexCoords[0*2+0] = tex_coord_rect.getX2();
+	mTexCoords[0*2+1] = tex_coord_rect.getY1();
+
+	mTexCoords[1*2+0] = tex_coord_rect.getX1();
+	mTexCoords[1*2+1] = tex_coord_rect.getY1();
+
+  mTexCoords[2*2+0] = tex_coord_rect.getX2();
+	mTexCoords[2*2+1] = tex_coord_rect.getY2();
+
+  mTexCoords[3*2+0] = tex_coord_rect.getX1();
+	mTexCoords[3*2+1] = tex_coord_rect.getY2();
+}
 
 void Sprite::clipBy(const ci::Rectf &bounding_rect)
 {
@@ -86,6 +106,10 @@ void Sprite::setRegion(const ci::Rectf &portion)
   positions.x2 = lerp( tl.x, br.x, portion.getX2() );
   positions.y1 = lerp( tl.y, br.y, portion.getY1() );
   positions.y2 = lerp( tl.y, br.y, portion.getY2() );
+  positions -= mData.getRegistrationPoint();
+
+  updatePositions( positions );
+  updateTexCoords( tex_coords );
 }
 
 void Sprite::render()
