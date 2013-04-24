@@ -83,9 +83,9 @@ void Sprite::updateTexCoords(const ci::Rectf &tex_coord_rect)
 void Sprite::clipBy(const ci::Rectf &bounding_rect)
 {
   Rectf sprite_bounds( Vec2f::zero(), mData.getSize() );
-  sprite_bounds.offset( mLocus.getLoc() - mData.getRegistrationPoint() );
+  sprite_bounds.offset( getLoc() - mData.getRegistrationPoint() );
   Rectf clipped_size = sprite_bounds.getClipBy( bounding_rect );
-  clipped_size.offset( mData.getRegistrationPoint() - mLocus.getLoc() );
+  clipped_size.offset( mData.getRegistrationPoint() - getLoc() );
   Rectf portion( clipped_size.getX1() / mData.getSize().x, clipped_size.getY1() / mData.getSize().y
                 , clipped_size.getX2() / mData.getSize().x, clipped_size.getY2() / mData.getSize().y );
   setRegion( portion );
@@ -99,8 +99,8 @@ void Sprite::setRegion(const ci::Rectf &portion)
   tex_coords.y1 = lerp( mData.getTextureBounds().getY1(), mData.getTextureBounds().getY2(), portion.getY1() );
   tex_coords.y2 = lerp( mData.getTextureBounds().getY1(), mData.getTextureBounds().getY2(), portion.getY2() );
 
-  Vec2f br( mLocus.getLoc() + mData.getSize() );
-  Vec2f tl( mLocus.getLoc() );
+  Vec2f tl( 0, 0 );
+  Vec2f br( mData.getSize() );
   Rectf positions;
   positions.x1 = lerp( tl.x, br.x, portion.getX1() );
   positions.x2 = lerp( tl.x, br.x, portion.getX2() );

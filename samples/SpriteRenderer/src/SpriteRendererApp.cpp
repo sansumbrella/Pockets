@@ -47,6 +47,9 @@ void SpriteRendererApp::setup()
 
   getWindow()->getSignalDraw().connect( [this](){
                                         gl::clear( Color::black() );
+    gl::color( Color::gray( 0.5f ) );
+    gl::drawSolidRect( Rectf(getWindowBounds()) / 2 + Vec2f( 100.0f, 100.0f ) );
+    gl::color( Color::white() );
                                         mRenderer->draw();
                                         } );
   mLastUpdate = getElapsedSeconds();
@@ -55,6 +58,7 @@ void SpriteRendererApp::setup()
 void SpriteRendererApp::mouseMove( MouseEvent event )
 {
   mSprite.getLocus().setLoc( event.getPos() );
+  mSprite.clipBy( Rectf(getWindowBounds()) / 2 + Vec2f( 100.0f, 100.0f ) );
 }
 
 void SpriteRendererApp::update()
