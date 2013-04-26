@@ -93,7 +93,7 @@ class ImagePacker
   //! add the specified string set in a font
   ImageDataRef  addString( const std::string &id, const ci::Font &font, const std::string &str, bool trim_alpha=false );
   //! assign positions to images
-  void          calculatePositions();
+  void          calculatePositions( const ci::Vec2i &padding );
   //! set the width of the output Surface
   void          setWidth( uint32_t full_width ){ mWidth = full_width; }
   //! generates a surface containing all added images in their packed locations

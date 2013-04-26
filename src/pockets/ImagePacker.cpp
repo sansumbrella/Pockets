@@ -114,7 +114,7 @@ Surface ImagePacker::packedSurface( bool premultiply )
   return output;
 }
 
-void ImagePacker::calculatePositions()
+void ImagePacker::calculatePositions( const ci::Vec2i &padding )
 {
 //  auto rev_area_compare = []( const ImageData &lhs, const ImageData &rhs )
 //  {
@@ -126,7 +126,6 @@ void ImagePacker::calculatePositions()
   };
   sort( mImages.begin(), mImages.end(), rev_height_compare );
   Vec2i loc( 0, 0 );
-  Vec2i padding( 1, 1 );
   int bottom_y = 0;
   for( ImageDataRef sprite : mImages )
   {
