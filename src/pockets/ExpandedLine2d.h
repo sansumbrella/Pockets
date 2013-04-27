@@ -53,7 +53,6 @@ namespace pockets
     //! returns the total length of the line (without scaling)
     float getLength() const { return mRay.length(); }
     void render();
-    void setTint( const ci::Color &tint ){ mTint = tint; }
     static ExpandedLine2dRef create( const ci::Vec2f &begin, const ci::Vec2f &end )
     {
       return ExpandedLine2dRef( new ExpandedLine2d( begin, end ) );
@@ -64,7 +63,6 @@ namespace pockets
     std::array<ci::Vec2f, 8>  mTexCoords;
     float                     mWidth = 6.0f;
     float                     mScale = 1.0f;
-    ci::Color                 mTint = ci::Color::white();
     void  buildOutline();
     void  buildTexCoords( const ci::Rectf &bounds = ci::Rectf( 0, 0, 1, 1 ) );
   };

@@ -97,7 +97,6 @@ void ExpandedLine2d::render()
 {
   if( mScale > 0 )
   {
-    gl::color( mTint );
     glEnableClientState( GL_VERTEX_ARRAY );
     glVertexPointer( 2, GL_FLOAT, 0, &mPositions[0] );
     glEnableClientState( GL_TEXTURE_COORD_ARRAY );
