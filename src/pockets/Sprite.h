@@ -83,6 +83,7 @@ namespace pockets
     void setRegistrationPoint( const ci::Vec2i &point ){ mData.setRegistrationPoint( point ); updatePositions( ci::Rectf( ci::Vec2f::zero(), mData.getSize() ) ); }
     ci::Vec2i getSize() const { return mData.getSize(); }
     ci::Vec2i getLoc() const { return mLocus.getLoc(); }
+    void setLoc( const ci::Vec2i &loc ){ mLocus.setLoc( loc ); }
     ci::Vec2i getRegistrationPoint() const { return mData.getRegistrationPoint(); }
     bool contains( const ci::Vec2f &point );
     //! returns boundaries in local coordinates
