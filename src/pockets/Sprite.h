@@ -84,7 +84,9 @@ namespace pockets
     ci::Vec2i getSize() const { return mData.getSize(); }
     ci::Vec2i getLoc() const { return mLocus.getLoc(); }
     ci::Vec2i getRegistrationPoint() const { return mData.getRegistrationPoint(); }
-    ci::Rectf getBounds() const { return ci::Rectf( getLoc(), getLoc() + getSize() ) - getRegistrationPoint(); }
+    bool contains( const ci::Vec2f &point );
+    //! returns boundaries in local coordinates
+    ci::Rectf getLocalBounds() const { return ci::Rectf( ci::Vec2f::zero(), getSize() ) - getRegistrationPoint(); }
     void setLoc( const ci::Vec2f &loc ){ mLocus.setLoc( loc ); }
 //    void setParent( Locus2dRef parent ){ mLocus.setParent( parent ); }
     Locus2d& getLocus(){ return mLocus; }

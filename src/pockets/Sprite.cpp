@@ -49,6 +49,11 @@ mData( sprite )
 Sprite::~Sprite()
 {}
 
+bool Sprite::contains(const ci::Vec2f &point)
+{
+  return getLocalBounds().contains( getLocus().getTransform().invertCopy().transformPoint( point ) );
+}
+
 void Sprite::updatePositions(const ci::Rectf &positions)
 {
   Rectf position_rect = positions - mData.getRegistrationPoint();
