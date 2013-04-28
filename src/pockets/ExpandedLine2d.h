@@ -49,6 +49,8 @@ namespace pockets
     void setWidth( float width ){ mWidth = width; }
     //! adjusts length of line as proportion of distance from begin->end
     void scaleLength( float scale );
+    //!
+    void scaleLengthInverse( float scale );
     void matchSprite( const SpriteData &sprite );
     //! returns the total length of the line (without scaling)
     float getLength() const { return mRay.length(); }
@@ -63,7 +65,7 @@ namespace pockets
     std::array<ci::Vec2f, 8>  mTexCoords;
     float                     mWidth = 6.0f;
     float                     mScale = 1.0f;
-    void  buildOutline();
+    void  buildOutline( const ci::Vec2f &begin, const ci::Vec2f &end );
     void  buildTexCoords( const ci::Rectf &bounds = ci::Rectf( 0, 0, 1, 1 ) );
   };
 

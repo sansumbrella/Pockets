@@ -34,7 +34,7 @@ mBegin( begin )
 , mRay( end - begin )
 {
   buildTexCoords();
-  buildOutline();
+  buildOutline( begin, end );
 }
 
 ExpandedLine2d::~ExpandedLine2d()
@@ -44,7 +44,7 @@ void ExpandedLine2d::setEndPoints(const ci::Vec2f &begin, const ci::Vec2f &end)
 {
   mBegin = begin;
   mRay = end - begin;
-  buildOutline();
+  buildOutline( begin, end );
 }
 
 void ExpandedLine2d::matchSprite(const pockets::SpriteData &sprite)
@@ -56,12 +56,17 @@ void ExpandedLine2d::matchSprite(const pockets::SpriteData &sprite)
 void ExpandedLine2d::scaleLength( float scale )
 {
   mScale = scale;
-  buildOutline();
+  buildOutline( mBegin, mBegin + mRay * mScale );
 }
 
-void ExpandedLine2d::buildOutline()
+void ExpandedLine2d::scaleLengthInverse(float scale)
 {
-  Vec2f end = mBegin + mRay * mScale;
+  mScale = scale;
+  buildOutline( mBegin + mRay - mRay * scale, mBegin + mRay );
+}
+
+void ExpandedLine2d::buildOutline( const Vec2f &begin, const Vec2f &end )
+{
   Vec2f cap = mRay.normalized() * mWidth;
   Vec2f N( -cap.y, cap.x );
   Vec2f S = -N;
@@ -70,10 +75,10 @@ void ExpandedLine2d::buildOutline()
   Vec2f SE = -NW;
   Vec2f SW = -NE;
 
-  mPositions.at(0) = mBegin + SW;
-  mPositions.at(1) = mBegin + NW;
-  mPositions.at(2) = mBegin + S;
-  mPositions.at(3) = mBegin + N;
+  mPositions.at(0) = begin + SW;
+  mPositions.at(1) = begin + NW;
+  mPositions.at(2) = begin + S;
+  mPositions.at(3) = begin + N;
   mPositions.at(4) = end + S;
   mPositions.at(5) = end + N;
   mPositions.at(6) = end + SE;
