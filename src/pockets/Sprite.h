@@ -79,8 +79,8 @@ namespace pockets
     void render();
     //! draw the sprite without applying transform/tint/etc
     void draw();
-    void setTint( const ci::Color &color ){ mTint = color; }
-    ci::Color getTint() const { return mTint; }
+    void setTint( const ci::ColorA &color ){ mTint = color; }
+    ci::ColorA getTint() const { return mTint; }
     void setRegistrationPoint( const ci::Vec2i &point ){ mData.setRegistrationPoint( point ); updatePositions( ci::Rectf( ci::Vec2f::zero(), mData.getSize() ) ); }
     ci::Vec2i getSize() const { return mData.getSize(); }
     ci::Vec2i getLoc() const { return mLocus.getLoc(); }
@@ -93,7 +93,7 @@ namespace pockets
 //    void setParent( Locus2dRef parent ){ mLocus.setParent( parent ); }
     Locus2d& getLocus(){ return mLocus; }
   private:
-    ci::Color                 mTint = ci::Color::white();
+    ci::ColorA                mTint = ci::ColorA::white();
     SpriteData                mData;
     Locus2d                   mLocus;
     std::array<GLfloat, 8>    mPositions;
