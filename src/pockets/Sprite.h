@@ -56,9 +56,10 @@ namespace pockets
     inline ci::Vec2i getRegistrationPoint() const { return mRegistrationPoint; }
     void setRegistrationPoint( const ci::Vec2i &point ){ mRegistrationPoint = point; }
   private:
-    ci::Vec2i mRegistrationPoint;
-    ci::Vec2i mSize = ci::Vec2i::zero();
-    ci::Rectf mTextureBounds = ci::Rectf(0,0,0,0);
+    // assign values where default-constructed sprite data is obvious
+    ci::Vec2i mRegistrationPoint = ci::Vec2i::zero();
+    ci::Vec2i mSize = ci::Vec2i( 48, 48 );
+    ci::Rectf mTextureBounds = ci::Rectf(0,0,1,1);
   };
 
   /**
@@ -72,26 +73,27 @@ namespace pockets
     Sprite( const SpriteData &data );
     ~Sprite();
     //! clip region with rectangle; only parts contained by rect will be visible
-    void clipBy( const ci::Rectf &rect );
+    void        clipBy( const ci::Rectf &rect );
     //! set portion of texture to render (used by clipBy)
-    void setRegion( const ci::Rectf &portion );
+    void        setRegion( const ci::Rectf &portion );
     //! render the sprite to screen with local transformations
-    void render();
+    void        render();
     //! draw the sprite without applying transform/tint/etc
-    void draw();
-    void setTint( const ci::ColorA &color ){ mTint = color; }
-    ci::ColorA getTint() const { return mTint; }
-    void setRegistrationPoint( const ci::Vec2i &point ){ mData.setRegistrationPoint( point ); updatePositions( ci::Rectf( ci::Vec2f::zero(), mData.getSize() ) ); }
-    ci::Vec2i getSize() const { return mData.getSize(); }
-    ci::Vec2i getLoc() const { return mLocus.getLoc(); }
-    void setLoc( const ci::Vec2i &loc ){ mLocus.setLoc( loc ); }
-    ci::Vec2i getRegistrationPoint() const { return mData.getRegistrationPoint(); }
-    bool contains( const ci::Vec2f &point );
+    void        draw();
+    void        setTint( const ci::ColorA &color ){ mTint = color; }
+    ci::ColorA  getTint() const { return mTint; }
+    void        setRegistrationPoint( const ci::Vec2i &point )
+    { mData.setRegistrationPoint( point ); updatePositions( ci::Rectf( ci::Vec2f::zero(), mData.getSize() ) ); }
+    ci::Vec2i   getSize() const { return mData.getSize(); }
+    ci::Vec2i   getLoc() const { return mLocus.getLoc(); }
+    void        setLoc( const ci::Vec2i &loc ){ mLocus.setLoc( loc ); }
+    ci::Vec2i   getRegistrationPoint() const { return mData.getRegistrationPoint(); }
+    bool        contains( const ci::Vec2f &point );
     //! returns boundaries in local coordinates
-    ci::Rectf getLocalBounds() const { return ci::Rectf( ci::Vec2f::zero(), getSize() ) - getRegistrationPoint(); }
-    void setLoc( const ci::Vec2f &loc ){ mLocus.setLoc( loc ); }
+    ci::Rectf   getLocalBounds() const { return ci::Rectf( ci::Vec2f::zero(), getSize() ) - getRegistrationPoint(); }
+    void        setLoc( const ci::Vec2f &loc ){ mLocus.setLoc( loc ); }
     //    void setParent( Locus2dRef parent ){ mLocus.setParent( parent ); }
-    Locus2d& getLocus(){ return mLocus; }
+    Locus2d&    getLocus(){ return mLocus; }
   private:
     ci::ColorA                mTint = ci::ColorA::white();
     SpriteData                mData;
@@ -149,5 +151,5 @@ namespace pockets
     std::array<GLfloat, 8>              mTexCoords;
     void nextFrame();
   };
-  
+
 } // pockets::
