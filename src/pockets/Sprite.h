@@ -36,12 +36,12 @@
  SpriteData: holds information about where a graphic lives on a sheet
  Sprite: renderable sprite
  SpriteAnimation: renderable sequence of sprites
-*/
+ */
 namespace pockets
 {
   /**
    SpriteData holds information about a sprite's dimensions and texture coordinates.
-  */
+   */
   class SpriteData
   {
   public:
@@ -63,7 +63,7 @@ namespace pockets
 
   /**
    Sprite renders a textured rectangle based on SpriteData specifications.
-  */
+   */
   typedef std::shared_ptr<class Sprite> SpriteRef;
   class Sprite : public SimpleRenderer::IRenderable
   {
@@ -90,7 +90,7 @@ namespace pockets
     //! returns boundaries in local coordinates
     ci::Rectf getLocalBounds() const { return ci::Rectf( ci::Vec2f::zero(), getSize() ) - getRegistrationPoint(); }
     void setLoc( const ci::Vec2f &loc ){ mLocus.setLoc( loc ); }
-//    void setParent( Locus2dRef parent ){ mLocus.setParent( parent ); }
+    //    void setParent( Locus2dRef parent ){ mLocus.setParent( parent ); }
     Locus2d& getLocus(){ return mLocus; }
   private:
     ci::ColorA                mTint = ci::ColorA::white();
@@ -105,7 +105,7 @@ namespace pockets
   /**
    SpriteWithTiming is a SpriteData wrapper to include animation timing.
    I want to rename this.
-  */
+   */
   struct SpriteWithTiming
   {
     SpriteWithTiming( const SpriteData &sprite, float start, float finish ):
@@ -121,7 +121,7 @@ namespace pockets
   /**
    SpriteAnimations hold a collection of SpriteData and render the appropriate
    Sprite given the current time.
-  */
+   */
   typedef std::shared_ptr<class SpriteAnimation> SpriteAnimationRef;
   class SpriteAnimation : public SimpleRenderer::IRenderable
   {
@@ -149,5 +149,5 @@ namespace pockets
     std::array<GLfloat, 8>              mTexCoords;
     void nextFrame();
   };
-
+  
 } // pockets::
