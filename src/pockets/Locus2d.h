@@ -43,6 +43,7 @@ namespace pockets
     ci::Vec2f           getLoc() const { return mLoc; }
     void                setLoc( const ci::Vec2f &loc ){ mLoc = loc; setDirty(); }
     float               getRotation() const { return mRotation; }
+    float               getAccumulatedRotation() const { return mParent ? mParent->getAccumulatedRotation() + mRotation : mRotation; }
     void                setRotation( float radians ){ mRotation = radians; setDirty(); }
     //! returns the point around which rotation occurs, in local coordinates
     ci::Vec2f           getRegistrationPoint() const { return mRegistrationPoint; }
