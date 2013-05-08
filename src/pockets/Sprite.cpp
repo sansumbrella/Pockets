@@ -31,7 +31,7 @@ using namespace pockets;
 using namespace ci;
 using namespace std;
 
-SpriteData::SpriteData( const Vec2i &size, const Rectf &texture_bounds, const Vec2i &registration_point ):
+SpriteData::SpriteData( const Vec2i &size, const Rectf &texture_bounds, const Vec2f &registration_point ):
 mSize( app::toPoints( size ) )
 , mTextureBounds( texture_bounds )
 , mRegistrationPoint( app::toPoints( registration_point ) )
@@ -127,6 +127,17 @@ void Sprite::draw()
 
 	glDisableClientState( GL_VERTEX_ARRAY );
 	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+}
+
+void Sprite::drawRegistration()
+{
+  glDisable( GL_TEXTURE_2D );
+  gl::color( Color( 1.0f, 0.0f, 0.0 ) );
+  gl::lineWidth( 2.0f );
+//  gl::drawLine( Vec2f( -10.0f, 0.0f ), Vec2f( 10.0f, 0.0f ) );
+//  gl::drawLine( Vec2f( 0.0f, -10.0f ), Vec2f( 0.0f, 10.0f ) );
+  gl::drawStrokedCircle( Vec2f::zero(), 8.0f );
+  glEnable( GL_TEXTURE_2D );
 }
 
 void Sprite::render()

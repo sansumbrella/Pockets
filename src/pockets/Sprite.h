@@ -47,17 +47,17 @@ namespace pockets
   public:
     SpriteData(){}; // need default constructor to use in a std::map
     //! construct sprite data from its pixel size and normalized texture coordinates
-    SpriteData( const ci::Vec2i &pixel_size, const ci::Rectf &textureBounds, const ci::Vec2i &registration_point=ci::Vec2i::zero() );
+    SpriteData( const ci::Vec2i &pixel_size, const ci::Rectf &textureBounds, const ci::Vec2f &registration_point=ci::Vec2f::zero() );
     //! returns the Sprite's pixel dimensions
     inline ci::Vec2i getSize() const { return mSize; }
     //! returns the normalized texture coordinates of the sprite graphic
     inline ci::Rectf getTextureBounds() const { return mTextureBounds; }
     //! returns the registration point of the sprite, treated as the origin of the artwork
-    inline ci::Vec2i getRegistrationPoint() const { return mRegistrationPoint; }
+    inline ci::Vec2f getRegistrationPoint() const { return mRegistrationPoint; }
     void setRegistrationPoint( const ci::Vec2i &point ){ mRegistrationPoint = point; }
   private:
     // assign values where default-constructed sprite data is obvious
-    ci::Vec2i mRegistrationPoint = ci::Vec2i::zero();
+    ci::Vec2f mRegistrationPoint = ci::Vec2i::zero();
     ci::Vec2i mSize = ci::Vec2i( 48, 48 );
     ci::Rectf mTextureBounds = ci::Rectf(0,0,1,1);
   };
@@ -80,6 +80,8 @@ namespace pockets
     void        render();
     //! draw the sprite without applying transform/tint/etc
     void        draw();
+    //!
+    void        drawRegistration();
     void        setTint( const ci::ColorA &color ){ mTint = color; }
     ci::ColorA  getTint() const { return mTint; }
     void        setRegistrationPoint( const ci::Vec2i &point )
