@@ -129,17 +129,6 @@ void Sprite::draw()
 	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
 }
 
-void Sprite::drawRegistration()
-{
-  glDisable( GL_TEXTURE_2D );
-  gl::color( Color( 1.0f, 0.0f, 0.0 ) );
-  gl::lineWidth( 2.0f );
-//  gl::drawLine( Vec2f( -10.0f, 0.0f ), Vec2f( 10.0f, 0.0f ) );
-//  gl::drawLine( Vec2f( 0.0f, -10.0f ), Vec2f( 0.0f, 10.0f ) );
-  gl::drawStrokedCircle( Vec2f::zero(), 8.0f );
-  glEnable( GL_TEXTURE_2D );
-}
-
 void Sprite::render()
 {
 	gl::pushModelView();

@@ -80,8 +80,6 @@ namespace pockets
     void        render();
     //! draw the sprite without applying transform/tint/etc
     void        draw();
-    //!
-    void        drawRegistration();
     void        setTint( const ci::ColorA &color ){ mTint = color; }
     ci::ColorA  getTint() const { return mTint; }
     void        setRegistrationPoint( const ci::Vec2i &point )
