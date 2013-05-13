@@ -57,7 +57,7 @@ namespace pockets
     void setRegistrationPoint( const ci::Vec2i &point ){ mRegistrationPoint = point; }
   private:
     // assign values where default-constructed sprite data is obvious
-    ci::Vec2f mRegistrationPoint = ci::Vec2i::zero();
+    ci::Vec2f mRegistrationPoint = ci::Vec2f::zero();
     ci::Vec2i mSize = ci::Vec2i( 48, 48 );
     ci::Rectf mTextureBounds = ci::Rectf(0,0,1,1);
   };
@@ -87,7 +87,7 @@ namespace pockets
     ci::Vec2i   getSize() const { return mData.getSize(); }
     ci::Vec2i   getLoc() const { return mLocus.getLoc(); }
     void        setLoc( const ci::Vec2i &loc ){ mLocus.setLoc( loc ); }
-    ci::Vec2i   getRegistrationPoint() const { return mData.getRegistrationPoint(); }
+    ci::Vec2f   getRegistrationPoint() const { return mData.getRegistrationPoint(); }
     bool        contains( const ci::Vec2f &point );
     //! returns boundaries in local coordinates
     ci::Rectf   getLocalBounds() const { return ci::Rectf( ci::Vec2f::zero(), getSize() ) - getRegistrationPoint(); }

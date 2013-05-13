@@ -59,7 +59,7 @@ class ImagePacker
     const ci::Surface&  getSurface() const { return mSurface; }
     ci::Vec2i           getLoc() const { return mLoc; }
     void                setLoc( const ci::Vec2i &loc ){ mLoc = loc; }
-    void                setRegistrationPoint( const ci::Vec2f &reg ){ mRegistrationPoint = reg; }
+    void                setRegistrationPoint( const ci::Vec2i &reg ){ mRegistrationPoint = reg; }
     ci::Vec2i           getSize() const { return mSurface.getSize(); }
     int                 getWidth() const { return mSurface.getWidth(); }
     int                 getHeight() const { return mSurface.getHeight(); }
@@ -80,7 +80,7 @@ class ImagePacker
   private:
     ci::Surface     mSurface;
     ci::Vec2i       mLoc = ci::Vec2i::zero();
-    ci::Vec2f       mRegistrationPoint = ci::Vec2f::zero();
+    ci::Vec2i       mRegistrationPoint = ci::Vec2i::zero();
     std::string     mId;
   };
   typedef std::shared_ptr<ImageData> ImageDataRef;
