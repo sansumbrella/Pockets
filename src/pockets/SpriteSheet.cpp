@@ -85,7 +85,7 @@ SpriteSheetRef SpriteSheet::load( const ci::fs::path &base_path )
   Surface  sprite_surf( loadImage( loadFile( parent_path / (file_base_name + suffix + ".png") ) ) );
   if( ! sprite_surf.isPremultiplied() )
   {
-    cout << "Premultiplying sprite sheet for cleaner edges." << endl;
+    cout << "pockets::SpriteSheed::load() premultiplying sprite sheet for clean edges." << endl;
     ip::premultiply( &sprite_surf );
   }
   return SpriteSheetRef( new SpriteSheet( sprite_surf, sprite_json) );
