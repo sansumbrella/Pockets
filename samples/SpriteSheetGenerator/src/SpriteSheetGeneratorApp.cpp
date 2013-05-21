@@ -34,6 +34,7 @@
 #include "cinder/params/Params.h"
 
 #include "ImagePacker.h"
+#include <set>
 
 using namespace ci;
 using namespace ci::app;
@@ -60,6 +61,7 @@ class SpriteSheetGeneratorApp : public AppNative {
 	void update();
 	void draw();
   void fileDrop( FileDropEvent event );
+  void addFile( const fs::path &file );
   void saveSpriteSheet();
 private:
   params::InterfaceGl mParams;
@@ -69,6 +71,8 @@ private:
   int                 mHeight = 1;
   std::string         mFilename = "sprite_sheet";
   pk::ImagePacker     mImagePacker;
+  int                 mWidestImage = 0;
+  ci::Vec2i           mMargin = { 20, 20 };
 };
 
 void SpriteSheetGeneratorApp::prepareSettings(Settings *settings)
@@ -84,13 +88,6 @@ void SpriteSheetGeneratorApp::setup()
   mParams.addParam( "Preview offset", &mPreviewOffset.y );
   mParams.addParam( "Output name", &mFilename );
   mParams.addButton( "Save sheet", [this](){ saveSpriteSheet(); } );
-
-  Font font( "Hoefler Text Black", 48 );
-  mImagePacker.addGlyphs( font, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "", false );
-  Font large_font( "Hoefler Text Black", 48 * 2 );
-  auto asterisk = mImagePacker.addString( "*", large_font, "*", true );
-  asterisk->setRegistrationPoint( asterisk->getSize() / 2 );
-  mImagePacker.calculatePositions();
 }
 
 void SpriteSheetGeneratorApp::mouseDown( MouseEvent event )
@@ -101,15 +98,35 @@ void SpriteSheetGeneratorApp::fileDrop(cinder::app::FileDropEvent event)
 {
   for( fs::path file : event.getFiles() )
   {
-    if( fs::exists( file ) && fs::is_regular_file( file ) )
+    addFile( file );
+  }
+  mImagePacker.setWidth( mWidestImage * 3 + mMargin.x * 2 );
+  mImagePacker.calculatePositions( mMargin );
+}
+
+void SpriteSheetGeneratorApp::addFile(const fs::path &file)
+{
+  set<string> extensions = { ".png", ".jpg", ".gif", ".tiff", ".tif", ".tga" };
+  if( fs::exists( file ) )
+  {
+    cout << "Checking file: " << file << ", extension: " << file.extension().string() << endl;
+    if( fs::is_regular_file( file ) && extensions.count(file.extension().string()) )
     {
+      cout << "Adding file: " << file << endl;
       Surface img = loadImage( file );
       string id = file.stem().string();
+      mWidestImage = max( img.getWidth(), mWidestImage );
       auto sprite = mImagePacker.addImage( id, img );
       sprite->setRegistrationPoint( Vec2i( sprite->getWidth() / 2, sprite->getHeight() ) );
     }
+    else if( fs::is_directory( file ) )
+    {
+      for( auto iter = fs::directory_iterator( file ); iter != fs::directory_iterator(); ++iter )
+      {
+        addFile( *iter );
+      }
+    }
   }
-  mImagePacker.calculatePositions();
 }
 
 void SpriteSheetGeneratorApp::update()
@@ -123,11 +140,7 @@ void SpriteSheetGeneratorApp::draw()
 
 void SpriteSheetGeneratorApp::saveSpriteSheet()
 {
-  fs::path output_path = getAppPath().parent_path();
-  if( output_path.stem() == "Debug" || output_path.stem() == "Release" )
-  { // running from inside XCode or similar, so back up a bunch of directories
-    output_path = output_path / "../../../../SpriteSheetTester/assets";
-  }
+  fs::path output_path = getFolderPath();
   auto file = writeFile( output_path / (mFilename + ".json") );
   if( file )
   {
