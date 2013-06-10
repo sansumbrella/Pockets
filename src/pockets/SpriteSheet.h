@@ -47,7 +47,7 @@
 
 namespace pockets
 {
-  typedef std::shared_ptr<class SpriteSheet> SpriteSheetRef;
+  typedef std::unique_ptr<class SpriteSheet> SpriteSheetRef;
   class SpriteSheet
   {
   public:

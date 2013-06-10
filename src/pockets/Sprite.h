@@ -70,7 +70,7 @@ namespace pockets
   {
   public:
     Sprite() = default;
-    Sprite( const SpriteData &data );
+    explicit Sprite( const SpriteData &data );
     ~Sprite();
     //! clip region with rectangle; only parts contained by rect will be visible
     void        clipBy( const ci::Rectf &rect );
