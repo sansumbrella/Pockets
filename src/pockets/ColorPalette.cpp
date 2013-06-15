@@ -58,7 +58,8 @@ mSurface( surf )
 
 SurfacePaletteRef SurfacePalette::create(const ci::Surface &surf)
 {
-  return SurfacePaletteRef( new SurfacePalette( surf ) );
+  SurfacePaletteRef ret( new SurfacePalette( surf ) );
+  return ret;
 }
 
 ColorA SurfacePalette::getColor( float t ) const
