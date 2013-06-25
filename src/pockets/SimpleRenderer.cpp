@@ -38,6 +38,21 @@ SimpleRenderer::IRenderable::~IRenderable()
   { mHost->remove( this ); }
 }
 
+SimpleRenderer::IRenderable::IRenderable( const SimpleRenderer::IRenderable &other ):
+mLayer( other.mLayer )
+{
+  if( other.mHost )
+  { other.mHost->add( this ); }
+}
+
+SimpleRenderer::IRenderable& SimpleRenderer::IRenderable::operator=(const pockets::SimpleRenderer::IRenderable &rhs)
+{
+  if( mHost == nullptr && rhs.mHost )
+  { rhs.mHost->add( this ); }
+  mLayer = rhs.mLayer;
+  return *this;
+}
+
 SimpleRenderer::SimpleRenderer()
 {}
 

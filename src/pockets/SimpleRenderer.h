@@ -54,21 +54,8 @@ public:
   {
   public:
     IRenderable() = default;
-    IRenderable( const IRenderable &other )
-    {
-      if( mHost == nullptr && other.mHost ){
-        other.mHost->add( this );
-      }
-      mLayer = other.mLayer;
-    }
-    IRenderable& operator=(const IRenderable &rhs)
-    {
-      if( mHost == nullptr && rhs.mHost ){
-        rhs.mHost->add( this );
-      }
-      mLayer = rhs.mLayer;
-      return *this;
-    }
+    IRenderable( const IRenderable &other );
+    IRenderable& operator=(const IRenderable &rhs);
     virtual ~IRenderable();
     virtual void render() = 0;
     //! set the object layer to affect render order (higher => later)
