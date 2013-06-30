@@ -17,11 +17,11 @@ using namespace pockets;
  Performance notes from testing on various devices (Release mode):
 
  (Renderer/Device)        SimpleRenderer    TriangleRenderer
- iPhone 3GS               ~55ms             ~10ms
- iPhone 4S                ~25.5ms           ~5.5ms
- iPad 2                   ~21.8ms           ~6.6ms
- iPad 3 (Retina)          ~12.5ms           ~4.6ms
- Macbook Pro              ~2.7ms            ~1.5ms
+ iPhone 3GS               ~ 55ms             ~ 10ms
+ iPhone 4S                ~ 25.5ms           ~  5.5ms
+ iPad 2                   ~ 21.8ms           ~  6.6ms
+ iPad 3 (Retina)          ~ 12.5ms           ~  4.6ms
+ Macbook Pro              ~  2.7ms           ~  1.5ms
 
  Performance seems to increase much more on devices with limited GPUs, where
  GPU state switching is slow. This was all measured while plugged into XCode.
@@ -118,7 +118,7 @@ private:
 void RendererTestApp::setup()
 {
   mRenderTriangle = [=](){ mTriangleRenderer.render(); };
-  mRenderSimple = [=](){ mSimpleRenderer.draw(); };
+  mRenderSimple = [=](){ mSimpleRenderer.render(); };
   mRenderFn = mRenderSimple;
 
   for( auto &box : mBoxes )

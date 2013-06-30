@@ -31,18 +31,18 @@
 
 /**
 A basic renderer for grouping rendered content and rendering in order.
-Defaults to sorting content by layer before rendering.
 Pre- and post- draw hooks let you set up the proper render context.
 
-Note that SimpleRenderer only accepts pointers to IRenderable elements.
-You will need to manage the lifetime of your renderable objects yourself.
+Renders anything with a render() method (overridden from IRenderable)
 
-When IRenderable objects destruct, they automatically remove themselves from
-the SimpleRenderer.
+IRenderable objects' destructors remove them from the renderer, which keeps a
+non-owning raw pointer to renderables, allowing you to manage the object's
+lifetime as you see fit. Symmetrically, the renderer will disown any renderables
+when it is destructed.
 
 The copy-constructor and copy-assignment operators are designed to preserve the
 expected behavior in case you have a std::vector of renderables.
-*/
+ */
 namespace pockets
 {
 
@@ -67,7 +67,7 @@ public:
     int              mLayer = 0;
   };
 
-  typedef std::function<void ()>  PrepFn;
+  typedef std::function<void ()>  ScaffoldFn;
   typedef std::function<bool (const IRenderable*, const IRenderable*)>  SortFn;
 
   SimpleRenderer();
@@ -78,24 +78,20 @@ public:
   void remove( IRenderable *renderable );
   //! sorts the renderable contents by layer (or by custom method if provided)
   //! only needs to be called if the draw order is changing (or after adding new content)
-  void update();
+  void sort( const SortFn &fn = sortByLayerAscending );
   //! draw everything in sorted order
-  void draw();
+  void render();
   //! set function to call before rendering
-  void setPreDrawFn( const PrepFn &fn ){ mPreDraw = fn; }
+  void setPreDrawFn( const ScaffoldFn &fn ){ mPreDraw = fn; }
   //! set function to call after rendering
-  void setPostDrawFn( const PrepFn &fn ){ mPostDraw = fn; }
-  //! set function for sorting elements to be drawn
-  void setSortFn( const SortFn &fn ){ mSortFn = fn; }
+  void setPostDrawFn( const ScaffoldFn &fn ){ mPostDraw = fn; }
 
   static SimpleRendererRef create(){ return SimpleRendererRef( new SimpleRenderer ); }
+  static bool sortByLayerAscending( const IRenderable *lhs, const IRenderable *rhs );
 private:
   std::vector<IRenderable*> mRenderables;
-  PrepFn  mPreDraw;
-  PrepFn  mPostDraw;
-  SortFn  mSortFn = &SimpleRenderer::defaultSort;
-
-  static bool defaultSort( const IRenderable *lhs, const IRenderable *rhs );
+  ScaffoldFn  mPreDraw;
+  ScaffoldFn  mPostDraw;
 };
 
 } // pockets::

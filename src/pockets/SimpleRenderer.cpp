@@ -78,17 +78,8 @@ void SimpleRenderer::remove( IRenderable *renderable )
   renderable->mHost = nullptr;
 }
 
-bool SimpleRenderer::defaultSort(const IRenderable *lhs, const IRenderable *rhs)
-{
-  return lhs->getLayer() < rhs->getLayer();
-}
 
-void SimpleRenderer::update()
-{
-	stable_sort( mRenderables.begin(), mRenderables.end(), mSortFn );
-}
-
-void SimpleRenderer::draw()
+void SimpleRenderer::render()
 {
   if( mPreDraw ){ mPreDraw(); }
 
@@ -100,3 +91,12 @@ void SimpleRenderer::draw()
   if( mPostDraw ){ mPostDraw(); }
 }
 
+void SimpleRenderer::sort( const SortFn &fn )
+{
+  stable_sort( mRenderables.begin(), mRenderables.end(), fn );
+}
+
+bool SimpleRenderer::sortByLayerAscending(const IRenderable *lhs, const IRenderable *rhs)
+{
+  return lhs->getLayer() < rhs->getLayer();
+}

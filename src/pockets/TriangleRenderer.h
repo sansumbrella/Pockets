@@ -31,12 +31,18 @@
 /**
  A basic renderer for grouping rendered content and rendering in order.
 
- The IRenderable object's destructor removes it from the renderer, which keeps a
- non-owning raw pointer to the object, allowing you to manage the object's
- lifetime how you see fit.
+ Renders anything that produces triangle vertices (overridden from IRenderable)
+ Vertices are assumed to be in a format that works with GL_TRIANGLE_STRIP
 
- For now, this is a 2d triangle renderer. In future, I will add a 3d renderer.
+ IRenderable objects' destructors remove them from the renderer, which keeps a
+ non-owning raw pointer to renderables, allowing you to manage the object's
+ lifetime as you see fit. Symmetrically, the renderer will disown any renderables
+ when it is destructed.
 
+ For now, this renders 2D Triangle Strips.
+ Things under consideration:
+ 3D version
+ GL_TRIANGLES version
  */
 
 class TriangleRenderer
