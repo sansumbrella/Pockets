@@ -51,7 +51,7 @@ class SimpleRenderer
 {
 public:
   class IRenderable
-  {
+  { // a renderable type; removes itself from the parent renderer on destruction
   public:
     IRenderable() = default;
     IRenderable( const IRenderable &other );

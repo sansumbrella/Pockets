@@ -60,6 +60,7 @@ class ImagePacker
     ci::Vec2i           getLoc() const { return mLoc; }
     void                setLoc( const ci::Vec2i &loc ){ mLoc = loc; }
     void                setRegistrationPoint( const ci::Vec2i &reg ){ mRegistrationPoint = reg; }
+    ci::Vec2i           getRegistrationPoint() const { return mRegistrationPoint; }
     ci::Vec2i           getSize() const { return mSurface.getSize(); }
     int                 getWidth() const { return mSurface.getWidth(); }
     int                 getHeight() const { return mSurface.getHeight(); }
