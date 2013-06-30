@@ -11,6 +11,18 @@ using namespace ci::app;
 using namespace std;
 using namespace pockets;
 
+/**
+ Test of basic Sprite functionality, including:
+ Rendering to screen
+ - TriangleRenderer
+ - SimpleRenderer
+ Rotation about registration point
+ Sprite Animation (in progress)
+ TODO:
+ Clipping (Simple rectangular masking)
+ Scaling (in Locus2d)
+*/
+
 class SpriteTestApp : public AppNative {
 public:
   void setup();
