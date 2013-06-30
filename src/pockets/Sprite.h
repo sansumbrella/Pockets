@@ -145,7 +145,7 @@ namespace pockets
     typedef std::vector<SpriteWithTiming>::iterator DataIter;
     Locus2d                             mLocus;
     std::vector<SpriteWithTiming>       mData;
-    size_t                              mCurrentIndex;
+    size_t                              mCurrentIndex = 0;
     float                               mTime = 0;
     float                               mDuration;
     bool                                mLooping = true;

@@ -13,6 +13,7 @@ public:
 	void setup();
   void mouseMove( MouseEvent event );
   void update();
+  void draw();
 private:
   pk::SpriteSheetRef      mSpriteSheet;
   pk::Sprite              mSprite;
@@ -28,7 +29,7 @@ void SpriteRendererApp::setup()
 
   mSprite = mSpriteSheet->getSprite("wood_cracked");
   mSprite.getLocus().setLoc( getWindowSize() / 2 );
-  mSprite.setLayer( 2 ); // an arbitrary number > 0 to be in front of other content
+  mSprite.pk::SimpleRenderer::IRenderable::setLayer( 2 ); // an arbitrary number > 0 to be in front of other content
 
   mSpriteAnimation = pk::SpriteAnimationRef( new pk::SpriteAnimation );
   mSpriteAnimation->getLocus().setLoc( getWindowSize() / 2 );
@@ -41,17 +42,10 @@ void SpriteRendererApp::setup()
   mRenderer->add( &mSprite );
   mRenderer->add( mSpriteAnimation.get() );
   // update
-  mRenderer->update();
+  mRenderer->sort();
   mRenderer->setPreDrawFn( [=](){ mSpriteSheet->enableAndBind(); } );
   mRenderer->setPostDrawFn( [=](){ mSpriteSheet->unbind(); } );
 
-  getWindow()->getSignalDraw().connect( [this](){
-                                        gl::clear( Color::black() );
-    gl::color( Color::gray( 0.5f ) );
-    gl::drawSolidRect( Rectf(getWindowBounds()) / 2 + Vec2f( 100.0f, 100.0f ) );
-    gl::color( Color::white() );
-                                        mRenderer->draw();
-                                        } );
   mLastUpdate = getElapsedSeconds();
 }
 
@@ -67,6 +61,15 @@ void SpriteRendererApp::update()
   float deltaTime = now - mLastUpdate;
   mLastUpdate = now;
   mSpriteAnimation->update( deltaTime );
+}
+
+void SpriteRendererApp::draw()
+{
+  gl::clear( Color::black() );
+  gl::color( Color::gray( 0.5f ) );
+  gl::drawSolidRect( Rectf(getWindowBounds()) / 2 + Vec2f( 100.0f, 100.0f ) );
+  gl::color( Color::white() );
+  mRenderer->render();
 }
 
 CINDER_APP_NATIVE( SpriteRendererApp, RendererGl )
