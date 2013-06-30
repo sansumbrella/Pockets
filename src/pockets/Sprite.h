@@ -80,6 +80,7 @@ namespace pockets
     //! render the sprite to screen with local transformations
     void                render() override;
     std::vector<Vertex> getVertices() override { updateTransformedVertices(); return mTransformedVertices; }
+    void        setLayer( int layer );
     //! draw the sprite without applying transform/tint/etc
     void        draw();
     void        setTint( const ci::ColorA &color );

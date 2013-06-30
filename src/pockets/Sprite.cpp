@@ -66,6 +66,12 @@ void Sprite::setTint(const ci::ColorA &color)
   setDirty();
 }
 
+void Sprite::setLayer(int layer)
+{
+  SimpleRenderer::IRenderable::setLayer( layer );
+  TriangleRenderer::IRenderable::setLayer( layer );
+}
+
 void Sprite::updatePositions(const ci::Rectf &positions)
 {
   Rectf position_rect = positions - mData.getRegistrationPoint();

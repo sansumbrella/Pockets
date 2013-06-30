@@ -53,12 +53,17 @@ void SpriteTestApp::setup()
   mSpriteAnimation.getLocus().setLoc( left_center );
   mSprite = mSpriteSheet->getSprite("wood_cracked");
   mSprite.getLocus().setLoc( left_center + Vec2f{ 0, getWindowHeight() * 0.25f } );
+  mSprite.setLayer( 5 );
 
   mSimpleRenderer.add( &mSpriteAnimation );
   mSimpleRenderer.add( &mSprite );
   //
   mTriangleRenderer.add( &mSprite );
   mLastUpdate = getElapsedSeconds();
+
+  // sort by layer
+  mSimpleRenderer.sort();
+  mTriangleRenderer.sort();
 }
 
 void SpriteTestApp::mouseDown( MouseEvent event )
