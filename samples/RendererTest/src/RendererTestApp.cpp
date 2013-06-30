@@ -129,16 +129,19 @@ void RendererTestApp::setup()
 
   // We perform the cast since we know what type of things we stored in each renderer
   // A type-safe way could be to assign y to each objects layer and then sort by layer
-  auto top_to_bottom_simple = []( const SimpleRenderer::IRenderable *lhs, const SimpleRenderer::IRenderable *rhs ) -> bool
+  Vec2f center = getWindowCenter();
+  auto vortex_simple = [center]( const SimpleRenderer::IRenderable *lhs, const SimpleRenderer::IRenderable *rhs )
   {
-    return static_cast<const Box*>( lhs )->getPos().y < static_cast<const Box*>( rhs )->getPos().y;
+    return static_cast<const Box*>( lhs )->getPos().distance(center) <
+    static_cast<const Box*>( rhs )->getPos().distance(center);
   };
-  auto top_to_bottom_triangle = []( const TriangleRenderer::IRenderable *lhs, const TriangleRenderer::IRenderable *rhs )
+  auto vortex_triangle = [center]( const TriangleRenderer::IRenderable *lhs, const TriangleRenderer::IRenderable *rhs )
   {
-    return static_cast<const Box*>( lhs )->getPos().y < static_cast<const Box*>( rhs )->getPos().y;
+    return  static_cast<const Box*>( lhs )->getPos().distance(center) <
+    static_cast<const Box*>( rhs )->getPos().distance(center);
   };
-  mSimpleRenderer.sort( top_to_bottom_simple );
-  mTriangleRenderer.sort( top_to_bottom_triangle );
+  mSimpleRenderer.sort( vortex_simple );
+  mTriangleRenderer.sort( vortex_triangle );
 
   getWindow()->getSignalKeyUp().connect( [this](KeyEvent &event){ swapRenderer(); } );
   getWindow()->getSignalTouchesEnded().connect( [this](TouchEvent &event){ swapRenderer(); } );
