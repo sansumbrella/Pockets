@@ -43,6 +43,7 @@ mData( sprite )
   Rectf tex_coord_rect = sprite.getTextureBounds();
   Rectf position_rect( Vec2f::zero(), sprite.getSize() );
   mTransformedVertices.assign( mVertices.begin(), mVertices.end() );
+  setTint( ColorA8u::white() );
   updatePositions( position_rect );
   updateTexCoords( tex_coord_rect );
 }
@@ -61,8 +62,8 @@ void Sprite::setTint(const ci::ColorA &color)
   for( int i = 0; i < mVertices.size(); ++i )
   {
     mVertices[i].color = color;
-    mTransformedVertices[i].color = color;
   }
+  setDirty();
 }
 
 void Sprite::updatePositions(const ci::Rectf &positions)
@@ -72,12 +73,7 @@ void Sprite::updatePositions(const ci::Rectf &positions)
   mVertices[1].position = position_rect.getUpperLeft();
   mVertices[2].position = position_rect.getLowerRight();
   mVertices[3].position = position_rect.getLowerLeft();
-
-  auto mat = getLocus().getTransform();
-  for( int i = 0; i < mVertices.size(); ++i )
-  {
-    mTransformedVertices[i].position = mat.transformPoint( mVertices[i].position );
-  }
+  setDirty();
 }
 
 void Sprite::updateTexCoords(const ci::Rectf &tex_coord_rect)
@@ -86,10 +82,21 @@ void Sprite::updateTexCoords(const ci::Rectf &tex_coord_rect)
   mVertices[1].tex_coord = tex_coord_rect.getUpperLeft();
   mVertices[2].tex_coord = tex_coord_rect.getLowerRight();
   mVertices[3].tex_coord = tex_coord_rect.getLowerLeft();
+  setDirty();
+}
 
-  for( int i = 0; i < mVertices.size(); ++i )
+void Sprite::updateTransformedVertices()
+{
+  if( mVerticesDirty )
   {
-    mTransformedVertices[i].tex_coord = mVertices[i].tex_coord;
+    auto mat = getLocus().getTransform();
+    for( int i = 0; i < mVertices.size(); ++i )
+    {
+      mTransformedVertices[i].position = mat.transformPoint( mVertices[i].position );
+      mTransformedVertices[i].tex_coord = mVertices[i].tex_coord;
+      mTransformedVertices[i].color = mVertices[i].color;
+    }
+    mVerticesDirty = false;
   }
 }
 
@@ -149,7 +156,7 @@ void Sprite::render()
 	gl::pushModelView();
   gl::color( mTint );
 	gl::multModelView( mLocus );
-	glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
+	glDrawArrays( GL_TRIANGLE_STRIP, 0, mVertices.size() );
 	gl::popModelView();
 
 	glDisableClientState( GL_VERTEX_ARRAY );

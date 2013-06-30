@@ -79,7 +79,7 @@ namespace pockets
     void        setRegion( const ci::Rectf &portion );
     //! render the sprite to screen with local transformations
     void                render() override;
-    std::vector<Vertex> getVertices() override { return mTransformedVertices; }
+    std::vector<Vertex> getVertices() override { updateTransformedVertices(); return mTransformedVertices; }
     //! draw the sprite without applying transform/tint/etc
     void        draw();
     void        setTint( const ci::ColorA &color );
@@ -88,22 +88,26 @@ namespace pockets
     { mData.setRegistrationPoint( point ); updatePositions( ci::Rectf( ci::Vec2f::zero(), mData.getSize() ) ); }
     ci::Vec2i   getSize() const { return mData.getSize(); }
     ci::Vec2i   getLoc() const { return mLocus.getLoc(); }
-    void        setLoc( const ci::Vec2i &loc ){ mLocus.setLoc( loc ); }
+    void        setLoc( const ci::Vec2i &loc ){ setDirty(); mLocus.setLoc( loc ); }
     ci::Vec2f   getRegistrationPoint() const { return mData.getRegistrationPoint(); }
     bool        contains( const ci::Vec2f &point );
     //! returns boundaries in local coordinates
     ci::Rectf   getLocalBounds() const { return ci::Rectf( ci::Vec2f::zero(), getSize() ) - getRegistrationPoint(); }
     void        setLoc( const ci::Vec2f &loc ){ mLocus.setLoc( loc ); }
     //    void setParent( Locus2dRef parent ){ mLocus.setParent( parent ); }
-    Locus2d&    getLocus(){ return mLocus; }
+    // assume it will change and set us dirty
+    Locus2d&    getLocus(){ setDirty(); return mLocus; }
   private:
-    ci::ColorA                mTint = ci::ColorA::white();
+    ci::ColorA                mTint;
     SpriteData                mData;
     Locus2d                   mLocus;
     std::array<Vertex, 4>     mVertices;
     std::vector<Vertex>       mTransformedVertices;
+    bool                      mVerticesDirty = true;
     void updatePositions( const ci::Rectf &position_rect );
     void updateTexCoords( const ci::Rectf &tex_coord_rect );
+    void updateTransformedVertices();
+    void setDirty(){ mVerticesDirty = true; }
   };
 
   /**

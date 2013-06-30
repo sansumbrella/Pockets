@@ -67,7 +67,7 @@ public:
     int getLayer() const { return mLayer; }
   private:
     friend class TriangleRenderer;
-    TriangleRenderer *mHost;
+    TriangleRenderer *mHost = nullptr;
     int               mLayer = 0;
   };
   typedef std::function<bool (const IRenderable*, const IRenderable*)> SortFn;

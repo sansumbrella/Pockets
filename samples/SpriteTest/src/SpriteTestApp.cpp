@@ -20,6 +20,7 @@ public:
 private:
   SpriteSheetRef    mSpriteSheet;
   SpriteAnimation   mSpriteAnimation;
+  Sprite            mSprite;
   SimpleRenderer    mSimpleRenderer;
   TriangleRenderer  mTriangleRenderer;
   double            mLastUpdate;
@@ -38,9 +39,13 @@ void SpriteTestApp::setup()
 
   Vec2f left_center = Vec2f{ 0.25f, 0.5f } * Vec2f{ getWindowSize() };
   mSpriteAnimation.getLocus().setLoc( left_center );
+  mSprite = mSpriteSheet->getSprite("wood_cracked");
+  mSprite.getLocus().setLoc( left_center + Vec2f{ 0, getWindowHeight() * 0.25f } );
 
   mSimpleRenderer.add( &mSpriteAnimation );
-//  mTriangleRenderer.add( &mSpriteAnimation );
+  mSimpleRenderer.add( &mSprite );
+  //
+  mTriangleRenderer.add( &mSprite );
   mLastUpdate = getElapsedSeconds();
 }
 
@@ -54,6 +59,7 @@ void SpriteTestApp::update()
   float deltaTime = now - mLastUpdate;
   mLastUpdate = now;
   mSpriteAnimation.update( deltaTime );
+  mSprite.getLocus().setRotation( mSprite.getLocus().getRotation() + M_PI * 0.01f );
 }
 
 void SpriteTestApp::draw()
@@ -65,7 +71,7 @@ void SpriteTestApp::draw()
   mSpriteSheet->enableAndBind();
   mSimpleRenderer.render();
   gl::pushModelView();
-  gl::translate( Vec2f{ getWindowWidth() / 2, 0 } );
+  gl::translate( Vec2f{ getWindowWidth() / 2, 0.0f } );
   mTriangleRenderer.render();
   gl::popModelView();
 }
