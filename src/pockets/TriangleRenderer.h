@@ -45,41 +45,44 @@
  GL_TRIANGLES version
  */
 
-class TriangleRenderer
+namespace pockets
 {
-public:
-  class IRenderable
+  class TriangleRenderer
   {
   public:
-    struct Vertex
+    class IRenderable
     {
-      ci::Vec2f     position;
-      ci::ColorA8u  color;
-      ci::Vec2f     tex_coord;
-      // TODO: add alignment padding?
+    public:
+      struct Vertex
+      {
+        ci::Vec2f     position;
+        ci::ColorA8u  color;
+        ci::Vec2f     tex_coord;
+        // TODO: add alignment padding?
+      };
+      IRenderable() = default;
+      IRenderable( const IRenderable &other );
+      virtual ~IRenderable();
+      //! return vertices as for GL_TRIANGLE_STRIP
+      virtual std::vector<Vertex>  getVertices() = 0;
+      void setLayer(int layer){ mLayer = layer; }
+      int getLayer() const { return mLayer; }
+    private:
+      friend class TriangleRenderer;
+      TriangleRenderer *mHost = nullptr;
+      int               mLayer = 0;
     };
-    IRenderable() = default;
-    IRenderable( const IRenderable &other );
-    virtual ~IRenderable();
-    //! return vertices as for GL_TRIANGLE_STRIP
-    virtual std::vector<Vertex>  getVertices() = 0;
-    void setLayer(int layer){ mLayer = layer; }
-    int getLayer() const { return mLayer; }
-  private:
-    friend class TriangleRenderer;
-    TriangleRenderer *mHost = nullptr;
-    int               mLayer = 0;
-  };
-  typedef std::function<bool (const IRenderable*, const IRenderable*)> SortFn;
-  TriangleRenderer() = default;
-  ~TriangleRenderer();
+    typedef std::function<bool (const IRenderable*, const IRenderable*)> SortFn;
+    TriangleRenderer() = default;
+    ~TriangleRenderer();
 
-  void add( IRenderable *renderable );
-  void remove( IRenderable *renderable );
-  void sort( const SortFn &fn = sortByLayerAscending );
-  void render();
-  static bool sortByLayerAscending( const IRenderable *lhs, const IRenderable *rhs );
-private:
-  std::vector<IRenderable*>         mRenderables;
-  std::vector<IRenderable::Vertex>  mVertices;
-};
+    void add( IRenderable *renderable );
+    void remove( IRenderable *renderable );
+    void sort( const SortFn &fn = sortByLayerAscending );
+    void render();
+    static bool sortByLayerAscending( const IRenderable *lhs, const IRenderable *rhs );
+  private:
+    std::vector<IRenderable*>         mRenderables;
+    std::vector<IRenderable::Vertex>  mVertices;
+  };
+}

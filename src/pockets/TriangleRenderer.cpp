@@ -31,6 +31,7 @@
 using namespace std;
 using namespace cinder;
 using namespace pockets;
+
 typedef TriangleRenderer::IRenderable::Vertex Vertex;
 
 TriangleRenderer::IRenderable::~IRenderable()
