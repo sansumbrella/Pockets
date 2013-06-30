@@ -35,7 +35,7 @@
  non-owning raw pointer to the object, allowing you to manage the object's
  lifetime how you see fit.
 
- For now, this is a 2d triangle renderer. I will templatize it to be either 2 or 3
+ For now, this is a 2d triangle renderer. In future, I will add a 3d renderer.
 
  */
 
@@ -44,13 +44,19 @@ class TriangleRenderer
 public:
   class IRenderable
   {
+  public:
+    struct Vertex
+    {
+      ci::Vec2f   position;
+      ci::ColorA  color;
+      ci::Vec2f   tex_coord;
+      // TODO: add alignment padding?
+    };
     IRenderable() = default;
     IRenderable( const IRenderable &other );
     virtual ~IRenderable();
-    //! return positions as for a TRIANGLE_STRIP
-    virtual std::vector<ci::Vec2f>  getPositions() = 0;
-    //! return texture coordinates as for a TRIANGLE_STRIP
-    virtual std::vector<ci::Vec2f>  getTexCoords() = 0;
+    //! return vertices as for GL_TRIANGLE_STRIP
+    virtual std::vector<Vertex>  getVertices() = 0;
     void setLayer(int layer){ mLayer = layer; }
     int getLayer() const { return mLayer; }
   private:
@@ -68,5 +74,6 @@ public:
   void render();
   static bool sortByLayerAscending( const IRenderable *lhs, const IRenderable *rhs );
 private:
-  std::vector<IRenderable*> mRenderables;
+  std::vector<IRenderable*>         mRenderables;
+  std::vector<IRenderable::Vertex>  mVertices;
 };

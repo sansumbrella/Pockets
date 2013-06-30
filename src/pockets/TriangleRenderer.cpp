@@ -31,6 +31,7 @@
 using namespace std;
 using namespace cinder;
 using namespace pockets;
+typedef TriangleRenderer::IRenderable::Vertex Vertex;
 
 TriangleRenderer::IRenderable::~IRenderable()
 {
@@ -71,6 +72,37 @@ void TriangleRenderer::remove( IRenderable *renderable )
 {
 	vector_remove( &mRenderables, renderable );
 	renderable->mHost = nullptr;
+}
+
+void TriangleRenderer::render()
+{
+	mVertices.clear();
+	// assemble all vertices
+	vector<Vertex> pv;
+	for( auto &r : mRenderables )
+	{
+    auto v = r->getVertices();
+    if( !pv.empty() )
+    {	// insert a degenerate triangle to bridge space
+    	mVertices.emplace_back( pv.back() );
+    	mVertices.emplace_back( v.front() );
+    }
+    mVertices.insert( mVertices.end(), v.begin(), v.end() );
+    pv = move(v);
+	}
+
+  glEnableClientState( GL_VERTEX_ARRAY );
+  glEnableClientState( GL_COLOR_ARRAY );
+  glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+
+  glVertexPointer( 2, GL_FLOAT, sizeof( Vertex ), &mVertices[0].position.x );
+  glTexCoordPointer( 2, GL_FLOAT, sizeof( Vertex ), &mVertices[0].tex_coord.x );
+  glColorPointer( 4, GL_FLOAT, sizeof( Vertex ), &mVertices[0].color.r );
+  glDrawArrays( GL_TRIANGLE_STRIP, 0, mVertices.size() );
+
+  glDisableClientState( GL_VERTEX_ARRAY );
+  glDisableClientState( GL_COLOR_ARRAY );
+  glDisableClientState( GL_TEXTURE_COORD_ARRAY );
 }
 
 void TriangleRenderer::sort( const TriangleRenderer::SortFn &fn )
