@@ -97,7 +97,7 @@ void TriangleRenderer::render()
 
   glVertexPointer( 2, GL_FLOAT, sizeof( Vertex ), &mVertices[0].position.x );
   glTexCoordPointer( 2, GL_FLOAT, sizeof( Vertex ), &mVertices[0].tex_coord.x );
-  glColorPointer( 4, GL_FLOAT, sizeof( Vertex ), &mVertices[0].color.r );
+  glColorPointer( 4, GL_UNSIGNED_BYTE, sizeof( Vertex ), &mVertices[0].color.r );
   glDrawArrays( GL_TRIANGLE_STRIP, 0, mVertices.size() );
 
   glDisableClientState( GL_VERTEX_ARRAY );

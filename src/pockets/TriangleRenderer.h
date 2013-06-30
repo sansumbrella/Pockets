@@ -53,9 +53,9 @@ public:
   public:
     struct Vertex
     {
-      ci::Vec2f   position;
-      ci::ColorA  color;
-      ci::Vec2f   tex_coord;
+      ci::Vec2f     position;
+      ci::ColorA8u  color;
+      ci::Vec2f     tex_coord;
       // TODO: add alignment padding?
     };
     IRenderable() = default;

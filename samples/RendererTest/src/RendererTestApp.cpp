@@ -21,7 +21,7 @@ using namespace pockets;
 
  (Renderer/Device)        SimpleRenderer    TriangleRenderer
  iPhone 3GS               ~ 55ms             ~ 10ms
- iPhone 4S                ~ 25.5ms           ~  5.5ms
+ iPhone 4S                ~ 26.3ms           ~  6.0ms
  iPad 2                   ~ 21.8ms           ~  6.6ms
  iPad 3 (Retina)          ~ 12.5ms           ~  4.6ms
  Macbook Pro              ~  2.7ms           ~  1.5ms
