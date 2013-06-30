@@ -14,7 +14,10 @@ using namespace std;
 using namespace pockets;
 
 /**
- Performance notes from testing on various devices (Release mode):
+ Test for comparing performance of rendering strategies.
+ Also demonstrates basic usage of the Renderer objects.
+
+ Performance notes from testing on various devices (Release mode, 1k boxes):
 
  (Renderer/Device)        SimpleRenderer    TriangleRenderer
  iPhone 3GS               ~ 55ms             ~ 10ms
@@ -36,26 +39,18 @@ class Box : public TriangleRenderer::IRenderable, public SimpleRenderer::IRender
 {
 public:
   Box()
-  {
+  { // build a box
     Rectf bounds{ -20.0f, -10.0f, 20.0f, 10.0f };
     mVertices[0].position = bounds.getUpperRight();
     mVertices[1].position = bounds.getUpperLeft();
     mVertices[2].position = bounds.getLowerRight();
     mVertices[3].position = bounds.getLowerLeft();
   }
-
-  void setPos( const Vec2f &pos )
-  {
-    mLocus.setLoc( pos );
-  }
-  float getRotation() const
-  {
-    return mLocus.getRotation();
-  }
-  void setRotation( float radians )
-  {
-    mLocus.setRotation( radians );
-  }
+  // accessors and mutators
+  Vec2f getPos() const { return mLocus.getLoc(); }
+  void setPos( const Vec2f &pos ){ mLocus.setLoc( pos ); }
+  float getRotation() const { return mLocus.getRotation(); }
+  void setRotation( float radians ){ mLocus.setRotation( radians ); }
   void setColor( const ColorA &color )
   {
     mColor = color;
@@ -64,7 +59,8 @@ public:
       v.color = color;
     }
   }
-  void render()
+  // Interface for SimpleRenderer
+  void render() override
   {
     glEnableClientState( GL_VERTEX_ARRAY );
     glVertexPointer( 2, GL_FLOAT, sizeof(Vertex), &mVertices[0].position.x );
@@ -80,7 +76,8 @@ public:
     glDisableClientState( GL_VERTEX_ARRAY );
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
   }
-  vector<Vertex>  getVertices()
+  // Interface for TriangleRenderer
+  vector<Vertex> getVertices() override
   {
     auto mat = mLocus.getTransform();
     vector<Vertex> ret;
@@ -129,6 +126,19 @@ void RendererTestApp::setup()
     mTriangleRenderer.add( &box );
     mSimpleRenderer.add( &box );
   }
+
+  // We perform the cast since we know what type of things we stored in each renderer
+  // A type-safe way could be to assign y to each objects layer and then sort by layer
+  auto top_to_bottom_simple = []( const SimpleRenderer::IRenderable *lhs, const SimpleRenderer::IRenderable *rhs ) -> bool
+  {
+    return static_cast<const Box*>( lhs )->getPos().y < static_cast<const Box*>( rhs )->getPos().y;
+  };
+  auto top_to_bottom_triangle = []( const TriangleRenderer::IRenderable *lhs, const TriangleRenderer::IRenderable *rhs )
+  {
+    return static_cast<const Box*>( lhs )->getPos().y < static_cast<const Box*>( rhs )->getPos().y;
+  };
+  mSimpleRenderer.sort( top_to_bottom_simple );
+  mTriangleRenderer.sort( top_to_bottom_triangle );
 
   getWindow()->getSignalKeyUp().connect( [this](KeyEvent &event){ swapRenderer(); } );
   getWindow()->getSignalTouchesEnded().connect( [this](TouchEvent &event){ swapRenderer(); } );
