@@ -102,21 +102,21 @@ public:
 	void update();
 	void draw();
 private:
-  RenderFn          mRenderFn;
-  RenderFn          mRenderTriangle;
-  RenderFn          mRenderSimple;
   TriangleRenderer  mTriangleRenderer;
   SimpleRenderer    mSimpleRenderer;
   array<Box, 1000>  mBoxes;
-  bool              mRenderingSimple = true;
+  vector<pair<string, RenderFn>>            mRenderFunctions;
+  vector<pair<string, RenderFn>>::iterator  mRenderFn;
   double            mAverageRenderTime = 0;
 };
 
 void RendererTestApp::setup()
 {
-  mRenderTriangle = [=](){ mTriangleRenderer.render(); };
-  mRenderSimple = [=](){ mSimpleRenderer.render(); };
-  mRenderFn = mRenderSimple;
+  mRenderFunctions = {
+    { "Triangle Renderer", [=](){ mTriangleRenderer.render(); } },
+    { "Simple Renderer", [=](){ mSimpleRenderer.render(); } }
+  };
+  mRenderFn = mRenderFunctions.begin();
 
   for( auto &box : mBoxes )
   {
@@ -149,11 +149,12 @@ void RendererTestApp::setup()
 
 void RendererTestApp::swapRenderer()
 {
-  cout << (mRenderingSimple ? "SimpleRenderer " : "TriangleRenderer ")
-  << "avg render time: " << mAverageRenderTime << "ms" << endl;
-  cout << "Swapping renderer" << endl;
-  mRenderingSimple = !mRenderingSimple;
-  mRenderFn = mRenderingSimple ? mRenderSimple : mRenderTriangle;
+  mRenderFn++;
+  if( mRenderFn == mRenderFunctions.end() )
+  {
+    mRenderFn = mRenderFunctions.begin();
+  }
+  cout << "Swapped to: " << mRenderFn->first << endl;
 }
 
 void RendererTestApp::update()
@@ -169,14 +170,13 @@ void RendererTestApp::draw()
 	gl::clear( Color::black() );
   gl::color( Color::white() );
   auto t1 = getElapsedSeconds();
-  mRenderFn();
+  mRenderFn->second();
   auto t2 = getElapsedSeconds();
   auto ms = (t2 - t1) * 1000;
   mAverageRenderTime = (mAverageRenderTime * 59 + ms) / 60;
   if( getElapsedFrames() % 120 == 0 )
   {
-    cout << (mRenderingSimple ? "SimpleRenderer " : "TriangleRenderer ")
-    << "avg render time: " << mAverageRenderTime << "ms" << endl;
+    cout << mRenderFn->first << " avg render time: " << mAverageRenderTime << "ms" << endl;
   }
 }
 
