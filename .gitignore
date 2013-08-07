@@ -3,5 +3,6 @@ build
 *.mode1v3
 *.xcuserstate
 *.xcworkspace
+*.xcuserdatad
 .svn
 .DS_Store
