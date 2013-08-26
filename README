@@ -6,12 +6,24 @@ Written against clang/C++11.
 Current Contents:
 Line Utilities
 - curve through a collection of points
-- FatLine3d for path expansion to geometry
-SpriteSheet
-- simple spritesheet generator and renderer
+- path expansion to geometry on CPU
+Sprites
+- image packing for making sprite sheets
+- sprite rendering from sheets
+Basic Renderers
+- naive SimpleRenderer
+- much faster TriangleRenderer (for 2d triangles)
 Color Palette
 - color selection from an image
 Animation Utilities
 - lerp function for quaternions, colors, wrapped numbers
 File Utilities
 - Get next sequential filename
+
+In Progress:
+Scene Graph
+- 2D graph for overlay-style gui development
+
+Longer term:
+Scripting helpers
+Console input (for e.g. scripting layer)

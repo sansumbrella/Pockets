@@ -17,7 +17,10 @@ Text
 Scroll Pane (with knowledge of visible region passed on to children)
 
 For Now:
-Unoptimized, just calls draw() on each item in turn
+Unoptimized, just calls draw() on each item in turn.
+Challenge for batching is handling text rendering alongside basic triangles.
+Would like to merge a TextureFont's texture into a larger spritesheet to enable that.
+Would limit size/number of characters in a gui font (which is probably fine).
 
 Goals:
 UI elements add themselves to a spritesheet shared by the hierarchy.
