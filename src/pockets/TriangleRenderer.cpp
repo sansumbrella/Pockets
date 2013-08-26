@@ -51,6 +51,14 @@ mLayer( other.mLayer )
 	}
 }
 
+TriangleRenderer::IRenderable& TriangleRenderer::IRenderable::operator = (const TriangleRenderer::IRenderable &rhs)
+{
+  if( mHost == nullptr && rhs.mHost )
+  { rhs.mHost->add( this ); }
+  mLayer = rhs.mLayer;
+  return *this;
+}
+
 TriangleRenderer::~TriangleRenderer()
 {
 	for( auto child : mRenderables )

@@ -45,7 +45,7 @@ mLayer( other.mLayer )
   { other.mHost->add( this ); }
 }
 
-SimpleRenderer::IRenderable& SimpleRenderer::IRenderable::operator=(const pockets::SimpleRenderer::IRenderable &rhs)
+SimpleRenderer::IRenderable& SimpleRenderer::IRenderable::operator = (const pockets::SimpleRenderer::IRenderable &rhs)
 {
   if( mHost == nullptr && rhs.mHost )
   { rhs.mHost->add( this ); }

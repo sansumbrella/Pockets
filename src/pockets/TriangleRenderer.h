@@ -62,6 +62,7 @@ namespace pockets
       };
       IRenderable() = default;
       IRenderable( const IRenderable &other );
+      IRenderable& operator=(const IRenderable &rhs);
       virtual ~IRenderable();
       //! return vertices as for GL_TRIANGLE_STRIP
       virtual std::vector<Vertex>  getVertices() = 0;
