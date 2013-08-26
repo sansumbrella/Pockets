@@ -9,7 +9,6 @@
 #pragma once
 #include "cinder/gl/Texture.h"
 #include "Node.h"
-#include "GameColor.h"
 #include "ButtonBase.h"
 
 /**

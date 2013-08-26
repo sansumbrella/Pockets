@@ -7,7 +7,6 @@
 //
 
 #include "SpriteToggle.h"
-#include "GameColor.h"
 
 using namespace cascade;
 using namespace pockets;

@@ -7,10 +7,9 @@
 //
 
 #include "TextPane.h"
-#include "GameTypography.h"
-#include "GameColor.h"
 #include "cinder/ip/Fill.h"
 #include "cinder/ip/Resize.h"
+#include "cinder/Text.h"
 
 using namespace cascade;
 using namespace cinder;
@@ -49,7 +48,7 @@ void TextPane::setTextSoft( const std::string &text, float delay )
 void TextPane::setText(const std::string &text)
 {
   TextLayout layout;
-  layout.setFont( getButtonFont() );
+//  layout.setFont( getButtonFont() );
   layout.clear( ColorA( 0, 0, 0, 0 ) );
   layout.setColor( Color::white() );
   layout.addLine( text );

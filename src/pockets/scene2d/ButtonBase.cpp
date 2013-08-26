@@ -7,7 +7,6 @@
 //
 
 #include "ButtonBase.h"
-#include "SoundStation.h"
 
 using namespace cascade;
 using namespace ci;
@@ -49,8 +48,6 @@ void ButtonBase::endHovering( bool selected )
   if( mHovering )
   {
     mHovering = false;
-    auto sound = selected ? SoundStation::eButtonSelect : SoundStation::eButtonExit;
-    Sound().cueSound( sound, 0.0f );
     hoverEnd();
   }
 }
@@ -60,7 +57,6 @@ void ButtonBase::setHovering()
   if( !mHovering )
   {
     mHovering = true;
-    Sound().cueSound( SoundStation::eButtonHover, 0.0f );
     hoverStart();
   }
 }

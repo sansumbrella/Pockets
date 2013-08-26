@@ -17,8 +17,29 @@ namespace cascade
   Has no default interactions, instead lets any interested children connect
   or disconnect to signals they care about.
 
-  The simplest little scene graph, modeled after AS3 Sprites.
+  A simple scene graph, modeled loosely on AS3 Sprites.
   */
+
+  // temporary measure
+  auto getBackingColor() -> ci::Color;
+  auto getBackingHighlightColor() -> ci::Color;
+  auto getTextColor() -> ci::Color;
+  auto getAltTextColor() -> ci::Color;
+  auto getBackgroundColor() -> ci::Color;
+
+  auto getBackingColor() -> ci::Color { return ci::Color::black(); }
+  auto getBackingHighlightColor() -> ci::Color { return ci::Color( 1.0f, 1.0f, 0.0f ); }
+  auto getTextColor() -> ci::Color { return ci::Color::gray( 0.8f ); }
+  auto getAltTextColor() -> ci::Color { return ci::Color::gray( 0.2f ); }
+  auto getBackgroundColor() -> ci::Color { return ci::Color::gray( 0.9f ); }
+
+  namespace { // TODO: root node methods
+    // BatchRendererTriangles2d
+    void            drawGraphics();
+    // BatchRendererText
+    void            drawText();
+  }
+
   typedef std::shared_ptr<class Node> NodeRef;
   typedef std::weak_ptr<class Node> NodeWeakRef;
   class Node : public std::enable_shared_from_this<Node>
@@ -30,6 +51,7 @@ namespace cascade
     void            deepDraw();
     void            deepConnect( ci::app::WindowRef window );
     void            deepDisconnect();
+
     //! call block() on all child objects
     void            blockChildren();
     //! call unblock() on all child objects

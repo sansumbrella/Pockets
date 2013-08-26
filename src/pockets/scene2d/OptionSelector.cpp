@@ -7,9 +7,6 @@
 //
 
 #include "OptionSelector.h"
-#include "GameTypography.h"
-#include "GameColor.h"
-#include "SoundStation.h"
 #include "cinder/ip/Fill.h"
 
 using namespace cascade;
@@ -138,7 +135,7 @@ void OptionSelector::setSelection(std::vector<Option>::iterator selection)
 {
   if( selection != mSelection )
   {
-    Sound().cueSound( SoundStation::eButtonSelect, 0.0f );
+//    Sound().cueSound( SoundStation::eButtonSelect, 0.0f );
   }
   mSelection->mIcon.setTint( getBackingColor() );
   mSelection = selection;

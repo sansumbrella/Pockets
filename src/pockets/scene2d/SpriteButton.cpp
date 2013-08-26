@@ -7,7 +7,6 @@
 //
 
 #include "SpriteButton.h"
-#include "GameColor.h"
 
 using namespace cascade;
 using namespace cinder;
