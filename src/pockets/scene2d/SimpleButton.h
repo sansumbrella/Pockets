@@ -19,7 +19,7 @@ storeConnection( connection ); // hold onto connection for mgmt
 //
 */
 
-namespace cascade
+namespace pockets
 {
   typedef std::shared_ptr<class SimpleButton> SimpleButtonRef;
   /**

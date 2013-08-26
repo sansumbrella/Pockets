@@ -9,7 +9,6 @@
 #include "Node.h"
 #include "CollectionUtilities.hpp"
 
-using namespace cascade;
 using namespace cinder;
 using namespace pockets;
 using namespace std;

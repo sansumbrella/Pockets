@@ -14,7 +14,7 @@
 /**
  A button displayed as a pair of sprites (backing and foreground)
 */
-namespace cascade
+namespace pockets
 {
   typedef std::shared_ptr<class SpriteButton> SpriteButtonRef;
   class SpriteButton : public ButtonBase

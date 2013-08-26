@@ -9,7 +9,7 @@
 #pragma once
 #include "pockets/Locus2d.h"
 
-namespace cascade
+namespace pockets
 {
   /*
   A thing positioned on screen that can connect to a window.

@@ -8,7 +8,6 @@
 
 #include "SpriteButton.h"
 
-using namespace cascade;
 using namespace cinder;
 using namespace pockets;
 

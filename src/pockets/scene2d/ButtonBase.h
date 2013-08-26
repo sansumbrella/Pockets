@@ -15,9 +15,10 @@
  Doesn't render itself
 
  Subclasses are responsible for drawing themselves to screen.
+ Would be cool to have a button decorator to turn anything into a button
 */
 
-namespace cascade
+namespace pockets
 {
   typedef std::shared_ptr<class ButtonBase> ButtonRef;
   class ButtonBase : public Node

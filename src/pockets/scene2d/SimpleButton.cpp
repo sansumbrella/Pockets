@@ -12,7 +12,6 @@
 using namespace std;
 using namespace ci;
 using namespace pockets;
-using namespace cascade;
 
 SimpleButton::SimpleButton( const gl::Texture &fg, const ci::Rectf &bounds ):
 ButtonBase( Area(bounds) )
