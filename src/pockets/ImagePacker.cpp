@@ -104,9 +104,9 @@ Surface ImagePacker::packedSurface( bool premultiply )
   {
     output.copyFrom( sprite->getSurface(), sprite->getBounds(), sprite->getLoc() );
   }
-// XCode premultiplies anything going to an iOS device (ignores flag telling it not to)
-// Double-premultiplication makes everything have dark edges
-// So we'll just premultiply on the client side if the graphics aren't already
+  // XCode premultiplies anything going to an iOS device (ignores flag telling it not to)
+  // Double-premultiplication makes everything have dark edges
+  // So we'll just premultiply on the client side if the graphics aren't already
   if( premultiply )
   {
     ip::premultiply( &output );
@@ -114,12 +114,12 @@ Surface ImagePacker::packedSurface( bool premultiply )
   return output;
 }
 
-void ImagePacker::calculatePositions( const ci::Vec2i &padding )
+void ImagePacker::calculatePositions( const ci::Vec2i &padding, const int width )
 {
-//  auto rev_area_compare = []( const ImageData &lhs, const ImageData &rhs )
-//  {
-//    return lhs.getBounds().calcArea() > rhs.getBounds().calcArea();
-//  };
+  //  auto rev_area_compare = []( const ImageData &lhs, const ImageData &rhs )
+  //  {
+  //    return lhs.getBounds().calcArea() > rhs.getBounds().calcArea();
+  //  };
   auto rev_height_compare = []( const ImageDataRef &lhs, const ImageDataRef &rhs )
   {
     return lhs->getBounds().getHeight() > rhs->getBounds().getHeight();
@@ -129,7 +129,7 @@ void ImagePacker::calculatePositions( const ci::Vec2i &padding )
   int bottom_y = 0;
   for( ImageDataRef sprite : mImages )
   {
-    if( loc.x + sprite->getBounds().getWidth() > mWidth )
+    if( loc.x + sprite->getBounds().getWidth() > width )
     {
       loc.y = bottom_y + padding.y;
       loc.x = 0;
@@ -138,10 +138,11 @@ void ImagePacker::calculatePositions( const ci::Vec2i &padding )
     loc.x += sprite->getBounds().getWidth() + padding.x;
     bottom_y = math<int>::max( sprite->getBounds().getHeight() + loc.y, bottom_y );
   }
-  mHeight = bottom_y;
+  mWidth = width;
+  mHeight = math<int>::max( bottom_y, width );
 }
 
-void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const Vec2i &total_size )
+void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const int width )
 {
   // auto rev_area_compare = []( const ImageDataRef &lhs, const ImageDataRef &rhs )
   // {
@@ -152,6 +153,7 @@ void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const Vec2i 
     return lhs->getBounds().getHeight() > rhs->getBounds().getHeight();
   };
   sort( mImages.begin(), mImages.end(), rev_height_compare );
+  int bottom_y = 0;
   // place largest image at top-left
   mImages.at( 0 )->setLoc( padding );
   for( int i = 1; i < mImages.size(); ++i )
@@ -170,19 +172,30 @@ void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const Vec2i 
           loc.x = bounds.getX2();
         }
       }
-      if( loc.x + img->getWidth() < total_size.x - padding.x  )
-      { // we fit at this location, place image
+      
+      if( loc.x + img->getWidth() < width - padding.x )
+      { // we fit on the page, though we may still overlap other images
+        // tentatively set the image location here
         img->setLoc( loc );
         placed = true;
+        // shrink potential bounds by one, since sharing a vertex counts as Rectf intersecting
+        auto potential_bounds = img->getPlacedBounds().inflated( { -1, -1 } );
+        for( int j = 0; j < i; ++j )
+        { // check that the placed boundaries don't overlap any other placed image
+          auto bounds = mImages.at( j )->getPlacedBounds().inflated( padding );
+          if( potential_bounds.intersects( bounds ) )
+          { // a collision was found, so we'll continue the loop
+            placed = false;
+          }
+        }
+        bottom_y = math<int>::max( img->getBounds().getHeight() + loc.y, bottom_y );
       }
-      else
-      { // we don't fit on this edge, try next row of pixels
-        loc.x = padding.x;
-        loc.y += 1;
-      }
+      // move to next row of pixels for continued evaluation
+      loc.x = padding.x;
+      loc.y += 1;
     }
   }
-  mWidth = total_size.x;
-  mHeight = total_size.y;
+  mWidth = width;
+  mHeight = math<int>::max( bottom_y, width );
 }
 

@@ -43,55 +43,42 @@ using namespace std;
 /**
 Generates a single-texture spritesheet and json descriptor file.
 
-Drag-and-drop to add images to the spritesheet.
 Ids are derived from filenames without extension.
 
 Usage:
-1. Run app
-2. Drag/drop image files into app
-3. Hit save
-4. Enjoy spritesheet (maybe with SpriteSheetTester)
+1. Drop image files into running app
+2. Pick a directory for sheets to be saved in
+
 */
 class SpriteSheetGeneratorApp : public AppNative {
   public:
   void prepareSettings( Settings *settings );
 	void setup();
-	void mouseDown( MouseEvent event );
-  void keyPressed();
-	void update();
 	void draw();
   void fileDrop( FileDropEvent event );
   void addFile( const fs::path &file );
-  void saveSpriteSheet();
+  void saveSpriteSheet( const string &filename );
 private:
   params::InterfaceGl mParams;
   const int           cOutputSize = 1024;
   float               mWindowScaling = 1.0f;
   Vec2f               mPreviewOffset;
   int                 mHeight = 1;
-  std::string         mFilename = "sprite_sheet";
   pk::ImagePacker     mImagePacker;
   int                 mWidestImage = 0;
   ci::Vec2i           mMargin = { 20, 20 };
 };
 
 void SpriteSheetGeneratorApp::prepareSettings(Settings *settings)
-{
-  settings->setWindowSize( 1024, 768 );
+{ // just provide a big drop target
+  settings->setWindowSize( 512, 512 );
 }
 
 void SpriteSheetGeneratorApp::setup()
 {
   mParams = params::InterfaceGl( "SpriteSheet Generator", Vec2i( 200, 200 ) );
-  mParams.setOptions( "", "position='50 450'" );
-  mParams.addParam( "Preview scaling", &mWindowScaling, "min=0.1 max=2.0 step=0.05");
-  mParams.addParam( "Preview offset", &mPreviewOffset.y );
-  mParams.addParam( "Output name", &mFilename );
-  mParams.addButton( "Save sheet", [this](){ saveSpriteSheet(); } );
-}
-
-void SpriteSheetGeneratorApp::mouseDown( MouseEvent event )
-{
+  mParams.setOptions( "", "position='10 20'" );
+  mParams.addButton( "Reset packer", [this](){ mImagePacker.clear(); } );
 }
 
 void SpriteSheetGeneratorApp::fileDrop(cinder::app::FileDropEvent event)
@@ -100,9 +87,11 @@ void SpriteSheetGeneratorApp::fileDrop(cinder::app::FileDropEvent event)
   {
     addFile( file );
   }
-  const int w = mWidestImage * 3 + mMargin.x * 2;
-  mImagePacker.setWidth( w );
-  mImagePacker.calculatePositionsScanline( mMargin, { w, w } );
+//  const int w = mWidestImage * 3 + mMargin.x * 2;
+  mImagePacker.calculatePositions( { 1, 1 }, 1024 );
+  saveSpriteSheet( "spritesheet-basic-pack" );
+  mImagePacker.calculatePositionsScanline( { 1, 1 }, 1024 );
+  saveSpriteSheet( "spritesheet-scanline-pack" );
 }
 
 void SpriteSheetGeneratorApp::addFile(const fs::path &file)
@@ -110,12 +99,12 @@ void SpriteSheetGeneratorApp::addFile(const fs::path &file)
   set<string> extensions = { ".png", ".jpg", ".gif", ".tiff", ".tif", ".tga" };
   if( fs::exists( file ) )
   {
-    cout << "Checking file: " << file << ", extension: " << file.extension().string() << endl;
     if( fs::is_regular_file( file ) && extensions.count(file.extension().string()) )
     {
-      cout << "Adding file: " << file << endl;
       Surface img = loadImage( file );
       string id = file.stem().string();
+      cout << "File: " << file << endl;
+      cout << "=> Id: " << id << endl;
       mWidestImage = max( img.getWidth(), mWidestImage );
       auto sprite = mImagePacker.addImage( id, img );
       sprite->setRegistrationPoint( Vec2i( sprite->getWidth() / 2, sprite->getHeight() ) );
@@ -130,23 +119,19 @@ void SpriteSheetGeneratorApp::addFile(const fs::path &file)
   }
 }
 
-void SpriteSheetGeneratorApp::update()
-{
-}
-
 void SpriteSheetGeneratorApp::draw()
 {
   mParams.draw();
 }
 
-void SpriteSheetGeneratorApp::saveSpriteSheet()
+void SpriteSheetGeneratorApp::saveSpriteSheet( const string &filename )
 {
   fs::path output_path = getFolderPath();
-  auto file = writeFile( output_path / (mFilename + ".json") );
+  auto file = writeFile( output_path / (filename + ".json") );
   if( file )
   {
     mImagePacker.surfaceDescription().write( file );
-    writeImage( output_path / (mFilename + ".png"), mImagePacker.packedSurface() );
+    writeImage( output_path / (filename + ".png"), mImagePacker.packedSurface() );
   }
 }
 

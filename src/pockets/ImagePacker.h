@@ -89,29 +89,29 @@ class ImagePacker
 	ImagePacker();
 	~ImagePacker();
   //! add an image to the sheet. If trim_alpha, trims image bounds to non-alpha area
-  ImageDataRef  addImage( const std::string &id, ci::Surface surface, bool trim_alpha=false );
+  ImageDataRef              addImage( const std::string &id, ci::Surface surface, bool trim_alpha=false );
   //! add the specified glyphs from a font; id is equal to the character, e.g. "a"
   std::vector<ImageDataRef> addGlyphs( const ci::Font &font, const std::string &glyphs, const std::string &id_prefix="", bool trim_alpha=false );
   //! add the specified string set in a font
-  ImageDataRef  addString( const std::string &id, const ci::Font &font, const std::string &str, bool trim_alpha=false );
+  ImageDataRef              addString( const std::string &id, const ci::Font &font, const std::string &str, bool trim_alpha=false );
   //! assign positions to images
-  void          calculatePositions( const ci::Vec2i &padding );
+  void                      calculatePositions( const ci::Vec2i &padding, const int width=1024 );
   //! use a scanline algorithm to calculate positions (slower to run, more compact)
-  void          calculatePositionsScanline( const ci::Vec2i &padding, const ci::Vec2i &total_size );
-  //! set the width of the output Surface
-  void          setWidth( uint32_t full_width ){ mWidth = full_width; }
+  void                      calculatePositionsScanline( const ci::Vec2i &padding, const int width=1024 );
   //! generates a surface containing all added images in their packed locations
   //! premultiply unless you are using this spritesheet on iOS, in which case XCode will do that later
-  ci::Surface   packedSurface( bool premultiply=false );
+  ci::Surface               packedSurface( bool premultiply=false );
   //! returns a JSON-formatted description of all images and their packed locations
-  ci::JsonTree  surfaceDescription();
+  ci::JsonTree              surfaceDescription();
+  //! remove all images from packer
+  void                      clear() { mImages.clear(); }
   std::vector<ImageDataRef>::iterator begin(){ return mImages.begin(); }
   std::vector<ImageDataRef>::iterator end(){ return mImages.end(); }
 private:
   //! width should be set to maximum desired width
-  uint32_t                mWidth = 1024;
+  uint32_t                  mWidth = 1024;
   //! height expands as elements are added
-  uint32_t                mHeight = 1;
-  std::vector<ImageDataRef>  mImages;
+  uint32_t                  mHeight = 1;
+  std::vector<ImageDataRef> mImages;
 };
 } // ns pockets
