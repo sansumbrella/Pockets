@@ -100,8 +100,9 @@ void SpriteSheetGeneratorApp::fileDrop(cinder::app::FileDropEvent event)
   {
     addFile( file );
   }
-  mImagePacker.setWidth( mWidestImage * 3 + mMargin.x * 2 );
-  mImagePacker.calculatePositions( mMargin );
+  const int w = mWidestImage * 3 + mMargin.x * 2;
+  mImagePacker.setWidth( w );
+  mImagePacker.calculatePositionsScanline( mMargin, { w, w } );
 }
 
 void SpriteSheetGeneratorApp::addFile(const fs::path &file)

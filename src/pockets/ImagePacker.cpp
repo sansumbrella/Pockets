@@ -163,11 +163,11 @@ void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const Vec2i 
     while ( !placed )
     {
       for( int j = 0; j < i; ++j )
-      { // check whether we're inside the bounds of any placed image
-        auto bounds = mImages.at( j )->getPlacedBounds();
+      { // check whether we're inside the bounds of any placed image (including padding)
+        auto bounds = mImages.at( j )->getPlacedBounds().inflated( padding );
         if( bounds.contains( loc ) )
         { // jump to right edge of image
-          loc.x = bounds.getX2() + padding.x;
+          loc.x = bounds.getX2();
         }
       }
       if( loc.x + img->getWidth() < total_size.x - padding.x  )
@@ -182,5 +182,7 @@ void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const Vec2i 
       }
     }
   }
+  mWidth = total_size.x;
+  mHeight = total_size.y;
 }
 
