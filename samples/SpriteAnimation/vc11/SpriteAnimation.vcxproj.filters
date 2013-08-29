@@ -1,0 +1,142 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Blocks">
+      <UniqueIdentifier>{9A455262-902F-4955-9836-D42F7B1ED9F7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\Pockets">
+      <UniqueIdentifier>{E75D3C0D-433A-4881-B525-E169565E987F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\Pockets\src">
+      <UniqueIdentifier>{292B0E02-3D0E-4BE7-89D5-A90B9671D96C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\Pockets\src\pockets">
+      <UniqueIdentifier>{07E4FA57-DACE-459B-9FB9-61594EE3892B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\Pockets\src\pockets\gl">
+      <UniqueIdentifier>{172FB510-4775-4CF4-9E14-54A6E6A27CA0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\SpriteAnimationApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SpriteAnimationApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClInclude Include="..\include\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\..\src\pockets\AnimationUtils.cpp">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\ColorPalette.cpp">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\ExpandedLine2d.cpp">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\FatLine3d.cpp">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\FatPath2d.cpp">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\FileUtils.cpp">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\ImagePacker.cpp">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\LineUtils.cpp">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\Locus2d.cpp">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\SimpleRenderer.cpp">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\Sprite.cpp">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\SpriteSheet.cpp">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\TriangleRenderer.cpp">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\..\src\pockets\AnimationUtils.h">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\ColorPalette.h">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\ExpandedLine2d.h">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\FatLine3d.h">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\FatPath2d.h">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\FileUtils.h">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\ImagePacker.h">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\LineUtils.h">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\Locus2d.h">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\Pockets.h">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\SimpleRenderer.h">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\Sprite.h">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\SpriteSheet.h">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\TriangleRenderer.h">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\..\src\pockets\gl\Vbo.cpp">
+      <Filter>Blocks\Pockets\src\pockets\gl</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\..\src\pockets\gl\Vbo.h">
+      <Filter>Blocks\Pockets\src\pockets\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\Pockets.h">
+      <Filter>Blocks\Pockets\src\pockets</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

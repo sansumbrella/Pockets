@@ -1,0 +1,33 @@
+// an array of animation objects
+[
+	{
+		// title of the animation (so you can look it up in a dict later)
+		"title": "deerleg",
+		// the animation framerate
+		// to write timing in seconds, set fps to 1
+		// to write timing in milliseconds, set fps to 1000
+		"fps": 24,
+		// the frames of the animation, an array of pairs containing
+		// sprite id and frame hold count
+		"frames":[ ["dl-0001", 2], ["dl-0002", 3], ["dl-0003", 2], ["dl-0004", 2],
+							 ["dl-0005", 2], ["dl-0006", 2], ["dl-0007", 2] ]
+	},
+	{
+		"title": "jellyfish",
+		"fps": 12,
+		"frames": [ ["j-0001", 1], ["j-0002", 1], ["j-0003", 1], ["j-0004", 1], ["j-0005", 1],
+								["j-0006", 1], ["j-0007", 2], ["j-0008", 1], ["j-0009", 2], ["j-0010", 1] ]
+	},
+	{
+		"title": "squirmer",
+		"fps": 1,
+		"frames": [ ["s-0001", 0.1], ["s-0002", 0.1], ["s-0003", 0.15], ["s-0004", 0.1] ]
+	},
+	{
+		"title": "dot",
+		"fps": 12,
+		"frames": [ ["dot-0001", 1], ["dot-0002", 1], ["dot-0003", 1], ["dot-0004", 1], ["dot-0005", 1],
+								["dot-0006", 1], ["dot-0007", 1], ["dot-0006", 1], ["dot-0005", 1], ["dot-0004", 1],
+								["dot-0006", 1] ]
+	}
+]
