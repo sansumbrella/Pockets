@@ -55,6 +55,7 @@ class ImagePacker
     mSurface( surface )
     , mId( id )
     {}
+    ci::Rectf           getPlacedBounds() const { return mSurface.getBounds() + getLoc(); }
     ci::Area            getBounds() const { return mSurface.getBounds(); }
     const ci::Surface&  getSurface() const { return mSurface; }
     ci::Vec2i           getLoc() const { return mLoc; }
@@ -95,6 +96,8 @@ class ImagePacker
   ImageDataRef  addString( const std::string &id, const ci::Font &font, const std::string &str, bool trim_alpha=false );
   //! assign positions to images
   void          calculatePositions( const ci::Vec2i &padding );
+  //! use a scanline algorithm to calculate positions (slower to run, more compact)
+  void          calculatePositionsScanline( const ci::Vec2i &padding, const ci::Vec2i &total_size );
   //! set the width of the output Surface
   void          setWidth( uint32_t full_width ){ mWidth = full_width; }
   //! generates a surface containing all added images in their packed locations

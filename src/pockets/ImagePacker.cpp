@@ -141,4 +141,46 @@ void ImagePacker::calculatePositions( const ci::Vec2i &padding )
   mHeight = bottom_y;
 }
 
+void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const Vec2i &total_size )
+{
+  // auto rev_area_compare = []( const ImageDataRef &lhs, const ImageDataRef &rhs )
+  // {
+  //   return lhs->getBounds().calcArea() > rhs->getBounds().calcArea();
+  // }
+  auto rev_height_compare = []( const ImageDataRef &lhs, const ImageDataRef &rhs )
+  {
+    return lhs->getBounds().getHeight() > rhs->getBounds().getHeight();
+  };
+  sort( mImages.begin(), mImages.end(), rev_height_compare );
+  // place largest image at top-left
+  mImages.at( 0 )->setLoc( padding );
+  for( int i = 1; i < mImages.size(); ++i )
+  { // for each following image, start at top-left and look on each
+    // pixel row for a potential free space
+    Vec2i loc{ padding };
+    auto img = mImages.at( i );
+    bool placed = false;
+    while ( !placed )
+    {
+      for( int j = 0; j < i; ++j )
+      { // check whether we're inside the bounds of any placed image
+        auto bounds = mImages.at( j )->getPlacedBounds();
+        if( bounds.contains( loc ) )
+        { // jump to right edge of image
+          loc.x = bounds.getX2() + padding.x;
+        }
+      }
+      if( loc.x + img->getWidth() < total_size.x - padding.x  )
+      { // we fit at this location, place image
+        img->setLoc( loc );
+        placed = true;
+      }
+      else
+      { // we don't fit on this edge, try next row of pixels
+        loc.x = padding.x;
+        loc.y += 1;
+      }
+    }
+  }
+}
 
