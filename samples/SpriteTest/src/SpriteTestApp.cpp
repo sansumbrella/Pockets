@@ -4,6 +4,7 @@
 #include "pockets/SpriteSheet.h"
 #include "pockets/SimpleRenderer.h"
 #include "pockets/TriangleRenderer.h"
+#include "pockets/SpriteAnimation.h"
 #include "pockets/Sprite.h"
 
 using namespace ci;
@@ -48,6 +49,7 @@ void SpriteTestApp::setup()
   { // hold for equivalent of 2 frames at 24fps
     mSpriteAnimation.addFrame( mSpriteSheet->getSpriteData(name), 2.0f / 24.0f );
   }
+  mSpriteAnimation.setFrameRate( 1.0f );
 
   Vec2f left_center = Vec2f{ 0.25f, 0.5f } * Vec2f{ getWindowSize() };
   mSpriteAnimation.getLocus().setLoc( left_center );
@@ -55,7 +57,7 @@ void SpriteTestApp::setup()
   mSprite.getLocus().setLoc( left_center + Vec2f{ 0, getWindowHeight() * 0.25f } );
   mSprite.setLayer( 5 );
 
-  mSimpleRenderer.add( &mSpriteAnimation );
+//  mSimpleRenderer.add( &mSpriteAnimation );
   mSimpleRenderer.add( &mSprite );
   //
   mTriangleRenderer.add( &mSprite );
@@ -75,7 +77,7 @@ void SpriteTestApp::update()
   float now = getElapsedSeconds();
   float deltaTime = now - mLastUpdate;
   mLastUpdate = now;
-  mSpriteAnimation.update( deltaTime );
+  mSpriteAnimation.step( deltaTime );
   mSprite.getLocus().setRotation( mSprite.getLocus().getRotation() + M_PI * 0.01f );
 }
 
@@ -87,9 +89,11 @@ void SpriteTestApp::draw()
   gl::drawLine( Vec2f{ getWindowWidth() / 2, 0 }, Vec2f{ getWindowWidth() / 2, getWindowHeight() } );
   mSpriteSheet->enableAndBind();
   mSimpleRenderer.render();
+  mSpriteAnimation.render();
   gl::pushModelView();
   gl::translate( Vec2f{ getWindowWidth() / 2, 0.0f } );
   mTriangleRenderer.render();
+  mSpriteAnimation.render();
   gl::popModelView();
 }
 
