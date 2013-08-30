@@ -16,6 +16,7 @@ using namespace pockets;
 /**
  Test for comparing performance of rendering strategies.
  Also demonstrates basic usage of the Renderer objects.
+ Press space to cycle through renderers.
 
  Performance notes from testing on various devices (Release mode, 1k boxes):
 
@@ -157,7 +158,7 @@ void RendererTestApp::setup()
   mRenderer2dStrip.sort( vortex_triangle );
   mRenderer2dStripVbo.sort( vortex_triangle );
 
-  getWindow()->getSignalKeyUp().connect( [this](KeyEvent &event){ swapRenderer(); } );
+  getWindow()->getSignalKeyUp().connect( [this](KeyEvent &event){ if( event.getCode() == KeyEvent::KEY_SPACE ){ swapRenderer(); } } );
   getWindow()->getSignalTouchesEnded().connect( [this](TouchEvent &event){ swapRenderer(); } );
 }
 
