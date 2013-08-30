@@ -65,11 +65,17 @@ ExpandedPath2d::ExpandedPath2d( size_t length )
 ExpandedPath2d::~ExpandedPath2d()
 {}
 
-void ExpandedPath2d::setPositions( const vector<Vec2f> &positions, bool closed )
+void ExpandedPath2d::pushFront( const Vec2f &pos )
 {
-  assert( positions.size() == mSkeleton.size() );
-  mSkeleton = positions;
-  mClosed = closed;
+  mSkeleton.push_front( pos );
+  mSkeleton.pop_back();
+  buildOutline();
+}
+
+void ExpandedPath2d::pushBack( const Vec2f &pos )
+{
+  mSkeleton.push_back( pos );
+  mSkeleton.pop_front();
   buildOutline();
 }
 

@@ -24,7 +24,6 @@ private:
   ExpandedLine2dRef mLine2d;
   ExpandedPath2dRef mPath2d;
   ExpandedPath3dRef mPath3d;
-  vector<Vec2f>     mPath2dPositions;
 };
 
 void PathStrokeRibbonTubeApp::setup()
@@ -35,8 +34,9 @@ void PathStrokeRibbonTubeApp::setup()
 
   // Create an expanded path passing through many points
   mPath2d = ExpandedPath2d::create( 20 );
-  mPath2dPositions.assign( 20, { 0, 0 } );
-  mPath2d->setPositions( mPath2dPositions );
+  vector<Vec2f> path2d_positions;
+  path2d_positions.assign( 20, getWindowCenter() );
+  mPath2d->setPositions( path2d_positions );
 
   // Create an expanded path passing through many points in 3d
   Rand r{};
@@ -69,12 +69,7 @@ void PathStrokeRibbonTubeApp::setup()
 
 void PathStrokeRibbonTubeApp::mouseMove( MouseEvent event )
 {
-  for( int i = mPath2dPositions.size() - 1; i > 0; --i )
-  {
-    mPath2dPositions[i] = mPath2dPositions[i - 1];
-  }
-  mPath2dPositions[0] = event.getPos();
-  mPath2d->setPositions( mPath2dPositions );
+  mPath2d->pushFront( event.getPos() );
 }
 
 void PathStrokeRibbonTubeApp::update()

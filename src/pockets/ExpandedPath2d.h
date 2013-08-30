@@ -45,7 +45,21 @@ namespace pockets
     typedef std::function<float (float)> ShapeFn;
     //! set the shape function for the width of the line along its length
     void setShapeFn( ShapeFn fn ){ mShapeFn = fn; }
-    void setPositions( const std::vector<ci::Vec2f> &positions, bool closed=false );
+    template <typename ContainerT>
+    void setPositions( const ContainerT &positions, bool closed=false )
+    {
+      assert( positions.size() >= mSkeleton.size() );
+      for( int i = 0; i < mSkeleton.size(); ++i )
+      {
+        mSkeleton[i] = positions[i];
+      }
+      mClosed = closed;
+      buildOutline();
+    }
+    //! Move the front of the path, popping off the last element
+    void pushFront( const ci::Vec2f &pos );
+    //! Move the back of the path, popping off the first element
+    void pushBack( const ci::Vec2f &pos );
     void setWidth( float w ){ mLineHalfWidth = w / 2; }
     void draw();
     static ExpandedPath2dUniqueRef create( size_t vertex_count ){
@@ -56,7 +70,7 @@ namespace pockets
     float getHalfWidth( float t );
     ShapeFn                 mShapeFn = [](float f){ return 1.0f; };
     //! skeleton of vertices
-    std::vector<ci::Vec2f>  mSkeleton;
+    std::deque<ci::Vec2f>  mSkeleton;
     //! expanded vertices
     std::vector<ci::Vec2f>  mOutline;
     std::vector<ci::Vec2f>  mTexCoords;
