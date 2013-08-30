@@ -75,6 +75,18 @@ namespace pockets
                , vec->end() );
   }
 
+  //! This is closer to an earlier strategy I had than vector_erase_if,
+  //! but that was plagued by obscure error messages. Will see if this works
+  //! a bit better / more flexibly
+  template<class CONTAINER_TYPE, class COMPARATOR>
+  void erase_if( CONTAINER_TYPE *container, COMPARATOR compare )
+  {
+    container->erase( std::remove_if( container->begin(),
+                                      container->end(),
+                                      compare ),
+                     container->end() );
+  }
+
   //! Remove all copies of \a element from \a vec
   template<class ELEMENT_TYPE>
   void vector_remove( std::vector<ELEMENT_TYPE> *vec, const ELEMENT_TYPE &element )
