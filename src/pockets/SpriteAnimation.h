@@ -28,8 +28,17 @@
 #pragma once
 #include "Sprite.h"
 
+// forward decl
+namespace cinder
+{
+  class JsonTree;
+}
+
 namespace pockets
 {
+  // forward decl
+  typedef std::shared_ptr<class SpriteSheet> SpriteSheetRef;
+
   /**
    SpriteAnimations hold a collection of SpriteData
    and renders the appropriate Sprite given the current time.
@@ -43,8 +52,15 @@ namespace pockets
     };
   public:
     SpriteAnimation();
+    //! Load an animation from \a json, using sprites from \a sheet
+    //! See the SpriteAnimation sample assets for a working json file
+    //! Expects JSON in the format:
+    //! {"fps":number, "frames":[ ["id", number_of_frames_held] ]}
+    void      loadAnimationJson( const ci::JsonTree &json, const SpriteSheetRef sheet );
+    //! Set the frame rate for the entire animation
+    //! Defaults to 24
     void      setFrameRate( float frames_per_second ){ mFrameDuration = 1.0f / frames_per_second; }
-    //! add a frame at end of animation
+    //! Add a new frame at the end of the animation, held for \a duration frames
     void      addFrame( const SpriteData &sprite, float duration );
     //! update the animation forward or backward in time
     void      step( float deltaTime );
@@ -52,19 +68,20 @@ namespace pockets
     void      render();
     //! set the animation to loop (on by default)
     void      setLooping( bool doLoop ) { mLooping = doLoop; }
+    //! get the screen position of the animation
     Locus2d&  getLocus(){ return mLocus; }
+    //! get the sprite data for the current frame
     const Drawing& currentData(){ return mData.at(mCurrentIndex); }
   private:
-    Locus2d                    mLocus;
-    std::vector<Drawing>       mData;
-    int                        mCurrentIndex = 0;
-    float                      mHold = 0.0f; // time spent on this frame
-    float                      mFrameDuration = 1.0f / 60.0f;
-    bool                       mLooping = true;
-    std::array<GLfloat, 8>     mPositions;
-    std::array<GLfloat, 8>     mTexCoords;
+    Locus2d               mLocus;
+    std::vector<Drawing>  mData;
+    int                   mCurrentIndex = 0; // this limits us to 32k frames per animation...
+    float                 mHold = 0.0f;      // time spent on this frame
+    float                 mFrameDuration = 1.0f / 24.0f;
+    bool                  mLooping = true;
+    std::array<GLfloat, 8>    mPositions;
+    std::array<GLfloat, 8>    mTexCoords;
     void stepFrame( int frames );
     void updateGraphics();
   };
-
 } // pockets::

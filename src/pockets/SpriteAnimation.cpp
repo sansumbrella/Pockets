@@ -27,13 +27,34 @@
 
 #include "SpriteAnimation.h"
 
+#include "cinder/Json.h"
+#include "SpriteSheet.h"
+
 using namespace pockets;
 using namespace cinder;
 
 SpriteAnimation::SpriteAnimation()
 {}
 
-void SpriteAnimation::addFrame(const SpriteData &sprite, float duration)
+void SpriteAnimation::loadAnimationJson( const ci::JsonTree &json, const SpriteSheetRef sheet )
+{
+  // to consider: keep simple check or use exceptions?
+  try
+  {
+    setFrameRate( json.getChild("fps").getValue<float>() );
+    auto frames = json.getChild("frames");
+    for( auto &child : frames.getChildren() )
+    {
+      addFrame( sheet->getSpriteData( child[0].getValue() ), child[1].getValue<float>() );
+    }
+  }
+  catch( JsonTree::Exception &exc )
+  {
+    std::cout << __FUNCTION__ << " error: " << exc.what() << std::endl;
+  }
+}
+
+void SpriteAnimation::addFrame( const SpriteData &sprite, float duration )
 {
   mData.push_back( { sprite, duration } );
 }
@@ -56,16 +77,16 @@ void SpriteAnimation::step( float deltaTime )
 void SpriteAnimation::stepFrame( int frames )
 {
   int next = mCurrentIndex + frames;
-  if( next >= mData.size() )
+  if( next >= static_cast<int>( mData.size() ) )
   { // handle wraparound at end
     next = mLooping ? 0 : mData.size() - 1;
   }
   else if( next < 0 )
-  { // handle wraparound
+  { // handle wraparound at beginning
     next = mLooping ? mData.size() - 1 : 0;
   }
   if( next != mCurrentIndex )
-  { // the frame index has changed
+  { // the frame index has changed, update display
     mCurrentIndex = next;
     updateGraphics();
   }
