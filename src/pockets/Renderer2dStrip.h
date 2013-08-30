@@ -31,10 +31,10 @@
 /**
  A basic renderer for grouping rendered content and rendering in order.
 
- Renders anything that produces triangle vertices (overridden from IRenderable)
+ Renders anything that produces triangle vertices (overridden from Renderable)
  Vertices are assumed to be in a format that works with GL_TRIANGLE_STRIP
 
- IRenderable objects' destructors remove them from the renderer, which keeps a
+ Renderable objects' destructors remove them from the renderer, which keeps a
  non-owning raw pointer to renderables, allowing you to manage the object's
  lifetime as you see fit. Symmetrically, the renderer will disown any renderables
  when it is destructed.
@@ -47,10 +47,22 @@
 
 namespace pockets
 {
-  class Renderer2dStrip
+  /**
+   Base class for 2d renderers
+   Handles sorting of renderable elements by layer.
+   Stores a collection of renderable elements.
+   
+   Renderables and Renderer2d manage their circular relationship automatically
+   in their destructors.
+   */
+  class Renderer2d
   {
   public:
-    class IRenderable
+    /**
+     Interface that all elements to be rendered must implement
+     Most important method is getVertices()
+     */
+    class Renderable
     {
     public:
       struct Vertex
@@ -58,32 +70,68 @@ namespace pockets
         ci::Vec2f     position;
         ci::ColorA8u  color;
         ci::Vec2f     tex_coord;
-        // TODO: add alignment padding?
       };
-      IRenderable() = default;
-      IRenderable( const IRenderable &other );
-      IRenderable& operator=(const IRenderable &rhs);
-      virtual ~IRenderable();
-      //! return vertices as for GL_TRIANGLE_STRIP
-      virtual std::vector<Vertex>  getVertices() = 0;
-      void setLayer(int layer){ mLayer = layer; }
-      int getLayer() const { return mLayer; }
+      Renderable() = default;
+      Renderable( const Renderable &other );
+      Renderable& operator = ( const Renderable &rhs );
+      virtual ~Renderable();
+      //! override to provide vertex data to renderer
+      //! in the long run, I would like to mark this const, so we can
+      //! gather vertices in a separate thread (perhaps using a std::future)
+      virtual std::vector<Vertex> getVertices() = 0;
+      inline void setLayer( int layer ){ mLayer = layer; }
+      inline int getLayer() const { return mLayer; }
     private:
-      friend class Renderer2dStrip;
-      Renderer2dStrip *mHost = nullptr;
-      int               mLayer = 0;
+      friend class Renderer2d;
+      int                       mLayer = 0;
+      std::vector<Renderer2d*>  mHosts;
+      void clearHosts();
     };
-    typedef std::function<bool (const IRenderable*, const IRenderable*)> SortFn;
-    Renderer2dStrip() = default;
-    ~Renderer2dStrip();
-
-    void add( IRenderable *renderable );
-    void remove( IRenderable *renderable );
+    Renderer2d() = default;
+    virtual ~Renderer2d();
+    typedef std::function<bool (const Renderable*, const Renderable*)> SortFn;
+    void add( Renderable *renderable );
+    void remove( Renderable *renderable );
     void sort( const SortFn &fn = sortByLayerAscending );
-    void render();
-    static bool sortByLayerAscending( const IRenderable *lhs, const IRenderable *rhs );
+    //! Collect vertices for rendering
+    virtual void update() = 0;
+    //! Send vertices to GPU to render
+    virtual void render() = 0;
+    const std::vector<Renderable*> &renderables() const { return mRenderables; }
   private:
-    std::vector<IRenderable*>         mRenderables;
-    std::vector<IRenderable::Vertex>  mVertices;
+    static bool sortByLayerAscending( const Renderable *lhs, const Renderable *rhs );
+    std::vector<Renderable*>         mRenderables;
   };
-}
+
+  /**
+   Batch renderer for GL_TRIANGLE_STRIP geometry
+   Stores geometry on the CPU and uploads on render
+   */
+  class Renderer2dStrip : public Renderer2d
+  {
+  public:
+    //! get all vertices and store in mVertices
+    void    update() override;
+    //! render vertices (fast)
+    void    render() override;
+  private:
+    std::vector<Renderable::Vertex>  mVertices;
+  };
+
+  /**
+   Batch renderer for GL_TRIANGLE_STRIP geometry
+   Stores geometry in a VBO on the GPU
+   */
+  class Renderer2dStripVbo : public Renderer2d
+  {
+  public:
+    //! get all vertices and update vbo
+    void    update() override;
+    //! render vbo (really fast)
+    void    render() override;
+  private:
+    GLuint  mVBO = 0;
+    size_t  mSize = 0;
+  };
+  
+} // pockets::

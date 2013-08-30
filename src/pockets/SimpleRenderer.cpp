@@ -32,20 +32,20 @@ using namespace std;
 using namespace ci;
 using namespace pockets;
 
-SimpleRenderer::IRenderable::~IRenderable()
+SimpleRenderer::Renderable::~Renderable()
 {
   if( mHost )
   { mHost->remove( this ); }
 }
 
-SimpleRenderer::IRenderable::IRenderable( const SimpleRenderer::IRenderable &other ):
+SimpleRenderer::Renderable::Renderable( const SimpleRenderer::Renderable &other ):
 mLayer( other.mLayer )
 {
   if( other.mHost )
   { other.mHost->add( this ); }
 }
 
-SimpleRenderer::IRenderable& SimpleRenderer::IRenderable::operator = (const pockets::SimpleRenderer::IRenderable &rhs)
+SimpleRenderer::Renderable& SimpleRenderer::Renderable::operator = (const pockets::SimpleRenderer::Renderable &rhs)
 {
   if( mHost == nullptr && rhs.mHost )
   { rhs.mHost->add( this ); }
@@ -64,7 +64,7 @@ SimpleRenderer::~SimpleRenderer()
   }
 }
 
-void SimpleRenderer::add( IRenderable *renderable )
+void SimpleRenderer::add( Renderable *renderable )
 {
   if( renderable->mHost )
   { renderable->mHost->remove( renderable ); }
@@ -72,7 +72,7 @@ void SimpleRenderer::add( IRenderable *renderable )
   renderable->mHost = this;
 }
 
-void SimpleRenderer::remove( IRenderable *renderable )
+void SimpleRenderer::remove( Renderable *renderable )
 {
   vector_remove( &mRenderables, renderable );
   renderable->mHost = nullptr;
@@ -96,7 +96,7 @@ void SimpleRenderer::sort( const SortFn &fn )
   stable_sort( mRenderables.begin(), mRenderables.end(), fn );
 }
 
-bool SimpleRenderer::sortByLayerAscending(const IRenderable *lhs, const IRenderable *rhs)
+bool SimpleRenderer::sortByLayerAscending(const Renderable *lhs, const Renderable *rhs)
 {
   return lhs->getLayer() < rhs->getLayer();
 }

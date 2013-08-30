@@ -67,7 +67,7 @@ namespace pockets
    Sprite renders a textured rectangle based on SpriteData specifications.
    */
   typedef std::shared_ptr<class Sprite> SpriteRef;
-  class Sprite : public SimpleRenderer::IRenderable, public Renderer2dStrip::IRenderable
+  class Sprite : public SimpleRenderer::Renderable, public Renderer2d::Renderable
   {
   public:
     Sprite() = default;

@@ -33,9 +33,9 @@
 A basic renderer for grouping rendered content and rendering in order.
 Pre- and post- draw hooks let you set up the proper render context.
 
-Renders anything with a render() method (overridden from IRenderable)
+Renders anything with a render() method (overridden from Renderable)
 
-IRenderable objects' destructors remove them from the renderer, which keeps a
+Renderable objects' destructors remove them from the renderer, which keeps a
 non-owning raw pointer to renderables, allowing you to manage the object's
 lifetime as you see fit. Symmetrically, the renderer will disown any renderables
 when it is destructed.
@@ -50,13 +50,13 @@ typedef std::shared_ptr<class SimpleRenderer> SimpleRendererRef;
 class SimpleRenderer
 {
 public:
-  class IRenderable
+  class Renderable
   { // a renderable type; removes itself from the parent renderer on destruction
   public:
-    IRenderable() = default;
-    IRenderable( const IRenderable &other );
-    IRenderable& operator=(const IRenderable &rhs);
-    virtual ~IRenderable();
+    Renderable() = default;
+    Renderable( const Renderable &other );
+    Renderable& operator=(const Renderable &rhs);
+    virtual ~Renderable();
     virtual void render() = 0;
     //! set the object layer to affect render order (higher => later)
     void setLayer( int layer ){ mLayer = layer; }
@@ -68,14 +68,14 @@ public:
   };
 
   typedef std::function<void ()>  ScaffoldFn;
-  typedef std::function<bool (const IRenderable*, const IRenderable*)>  SortFn;
+  typedef std::function<bool (const Renderable*, const Renderable*)>  SortFn;
 
   SimpleRenderer();
   ~SimpleRenderer();
   //! add an element to be rendered
-  void add( IRenderable *renderable );
+  void add( Renderable *renderable );
   //! remove an element from the renderer
-  void remove( IRenderable *renderable );
+  void remove( Renderable *renderable );
   //! sorts the renderable contents by layer (or by custom method if provided)
   //! only needs to be called if the draw order is changing (or after adding new content)
   void sort( const SortFn &fn = sortByLayerAscending );
@@ -87,9 +87,9 @@ public:
   void setPostDrawFn( const ScaffoldFn &fn ){ mPostDraw = fn; }
 
   static SimpleRendererRef create(){ return SimpleRendererRef( new SimpleRenderer ); }
-  static bool sortByLayerAscending( const IRenderable *lhs, const IRenderable *rhs );
+  static bool sortByLayerAscending( const Renderable *lhs, const Renderable *rhs );
 private:
-  std::vector<IRenderable*> mRenderables;
+  std::vector<Renderable*> mRenderables;
   ScaffoldFn  mPreDraw;
   ScaffoldFn  mPostDraw;
 };

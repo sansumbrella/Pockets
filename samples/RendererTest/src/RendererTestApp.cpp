@@ -19,7 +19,7 @@ using namespace pockets;
 
  Performance notes from testing on various devices (Release mode, 1k boxes):
 
- (Renderer/Device)        SimpleRenderer    RendererTriangle2d
+ (Renderer/Device)        SimpleRenderer    Renderer2dStrip
  iPhone 3GS               ~ 55ms             ~ 10ms
  iPhone 4S                ~ 26.3ms           ~  6.0ms
  iPad 2                   ~ 21.8ms           ~  6.6ms
@@ -30,12 +30,12 @@ using namespace pockets;
  GPU state switching is slow. This was all measured while plugged into XCode.
 
  SimpleRenderer, then, provides an easy interface for ordering custom rendering,
- while RendererTriangle2d provides a high performance interface for rendering
+ while Renderer2dStrip provides a high performance interface for rendering
  triangle strips.
  */
 
 // Something we can render with either renderer for better comparison of methods
-class Box : public Renderer2dStrip::IRenderable, public SimpleRenderer::IRenderable
+class Box : public pk::Renderer2d::Renderable, public SimpleRenderer::Renderable
 {
 public:
   Box()
@@ -97,26 +97,38 @@ typedef function<void ()> RenderFn;
 
 class RendererTestApp : public AppNative {
 public:
+  void prepareSettings( Settings *settings );
 	void setup();
 	void swapRenderer();
 	void update();
 	void draw();
 private:
-  Renderer2dStrip  mRenderer2dStrip;
-  SimpleRenderer    mSimpleRenderer;
-  array<Box, 1000>  mBoxes;
+  Renderer2dStrip     mRenderer2dStrip;
+  Renderer2dStripVbo  mRenderer2dStripVbo;
+  SimpleRenderer      mSimpleRenderer;
+  array<Box, 10000>   mBoxes;
   vector<pair<string, RenderFn>>            mRenderFunctions;
   vector<pair<string, RenderFn>>::iterator  mRenderFn;
   double            mAverageRenderTime = 0;
 };
 
+void RendererTestApp::prepareSettings( Settings *settings )
+{
+  settings->setWindowSize( 1024, 768 );
+  settings->disableFrameRate();
+}
+
 void RendererTestApp::setup()
 {
   mRenderFunctions = {
-    { "Triangle Renderer", [=](){ mRenderer2dStrip.render(); } },
-    { "Simple Renderer", [=](){ mSimpleRenderer.render(); } }
+    { "Batch 2d", [=](){ mRenderer2dStrip.update(); mRenderer2dStrip.render(); } },
+    { "VBO 2d", [=](){ mRenderer2dStripVbo.update(); mRenderer2dStripVbo.render(); } },
+    { "Simple", [=](){ mSimpleRenderer.render(); } },
+    { "Batch 2d (no updates)", [=](){ mRenderer2dStrip.render(); } },
+    { "VBO 2d (no updates)", [=](){ mRenderer2dStripVbo.render(); } },
   };
   mRenderFn = mRenderFunctions.begin();
+  gl::enableVerticalSync();
 
   for( auto &box : mBoxes )
   {
@@ -125,23 +137,25 @@ void RendererTestApp::setup()
     box.setRotation( Rand::randFloat( M_PI * 2 ) );
     mRenderer2dStrip.add( &box );
     mSimpleRenderer.add( &box );
+    mRenderer2dStripVbo.add( &box );
   }
 
   // We perform the cast since we know what type of things we stored in each renderer
   // A type-safe way could be to assign y to each objects layer and then sort by layer
   Vec2f center = getWindowCenter();
-  auto vortex_simple = [center]( const SimpleRenderer::IRenderable *lhs, const SimpleRenderer::IRenderable *rhs )
+  auto vortex_simple = [center]( const SimpleRenderer::Renderable *lhs, const SimpleRenderer::Renderable *rhs )
   {
     return static_cast<const Box*>( lhs )->getPos().distance(center) <
     static_cast<const Box*>( rhs )->getPos().distance(center);
   };
-  auto vortex_triangle = [center]( const Renderer2dStrip::IRenderable *lhs, const Renderer2dStrip::IRenderable *rhs )
+  auto vortex_triangle = [center]( const pk::Renderer2d::Renderable *lhs, const pk::Renderer2d::Renderable *rhs )
   {
     return  static_cast<const Box*>( lhs )->getPos().distance(center) <
     static_cast<const Box*>( rhs )->getPos().distance(center);
   };
   mSimpleRenderer.sort( vortex_simple );
   mRenderer2dStrip.sort( vortex_triangle );
+  mRenderer2dStripVbo.sort( vortex_triangle );
 
   getWindow()->getSignalKeyUp().connect( [this](KeyEvent &event){ swapRenderer(); } );
   getWindow()->getSignalTouchesEnded().connect( [this](TouchEvent &event){ swapRenderer(); } );
@@ -154,7 +168,7 @@ void RendererTestApp::swapRenderer()
   {
     mRenderFn = mRenderFunctions.begin();
   }
-  cout << "Swapped to: " << mRenderFn->first << endl;
+  cout << "Renderer set to: " << mRenderFn->first << endl;
 }
 
 void RendererTestApp::update()
@@ -175,9 +189,9 @@ void RendererTestApp::draw()
   auto ms = (t2 - t1) * 1000;
   mAverageRenderTime = (mAverageRenderTime * 59 + ms) / 60;
   if( getElapsedFrames() % 120 == 0 )
-  {
+  { // every so often, print render time
     cout << mRenderFn->first << " avg render time: " << mAverageRenderTime << "ms" << endl;
   }
 }
 
-CINDER_APP_NATIVE( RendererTestApp, RendererGl( RendererGl::AA_NONE ) )
+CINDER_APP_NATIVE( RendererTestApp, RendererGl( RendererGl::AA_MSAA_8 ) )

@@ -75,13 +75,13 @@ namespace pockets
                , vec->end() );
   }
 
-  //! Remove all copies of the element \a compare from \a vec
+  //! Remove all copies of \a element from \a vec
   template<class ELEMENT_TYPE>
-  void vector_remove( std::vector<ELEMENT_TYPE> *vec, const ELEMENT_TYPE &compare )
+  void vector_remove( std::vector<ELEMENT_TYPE> *vec, const ELEMENT_TYPE &element )
   {
     vec->erase( std::remove_if( vec->begin()
                                , vec->end()
-                               , [=](const ELEMENT_TYPE &element){ return element == compare; } )
+                               , [=](const ELEMENT_TYPE &e){ return e == element; } )
                , vec->end() );
   }
 

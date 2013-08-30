@@ -39,7 +39,7 @@ namespace pockets
     TODO: store in VBO (not well supported on iOS right now)
   */
   typedef std::shared_ptr<class ExpandedLine2d> ExpandedLine2dRef;
-  class ExpandedLine2d : public SimpleRenderer::IRenderable
+  class ExpandedLine2d : public SimpleRenderer::Renderable
   {
   public:
     ExpandedLine2d( const ci::Vec2f &begin, const ci::Vec2f &end );

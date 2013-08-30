@@ -68,8 +68,8 @@ void Sprite::setTint(const ci::ColorA &color)
 
 void Sprite::setLayer(int layer)
 {
-  SimpleRenderer::IRenderable::setLayer( layer );
-  Renderer2dStrip::IRenderable::setLayer( layer );
+  SimpleRenderer::Renderable::setLayer( layer );
+  Renderer2dStrip::Renderable::setLayer( layer );
 }
 
 void Sprite::updatePositions(const ci::Rectf &positions)
