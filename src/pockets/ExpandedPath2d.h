@@ -54,7 +54,7 @@ namespace pockets
         mSkeleton[i] = positions[i];
       }
       mClosed = closed;
-      buildOutline();
+      mDirty = true;
     }
     //! Move the front of the path, popping off the last element
     void shiftFront( const ci::Vec2f &pos );
@@ -76,6 +76,7 @@ namespace pockets
     std::vector<ci::Vec2f>  mTexCoords;
     float                   mLineHalfWidth = 4.0f;
     bool                    mClosed = false;
+    bool                    mDirty = true;
     // ci::gl::VboMesh         mVbo;
   };
 

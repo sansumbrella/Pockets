@@ -33,12 +33,13 @@ void PathStrokeRibbonTubeApp::setup()
   mLine2d->setWidth( 20.0f );
 
   // Create an expanded path passing through many points
+  // We will update this path with mouse movement
   mPath2d = ExpandedPath2d::create( 20 );
   vector<Vec2f> path2d_positions;
   path2d_positions.assign( 20, getWindowCenter() );
   mPath2d->setPositions( path2d_positions );
 
-  // Create an expanded path passing through many points in 3d
+  // Generate some random points in space
   Rand r{};
   const size_t curve_length = 8;
   vector<Vec3f> curve_positions;
@@ -46,25 +47,28 @@ void PathStrokeRibbonTubeApp::setup()
   {
     curve_positions.push_back( Vec3f{ r.nextFloat( getWindowWidth() ), r.nextFloat( getWindowHeight() ), r.nextFloat( 0.0f, -100.0f ) } );
   }
+  // Create a curve through those points
   BSpline3f curve{ curveThrough( curve_positions ), 3, false, true };
   // TODO: adaptive resampling of the curve
   // for now, just blindly sample the curve
   const size_t curve_samples = 200;
   vector<Vec3f> sample_positions;
   for( int i = 0; i < curve_samples; ++i )
-  {
+  { // get positions along the curve
     sample_positions.push_back( curve.getPosition( i / (curve_samples - 1.0f) ) );
   }
-  mPath3d = ExpandedPath3d::create( curve_samples );
+  // Create and expanded path passing through many points
+  mPath3d = ExpandedPath3d::create( sample_positions.size() );
+  mPath3d->setPositions( sample_positions );
   mPath3d->setWidth( 16.0f );
+  // Use a function to vary the line's width along its length
   mPath3d->setShapeFn( []( float t ) {
     if( t < 0.5f )
-    { // taper one end
+    { // taper one half
       return easeInOutQuart( t * 2.0f );
     }
     return 1.0f;
   } );
-  mPath3d->setPositions( sample_positions );
 }
 
 void PathStrokeRibbonTubeApp::mouseMove( MouseEvent event )

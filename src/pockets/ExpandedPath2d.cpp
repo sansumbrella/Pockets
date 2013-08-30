@@ -69,14 +69,14 @@ void ExpandedPath2d::shiftFront( const Vec2f &pos )
 {
   mSkeleton.push_front( pos );
   mSkeleton.pop_back();
-  buildOutline();
+  mDirty = true;
 }
 
 void ExpandedPath2d::shiftBack( const Vec2f &pos )
 {
   mSkeleton.push_back( pos );
   mSkeleton.pop_front();
-  buildOutline();
+  mDirty = true;
 }
 
 void ExpandedPath2d::buildOutline()
@@ -129,6 +129,11 @@ float ExpandedPath2d::getHalfWidth( float t )
 void ExpandedPath2d::draw()
 {
 //  gl::draw( mVbo );
+  if( mDirty )
+  {
+    buildOutline();
+    mDirty = false;
+  }
   glEnableClientState( GL_VERTEX_ARRAY );
   glVertexPointer( 2, GL_FLOAT, 0, &mOutline[0] );
   glEnableClientState( GL_TEXTURE_COORD_ARRAY );

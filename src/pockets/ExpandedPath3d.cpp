@@ -59,10 +59,11 @@ void ExpandedPath3d::setPositions( const vector<Vec3f> &positions, const Vec3f &
 {
   assert( positions.size() == mSkeleton.size() );
   mSkeleton = move( positions );
-  buildOutline( eye_axis );
+  mEyeAxis = eye_axis;
+  mDirty = true;
 }
 
-void ExpandedPath3d::buildOutline( const Vec3f &eye_axis )
+void ExpandedPath3d::buildOutline()
 {
   Vec3f a, b;
   const float last_index = mSkeleton.size() - 1.0f;
@@ -70,7 +71,7 @@ void ExpandedPath3d::buildOutline( const Vec3f &eye_axis )
   a = mSkeleton.at( 0 );
   b = mSkeleton.at( 1 );
   Vec3f edge = (b - a).normalized();
-  Vec3f tangent = edge.cross( eye_axis );
+  Vec3f tangent = edge.cross( mEyeAxis );
   Vec3f north = tangent.normalized() * getHalfWidth( 0 );
   Vec3f south = -north;
   mOutline.at( 0 ) = a + north;
@@ -81,7 +82,7 @@ void ExpandedPath3d::buildOutline( const Vec3f &eye_axis )
     a = mSkeleton.at(i - 1);
     b = mSkeleton.at(i);
     edge = (b - a).normalized();
-    tangent = edge.cross( eye_axis );
+    tangent = edge.cross( mEyeAxis );
     north = tangent.normalized() * getHalfWidth( i / last_index );
     south = -north;
     mOutline.at( i * 2 ) = b + north;
@@ -103,5 +104,10 @@ float ExpandedPath3d::getHalfWidth( float t )
 
 void ExpandedPath3d::draw()
 {
+  if( mDirty )
+  {
+    buildOutline();
+    mDirty = false;
+  }
   gl::draw( mVbo );
 }
