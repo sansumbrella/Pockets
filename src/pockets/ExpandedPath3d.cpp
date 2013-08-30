@@ -1,19 +1,19 @@
 //
-//  FatLine3d.cpp
+//  ExpandedPath3d.cpp
 //  Energy
 //
 //  Created by David Wicks on 1/25/13.
 //  Copyright (c) 2013 __MyCompanyName__. All rights reserved.
 //
 
-#include "FatLine3d.h"
+#include "ExpandedPath3d.h"
 #include "cinder/CinderMath.h"
 
 using namespace pockets;
 using namespace std;
 using namespace ci;
 
-FatLine3d::FatLine3d( size_t length )
+ExpandedPath3d::ExpandedPath3d( size_t length )
 {
   mSkeleton.assign( length, Vec3f::zero() );
   mOutline.assign( length * 2, Vec3f::zero() );
@@ -47,17 +47,22 @@ FatLine3d::FatLine3d( size_t length )
   }
 }
 
-FatLine3d::~FatLine3d()
+ExpandedPath3d::~ExpandedPath3d()
 {}
 
-void FatLine3d::setPositions( const vector<Vec3f> &positions, const Vec3f &eye_axis )
+ExpandedPath3dUniqueRef ExpandedPath3d::create( size_t length )
+{
+  return ExpandedPath3dUniqueRef{ new ExpandedPath3d{ length } };
+}
+
+void ExpandedPath3d::setPositions( const vector<Vec3f> &positions, const Vec3f &eye_axis )
 {
   assert( positions.size() == mSkeleton.size() );
-  mSkeleton = positions;
+  mSkeleton = move( positions );
   buildOutline( eye_axis );
 }
 
-void FatLine3d::buildOutline( const Vec3f &eye_axis )
+void ExpandedPath3d::buildOutline( const Vec3f &eye_axis )
 {
   Vec3f a, b;
   const float last_index = mSkeleton.size() - 1.0f;
@@ -91,12 +96,12 @@ void FatLine3d::buildOutline( const Vec3f &eye_axis )
   }
 }
 
-float FatLine3d::getHalfWidth( float t )
+float ExpandedPath3d::getHalfWidth( float t )
 {
   return mShapeFn( t ) * mLineHalfWidth;
 }
 
-void FatLine3d::draw()
+void ExpandedPath3d::draw()
 {
   gl::draw( mVbo );
 }

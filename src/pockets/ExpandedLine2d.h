@@ -36,9 +36,12 @@ namespace pockets
 {
   /**
     A line connecting two points.
-    TODO: store in VBO (not well supported on iOS right now)
+    Expands line geometry in two dimensions to allow for very fat
+    strokes, antialiased edges, and custom-drawn end caps.
+    Can
   */
   typedef std::shared_ptr<class ExpandedLine2d> ExpandedLine2dRef;
+  typedef std::unique_ptr<class ExpandedLine2d> ExpandedLine2dUniqueRef;
   class ExpandedLine2d : public SimpleRenderer::Renderable
   {
   public:
@@ -46,18 +49,19 @@ namespace pockets
     ~ExpandedLine2d();
     //! reset the line end points
     void setEndPoints( const ci::Vec2f &begin, const ci::Vec2f &end );
-    void setWidth( float width ){ mWidth = width; }
-    //! adjusts length of line as proportion of distance from begin->end
+    void setWidth( float width ){ mWidth = width; buildOutline( mBegin, mBegin + mRay ); }
+    //! scales the length of the line with the beginning fixed (end point moves)
     void scaleLength( float scale );
-    //!
+    //! scales the length of the line with the end fixed (beginning moves)
     void scaleLengthInverse( float scale );
+    //! Use sprite data to determine width of line and set texture coordinates
     void matchSprite( const SpriteData &sprite );
     //! returns the total length of the line (without scaling)
     float getLength() const { return mRay.length(); }
     void render();
-    static ExpandedLine2dRef create( const ci::Vec2f &begin, const ci::Vec2f &end )
+    static ExpandedLine2dUniqueRef create( const ci::Vec2f &begin, const ci::Vec2f &end )
     {
-      return ExpandedLine2dRef( new ExpandedLine2d( begin, end ) );
+      return ExpandedLine2dUniqueRef( new ExpandedLine2d( begin, end ) );
     }
   private:
     ci::Vec2f                 mBegin, mRay;

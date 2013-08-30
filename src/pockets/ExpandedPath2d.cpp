@@ -25,7 +25,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "FatPath2d.h"
+#include "ExpandedPath2d.h"
 #include "cinder/CinderMath.h"
 #include "cinder/gl/gl.h"
 
@@ -33,7 +33,7 @@ using namespace pockets;
 using namespace std;
 using namespace ci;
 
-FatPath2d::FatPath2d( size_t length )
+ExpandedPath2d::ExpandedPath2d( size_t length )
 {
   mSkeleton.assign( length, Vec2f::zero() );
   mOutline.assign( length * 2, Vec2f::zero() );
@@ -62,10 +62,10 @@ FatPath2d::FatPath2d( size_t length )
   // }
 }
 
-FatPath2d::~FatPath2d()
+ExpandedPath2d::~ExpandedPath2d()
 {}
 
-void FatPath2d::setPositions( const vector<Vec2f> &positions, bool closed )
+void ExpandedPath2d::setPositions( const vector<Vec2f> &positions, bool closed )
 {
   assert( positions.size() == mSkeleton.size() );
   mSkeleton = positions;
@@ -73,7 +73,7 @@ void FatPath2d::setPositions( const vector<Vec2f> &positions, bool closed )
   buildOutline();
 }
 
-void FatPath2d::buildOutline()
+void ExpandedPath2d::buildOutline()
 {
   Vec2f a, b, c;
   const float last_index = mSkeleton.size() - 1.0f;
@@ -115,12 +115,12 @@ void FatPath2d::buildOutline()
   // }
 }
 
-float FatPath2d::getHalfWidth( float t )
+float ExpandedPath2d::getHalfWidth( float t )
 {
   return mShapeFn( t ) * mLineHalfWidth;
 }
 
-void FatPath2d::draw()
+void ExpandedPath2d::draw()
 {
 //  gl::draw( mVbo );
   glEnableClientState( GL_VERTEX_ARRAY );
