@@ -30,6 +30,7 @@
 
 namespace pockets
 {
+	// forward declare the messenger type we will receive from
 	template<class T>
 	class Messenger;
 
@@ -38,12 +39,19 @@ namespace pockets
    Keeps track of which messengers it's listening to and unregisters itself in
    the destructor.
 
+   Inherit from public Receiver<T> and override the receive() method.
+
    For usage explanation, see Messenger.hpp
    */
 	template <class T>
 	class Receiver
 	{
 	public:
+    //! Implement receive( const T& ) to handle incoming messages.
+		virtual void receive( const T &message ) = 0;
+
+		// Constructors and implementation details below
+
 		//! default constructor
 		Receiver() = default;
 		//! Copy the Messenger/Receiver relationship of \a other
@@ -77,8 +85,6 @@ namespace pockets
 				m->removeDestructingReceiver( this );
 			}
 		}
-    //! Implement receive( const T& ) to handle incoming messages.
-		virtual void receive( const T &message ) = 0;
 	private:
     typedef Messenger<T> MessengerT;
 		friend MessengerT;

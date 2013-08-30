@@ -4,17 +4,24 @@ Intended for use with Cinder.
 Written against clang/C++11.
 
 Current Contents:
-Line Utilities
-- curve through a collection of points
-- path expansion to geometry on CPU
 Sprites
 - image packing for making sprite sheets
 - sprite rendering from sheets
+- sprite animation
 Basic Renderers
 - SimpleRenderer naively calls render() on all elements
-- Renderer2dStrip batches drawing of all elements into a single Triangle Strip
+- Renderer2d supports batch renderers
+	- Renderer2dStrip
+	- Renderer2dStripVbo
 	- TODO: all 2d elements implement the interface for fast rendering
-- TODO: Renderer3dStrip
+- TODO: Renderer3d
+Message Passing / Event Passing Library
+- Messenger/Receiver pattern allows for decoupled information passing
+- Messenger<T> passes arbitrary message types with compile-time type safety
+- Receiver<T> allows you to listen for different events with different handlers
+Line Utilities
+- curve through a collection of points
+- path expansion to geometry on CPU
 Color Palette
 - color selection from an image
 Animation Utilities
