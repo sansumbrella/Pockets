@@ -65,14 +65,14 @@ ExpandedPath2d::ExpandedPath2d( size_t length )
 ExpandedPath2d::~ExpandedPath2d()
 {}
 
-void ExpandedPath2d::pushFront( const Vec2f &pos )
+void ExpandedPath2d::shiftFront( const Vec2f &pos )
 {
   mSkeleton.push_front( pos );
   mSkeleton.pop_back();
   buildOutline();
 }
 
-void ExpandedPath2d::pushBack( const Vec2f &pos )
+void ExpandedPath2d::shiftBack( const Vec2f &pos )
 {
   mSkeleton.push_back( pos );
   mSkeleton.pop_front();

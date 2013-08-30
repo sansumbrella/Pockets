@@ -69,7 +69,7 @@ void PathStrokeRibbonTubeApp::setup()
 
 void PathStrokeRibbonTubeApp::mouseMove( MouseEvent event )
 {
-  mPath2d->pushFront( event.getPos() );
+  mPath2d->shiftFront( event.getPos() );
 }
 
 void PathStrokeRibbonTubeApp::update()

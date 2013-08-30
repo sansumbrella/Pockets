@@ -57,9 +57,9 @@ namespace pockets
       buildOutline();
     }
     //! Move the front of the path, popping off the last element
-    void pushFront( const ci::Vec2f &pos );
+    void shiftFront( const ci::Vec2f &pos );
     //! Move the back of the path, popping off the first element
-    void pushBack( const ci::Vec2f &pos );
+    void shiftBack( const ci::Vec2f &pos );
     void setWidth( float w ){ mLineHalfWidth = w / 2; }
     void draw();
     static ExpandedPath2dUniqueRef create( size_t vertex_count ){
