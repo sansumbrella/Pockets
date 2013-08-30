@@ -44,7 +44,7 @@ namespace pockets
    and renders the appropriate Sprite given the current time.
    */
   typedef std::shared_ptr<class SpriteAnimation> SpriteAnimationRef;
-  class SpriteAnimation // : public TriangleRenderer::IRenderable
+  class SpriteAnimation // : public Renderer2dStrip::IRenderable
   {
     struct Drawing{
       SpriteData  sprite;

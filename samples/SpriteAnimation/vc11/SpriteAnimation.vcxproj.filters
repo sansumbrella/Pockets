@@ -74,7 +74,7 @@
     <ClCompile Include="..\..\..\src\pockets\SpriteSheet.cpp">
       <Filter>Blocks\Pockets\src\pockets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\pockets\TriangleRenderer.cpp">
+    <ClCompile Include="..\..\..\src\pockets\Renderer2dStrip.cpp">
       <Filter>Blocks\Pockets\src\pockets</Filter>
     </ClCompile>
     <ClInclude Include="..\..\..\src\pockets\AnimationUtils.h">
@@ -116,7 +116,7 @@
     <ClInclude Include="..\..\..\src\pockets\SpriteSheet.h">
       <Filter>Blocks\Pockets\src\pockets</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\pockets\TriangleRenderer.h">
+    <ClInclude Include="..\..\..\src\pockets\Renderer2dStrip.h">
       <Filter>Blocks\Pockets\src\pockets</Filter>
     </ClInclude>
     <ClCompile Include="..\..\..\src\pockets\gl\Vbo.cpp">

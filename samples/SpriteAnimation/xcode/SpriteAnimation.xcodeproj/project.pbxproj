@@ -23,7 +23,7 @@
 		87D7670377AF4C3AA2B13BBA /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 79046D37A1C44E7B9614E1F0 /* Sprite.cpp */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		961C78232EB34EF4A7C98D01 /* ColorPalette.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9CF34C03D0D4FDFA956E230 /* ColorPalette.cpp */; };
-		A14D3F9569DC4B51B69513D7 /* TriangleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16F11A40325A4F019C340AFE /* TriangleRenderer.cpp */; };
+		A14D3F9569DC4B51B69513D7 /* Renderer2dStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16F11A40325A4F019C340AFE /* Renderer2dStrip.cpp */; };
 		A79A10C7CBBC4B8AAF9FB486 /* FatPath2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AF223FC0B524DDF94928021 /* FatPath2d.cpp */; };
 		AF167D46AD90447BB9567B3F /* FileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC925115B58449968CB22627 /* FileUtils.cpp */; };
 		C7E3CB78008B49938240AC62 /* ImagePacker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C56717C9E9BC40859B3606D7 /* ImagePacker.cpp */; };
@@ -43,7 +43,7 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1596F01A17CFE24200362BCF /* SpriteAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpriteAnimation.cpp; path = ../../../src/pockets/SpriteAnimation.cpp; sourceTree = "<group>"; };
 		1596F01B17CFE24200362BCF /* SpriteAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpriteAnimation.h; path = ../../../src/pockets/SpriteAnimation.h; sourceTree = "<group>"; };
-		16F11A40325A4F019C340AFE /* TriangleRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = TriangleRenderer.cpp; path = ../../../src/pockets/TriangleRenderer.cpp; sourceTree = "<group>"; };
+		16F11A40325A4F019C340AFE /* Renderer2dStrip.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Renderer2dStrip.cpp; path = ../../../src/pockets/Renderer2dStrip.cpp; sourceTree = "<group>"; };
 		1AF223FC0B524DDF94928021 /* FatPath2d.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = FatPath2d.cpp; path = ../../../src/pockets/FatPath2d.cpp; sourceTree = "<group>"; };
 		2164ABC3F40840F9AB1DA14A /* FileUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FileUtils.h; path = ../../../src/pockets/FileUtils.h; sourceTree = "<group>"; };
 		26B122CC2A7F4AA491D966C0 /* Vbo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Vbo.cpp; path = ../../../src/pockets/gl/Vbo.cpp; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 		C3338F0B26C94EAB8C9ABE4A /* Locus2d.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Locus2d.cpp; path = ../../../src/pockets/Locus2d.cpp; sourceTree = "<group>"; };
 		C56717C9E9BC40859B3606D7 /* ImagePacker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ImagePacker.cpp; path = ../../../src/pockets/ImagePacker.cpp; sourceTree = "<group>"; };
 		CC1DC0F6620A45A39AE9D11A /* Locus2d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Locus2d.h; path = ../../../src/pockets/Locus2d.h; sourceTree = "<group>"; };
-		CE286FC8748A4D619DF209D1 /* TriangleRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TriangleRenderer.h; path = ../../../src/pockets/TriangleRenderer.h; sourceTree = "<group>"; };
+		CE286FC8748A4D619DF209D1 /* Renderer2dStrip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Renderer2dStrip.h; path = ../../../src/pockets/Renderer2dStrip.h; sourceTree = "<group>"; };
 		D3041DD5AE3148F99A6A75EA /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
 		DC925115B58449968CB22627 /* FileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = FileUtils.cpp; path = ../../../src/pockets/FileUtils.cpp; sourceTree = "<group>"; };
 		E69173F997054CAAB08FDC85 /* FatLine3d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FatLine3d.h; path = ../../../src/pockets/FatLine3d.h; sourceTree = "<group>"; };
@@ -207,7 +207,7 @@
 				2AEC23A1AEAD4BF09F47B845 /* SimpleRenderer.cpp */,
 				79046D37A1C44E7B9614E1F0 /* Sprite.cpp */,
 				94B18F9EBA3F47CC90AE4BD2 /* SpriteSheet.cpp */,
-				16F11A40325A4F019C340AFE /* TriangleRenderer.cpp */,
+				16F11A40325A4F019C340AFE /* Renderer2dStrip.cpp */,
 				7AF79A1927094C1EA884B73D /* AnimationUtils.h */,
 				83D8F64416064363859639EE /* ColorPalette.h */,
 				385ED50DC08E494886E06A4C /* ExpandedLine2d.h */,
@@ -221,7 +221,7 @@
 				7C4F6B6E232D446CAF7F57EA /* SimpleRenderer.h */,
 				461FE4993BA44EF1A3B564A7 /* Sprite.h */,
 				AAEF563E0031454CA62A6AD2 /* SpriteSheet.h */,
-				CE286FC8748A4D619DF209D1 /* TriangleRenderer.h */,
+				CE286FC8748A4D619DF209D1 /* Renderer2dStrip.h */,
 				FA51188586734621BF47D08B /* gl */,
 				777427BEA345410CACFED30E /* Pockets.h */,
 				1596F01A17CFE24200362BCF /* SpriteAnimation.cpp */,
@@ -329,7 +329,7 @@
 				C8858B7F781141B781417443 /* SimpleRenderer.cpp in Sources */,
 				87D7670377AF4C3AA2B13BBA /* Sprite.cpp in Sources */,
 				1D28F6D523F94FF98EDFD018 /* SpriteSheet.cpp in Sources */,
-				A14D3F9569DC4B51B69513D7 /* TriangleRenderer.cpp in Sources */,
+				A14D3F9569DC4B51B69513D7 /* Renderer2dStrip.cpp in Sources */,
 				F14EB20DC9E44F4085E6A741 /* Vbo.cpp in Sources */,
 				1596F01C17CFE24200362BCF /* SpriteAnimation.cpp in Sources */,
 			);

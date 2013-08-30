@@ -11,8 +11,10 @@ Sprites
 - image packing for making sprite sheets
 - sprite rendering from sheets
 Basic Renderers
-- naive SimpleRenderer
-- much faster TriangleRenderer (for 2d triangles)
+- SimpleRenderer naively calls render() on all elements
+- Renderer2dStrip batches drawing of all elements into a single Triangle Strip
+	- TODO: all 2d elements implement the interface for fast rendering
+- TODO: Renderer3dStrip
 Color Palette
 - color selection from an image
 Animation Utilities

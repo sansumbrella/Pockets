@@ -27,7 +27,7 @@
 
 #pragma once
 #include "SimpleRenderer.h"
-#include "TriangleRenderer.h"
+#include "Renderer2dStrip.h"
 #include "Locus2d.h"
 #include <array>
 
@@ -67,7 +67,7 @@ namespace pockets
    Sprite renders a textured rectangle based on SpriteData specifications.
    */
   typedef std::shared_ptr<class Sprite> SpriteRef;
-  class Sprite : public SimpleRenderer::IRenderable, public TriangleRenderer::IRenderable
+  class Sprite : public SimpleRenderer::IRenderable, public Renderer2dStrip::IRenderable
   {
   public:
     Sprite() = default;

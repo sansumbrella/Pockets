@@ -47,7 +47,7 @@
 
 namespace pockets
 {
-  class TriangleRenderer
+  class Renderer2dStrip
   {
   public:
     class IRenderable
@@ -69,13 +69,13 @@ namespace pockets
       void setLayer(int layer){ mLayer = layer; }
       int getLayer() const { return mLayer; }
     private:
-      friend class TriangleRenderer;
-      TriangleRenderer *mHost = nullptr;
+      friend class Renderer2dStrip;
+      Renderer2dStrip *mHost = nullptr;
       int               mLayer = 0;
     };
     typedef std::function<bool (const IRenderable*, const IRenderable*)> SortFn;
-    TriangleRenderer() = default;
-    ~TriangleRenderer();
+    Renderer2dStrip() = default;
+    ~Renderer2dStrip();
 
     void add( IRenderable *renderable );
     void remove( IRenderable *renderable );

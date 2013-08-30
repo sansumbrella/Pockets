@@ -2,7 +2,7 @@
 #include "cinder/gl/gl.h"
 #include "cinder/Rand.h"
 
-#include "TriangleRenderer.h"
+#include "Renderer2dStrip.h"
 #include "SimpleRenderer.h"
 #include "Locus2d.h"
 
@@ -19,7 +19,7 @@ using namespace pockets;
 
  Performance notes from testing on various devices (Release mode, 1k boxes):
 
- (Renderer/Device)        SimpleRenderer    TriangleRenderer
+ (Renderer/Device)        SimpleRenderer    RendererTriangle2d
  iPhone 3GS               ~ 55ms             ~ 10ms
  iPhone 4S                ~ 26.3ms           ~  6.0ms
  iPad 2                   ~ 21.8ms           ~  6.6ms
@@ -30,12 +30,12 @@ using namespace pockets;
  GPU state switching is slow. This was all measured while plugged into XCode.
 
  SimpleRenderer, then, provides an easy interface for ordering custom rendering,
- while TriangleRenderer provides a high performance interface for rendering
+ while RendererTriangle2d provides a high performance interface for rendering
  triangle strips.
  */
 
 // Something we can render with either renderer for better comparison of methods
-class Box : public TriangleRenderer::IRenderable, public SimpleRenderer::IRenderable
+class Box : public Renderer2dStrip::IRenderable, public SimpleRenderer::IRenderable
 {
 public:
   Box()
@@ -76,7 +76,7 @@ public:
     glDisableClientState( GL_VERTEX_ARRAY );
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
   }
-  // Interface for TriangleRenderer
+  // Interface for Renderer2dStrip
   vector<Vertex> getVertices() override
   {
     auto mat = mLocus.getTransform();
@@ -102,7 +102,7 @@ public:
 	void update();
 	void draw();
 private:
-  TriangleRenderer  mTriangleRenderer;
+  Renderer2dStrip  mRenderer2dStrip;
   SimpleRenderer    mSimpleRenderer;
   array<Box, 1000>  mBoxes;
   vector<pair<string, RenderFn>>            mRenderFunctions;
@@ -113,7 +113,7 @@ private:
 void RendererTestApp::setup()
 {
   mRenderFunctions = {
-    { "Triangle Renderer", [=](){ mTriangleRenderer.render(); } },
+    { "Triangle Renderer", [=](){ mRenderer2dStrip.render(); } },
     { "Simple Renderer", [=](){ mSimpleRenderer.render(); } }
   };
   mRenderFn = mRenderFunctions.begin();
@@ -123,7 +123,7 @@ void RendererTestApp::setup()
     box.setColor( ColorA{ CM_HSV, Rand::randFloat(), 0.9f, 0.9f, 1.0f } );
     box.setPos( Vec2f{ Rand::randFloat(getWindowWidth()), Rand::randFloat(getWindowHeight()) } );
     box.setRotation( Rand::randFloat( M_PI * 2 ) );
-    mTriangleRenderer.add( &box );
+    mRenderer2dStrip.add( &box );
     mSimpleRenderer.add( &box );
   }
 
@@ -135,13 +135,13 @@ void RendererTestApp::setup()
     return static_cast<const Box*>( lhs )->getPos().distance(center) <
     static_cast<const Box*>( rhs )->getPos().distance(center);
   };
-  auto vortex_triangle = [center]( const TriangleRenderer::IRenderable *lhs, const TriangleRenderer::IRenderable *rhs )
+  auto vortex_triangle = [center]( const Renderer2dStrip::IRenderable *lhs, const Renderer2dStrip::IRenderable *rhs )
   {
     return  static_cast<const Box*>( lhs )->getPos().distance(center) <
     static_cast<const Box*>( rhs )->getPos().distance(center);
   };
   mSimpleRenderer.sort( vortex_simple );
-  mTriangleRenderer.sort( vortex_triangle );
+  mRenderer2dStrip.sort( vortex_triangle );
 
   getWindow()->getSignalKeyUp().connect( [this](KeyEvent &event){ swapRenderer(); } );
   getWindow()->getSignalTouchesEnded().connect( [this](TouchEvent &event){ swapRenderer(); } );

@@ -25,16 +25,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "TriangleRenderer.h"
+#include "Renderer2dStrip.h"
 #include "CollectionUtilities.hpp"
 
 using namespace std;
 using namespace cinder;
 using namespace pockets;
 
-typedef TriangleRenderer::IRenderable::Vertex Vertex;
+typedef Renderer2dStrip::IRenderable::Vertex Vertex;
 
-TriangleRenderer::IRenderable::~IRenderable()
+Renderer2dStrip::IRenderable::~IRenderable()
 {
 	if( mHost )
 	{
@@ -42,7 +42,7 @@ TriangleRenderer::IRenderable::~IRenderable()
 	}
 }
 
-TriangleRenderer::IRenderable::IRenderable( const IRenderable &other ):
+Renderer2dStrip::IRenderable::IRenderable( const IRenderable &other ):
 mLayer( other.mLayer )
 {
 	if( other.mHost )
@@ -51,7 +51,7 @@ mLayer( other.mLayer )
 	}
 }
 
-TriangleRenderer::IRenderable& TriangleRenderer::IRenderable::operator = (const TriangleRenderer::IRenderable &rhs)
+Renderer2dStrip::IRenderable& Renderer2dStrip::IRenderable::operator = (const Renderer2dStrip::IRenderable &rhs)
 {
   if( mHost == nullptr && rhs.mHost )
   { rhs.mHost->add( this ); }
@@ -59,7 +59,7 @@ TriangleRenderer::IRenderable& TriangleRenderer::IRenderable::operator = (const 
   return *this;
 }
 
-TriangleRenderer::~TriangleRenderer()
+Renderer2dStrip::~Renderer2dStrip()
 {
 	for( auto child : mRenderables )
 	{
@@ -67,7 +67,7 @@ TriangleRenderer::~TriangleRenderer()
 	}
 }
 
-void TriangleRenderer::add( IRenderable *renderable )
+void Renderer2dStrip::add( IRenderable *renderable )
 {
 	if( renderable->mHost )
 	{
@@ -77,13 +77,13 @@ void TriangleRenderer::add( IRenderable *renderable )
 	renderable->mHost = this;
 }
 
-void TriangleRenderer::remove( IRenderable *renderable )
+void Renderer2dStrip::remove( IRenderable *renderable )
 {
 	vector_remove( &mRenderables, renderable );
 	renderable->mHost = nullptr;
 }
 
-void TriangleRenderer::render()
+void Renderer2dStrip::render()
 {
 	mVertices.clear();
 	// assemble all vertices
@@ -114,12 +114,12 @@ void TriangleRenderer::render()
   glDisableClientState( GL_TEXTURE_COORD_ARRAY );
 }
 
-void TriangleRenderer::sort( const TriangleRenderer::SortFn &fn )
+void Renderer2dStrip::sort( const Renderer2dStrip::SortFn &fn )
 {
 	stable_sort( mRenderables.begin(), mRenderables.end(), fn );
 }
 
-bool TriangleRenderer::sortByLayerAscending( const IRenderable *lhs, const IRenderable *rhs )
+bool Renderer2dStrip::sortByLayerAscending( const IRenderable *lhs, const IRenderable *rhs )
 {
 	return lhs->getLayer() < rhs->getLayer();
 }

@@ -3,7 +3,7 @@
 
 #include "pockets/SpriteSheet.h"
 #include "pockets/SimpleRenderer.h"
-#include "pockets/TriangleRenderer.h"
+#include "pockets/Renderer2dStrip.h"
 #include "pockets/SpriteAnimation.h"
 #include "pockets/Sprite.h"
 
@@ -15,7 +15,7 @@ using namespace pockets;
 /**
  Test of basic Sprite functionality, including:
  Rendering to screen
- - TriangleRenderer
+ - Renderer2dStrip
  - SimpleRenderer
  Rotation about registration point
  Sprite Animation (in progress)
@@ -35,7 +35,7 @@ private:
   SpriteAnimation   mSpriteAnimation;
   Sprite            mSprite;
   SimpleRenderer    mSimpleRenderer;
-  TriangleRenderer  mTriangleRenderer;
+  Renderer2dStrip  mRenderer2dStrip;
   double            mLastUpdate;
 };
 
@@ -60,12 +60,12 @@ void SpriteTestApp::setup()
 //  mSimpleRenderer.add( &mSpriteAnimation );
   mSimpleRenderer.add( &mSprite );
   //
-  mTriangleRenderer.add( &mSprite );
+  mRenderer2dStrip.add( &mSprite );
   mLastUpdate = getElapsedSeconds();
 
   // sort by layer
   mSimpleRenderer.sort();
-  mTriangleRenderer.sort();
+  mRenderer2dStrip.sort();
 }
 
 void SpriteTestApp::mouseDown( MouseEvent event )
@@ -92,7 +92,7 @@ void SpriteTestApp::draw()
   mSpriteAnimation.render();
   gl::pushModelView();
   gl::translate( Vec2f{ getWindowWidth() / 2, 0.0f } );
-  mTriangleRenderer.render();
+  mRenderer2dStrip.render();
   mSpriteAnimation.render();
   gl::popModelView();
 }
