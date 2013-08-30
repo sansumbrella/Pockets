@@ -10,6 +10,16 @@ using namespace ci::app;
 using namespace std;
 using namespace pockets;
 
+/**
+
+ Using SpriteAnimation to playback custom animations
+ Loads animation data from file
+ Creates a new animation at runtime
+ File-loaded animations playback at animation-defined speed
+ Mouse position determines speed and direction of total animation playback
+
+*/
+
 class SpriteAnimationApp : public AppNative {
   public:
   void prepareSettings( Settings *settings );
@@ -80,7 +90,9 @@ void SpriteAnimationApp::update()
   float deltaTime = now - mLastUpdate;
   mLastUpdate = now;
 
-  mTotalAnimation.step( lerp( -deltaTime * 2.0f, deltaTime * 2.0f, mNormalizedMouseX ) );
+  // get a time step based on mouse position (yep, negative time works, too)
+  float total_step = lerp( -deltaTime * 2.0f, deltaTime * 2.0f, mNormalizedMouseX );
+  mTotalAnimation.step( total_step );
   for( auto &anim : mSpriteAnimations )
   {
     anim.step( deltaTime );

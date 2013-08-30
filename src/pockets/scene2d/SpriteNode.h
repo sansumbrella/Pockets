@@ -11,7 +11,7 @@
 #include "Node.h"
 #include "pockets/Sprite.h"
 
-namespace cascade
+namespace pockets
 {
   typedef std::shared_ptr<class SpriteNode> SpriteNodeRef;
   class SpriteNode : public Node

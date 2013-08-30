@@ -11,7 +11,7 @@
 #include "Node.h"
 #include "cinder/gl/TextureFont.h"
 
-namespace cascade
+namespace pockets
 {
   class TextureFontNode : public Node
   {

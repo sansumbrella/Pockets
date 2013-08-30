@@ -7,15 +7,16 @@
 //
 
 #include "Node.h"
-#include "CollectionUtilities.hpp"
+#include "pockets/CollectionUtilities.hpp"
 
 using namespace cinder;
 using namespace pockets;
 using namespace std;
 
-Node::Node():
-mSize( 0, 0 )
-{}
+NodeUniqueRef Node::create()
+{
+  return NodeUniqueRef{ new Node{} };
+}
 
 Node::Node( const Vec2f &size ):
 mSize( size )

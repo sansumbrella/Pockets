@@ -7,16 +7,20 @@
 //
 
 #include "DynamicTypeNode.h"
+#include "cinder/gl/TextureFont.h"
 
-using namespace cascade;
+using namespace pockets;
 using namespace cinder;
 using namespace std;
 
-DynamicTypeNode::DynamicTypeNode( FontType type, const std::string &text ):
-Node( getTextureFont(type).measureString( text ) / app::getWindow()->getContentScale() ),
-mType( type ),
-mText( text )
-{}
+DynamicTypeNode::DynamicTypeNode( gl::TextureFontRef font, const std::string &text ):
+Node( font->measureString( text ) / app::getWindow()->getContentScale() ),
+mFont( font )
+{
+  gl::TextureFont::DrawOptions opt;
+  opt.scale( 1.0f / app::getWindow()->getContentScale() ).pixelSnap( false );
+  mGlyphs = font->getGlyphPlacements( text, opt );
+}
 
 DynamicTypeNode::~DynamicTypeNode()
 {}
@@ -26,15 +30,12 @@ void DynamicTypeNode::draw()
   gl::pushModelView();
   gl::multModelView( *getLocus() );
 
-  gl::TextureFont::DrawOptions opt;
-  opt.scale( 1.0f / app::getWindow()->getContentScale() );
-  opt.pixelSnap( false );
-  getTextureFont(mType).drawString( mText, Vec2f::zero(), opt );
+  mFont->drawGlyphs( mGlyphs, Vec2f::zero() );
 
   gl::popModelView();
 }
 
-unique_ptr<DynamicTypeNode> DynamicTypeNode::create(cascade::FontType type, const std::string &text)
+DynamicTypeNodeUniqueRef DynamicTypeNode::create( gl::TextureFontRef font, const std::string &text )
 {
-  return unique_ptr<DynamicTypeNode>( new DynamicTypeNode(type, text) );
+  return DynamicTypeNodeUniqueRef{ new DynamicTypeNode{ font, text } };
 }

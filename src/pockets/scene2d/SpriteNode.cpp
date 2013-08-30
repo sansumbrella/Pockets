@@ -8,7 +8,7 @@
 
 #include "SpriteNode.h"
 
-using namespace cascade;
+using namespace pockets;
 
 SpriteNode::SpriteNode( const pk::Sprite &sprite ):
 Node( sprite.getSize() )

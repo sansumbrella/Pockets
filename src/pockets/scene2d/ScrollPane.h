@@ -12,7 +12,7 @@
 #include "Node.h"
 #include "cinder/gl/Fbo.h"
 
-namespace cascade
+namespace pockets
 {
   /*
   Draws children into an FBO with scrolling.

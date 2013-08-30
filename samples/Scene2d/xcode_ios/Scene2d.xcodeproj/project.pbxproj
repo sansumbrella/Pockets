@@ -1,0 +1,504 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0087D25512CD809F002CD69F /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0087D25412CD809F002CD69F /* CoreText.framework */; };
+		00CFDF6B1138442D0091E310 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CFDF6A1138442D0091E310 /* CoreGraphics.framework */; };
+		C725E001121DAC8FFFFA18FF /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CFDF6A1138442D0091FFFF /* ImageIO.framework */; };
+		DDDDE001121DAC8FFFFADDDD /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDDDDF6A1138442D0091DDDD /* MobileCoreServices.framework */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD14FF0DC6FC520079059D /* OpenGLES.framework */; };
+		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
+		C725DFFE121DAC7F00FA186B /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C727C02B121B400300192073 /* CoreMedia.framework */; settings = {
+	ATTRIBUTES = (
+		Weak,
+	);
+}; };
+		C725E001121DAC8F00FA186B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C725E000121DAC8F00FA186B /* AVFoundation.framework */; settings = {
+	ATTRIBUTES = (
+		Weak,
+	);
+}; };
+		C727C02E121B400300192073 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C727C02D121B400300192073 /* CoreVideo.framework */; settings = {
+	ATTRIBUTES = (
+		Weak,
+	);
+}; };
+		C7FB19D6124BC0D70045AFD2 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7FB19D5124BC0D70045AFD2 /* AudioToolbox.framework */; };
+		00748058165D41390024B57A /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 00748057165D41390024B57A /* assets */; };
+		B352F6FC513C4DB2B26E54A5 /* Pockets.h in Headers */ = {isa = PBXBuildFile; fileRef = 290A24D2048A49D387AD46FF /* Pockets.h */; };
+		E29E717DCAB34CD59B9B2865 /* Vbo.h in Headers */ = {isa = PBXBuildFile; fileRef = 718468F575EE4F9C90454F40 /* Vbo.h */; };
+		69A761C47A1B4B5593B416FB /* Vbo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9001301462E54AB590C87CBA /* Vbo.cpp */; };
+		7C7A06FF8A4D4754817942C5 /* SweptPath3d.h in Headers */ = {isa = PBXBuildFile; fileRef = C9B693F7B6B34CE0AA40CBF2 /* SweptPath3d.h */; };
+		0169071008A0432DB90A4BA0 /* SpriteSheet.h in Headers */ = {isa = PBXBuildFile; fileRef = FC1A9F780C6F40E38416331B /* SpriteSheet.h */; };
+		303447B8A4BC4328B26CA706 /* SpriteAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = B682A94374ED42D7AD716994 /* SpriteAnimation.h */; };
+		B20EE56E15EB449E98CC7176 /* Sprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D5D675923346A68375168C /* Sprite.h */; };
+		F9AF33F7D9544EEAAC38961E /* SimpleRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 4438AEFBD1384349AF51F0F2 /* SimpleRenderer.h */; };
+		B3DF9764C8AB4EC0AB75E5A9 /* Renderer2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 52D0E6E2776941DFBE65FFC1 /* Renderer2d.h */; };
+		C7A14B0B15EF49AAB572012E /* Pockets.h in Headers */ = {isa = PBXBuildFile; fileRef = AA228F49741C4ED1993D0DDE /* Pockets.h */; };
+		9A09FE4DF5CA4450BE4CEF7B /* Locus2d.h in Headers */ = {isa = PBXBuildFile; fileRef = E4AC8AC08E244BF6B4ACE2D8 /* Locus2d.h */; };
+		3F99F3CA38BD4657A3856F20 /* LineUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CCD4B46645C42149064D049 /* LineUtils.h */; };
+		9D680FFA1C944AABA1E13B69 /* ImagePacker.h in Headers */ = {isa = PBXBuildFile; fileRef = 97AEDEE21C1549B2BFB4DF4D /* ImagePacker.h */; };
+		3E364F71DB8B41CCA8002E32 /* FileUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 57D8E174E7664B6AB5D775F7 /* FileUtils.h */; };
+		1A41F07EDEBD40FBA86A0557 /* ExpandedPath3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2064E6EFF66341BAA40FB6AE /* ExpandedPath3d.h */; };
+		189BE645B8A246C7ACFE1D8F /* ExpandedPath2d.h in Headers */ = {isa = PBXBuildFile; fileRef = DAB6A8078FA046EA80652A9A /* ExpandedPath2d.h */; };
+		3E3019CF129B41998D76ED35 /* ExpandedLine2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C9020AA303A4CAF803C23A7 /* ExpandedLine2d.h */; };
+		6C854451611645D0867FB482 /* ColorPalette.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7DF46434DE49E986036A4A /* ColorPalette.h */; };
+		F344948109D0416AA33CA876 /* AnimationUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AD78A59B68E4D01A2A4B44E /* AnimationUtils.h */; };
+		99C3D839BE6B4D1C92B49414 /* SweptPath3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECEB951A5AAF4561BD8986B9 /* SweptPath3d.cpp */; };
+		F4F19D2E903F4A70A75F4EC3 /* SpriteSheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60A1FB25CAD34C519EF80F4A /* SpriteSheet.cpp */; };
+		04431A309BCF41A9A0CA412E /* SpriteAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77F75C3C42634FACA1143643 /* SpriteAnimation.cpp */; };
+		D456F5D1D22447FF9EA31221 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21E55A2B0324D719781868D /* Sprite.cpp */; };
+		8420E46ECCDF4871824F955E /* SimpleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 422D6665B59D443C91183899 /* SimpleRenderer.cpp */; };
+		5F4EA8E137AE4368B6EC904C /* Renderer2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD45740DFD2546999597EE53 /* Renderer2d.cpp */; };
+		F2E791E9A9E6441CAACE15B4 /* Locus2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 618859DB3044435B868024CF /* Locus2d.cpp */; };
+		71A271C4C3884431A37C34F5 /* LineUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D240A2F0A0F4A3DA0762EAA /* LineUtils.cpp */; };
+		B4F254F245D141698E60B532 /* ImagePacker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 95BA1DB5A5404850A7E02FDF /* ImagePacker.cpp */; };
+		C9509E82E8804D47B41666F8 /* FileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDB6B4614F084FA99BAA03CD /* FileUtils.cpp */; };
+		94EA626F61DE479598BE447C /* ExpandedPath3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7B639E395C436B867B2800 /* ExpandedPath3d.cpp */; };
+		929F42AC30F5410A831B0944 /* ExpandedPath2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 560BCDAE5CAD4ABD99496A1C /* ExpandedPath2d.cpp */; };
+		DAF86C4595044123AF33E68B /* ExpandedLine2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1F8B020268D4FDBB30F6D16 /* ExpandedLine2d.cpp */; };
+		54563666AA6C4873B056F1A4 /* ColorPalette.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8B234F2A1D94916A06BFF30 /* ColorPalette.cpp */; };
+		F46CEEDEA08E40E4895F32CB /* AnimationUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D78A4268B29B4CFCBE677016 /* AnimationUtils.cpp */; };
+		293BD05BC3CA4D7D9277FDE0 /* Scene2d_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 78292878037D42E89F52FCC0 /* Scene2d_Prefix.pch */; };
+		1BBA340136EF458388B8DB62 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD571E396E3A43FC8730B651 /* Default-568h@2x.png */; };
+		3A8489E32D484ED8BE66B3E6 /* CinderApp_ios.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C8D2BC5686347C8871BEC18 /* CinderApp_ios.png */; };
+		1AFCE59FF8AC43B7AF9302EA /* Resources.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EB83C14B74C4B90A266636E /* Resources.h */; };
+		BFBFC46CC44946CCBC33A8F8 /* Scene2dApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B4E35C37B42407DA88BEE70 /* Scene2dApp.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		00692BCF14FF149000D0A05E /* Scene2d.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scene2d.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0087D25412CD809F002CD69F /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		00CFDF6A1138442D0091E310 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		00CFDF6A1138442D0091FFFF /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		DDDDDF6A1138442D0091DDDD /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		28FD14FF0DC6FC520079059D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		28FD15070DC6FC5B0079059D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		C725E000121DAC8F00FA186B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		C727C02B121B400300192073 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		C727C02D121B400300192073 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		C7FB19D5124BC0D70045AFD2 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		00748057165D41390024B57A /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../assets; sourceTree = "<group>"; };
+		6B4E35C37B42407DA88BEE70 /* Scene2dApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../src/Scene2dApp.cpp; sourceTree = "<group>"; name = Scene2dApp.cpp; };
+		9EB83C14B74C4B90A266636E /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../include/Resources.h; sourceTree = "<group>"; name = Resources.h; };
+		4C8D2BC5686347C8871BEC18 /* CinderApp_ios.png */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = ../resources/CinderApp_ios.png; sourceTree = "<group>"; name = CinderApp_ios.png; };
+		BD571E396E3A43FC8730B651 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = "Default-568h@2x.png"; sourceTree = "<group>"; name = "Default-568h@2x.png"; };
+		C5FFDBE4882940EBA1D0AC4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; name = Info.plist; };
+		78292878037D42E89F52FCC0 /* Scene2d_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = Scene2d_Prefix.pch; sourceTree = "<group>"; name = Scene2d_Prefix.pch; };
+		D78A4268B29B4CFCBE677016 /* AnimationUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/AnimationUtils.cpp; sourceTree = "<group>"; name = AnimationUtils.cpp; };
+		C8B234F2A1D94916A06BFF30 /* ColorPalette.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/ColorPalette.cpp; sourceTree = "<group>"; name = ColorPalette.cpp; };
+		F1F8B020268D4FDBB30F6D16 /* ExpandedLine2d.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/ExpandedLine2d.cpp; sourceTree = "<group>"; name = ExpandedLine2d.cpp; };
+		560BCDAE5CAD4ABD99496A1C /* ExpandedPath2d.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/ExpandedPath2d.cpp; sourceTree = "<group>"; name = ExpandedPath2d.cpp; };
+		3D7B639E395C436B867B2800 /* ExpandedPath3d.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/ExpandedPath3d.cpp; sourceTree = "<group>"; name = ExpandedPath3d.cpp; };
+		CDB6B4614F084FA99BAA03CD /* FileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/FileUtils.cpp; sourceTree = "<group>"; name = FileUtils.cpp; };
+		95BA1DB5A5404850A7E02FDF /* ImagePacker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/ImagePacker.cpp; sourceTree = "<group>"; name = ImagePacker.cpp; };
+		4D240A2F0A0F4A3DA0762EAA /* LineUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/LineUtils.cpp; sourceTree = "<group>"; name = LineUtils.cpp; };
+		618859DB3044435B868024CF /* Locus2d.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/Locus2d.cpp; sourceTree = "<group>"; name = Locus2d.cpp; };
+		FD45740DFD2546999597EE53 /* Renderer2d.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/Renderer2d.cpp; sourceTree = "<group>"; name = Renderer2d.cpp; };
+		422D6665B59D443C91183899 /* SimpleRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/SimpleRenderer.cpp; sourceTree = "<group>"; name = SimpleRenderer.cpp; };
+		E21E55A2B0324D719781868D /* Sprite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/Sprite.cpp; sourceTree = "<group>"; name = Sprite.cpp; };
+		77F75C3C42634FACA1143643 /* SpriteAnimation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/SpriteAnimation.cpp; sourceTree = "<group>"; name = SpriteAnimation.cpp; };
+		60A1FB25CAD34C519EF80F4A /* SpriteSheet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/SpriteSheet.cpp; sourceTree = "<group>"; name = SpriteSheet.cpp; };
+		ECEB951A5AAF4561BD8986B9 /* SweptPath3d.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/SweptPath3d.cpp; sourceTree = "<group>"; name = SweptPath3d.cpp; };
+		3AD78A59B68E4D01A2A4B44E /* AnimationUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/AnimationUtils.h; sourceTree = "<group>"; name = AnimationUtils.h; };
+		CF7DF46434DE49E986036A4A /* ColorPalette.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/ColorPalette.h; sourceTree = "<group>"; name = ColorPalette.h; };
+		3C9020AA303A4CAF803C23A7 /* ExpandedLine2d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/ExpandedLine2d.h; sourceTree = "<group>"; name = ExpandedLine2d.h; };
+		DAB6A8078FA046EA80652A9A /* ExpandedPath2d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/ExpandedPath2d.h; sourceTree = "<group>"; name = ExpandedPath2d.h; };
+		2064E6EFF66341BAA40FB6AE /* ExpandedPath3d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/ExpandedPath3d.h; sourceTree = "<group>"; name = ExpandedPath3d.h; };
+		57D8E174E7664B6AB5D775F7 /* FileUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/FileUtils.h; sourceTree = "<group>"; name = FileUtils.h; };
+		97AEDEE21C1549B2BFB4DF4D /* ImagePacker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/ImagePacker.h; sourceTree = "<group>"; name = ImagePacker.h; };
+		3CCD4B46645C42149064D049 /* LineUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/LineUtils.h; sourceTree = "<group>"; name = LineUtils.h; };
+		E4AC8AC08E244BF6B4ACE2D8 /* Locus2d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/Locus2d.h; sourceTree = "<group>"; name = Locus2d.h; };
+		AA228F49741C4ED1993D0DDE /* Pockets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/Pockets.h; sourceTree = "<group>"; name = Pockets.h; };
+		52D0E6E2776941DFBE65FFC1 /* Renderer2d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/Renderer2d.h; sourceTree = "<group>"; name = Renderer2d.h; };
+		4438AEFBD1384349AF51F0F2 /* SimpleRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/SimpleRenderer.h; sourceTree = "<group>"; name = SimpleRenderer.h; };
+		63D5D675923346A68375168C /* Sprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/Sprite.h; sourceTree = "<group>"; name = Sprite.h; };
+		B682A94374ED42D7AD716994 /* SpriteAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/SpriteAnimation.h; sourceTree = "<group>"; name = SpriteAnimation.h; };
+		FC1A9F780C6F40E38416331B /* SpriteSheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/SpriteSheet.h; sourceTree = "<group>"; name = SpriteSheet.h; };
+		C9B693F7B6B34CE0AA40CBF2 /* SweptPath3d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/SweptPath3d.h; sourceTree = "<group>"; name = SweptPath3d.h; };
+		9001301462E54AB590C87CBA /* Vbo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/gl/Vbo.cpp; sourceTree = "<group>"; name = Vbo.cpp; };
+		718468F575EE4F9C90454F40 /* Vbo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/gl/Vbo.h; sourceTree = "<group>"; name = Vbo.h; };
+		290A24D2048A49D387AD46FF /* Pockets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/Pockets.h; sourceTree = "<group>"; name = Pockets.h; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		00692BCC14FF149000D0A05E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C725E001121DAC8F00FA186B /* AVFoundation.framework in Frameworks */,
+				C725DFFE121DAC7F00FA186B /* CoreMedia.framework in Frameworks */,
+				C725E001121DAC8FFFFA18FF /* ImageIO.framework in Frameworks */,
+				DDDDE001121DAC8FFFFADDDD /* MobileCoreServices.framework in Frameworks */,
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */,
+				28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */,
+				00CFDF6B1138442D0091E310 /* CoreGraphics.framework in Frameworks */,
+				C727C02E121B400300192073 /* CoreVideo.framework in Frameworks */,
+				C7FB19D6124BC0D70045AFD2 /* AudioToolbox.framework in Frameworks */,
+				0087D25512CD809F002CD69F /* CoreText.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		00692BC414FF149000D0A05E = {
+			isa = PBXGroup;
+			children = (
+				99692BD914FF149000DFFFFF /* Blocks */,
+				99692BD914FF149000D0A05F /* Headers */,
+				00692BD914FF149000D0A05E /* Source */,
+				00692BD914FF149000D0FFFF /* Resources */,
+				00692BD214FF149000D0A05E /* Frameworks */,
+				00692BD014FF149000D0A05E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		00692BD014FF149000D0A05E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				00692BCF14FF149000D0A05E /* Scene2d.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		00692BD214FF149000D0A05E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C7FB19D5124BC0D70045AFD2 /* AudioToolbox.framework */,
+				C727C02B121B400300192073 /* CoreMedia.framework */,
+				C727C02D121B400300192073 /* CoreVideo.framework */,
+				28FD15070DC6FC5B0079059D /* QuartzCore.framework */,
+				28FD14FF0DC6FC520079059D /* OpenGLES.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				00CFDF6A1138442D0091E310 /* CoreGraphics.framework */,
+				00CFDF6A1138442D0091FFFF /* ImageIO.framework */,
+				DDDDDF6A1138442D0091DDDD /* MobileCoreServices.framework */,
+				C725E000121DAC8F00FA186B /* AVFoundation.framework */,
+				0087D25412CD809F002CD69F /* CoreText.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BFF4A0FFECED4CEF8C1DF5AF /* gl */ = {
+			isa = PBXGroup;
+			children = (
+				9001301462E54AB590C87CBA /* Vbo.cpp */,
+				718468F575EE4F9C90454F40 /* Vbo.h */,
+			);
+			name = gl;
+			sourceTree = "<group>";
+		};
+		9C9470F6D49A447B9DE49A45 /* pockets */ = {
+			isa = PBXGroup;
+			children = (
+				D78A4268B29B4CFCBE677016 /* AnimationUtils.cpp */,
+				C8B234F2A1D94916A06BFF30 /* ColorPalette.cpp */,
+				F1F8B020268D4FDBB30F6D16 /* ExpandedLine2d.cpp */,
+				560BCDAE5CAD4ABD99496A1C /* ExpandedPath2d.cpp */,
+				3D7B639E395C436B867B2800 /* ExpandedPath3d.cpp */,
+				CDB6B4614F084FA99BAA03CD /* FileUtils.cpp */,
+				95BA1DB5A5404850A7E02FDF /* ImagePacker.cpp */,
+				4D240A2F0A0F4A3DA0762EAA /* LineUtils.cpp */,
+				618859DB3044435B868024CF /* Locus2d.cpp */,
+				FD45740DFD2546999597EE53 /* Renderer2d.cpp */,
+				422D6665B59D443C91183899 /* SimpleRenderer.cpp */,
+				E21E55A2B0324D719781868D /* Sprite.cpp */,
+				77F75C3C42634FACA1143643 /* SpriteAnimation.cpp */,
+				60A1FB25CAD34C519EF80F4A /* SpriteSheet.cpp */,
+				ECEB951A5AAF4561BD8986B9 /* SweptPath3d.cpp */,
+				3AD78A59B68E4D01A2A4B44E /* AnimationUtils.h */,
+				CF7DF46434DE49E986036A4A /* ColorPalette.h */,
+				3C9020AA303A4CAF803C23A7 /* ExpandedLine2d.h */,
+				DAB6A8078FA046EA80652A9A /* ExpandedPath2d.h */,
+				2064E6EFF66341BAA40FB6AE /* ExpandedPath3d.h */,
+				57D8E174E7664B6AB5D775F7 /* FileUtils.h */,
+				97AEDEE21C1549B2BFB4DF4D /* ImagePacker.h */,
+				3CCD4B46645C42149064D049 /* LineUtils.h */,
+				E4AC8AC08E244BF6B4ACE2D8 /* Locus2d.h */,
+				AA228F49741C4ED1993D0DDE /* Pockets.h */,
+				52D0E6E2776941DFBE65FFC1 /* Renderer2d.h */,
+				4438AEFBD1384349AF51F0F2 /* SimpleRenderer.h */,
+				63D5D675923346A68375168C /* Sprite.h */,
+				B682A94374ED42D7AD716994 /* SpriteAnimation.h */,
+				FC1A9F780C6F40E38416331B /* SpriteSheet.h */,
+				C9B693F7B6B34CE0AA40CBF2 /* SweptPath3d.h */,
+				BFF4A0FFECED4CEF8C1DF5AF /* gl */,
+				290A24D2048A49D387AD46FF /* Pockets.h */,
+			);
+			name = pockets;
+			sourceTree = "<group>";
+		};
+		29E141A392284F1D9E1DF483 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				9C9470F6D49A447B9DE49A45 /* pockets */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		A4DE753141C7412799F88F3F /* Pockets */ = {
+			isa = PBXGroup;
+			children = (
+				29E141A392284F1D9E1DF483 /* src */,
+			);
+			name = Pockets;
+			sourceTree = "<group>";
+		};
+		99692BD914FF149000DFFFFF /* Blocks */ = {
+			isa = PBXGroup;
+			children = (
+				A4DE753141C7412799F88F3F /* Pockets */,
+			);
+			name = Blocks;
+			sourceTree = "<group>";
+		};
+		99692BD914FF149000D0A05F /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				9EB83C14B74C4B90A266636E /* Resources.h */,
+				78292878037D42E89F52FCC0 /* Scene2d_Prefix.pch */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		00692BD914FF149000D0A05E /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				6B4E35C37B42407DA88BEE70 /* Scene2dApp.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		00692BD914FF149000D0FFFF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				00748057165D41390024B57A /* assets */,
+				4C8D2BC5686347C8871BEC18 /* CinderApp_ios.png */,
+				BD571E396E3A43FC8730B651 /* Default-568h@2x.png */,
+				C5FFDBE4882940EBA1D0AC4F /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		00692BCE14FF149000D0A05E /* Scene2d */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00692BF514FF149000D0A05E /* Build configuration list for PBXNativeTarget "Scene2d" */;
+			buildPhases = (
+				00692BCB14FF149000D0A05E /* Sources */,
+				00692BCC14FF149000D0A05E /* Frameworks */,
+				00692BCD14FF149000D0A05E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Scene2d;
+			productName = Scene2d;
+			productReference = 00692BCF14FF149000D0A05E /* Scene2d.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		00692BC614FF149000D0A05E /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 00692BC914FF149000D0A05E /* Build configuration list for PBXProject "Scene2d" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 00692BC414FF149000D0A05E;
+			productRefGroup = 00692BD014FF149000D0A05E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				00692BCE14FF149000D0A05E /* Scene2d */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		00692BCD14FF149000D0A05E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00748058165D41390024B57A /* assets in Resources */,
+				3A8489E32D484ED8BE66B3E6 /* CinderApp_ios.png in Resources */,
+				1BBA340136EF458388B8DB62 /* Default-568h@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		00692BCB14FF149000D0A05E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFBFC46CC44946CCBC33A8F8 /* Scene2dApp.cpp in Sources */,
+				F46CEEDEA08E40E4895F32CB /* AnimationUtils.cpp in Sources */,
+				54563666AA6C4873B056F1A4 /* ColorPalette.cpp in Sources */,
+				DAF86C4595044123AF33E68B /* ExpandedLine2d.cpp in Sources */,
+				929F42AC30F5410A831B0944 /* ExpandedPath2d.cpp in Sources */,
+				94EA626F61DE479598BE447C /* ExpandedPath3d.cpp in Sources */,
+				C9509E82E8804D47B41666F8 /* FileUtils.cpp in Sources */,
+				B4F254F245D141698E60B532 /* ImagePacker.cpp in Sources */,
+				71A271C4C3884431A37C34F5 /* LineUtils.cpp in Sources */,
+				F2E791E9A9E6441CAACE15B4 /* Locus2d.cpp in Sources */,
+				5F4EA8E137AE4368B6EC904C /* Renderer2d.cpp in Sources */,
+				8420E46ECCDF4871824F955E /* SimpleRenderer.cpp in Sources */,
+				D456F5D1D22447FF9EA31221 /* Sprite.cpp in Sources */,
+				04431A309BCF41A9A0CA412E /* SpriteAnimation.cpp in Sources */,
+				F4F19D2E903F4A70A75F4EC3 /* SpriteSheet.cpp in Sources */,
+				99C3D839BE6B4D1C92B49414 /* SweptPath3d.cpp in Sources */,
+				69A761C47A1B4B5593B416FB /* Vbo.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		00692BF314FF149000D0A05E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				CINDER_PATH = "../../../../..";
+				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/boost\"";
+				USER_HEADER_SEARCH_PATHS = (
+					"\"$(CINDER_PATH)/include\" ../include",
+					../../../src,
+				);
+			};
+			name = Debug;
+		};
+		00692BF414FF149000D0A05E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				CINDER_PATH = "../../../../..";
+				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/boost\"";
+				USER_HEADER_SEARCH_PATHS = (
+					"\"$(CINDER_PATH)/include\" ../include",
+					../../../src,
+				);
+			};
+			name = Release;
+		};
+		00692BF614FF149000D0A05E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Scene2d_Prefix.pch";
+				INFOPLIST_FILE = "Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+				"OTHER_LDFLAGS[sdk=iphoneos*][arch=*]" = (
+					"\"$(CINDER_PATH)/lib/libcinder-iphone_d.a\"",
+					"-lz",
+				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator*][arch=*]" = (
+					"\"$(CINDER_PATH)/lib/libcinder-iphone-sim_d.a\"",
+					"-lz",
+				);
+			};
+			name = Debug;
+		};
+		00692BF714FF149000D0A05E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Scene2d_Prefix.pch";
+				INFOPLIST_FILE = "Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+				"OTHER_LDFLAGS[sdk=iphoneos*][arch=*]" = (
+					"\"$(CINDER_PATH)/lib/libcinder-iphone.a\"",
+					"-lz",
+				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator*][arch=*]" = (
+					"\"$(CINDER_PATH)/lib/libcinder-iphone-sim.a\"",
+					"-lz",
+				);
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00692BC914FF149000D0A05E /* Build configuration list for PBXProject "Scene2d" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00692BF314FF149000D0A05E /* Debug */,
+				00692BF414FF149000D0A05E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00692BF514FF149000D0A05E /* Build configuration list for PBXNativeTarget "Scene2d" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00692BF614FF149000D0A05E /* Debug */,
+				00692BF714FF149000D0A05E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 00692BC614FF149000D0A05E /* Project object */;
+}

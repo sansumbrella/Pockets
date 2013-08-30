@@ -52,4 +52,4 @@ namespace pockets
     ci::Color           mForegroundColor = getTextColor();
   };
 
-} // cascade::
+} // pockets::

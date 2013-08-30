@@ -8,6 +8,7 @@
 
 #pragma once
 #include "pockets/Locus2d.h"
+#include "pockets/Renderer2d.h"
 
 namespace pockets
 {
@@ -41,16 +42,20 @@ namespace pockets
   }
 
   typedef std::shared_ptr<class Node> NodeRef;
-  typedef std::weak_ptr<class Node> NodeWeakRef;
-  class Node : public std::enable_shared_from_this<Node>
+  typedef std::unique_ptr<class Node> NodeUniqueRef;
+  typedef std::weak_ptr<class Node>   NodeWeakRef;
+  class Node : public std::enable_shared_from_this<Node>, public Renderer2d::Renderable
   {
   public:
-    Node();
-    Node( const ci::Vec2f &size );
+    static NodeUniqueRef create();
     virtual ~Node(){ disconnect(); }
     void            deepDraw();
     void            deepConnect( ci::app::WindowRef window );
     void            deepDisconnect();
+
+    //! default implementation returns an empty vector
+    //! might move to having a vector of vertices in here that children update
+    std::vector<Vertex> getVertices() override { return {}; };
 
     //! call block() on all child objects
     void            blockChildren();
@@ -95,15 +100,17 @@ namespace pockets
     //! called when a child is added to this Node
     virtual void    childAdded( NodeRef element ){}
     void            removeChild( NodeRef element );
-    NodeRef    getParent(){ return mParent.lock(); }
+    NodeRef         getParent(){ return mParent.lock(); }
 
     // Child Manipulation
     size_t          numChildren() const { return mChildren.size(); }
-    NodeRef    getChildAt( size_t index ){ return mChildren.at( index ); }
+    NodeRef         getChildAt( size_t index ){ return mChildren.at( index ); }
     void            setChildIndex( NodeRef child, size_t index );
     //! return child vector, allowing manipulation of each child, but not the vector
     const std::vector<NodeRef>& getChildren() const { return mChildren; }
   protected:
+    Node() = default;
+    Node( const ci::Vec2f &size );
     void            setHeight( float height ){ mSize.y = height; }
     void            setWidth( float width ){ mSize.x = width; }
     //! store a connection so it can be blocked/unblocked/disconnected later

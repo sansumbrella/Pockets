@@ -11,7 +11,7 @@
 #include "Node.h"
 #include <boost/any.hpp>
 
-namespace cascade
+namespace pockets
 {
   /**
    Allows user to select one of a number of options.

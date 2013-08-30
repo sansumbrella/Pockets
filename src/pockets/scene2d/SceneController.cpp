@@ -8,7 +8,7 @@
 
 #include "SceneController.h"
 
-using namespace cascade;
+using namespace pockets;
 using namespace cinder;
 
 SceneController::SceneController()

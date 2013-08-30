@@ -10,7 +10,7 @@
 #include "Node.h"
 #include "cinder/gl/Texture.h"
 
-namespace cascade
+namespace pockets
 {
   typedef std::shared_ptr<class TextureNode> TextureNodeRef;
   class TextureNode : public Node

@@ -8,7 +8,6 @@
 
 #include "SpriteToggle.h"
 
-using namespace cascade;
 using namespace pockets;
 using namespace ci;
 using namespace std;

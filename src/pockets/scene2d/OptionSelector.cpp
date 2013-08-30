@@ -9,7 +9,7 @@
 #include "OptionSelector.h"
 #include "cinder/ip/Fill.h"
 
-using namespace cascade;
+using namespace pockets;
 using namespace cinder;
 using namespace std;
 

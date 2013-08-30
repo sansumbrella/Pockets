@@ -11,7 +11,7 @@
 #include "cinder/ip/Resize.h"
 #include "cinder/Text.h"
 
-using namespace cascade;
+using namespace pockets;
 using namespace cinder;
 
 TextPane::TextPane( const Font &font, int width )

@@ -12,7 +12,7 @@
 #include "cinder/Timeline.h"
 #include "Node.h"
 
-namespace cascade
+namespace pockets
 {
   /*
   Holds a panel of text

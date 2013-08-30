@@ -10,7 +10,7 @@
 #include "ButtonBase.h"
 #include "Sprite.h"
 
-namespace cascade
+namespace pockets
 {
   typedef std::shared_ptr<class SpriteToggle> SpriteToggleRef;
   class SpriteToggle : public ButtonBase

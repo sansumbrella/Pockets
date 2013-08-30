@@ -10,17 +10,28 @@
 
 #include "Node.h"
 
-namespace cascade
+namespace cinder
 {
+  namespace gl
+  {
+    // forward decl
+    typedef std::shared_ptr<class TextureFont> TextureFontRef;
+  }
+}
+
+namespace pockets
+{
+  typedef std::shared_ptr<class DynamicTypeNode> DynamicTypeNodeRef;
+  typedef std::unique_ptr<class DynamicTypeNode> DynamicTypeNodeUniqueRef;
   class DynamicTypeNode : public Node
   {
   public:
-    DynamicTypeNode( FontType type, const std::string &text );
+    DynamicTypeNode( ci::gl::TextureFontRef font, const std::string &text );
     ~DynamicTypeNode();
-    static std::unique_ptr<DynamicTypeNode> create(FontType type, const std::string &text);
+    static DynamicTypeNodeUniqueRef create( ci::gl::TextureFontRef font, const std::string &text);
     void draw();
   private:
-    FontType      mType;
-    std::string   mText;
+    ci::gl::TextureFontRef  mFont;
+    std::vector< std::pair< uint16_t, ci::Vec2f > > mGlyphs;
   };
 }

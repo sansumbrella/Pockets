@@ -9,7 +9,7 @@
 #pragma once
 
 
-namespace cascade
+namespace pockets
 {
   /**
    A basic application layer encapsulating input and view controls
