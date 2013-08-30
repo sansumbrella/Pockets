@@ -18,8 +18,8 @@ class SpriteAnimationApp : public AppNative {
 	void draw();
 private:
   SpriteSheetRef    mSpriteSheet;
-  SpriteAnimation   mSpriteAnimation;
-  SpriteAnimation   mJellyAnimation;
+  SpriteAnimation               mTotalAnimation;
+  std::vector<SpriteAnimation>  mSpriteAnimations;
   double            mLastUpdate = 0.0;
 };
 
@@ -36,17 +36,24 @@ void SpriteAnimationApp::setup()
 
   for( const string &name : sprites )
   { // hold for equivalent of 2 frames at 24fps
-    mSpriteAnimation.addFrame( mSpriteSheet->getSpriteData(name), 1 );
+    mTotalAnimation.addFrame( mSpriteSheet->getSpriteData(name), 1 );
     cout << "Sprite: " << name << endl;
   }
-  mSpriteAnimation.setFrameRate( 12 );
+  mTotalAnimation.setFrameRate( 12 );
+  mTotalAnimation.getLocus().setLoc( { getWindowWidth() / 2, getWindowHeight() - 100.0f } );
 
-  mSpriteAnimation.getLocus().setLoc( { getWindowWidth() / 2, getWindowHeight() - 100.0f } );
-  mJellyAnimation.getLocus().setLoc( { getWindowWidth() * 0.25f, 300.0f } );
   try
   { // in case the original json is not properly formatted
     auto json = JsonTree( loadAsset( "animations.json" ) );
-    mJellyAnimation.loadAnimationJson( json["jellyfish"], mSpriteSheet );
+    float x = 100.0f;
+    for( auto &child : json.getChildren() )
+    {
+      SpriteAnimation anim{};
+      anim.loadAnimationJson( child, mSpriteSheet );
+      anim.getLocus().setLoc( { x, 300.0f } );
+      x += 100.0f;
+      mSpriteAnimations.push_back( anim );
+    }
   }
   catch( std::exception &exc )
   {
@@ -59,8 +66,11 @@ void SpriteAnimationApp::update()
   float now = getElapsedSeconds();
   float deltaTime = now - mLastUpdate;
   mLastUpdate = now;
-  mSpriteAnimation.step( deltaTime );
-  mJellyAnimation.step( deltaTime );
+  mTotalAnimation.step( deltaTime );
+  for( auto &anim : mSpriteAnimations )
+  {
+    anim.step( deltaTime );
+  }
 }
 
 void SpriteAnimationApp::draw()
@@ -69,8 +79,11 @@ void SpriteAnimationApp::draw()
 	gl::clear( Color( 0, 0, 0 ) );
   gl::color( Color::white() );
   mSpriteSheet->enableAndBind();
-  mSpriteAnimation.render();
-  mJellyAnimation.render();
+  mTotalAnimation.render();
+  for( auto &anim : mSpriteAnimations )
+  {
+    anim.render();
+  }
 }
 
 CINDER_APP_NATIVE( SpriteAnimationApp, RendererGl )

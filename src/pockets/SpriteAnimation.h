@@ -59,9 +59,9 @@ namespace pockets
     void      loadAnimationJson( const ci::JsonTree &json, const SpriteSheetRef sheet );
     //! Set the frame rate for the entire animation
     //! Defaults to 24
-    void      setFrameRate( float frames_per_second ){ mFrameDuration = 1.0f / frames_per_second; }
-    //! Add a new frame at the end of the animation, held for \a duration frames
-    void      addFrame( const SpriteData &sprite, float duration );
+    SpriteAnimation&  setFrameRate( float frames_per_second ){ mFrameDuration = 1.0f / frames_per_second; return *this; }
+    //! Add a new frame at the end of the animation, held for \a hold frames
+    SpriteAnimation&  addFrame( const SpriteData &sprite, float hold );
     //! update the animation forward or backward in time
     void      step( float deltaTime );
     //! render the current frame of animation

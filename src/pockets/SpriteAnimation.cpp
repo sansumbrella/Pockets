@@ -38,7 +38,6 @@ SpriteAnimation::SpriteAnimation()
 
 void SpriteAnimation::loadAnimationJson( const ci::JsonTree &json, const SpriteSheetRef sheet )
 {
-  // to consider: keep simple check or use exceptions?
   try
   {
     setFrameRate( json.getChild("fps").getValue<float>() );
@@ -54,9 +53,10 @@ void SpriteAnimation::loadAnimationJson( const ci::JsonTree &json, const SpriteS
   }
 }
 
-void SpriteAnimation::addFrame( const SpriteData &sprite, float duration )
+SpriteAnimation& SpriteAnimation::addFrame( const SpriteData &sprite, float hold )
 {
-  mData.push_back( { sprite, duration } );
+  mData.push_back( { sprite, hold } );
+  return *this;
 }
 
 void SpriteAnimation::step( float deltaTime )
