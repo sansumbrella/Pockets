@@ -13,7 +13,7 @@
 		00B784B50FF439BC000DE1D7 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B10FF439BC000DE1D7 /* AudioUnit.framework */; };
 		00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B20FF439BC000DE1D7 /* CoreAudio.framework */; };
 		041EC3C0D2E24945A2638E41 /* ColorPalette.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 31C5515BA8034AB0A6649730 /* ColorPalette.cpp */; };
-		15A1795117D0E57D009D415F /* Renderer2dStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A1795017D0E57D009D415F /* Renderer2dStrip.cpp */; };
+		15A1795417D1045A009D415F /* Renderer2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A1795317D1045A009D415F /* Renderer2d.cpp */; };
 		2B906534F95943E5A6410C26 /* ImagePacker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 587522343697435EB9BEFC8A /* ImagePacker.cpp */; };
 		42A40F8E60D34D5DBD7177F8 /* AnimationUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D99424C19D5496DA386889F /* AnimationUtils.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
@@ -43,8 +43,8 @@
 		03967BF488F94616A1DB4A61 /* Locus2d.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Locus2d.cpp; path = ../../../src/pockets/Locus2d.cpp; sourceTree = "<group>"; };
 		0BBF3CA7566747309115113E /* FileUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FileUtils.h; path = ../../../src/pockets/FileUtils.h; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		15A1794F17D0E57D009D415F /* Renderer2dStrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Renderer2dStrip.h; path = ../../../src/pockets/Renderer2dStrip.h; sourceTree = "<group>"; };
-		15A1795017D0E57D009D415F /* Renderer2dStrip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Renderer2dStrip.cpp; path = ../../../src/pockets/Renderer2dStrip.cpp; sourceTree = "<group>"; };
+		15A1795217D1045A009D415F /* Renderer2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Renderer2d.h; path = ../../../src/pockets/Renderer2d.h; sourceTree = "<group>"; };
+		15A1795317D1045A009D415F /* Renderer2d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Renderer2d.cpp; path = ../../../src/pockets/Renderer2d.cpp; sourceTree = "<group>"; };
 		22ABECC1A48E465B8B9003E5 /* Sprite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Sprite.cpp; path = ../../../src/pockets/Sprite.cpp; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -112,8 +112,8 @@
 		02D8DC8212534C42BBD1ACF0 /* pockets */ = {
 			isa = PBXGroup;
 			children = (
-				15A1794F17D0E57D009D415F /* Renderer2dStrip.h */,
-				15A1795017D0E57D009D415F /* Renderer2dStrip.cpp */,
+				15A1795217D1045A009D415F /* Renderer2d.h */,
+				15A1795317D1045A009D415F /* Renderer2d.cpp */,
 				4D99424C19D5496DA386889F /* AnimationUtils.cpp */,
 				31C5515BA8034AB0A6649730 /* ColorPalette.cpp */,
 				431E0147D9514DE883CC313A /* ExpandedLine2d.cpp */,
@@ -325,7 +325,7 @@
 				D3A257F1DDF84D6BBD9BE0AC /* Sprite.cpp in Sources */,
 				5447C9B2C65D4ABB81883342 /* SpriteSheet.cpp in Sources */,
 				C9B02BAF2A75454B95235205 /* Vbo.cpp in Sources */,
-				15A1795117D0E57D009D415F /* Renderer2dStrip.cpp in Sources */,
+				15A1795417D1045A009D415F /* Renderer2d.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

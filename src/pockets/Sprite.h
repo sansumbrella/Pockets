@@ -27,7 +27,7 @@
 
 #pragma once
 #include "SimpleRenderer.h"
-#include "Renderer2dStrip.h"
+#include "Renderer2d.h"
 #include "Locus2d.h"
 #include <array>
 

@@ -2,7 +2,7 @@
 #include "cinder/gl/gl.h"
 #include "cinder/Rand.h"
 
-#include "Renderer2dStrip.h"
+#include "Renderer2d.h"
 #include "SimpleRenderer.h"
 #include "Locus2d.h"
 

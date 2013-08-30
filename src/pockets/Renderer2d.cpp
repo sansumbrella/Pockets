@@ -25,7 +25,7 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "Renderer2dStrip.h"
+#include "Renderer2d.h"
 #include "CollectionUtilities.hpp"
 
 using namespace std;
