@@ -16,11 +16,13 @@ class SpriteAnimationApp : public AppNative {
 	void setup();
 	void update();
 	void draw();
+  void mouseMove( MouseEvent event ) override;
 private:
   SpriteSheetRef    mSpriteSheet;
   SpriteAnimation               mTotalAnimation;
   std::vector<SpriteAnimation>  mSpriteAnimations;
   double            mLastUpdate = 0.0;
+  float             mNormalizedMouseX = 1.0f;
 };
 
 void SpriteAnimationApp::prepareSettings( Settings *settings )
@@ -37,7 +39,6 @@ void SpriteAnimationApp::setup()
   for( const string &name : sprites )
   { // hold for equivalent of 2 frames at 24fps
     mTotalAnimation.addFrame( mSpriteSheet->getSpriteData(name), 1 );
-    cout << "Sprite: " << name << endl;
   }
   mTotalAnimation.setFrameRate( 12 );
   mTotalAnimation.getLocus().setLoc( { getWindowWidth() / 2, getWindowHeight() - 100.0f } );
@@ -45,13 +46,20 @@ void SpriteAnimationApp::setup()
   try
   { // in case the original json is not properly formatted
     auto json = JsonTree( loadAsset( "animations.json" ) );
-    float x = 100.0f;
+    float x = 10.0f;
     for( auto &child : json.getChildren() )
     {
+      cout << "Animation: " << child.getKey() << endl;
       SpriteAnimation anim{};
       anim.loadAnimationJson( child, mSpriteSheet );
+      x += anim.getSize().x / 2.0f;
       anim.getLocus().setLoc( { x, 300.0f } );
-      x += 100.0f;
+      x += anim.getSize().x / 2.0f;
+
+      if( child.getKey() == "wormer" )
+      {
+        anim.getLocus().setRotation( M_PI / 2 );
+      }
       mSpriteAnimations.push_back( anim );
     }
   }
@@ -61,12 +69,18 @@ void SpriteAnimationApp::setup()
   }
 }
 
+void SpriteAnimationApp::mouseMove( MouseEvent event )
+{
+  mNormalizedMouseX = lmap<float>( event.getPos().x, 0, getWindowWidth(), 0.0f, 1.0f );
+}
+
 void SpriteAnimationApp::update()
 {
   float now = getElapsedSeconds();
   float deltaTime = now - mLastUpdate;
   mLastUpdate = now;
-  mTotalAnimation.step( deltaTime );
+
+  mTotalAnimation.step( lerp( -deltaTime * 2.0f, deltaTime * 2.0f, mNormalizedMouseX ) );
   for( auto &anim : mSpriteAnimations )
   {
     anim.step( deltaTime );

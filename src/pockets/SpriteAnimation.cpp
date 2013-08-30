@@ -56,6 +56,7 @@ void SpriteAnimation::loadAnimationJson( const ci::JsonTree &json, const SpriteS
 SpriteAnimation& SpriteAnimation::addFrame( const SpriteData &sprite, float hold )
 {
   mData.push_back( { sprite, hold } );
+  if( mData.size() == 1 ){ updateGraphics(); }  // prep display of first frame
   return *this;
 }
 

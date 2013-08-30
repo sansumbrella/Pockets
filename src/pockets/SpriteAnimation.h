@@ -61,8 +61,9 @@ namespace pockets
     //! Defaults to 24
     SpriteAnimation&  setFrameRate( float frames_per_second ){ mFrameDuration = 1.0f / frames_per_second; return *this; }
     //! Add a new frame at the end of the animation, held for \a hold frames
+    //! returns self to make adding lots of frames easier
     SpriteAnimation&  addFrame( const SpriteData &sprite, float hold );
-    //! update the animation forward or backward in time
+    //! step the animation forward or backward in time
     void      step( float deltaTime );
     //! render the current frame of animation
     void      render();
@@ -71,7 +72,8 @@ namespace pockets
     //! get the screen position of the animation
     Locus2d&  getLocus(){ return mLocus; }
     //! get the sprite data for the current frame
-    const Drawing& currentData(){ return mData.at(mCurrentIndex); }
+    const Drawing& currentData() const { return mData.at(mCurrentIndex); }
+    ci::Vec2i getSize() const { return currentData().sprite.getSize(); }
   private:
     Locus2d               mLocus;
     std::vector<Drawing>  mData;
