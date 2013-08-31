@@ -117,6 +117,7 @@ void RendererTestApp::prepareSettings( Settings *settings )
 {
   settings->setWindowSize( 1024, 768 );
   settings->disableFrameRate();
+  settings->setFullScreen();
 }
 
 void RendererTestApp::setup()
