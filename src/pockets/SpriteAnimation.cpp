@@ -100,17 +100,15 @@ void SpriteAnimation::updateGraphics()
   Rectf position_rect( Vec2f::zero(), sprite.getSize() );
   position_rect -= sprite.getRegistrationPoint();
 
-  mPositions[0*2+0] = position_rect.getX2(); mTexCoords[0*2+0] = tex_coord_rect.getX2();
-  mPositions[0*2+1] = position_rect.getY1(); mTexCoords[0*2+1] = tex_coord_rect.getY1();
+  mVertices[0].position = { position_rect.getX2(), position_rect.getY1() };
+  mVertices[1].position = { position_rect.getX1(), position_rect.getY1() };
+  mVertices[2].position = { position_rect.getX2(), position_rect.getY2() };
+  mVertices[3].position = { position_rect.getX1(), position_rect.getY2() };
 
-  mPositions[1*2+0] = position_rect.getX1(); mTexCoords[1*2+0] = tex_coord_rect.getX1();
-  mPositions[1*2+1] = position_rect.getY1(); mTexCoords[1*2+1] = tex_coord_rect.getY1();
-
-  mPositions[2*2+0] = position_rect.getX2(); mTexCoords[2*2+0] = tex_coord_rect.getX2();
-  mPositions[2*2+1] = position_rect.getY2(); mTexCoords[2*2+1] = tex_coord_rect.getY2();
-
-  mPositions[3*2+0] = position_rect.getX1(); mTexCoords[3*2+0] = tex_coord_rect.getX1();
-  mPositions[3*2+1] = position_rect.getY2(); mTexCoords[3*2+1] = tex_coord_rect.getY2();
+  mVertices[0].tex_coord = { tex_coord_rect.getX2(), tex_coord_rect.getY1() };
+  mVertices[1].tex_coord = { tex_coord_rect.getX1(), tex_coord_rect.getY1() };
+  mVertices[2].tex_coord = { tex_coord_rect.getX2(), tex_coord_rect.getY2() };
+  mVertices[3].tex_coord = { tex_coord_rect.getX1(), tex_coord_rect.getY2() };
 }
 
 void SpriteAnimation::render()
@@ -118,11 +116,11 @@ void SpriteAnimation::render()
   gl::pushModelView();
 	gl::multModelView( mLocus );
   glEnableClientState( GL_VERTEX_ARRAY );
-	glVertexPointer( 2, GL_FLOAT, 0, &mPositions[0] );
+	glVertexPointer( 2, GL_FLOAT, sizeof( Vertex2d ), &mVertices[0].position.x );
 	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-	glTexCoordPointer( 2, GL_FLOAT, 0, &mTexCoords[0] );
+	glTexCoordPointer( 2, GL_FLOAT, sizeof( Vertex2d ), &mVertices[0].tex_coord.x );
 
-	glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
+	glDrawArrays( GL_TRIANGLE_STRIP, 0, mVertices.size() );
 
 	glDisableClientState( GL_VERTEX_ARRAY );
 	glDisableClientState( GL_TEXTURE_COORD_ARRAY );

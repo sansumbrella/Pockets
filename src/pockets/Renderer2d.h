@@ -27,6 +27,7 @@
 
 #pragma once
 #include "Pockets.h"
+#include "Types.h"
 
 /**
  A basic renderer for grouping rendered content and rendering in order.
@@ -51,11 +52,20 @@ namespace pockets
    Base class for 2d renderers
    Handles sorting of renderable elements by layer.
    Stores a collection of renderable elements.
-   
+
    Renderables and Renderer2d manage their circular relationship automatically
    in their destructors.
    */
-  class Renderer2d
+
+  class BatchRenderer2d;
+  typedef std::shared_ptr<class Locus2d>  Locus2dRef;
+
+  class SpriteBatcher2d
+  {
+
+  };
+
+  class BatchRenderer2d
   {
   public:
     /**
@@ -65,33 +75,29 @@ namespace pockets
     class Renderable
     {
     public:
-      struct Vertex
-      {
-        ci::Vec2f     position;
-        ci::ColorA8u  color;
-        ci::Vec2f     tex_coord;
-      };
+      //! returns vertices at final render position
+      //! override to provide vertex data to renderer
+      virtual std::vector<Vertex2d> getVertices() const = 0;
+      // Constructors and destructor
       Renderable() = default;
       Renderable( const Renderable &other );
       Renderable& operator = ( const Renderable &rhs );
       virtual ~Renderable();
-      //! override to provide vertex data to renderer
-      //! in the long run, I would like to mark this const, so we can
-      //! gather vertices in a separate thread (perhaps using a std::future)
-      virtual std::vector<Vertex> getVertices() = 0;
-      inline void setLayer( int layer ){ mLayer = layer; }
       inline int getLayer() const { return mLayer; }
+      inline void setLayer( int layer ){ mLayer = layer; }
     private:
-      friend class Renderer2d;
-      int                       mLayer = 0;
-      std::vector<Renderer2d*>  mHosts;
+      friend class BatchRenderer2d;
+      int mLayer = 0;
+      std::vector<BatchRenderer2d*> mHosts;
       void clearHosts();
     };
-    Renderer2d() = default;
-    virtual ~Renderer2d();
+
+    BatchRenderer2d() = default;
+    virtual ~BatchRenderer2d();
     typedef std::function<bool (const Renderable*, const Renderable*)> SortFn;
     void add( Renderable *renderable );
     void remove( Renderable *renderable );
+    //! Arrange renderable elements
     void sort( const SortFn &fn = sortByLayerAscending );
     //! Collect vertices for rendering
     virtual void update() = 0;
@@ -107,7 +113,7 @@ namespace pockets
    Batch renderer for GL_TRIANGLE_STRIP geometry
    Stores geometry on the CPU and uploads on render
    */
-  class Renderer2dStrip : public Renderer2d
+  class Renderer2dStrip : public BatchRenderer2d
   {
   public:
     //! get all vertices and store in mVertices
@@ -115,14 +121,14 @@ namespace pockets
     //! render vertices (fast)
     void    render() override;
   private:
-    std::vector<Renderable::Vertex>  mVertices;
+    std::vector<Vertex2d>  mVertices;
   };
 
   /**
    Batch renderer for GL_TRIANGLE_STRIP geometry
    Stores geometry in a VBO on the GPU
    */
-  class Renderer2dStripVbo : public Renderer2d
+  class Renderer2dStripVbo : public BatchRenderer2d
   {
   public:
     //! get all vertices and update vbo
@@ -133,5 +139,5 @@ namespace pockets
     GLuint  mVBO = 0;
     size_t  mSize = 0;
   };
-  
+
 } // pockets::

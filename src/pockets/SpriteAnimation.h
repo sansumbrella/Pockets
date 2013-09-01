@@ -44,7 +44,7 @@ namespace pockets
    and renders the appropriate Sprite given the current time.
    */
   typedef std::shared_ptr<class SpriteAnimation> SpriteAnimationRef;
-  class SpriteAnimation // : public Renderer2dStrip::IRenderable
+  class SpriteAnimation
   {
     struct Drawing{
       SpriteData  sprite;
@@ -63,6 +63,7 @@ namespace pockets
     //! Add a new frame at the end of the animation, held for \a hold frames
     //! returns self to make adding lots of frames easier
     SpriteAnimation&  addFrame( const SpriteData &sprite, float hold );
+    std::vector<Vertex2d> getVertices() { return { mVertices[0], mVertices[1], mVertices[2], mVertices[3] }; }
     //! step the animation forward or backward in time
     void      step( float deltaTime );
     //! render the current frame of animation
@@ -81,8 +82,7 @@ namespace pockets
     float                 mHold = 0.0f;      // time spent on this frame
     float                 mFrameDuration = 1.0f / 24.0f;
     bool                  mLooping = true;
-    std::array<GLfloat, 8>    mPositions;
-    std::array<GLfloat, 8>    mTexCoords;
+    std::array<Vertex2d, 4> mVertices;
     void stepFrame( int frames );
     void updateGraphics();
   };

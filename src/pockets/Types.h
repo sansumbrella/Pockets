@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 David Wicks
+ * Copyright (c) 2013 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -25,15 +25,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "Locus2d.h"
-using namespace pockets;
+#pragma once
+#include "Pockets.h"
+#include <array>
 
-void Locus2d::calculateTransform()
+namespace pockets
 {
-  mTransform.setToIdentity();
-  mTransform.translate( mLoc + mRegistrationPoint );
-  mTransform.rotate( mRotation );
-  mTransform.translate( -mRegistrationPoint );
-  mDirty = false;
-}
+  /**
+  POD types for interleaved vertex data storage
+  */
+  struct Vertex2d
+  {
+    ci::Vec2f     position;
+    ci::ColorA8u  color;
+    ci::Vec2f     tex_coord;
+  };
 
+  struct Vertex3d
+  {
+    ci::Vec3f     position;
+    ci::ColorA8u  color;
+    ci::Vec2f     tex_coord;
+  };
+}

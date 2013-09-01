@@ -60,6 +60,7 @@ void SpriteAnimationApp::setup()
     for( auto &child : json.getChildren() )
     {
       cout << "Animation: " << child.getKey() << endl;
+
       SpriteAnimation anim{};
       anim.loadAnimationJson( child, mSpriteSheet );
       x += anim.getSize().x / 2.0f;

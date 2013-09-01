@@ -3,7 +3,6 @@
 
 #include "pockets/SpriteSheet.h"
 #include "pockets/SimpleRenderer.h"
-#include "pockets/Renderer2dStrip.h"
 #include "pockets/SpriteAnimation.h"
 #include "pockets/Sprite.h"
 
@@ -35,7 +34,6 @@ private:
   SpriteAnimation   mSpriteAnimation;
   Sprite            mSprite;
   SimpleRenderer    mSimpleRenderer;
-  Renderer2dStrip  mRenderer2dStrip;
   double            mLastUpdate;
 };
 

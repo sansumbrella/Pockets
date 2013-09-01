@@ -14,7 +14,6 @@
 		00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B20FF439BC000DE1D7 /* CoreAudio.framework */; };
 		15A1795717D11DC6009D415F /* SweptPath3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A1795517D11DC6009D415F /* SweptPath3d.cpp */; };
 		16C75F4CA15D49D4A760BE17 /* ImagePacker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C0B1AC7A9DB4A1EADD154BD /* ImagePacker.cpp */; };
-		25B9D2B333A948069442E546 /* Locus2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 81D83CED99E141E184B0DA75 /* Locus2d.cpp */; };
 		3B17A126D94B4DFFBD8778FE /* ColorPalette.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97BD2916D97D4421B89BFB6D /* ColorPalette.cpp */; };
 		3BF02739DB91444F830E668A /* FileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6BD3BAC3B2A4FF7B6429335 /* FileUtils.cpp */; };
 		48027CE95DE84D85A22114C0 /* Renderer2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C33D73BE500048B08B47B967 /* Renderer2d.cpp */; };
@@ -61,7 +60,6 @@
 		5B492583AAFA42B0BA195A7A /* SimpleRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = SimpleRenderer.cpp; path = ../../../src/pockets/SimpleRenderer.cpp; sourceTree = "<group>"; };
 		70B55D24D40C4B85920FE1BF /* SpriteAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SpriteAnimation.h; path = ../../../src/pockets/SpriteAnimation.h; sourceTree = "<group>"; };
 		798C26E49AAF44F49766189B /* Vbo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Vbo.h; path = ../../../src/pockets/gl/Vbo.h; sourceTree = "<group>"; };
-		81D83CED99E141E184B0DA75 /* Locus2d.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Locus2d.cpp; path = ../../../src/pockets/Locus2d.cpp; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* PathStrokeRibbonTube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PathStrokeRibbonTube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97BD2916D97D4421B89BFB6D /* ColorPalette.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ColorPalette.cpp; path = ../../../src/pockets/ColorPalette.cpp; sourceTree = "<group>"; };
 		A11435CB4638406D9914A43B /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
@@ -72,7 +70,6 @@
 		B3F414C84F4E4517936BCA76 /* SpriteSheet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = SpriteSheet.cpp; path = ../../../src/pockets/SpriteSheet.cpp; sourceTree = "<group>"; };
 		B55D471AB14F4E86B6A1E38B /* ImagePacker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ImagePacker.h; path = ../../../src/pockets/ImagePacker.h; sourceTree = "<group>"; };
 		B5A049DACA33444CAB202DF8 /* AnimationUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = AnimationUtils.cpp; path = ../../../src/pockets/AnimationUtils.cpp; sourceTree = "<group>"; };
-		B5E717F6B60A4A6C855AF3AD /* Locus2d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Locus2d.h; path = ../../../src/pockets/Locus2d.h; sourceTree = "<group>"; };
 		B79EDA3A9DD94DFCA644C3C0 /* PathStrokeRibbonTube_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = PathStrokeRibbonTube_Prefix.pch; sourceTree = "<group>"; };
 		BC12F6ECC5344D238385BE33 /* ColorPalette.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ColorPalette.h; path = ../../../src/pockets/ColorPalette.h; sourceTree = "<group>"; };
 		BF6F93FD1CB04EB8A2A906EE /* LineUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LineUtils.h; path = ../../../src/pockets/LineUtils.h; sourceTree = "<group>"; };
@@ -231,7 +228,6 @@
 				D6BD3BAC3B2A4FF7B6429335 /* FileUtils.cpp */,
 				3C0B1AC7A9DB4A1EADD154BD /* ImagePacker.cpp */,
 				D11D8B258D764EF08C5C0764 /* LineUtils.cpp */,
-				81D83CED99E141E184B0DA75 /* Locus2d.cpp */,
 				C33D73BE500048B08B47B967 /* Renderer2d.cpp */,
 				5B492583AAFA42B0BA195A7A /* SimpleRenderer.cpp */,
 				FE33D936AA68416DB3C042B1 /* Sprite.cpp */,
@@ -245,7 +241,6 @@
 				A6FC73DA803B453DA19004DA /* FileUtils.h */,
 				B55D471AB14F4E86B6A1E38B /* ImagePacker.h */,
 				BF6F93FD1CB04EB8A2A906EE /* LineUtils.h */,
-				B5E717F6B60A4A6C855AF3AD /* Locus2d.h */,
 				C183CCC18A0240B1BA193BAA /* Pockets.h */,
 				0BE314324B924A72A2A8DC35 /* Renderer2d.h */,
 				E43ED93746CD48679E1B0DE2 /* SimpleRenderer.h */,
@@ -286,6 +281,8 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "PathStrokeRibbonTube" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -330,7 +327,6 @@
 				3BF02739DB91444F830E668A /* FileUtils.cpp in Sources */,
 				16C75F4CA15D49D4A760BE17 /* ImagePacker.cpp in Sources */,
 				FF044636D4CF40B4A660C4E6 /* LineUtils.cpp in Sources */,
-				25B9D2B333A948069442E546 /* Locus2d.cpp in Sources */,
 				48027CE95DE84D85A22114C0 /* Renderer2d.cpp in Sources */,
 				4E4482DD292441379DF4100F /* SimpleRenderer.cpp in Sources */,
 				C37606FD2C224B70A384F6C1 /* Sprite.cpp in Sources */,

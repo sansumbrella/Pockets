@@ -26,9 +26,7 @@
  */
 
 #pragma once
-#include "SimpleRenderer.h"
-#include "Renderer2d.h"
-#include "Locus2d.h"
+#include "Locus.h"
 #include <array>
 
 /**
@@ -67,7 +65,7 @@ namespace pockets
    Sprite renders a textured rectangle based on SpriteData specifications.
    */
   typedef std::shared_ptr<class Sprite> SpriteRef;
-  class Sprite : public SimpleRenderer::Renderable, public Renderer2d::Renderable
+  class Sprite
   {
   public:
     Sprite() = default;
@@ -78,9 +76,8 @@ namespace pockets
     //! set portion of texture to render (used by clipBy)
     void        setRegion( const ci::Rectf &portion );
     //! render the sprite to screen with local transformations
-    void                render() override;
-    std::vector<Vertex> getVertices() override { updateTransformedVertices(); return mTransformedVertices; }
-    void        setLayer( int layer );
+    void        render();
+    std::vector<Vertex2d> getVertices() { updateTransformedVertices(); return mTransformedVertices; }
     //! draw the sprite without applying transform/tint/etc
     void        draw();
     void        setTint( const ci::ColorA &color );
@@ -102,8 +99,8 @@ namespace pockets
     ci::ColorA                mTint;
     SpriteData                mData;
     Locus2d                   mLocus;
-    std::array<Vertex, 4>     mVertices;
-    std::vector<Vertex>       mTransformedVertices;
+    std::array<Vertex2d, 4>   mVertices;
+    std::vector<Vertex2d>     mTransformedVertices;
     bool                      mVerticesDirty = true;
     void updatePositions( const ci::Rectf &position_rect );
     void updateTexCoords( const ci::Rectf &tex_coord_rect );

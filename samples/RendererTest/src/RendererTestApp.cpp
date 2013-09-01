@@ -4,7 +4,7 @@
 
 #include "Renderer2d.h"
 #include "SimpleRenderer.h"
-#include "Locus2d.h"
+#include "Locus.h"
 
 #include <array>
 
@@ -36,7 +36,7 @@ using namespace pockets;
  */
 
 // Something we can render with either renderer for better comparison of methods
-class Box : public pk::Renderer2d::Renderable, public SimpleRenderer::Renderable
+class Box : public BatchRenderer2d::Renderable, public SimpleRenderer::Renderable
 {
 public:
   Box()
@@ -60,13 +60,19 @@ public:
       v.color = color;
     }
   }
+
+  void update()
+  {
+    mLocus.calculateTransform();
+  }
+
   // Interface for SimpleRenderer
   void render() override
   {
     glEnableClientState( GL_VERTEX_ARRAY );
-    glVertexPointer( 2, GL_FLOAT, sizeof(Vertex), &mVertices[0].position.x );
+    glVertexPointer( 2, GL_FLOAT, sizeof(Vertex2d), &mVertices[0].position.x );
     glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-    glTexCoordPointer( 2, GL_FLOAT, sizeof(Vertex), &mVertices[0].tex_coord.x );
+    glTexCoordPointer( 2, GL_FLOAT, sizeof(Vertex2d), &mVertices[0].tex_coord.x );
 
     gl::pushModelView();
     gl::multModelView( mLocus );
@@ -78,19 +84,18 @@ public:
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
   }
   // Interface for Renderer2dStrip
-  vector<Vertex> getVertices() override
+  vector<Vertex2d> getVertices() const override
   {
-    auto mat = mLocus.getTransform();
-    vector<Vertex> ret;
+    vector<Vertex2d> ret;
     for( auto &v : mVertices )
     {
-      ret.emplace_back( Vertex{ mat.transformPoint( v.position ), v.color, v.tex_coord } );
+      ret.emplace_back( mLocus.transform( v ) );
     }
     return ret;
   }
 private:
   ci::ColorA                mColor;
-  std::array<Vertex, 4>     mVertices;
+  std::array<Vertex2d, 4>   mVertices;
   Locus2d                   mLocus;
 };
 
@@ -107,7 +112,7 @@ private:
   Renderer2dStrip     mRenderer2dStrip;
   Renderer2dStripVbo  mRenderer2dStripVbo;
   SimpleRenderer      mSimpleRenderer;
-  array<Box, 10000>   mBoxes;
+  array<Box, 1000>   mBoxes;
   vector<pair<string, RenderFn>>            mRenderFunctions;
   vector<pair<string, RenderFn>>::iterator  mRenderFn;
   double            mAverageRenderTime = 0;
@@ -115,9 +120,9 @@ private:
 
 void RendererTestApp::prepareSettings( Settings *settings )
 {
-  settings->setWindowSize( 1024, 768 );
-  settings->disableFrameRate();
-  settings->setFullScreen();
+//  settings->setWindowSize( 1024, 768 );
+//  settings->disableFrameRate();
+//  settings->setFullScreen();
 }
 
 void RendererTestApp::setup()
@@ -150,7 +155,7 @@ void RendererTestApp::setup()
     return static_cast<const Box*>( lhs )->getPos().distance(center) <
     static_cast<const Box*>( rhs )->getPos().distance(center);
   };
-  auto vortex_triangle = [center]( const pk::Renderer2d::Renderable *lhs, const pk::Renderer2d::Renderable *rhs )
+  auto vortex_triangle = [center]( const BatchRenderer2d::Renderable *lhs, const BatchRenderer2d::Renderable *rhs )
   {
     return  static_cast<const Box*>( lhs )->getPos().distance(center) <
     static_cast<const Box*>( rhs )->getPos().distance(center);
@@ -175,9 +180,16 @@ void RendererTestApp::swapRenderer()
 
 void RendererTestApp::update()
 {
+  auto start = getElapsedSeconds();
   for( auto &box : mBoxes )
   {
     box.setRotation( fmodf( box.getRotation() + M_PI * 0.01f, M_PI * 2 ) );
+    box.update();
+  }
+  auto end = getElapsedSeconds();
+  if( getElapsedFrames() % 120 == 0 )
+  {
+    cout << "Update required: " << (end - start) * 1000 << "ms" << endl;
   }
 }
 

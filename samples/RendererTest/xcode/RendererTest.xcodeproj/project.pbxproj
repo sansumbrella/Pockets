@@ -14,6 +14,7 @@
 		00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B20FF439BC000DE1D7 /* CoreAudio.framework */; };
 		041EC3C0D2E24945A2638E41 /* ColorPalette.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 31C5515BA8034AB0A6649730 /* ColorPalette.cpp */; };
 		15A1795417D1045A009D415F /* Renderer2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A1795317D1045A009D415F /* Renderer2d.cpp */; };
+		15D4417817D3D47200A926F0 /* Locus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D4417717D3D47200A926F0 /* Locus.cpp */; };
 		2B906534F95943E5A6410C26 /* ImagePacker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 587522343697435EB9BEFC8A /* ImagePacker.cpp */; };
 		42A40F8E60D34D5DBD7177F8 /* AnimationUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D99424C19D5496DA386889F /* AnimationUtils.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
@@ -23,7 +24,6 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		8E9F5DDBD77F4482AFF8B67D /* SimpleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 029C4D9A62104319B198A7CC /* SimpleRenderer.cpp */; };
 		9F1E57C81BCD44649B37602F /* FileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 583F5CE1F4DA4373982930DF /* FileUtils.cpp */; };
-		A76C6ACEC2C74838AF35A5EC /* Locus2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03967BF488F94616A1DB4A61 /* Locus2d.cpp */; };
 		BB6DC40B57504E48AC9A9467 /* RendererTestApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0FBF31019DC4DD39F602575 /* RendererTestApp.cpp */; };
 		C9B02BAF2A75454B95235205 /* Vbo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9D8274B6EA844C0EB30D00BD /* Vbo.cpp */; };
 		D3A257F1DDF84D6BBD9BE0AC /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 22ABECC1A48E465B8B9003E5 /* Sprite.cpp */; };
@@ -38,11 +38,12 @@
 		00B784B10FF439BC000DE1D7 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		00B784B20FF439BC000DE1D7 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		029C4D9A62104319B198A7CC /* SimpleRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = SimpleRenderer.cpp; path = ../../../src/pockets/SimpleRenderer.cpp; sourceTree = "<group>"; };
-		03967BF488F94616A1DB4A61 /* Locus2d.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Locus2d.cpp; path = ../../../src/pockets/Locus2d.cpp; sourceTree = "<group>"; };
 		0BBF3CA7566747309115113E /* FileUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FileUtils.h; path = ../../../src/pockets/FileUtils.h; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		15A1795217D1045A009D415F /* Renderer2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Renderer2d.h; path = ../../../src/pockets/Renderer2d.h; sourceTree = "<group>"; };
 		15A1795317D1045A009D415F /* Renderer2d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Renderer2d.cpp; path = ../../../src/pockets/Renderer2d.cpp; sourceTree = "<group>"; };
+		15D4417617D3D47200A926F0 /* Locus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Locus.h; path = ../../../src/pockets/Locus.h; sourceTree = "<group>"; };
+		15D4417717D3D47200A926F0 /* Locus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Locus.cpp; path = ../../../src/pockets/Locus.cpp; sourceTree = "<group>"; };
 		22ABECC1A48E465B8B9003E5 /* Sprite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Sprite.cpp; path = ../../../src/pockets/Sprite.cpp; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -59,7 +60,6 @@
 		587522343697435EB9BEFC8A /* ImagePacker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ImagePacker.cpp; path = ../../../src/pockets/ImagePacker.cpp; sourceTree = "<group>"; };
 		5C2BEC95F6E94FEBB699C432 /* RendererTest_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = RendererTest_Prefix.pch; sourceTree = "<group>"; };
 		6022A5D16DF9497EB7049E9C /* ExpandedLine2d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ExpandedLine2d.h; path = ../../../src/pockets/ExpandedLine2d.h; sourceTree = "<group>"; };
-		750466EE00464EAAB554FB42 /* Locus2d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Locus2d.h; path = ../../../src/pockets/Locus2d.h; sourceTree = "<group>"; };
 		8556A13D516D46118A067F19 /* LineUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LineUtils.h; path = ../../../src/pockets/LineUtils.h; sourceTree = "<group>"; };
 		86157B30B1EE43C99BEA69B0 /* LineUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = LineUtils.cpp; path = ../../../src/pockets/LineUtils.cpp; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* RendererTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RendererTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,6 +106,8 @@
 		02D8DC8212534C42BBD1ACF0 /* pockets */ = {
 			isa = PBXGroup;
 			children = (
+				15D4417617D3D47200A926F0 /* Locus.h */,
+				15D4417717D3D47200A926F0 /* Locus.cpp */,
 				15A1795217D1045A009D415F /* Renderer2d.h */,
 				15A1795317D1045A009D415F /* Renderer2d.cpp */,
 				4D99424C19D5496DA386889F /* AnimationUtils.cpp */,
@@ -114,7 +116,6 @@
 				583F5CE1F4DA4373982930DF /* FileUtils.cpp */,
 				587522343697435EB9BEFC8A /* ImagePacker.cpp */,
 				86157B30B1EE43C99BEA69B0 /* LineUtils.cpp */,
-				03967BF488F94616A1DB4A61 /* Locus2d.cpp */,
 				029C4D9A62104319B198A7CC /* SimpleRenderer.cpp */,
 				22ABECC1A48E465B8B9003E5 /* Sprite.cpp */,
 				E926C516E69E497CA9AB49FC /* SpriteSheet.cpp */,
@@ -124,7 +125,6 @@
 				0BBF3CA7566747309115113E /* FileUtils.h */,
 				E0470D89E9E34AD184923313 /* ImagePacker.h */,
 				8556A13D516D46118A067F19 /* LineUtils.h */,
-				750466EE00464EAAB554FB42 /* Locus2d.h */,
 				98719482C7A4469A9C927B0F /* Pockets.h */,
 				BA8ADEC795854945B4950545 /* SimpleRenderer.h */,
 				45F0500705EB41BAB8F9DE34 /* Sprite.h */,
@@ -310,10 +310,10 @@
 				9F1E57C81BCD44649B37602F /* FileUtils.cpp in Sources */,
 				2B906534F95943E5A6410C26 /* ImagePacker.cpp in Sources */,
 				FEF6C7E1C9004BC0BF781DE6 /* LineUtils.cpp in Sources */,
-				A76C6ACEC2C74838AF35A5EC /* Locus2d.cpp in Sources */,
 				8E9F5DDBD77F4482AFF8B67D /* SimpleRenderer.cpp in Sources */,
 				D3A257F1DDF84D6BBD9BE0AC /* Sprite.cpp in Sources */,
 				5447C9B2C65D4ABB81883342 /* SpriteSheet.cpp in Sources */,
+				15D4417817D3D47200A926F0 /* Locus.cpp in Sources */,
 				C9B02BAF2A75454B95235205 /* Vbo.cpp in Sources */,
 				15A1795417D1045A009D415F /* Renderer2d.cpp in Sources */,
 			);

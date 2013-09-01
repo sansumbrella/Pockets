@@ -66,12 +66,6 @@ void Sprite::setTint(const ci::ColorA &color)
   setDirty();
 }
 
-void Sprite::setLayer(int layer)
-{
-  SimpleRenderer::Renderable::setLayer( layer );
-  Renderer2dStrip::Renderable::setLayer( layer );
-}
-
 void Sprite::updatePositions(const ci::Rectf &positions)
 {
   Rectf position_rect = positions - mData.getRegistrationPoint();
@@ -142,8 +136,8 @@ void Sprite::draw()
   glEnableClientState( GL_VERTEX_ARRAY );
 	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 
-  glVertexPointer( 2, GL_FLOAT, sizeof(Vertex), &mVertices[0].position.x );
-	glTexCoordPointer( 2, GL_FLOAT, sizeof(Vertex), &mVertices[0].tex_coord.x );
+  glVertexPointer( 2, GL_FLOAT, sizeof(Vertex2d), &mVertices[0].position.x );
+	glTexCoordPointer( 2, GL_FLOAT, sizeof(Vertex2d), &mVertices[0].tex_coord.x );
 
 	glDrawArrays( GL_TRIANGLE_STRIP, 0, mVertices.size() );
 
@@ -156,8 +150,8 @@ void Sprite::render()
   glEnableClientState( GL_VERTEX_ARRAY );
 	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 
-  glVertexPointer( 2, GL_FLOAT, sizeof(Vertex), &mVertices[0].position.x );
-	glTexCoordPointer( 2, GL_FLOAT, sizeof(Vertex), &mVertices[0].tex_coord.x );
+  glVertexPointer( 2, GL_FLOAT, sizeof(Vertex2d), &mVertices[0].position.x );
+	glTexCoordPointer( 2, GL_FLOAT, sizeof(Vertex2d), &mVertices[0].tex_coord.x );
 
 	gl::pushModelView();
   gl::color( mTint );
