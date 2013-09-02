@@ -137,11 +137,12 @@ void RendererTestApp::setup()
   mRenderFn = mRenderFunctions.begin();
   gl::enableVerticalSync();
 
+  Rand r;
   for( auto &box : mBoxes )
   {
-    box.setColor( ColorA{ CM_HSV, Rand::randFloat(), 0.9f, 0.9f, 1.0f } );
-    box.setPos( Vec2f{ Rand::randFloat(getWindowWidth()), Rand::randFloat(getWindowHeight()) } );
-    box.setRotation( Rand::randFloat( M_PI * 2 ) );
+    box.setColor( ColorA{ CM_HSV, r.nextFloat( 1.0f ), 0.9f, 0.9f, 1.0f } );
+    box.setPos( Vec2f{ r.nextFloat(getWindowWidth()), r.nextFloat(getWindowHeight()) } );
+    box.setRotation( r.nextFloat( M_PI * 2 ) );
     mRenderer2dStrip.add( &box );
     mSimpleRenderer.add( &box );
     mRenderer2dStripVbo.add( &box );
@@ -180,16 +181,10 @@ void RendererTestApp::swapRenderer()
 
 void RendererTestApp::update()
 {
-  auto start = getElapsedSeconds();
   for( auto &box : mBoxes )
   {
     box.setRotation( fmodf( box.getRotation() + M_PI * 0.01f, M_PI * 2 ) );
     box.update();
-  }
-  auto end = getElapsedSeconds();
-  if( getElapsedFrames() % 120 == 0 )
-  {
-    cout << "Update required: " << (end - start) * 1000 << "ms" << endl;
   }
 }
 
