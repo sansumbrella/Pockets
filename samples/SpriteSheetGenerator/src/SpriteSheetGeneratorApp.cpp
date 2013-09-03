@@ -107,7 +107,7 @@ void SpriteSheetGeneratorApp::addFile(const fs::path &file)
       cout << "=> Id: " << id << endl;
       mWidestImage = max( img.getWidth(), mWidestImage );
       auto sprite = mImagePacker.addImage( id, img );
-      sprite->setRegistrationPoint( Vec2i( sprite->getWidth() / 2, sprite->getHeight() ) );
+      sprite->setRegistrationPoint( sprite->getSize() / 2 );
     }
     else if( fs::is_directory( file ) )
     {
