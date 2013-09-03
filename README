@@ -4,8 +4,20 @@ Intended for use with Cinder 0.8.5.
 Written against clang/C++11.
 
 These bits of software are written as a library; each piece should stand
-on its own as something generally useful. Eventually, I may try to turn
-it into more of a framework on top of Cinder along the lines of PolyCode.
+on its own as something generally useful.
+
+My current plan is to make the elements in Pockets more functional.
+That is, they will do one thing and one thing only, with no side effects.
+Further, I am starting to remove the interdependencies of things in Pockets.
+I am concurrently developing a component system framework that will take
+the place of utilities like sprite sheets and renderers which really want to
+be part of a bigger picture.
+
+To Keep:
+Image Packing
+Message Passing Library
+Line Utilities for curve through a line (add adaptive resampling)
+Lerp functions
 
 Current Contents:
 Sprites
@@ -17,8 +29,6 @@ Basic Renderers
 - Renderer2d supports batch renderers
 	- Renderer2dStrip
 	- Renderer2dStripVbo
-	- TODO: all 2d elements implement the interface for fast rendering
-- TODO: Renderer3d
 Message Passing / Event Passing Library
 - Messenger/Receiver pattern allows for decoupled information passing
 - Messenger<T> passes arbitrary message types with compile-time type safety
@@ -32,14 +42,6 @@ Animation Utilities
 - lerp function for quaternions, colors, wrapped numbers
 File Utilities
 - Get next sequential filename
-
-In Progress:
-Scene Graph
-- 2D graph for overlay-style gui development
-
-Longer term:
-Scripting helpers
-Console input (for e.g. scripting layer)
 
 Conventions:
 
