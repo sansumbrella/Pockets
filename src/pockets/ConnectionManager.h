@@ -45,7 +45,7 @@ namespace pockets
     //! disconnects all stored connections
     ~ConnectionManager();
     //! store a signal in manager
-    inline void manage(ci::signals::connection connection)
+    inline void store(ci::signals::connection connection)
     { mConnections.push_back( connection ); }
     //! disconnect all stored connections permanently
     //! use block to temporarily block connections
