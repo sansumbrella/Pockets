@@ -25,7 +25,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "ColorPalette.h"
+#include "ColorUtils.h"
 #include "cinder/CinderMath.h"
 
 using namespace pockets;

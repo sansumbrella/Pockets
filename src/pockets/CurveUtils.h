@@ -46,6 +46,7 @@ Cache for arc-length to time conversion.
 Reparameterizes a spline along the normalized arc-length.
 Enables constant-speed travel along curves at interactive rates.
 TODO: rename
+TODO: adaptive resampling for efficient drawing
 */
 class SplineArcLengthParameterizer
 {
