@@ -25,21 +25,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "puptent/RenderSystem.h"
+#include "pockets/rendering/RenderSystem.h"
 #include "pockets/CollectionUtilities.hpp"
 #include "cinder/gl/Texture.h"
 
 using namespace cinder;
-using namespace puptent;
+using namespace pockets;
 using namespace std;
 
-void RenderSystem::configure( EventManagerRef event_manager )
-{
-  event_manager->subscribe<EntityDestroyedEvent>( *this );
-  event_manager->subscribe<ComponentAddedEvent<RenderData>>( *this );
-  event_manager->subscribe<ComponentRemovedEvent<RenderData>>( *this );
-}
-
+/*
 void RenderSystem::receive(const ComponentAddedEvent<puptent::RenderData> &event)
 {
   auto data = event.component;
@@ -67,6 +61,7 @@ void RenderSystem::receive(const ComponentAddedEvent<puptent::RenderData> &event
     mGeometry[pass].push_back( event.component );
   }
 }
+*/
 
 void RenderSystem::checkOrdering() const
 {
@@ -84,7 +79,7 @@ void RenderSystem::checkOrdering() const
     }
   }
 }
-
+/*
 void RenderSystem::receive(const ComponentRemovedEvent<puptent::RenderData> &event)
 {
   auto data = event.component;
@@ -100,8 +95,8 @@ void RenderSystem::receive(const EntityDestroyedEvent &event)
     vector_remove( &mGeometry[render_data->pass], render_data );
   }
 }
-
-void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double dt )
+*/
+void RenderSystem::update()
 { // assemble vertices for each pass
   const array<RenderPass, 3> passes = { eNormalPass, eAdditivePass, eMultiplyPass };
   for( const auto &pass : passes )

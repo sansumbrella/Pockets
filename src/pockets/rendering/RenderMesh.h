@@ -26,9 +26,9 @@
  */
 
 #pragma once
-#include "puptent/PupTent.h"
+#include "Pockets.h"
 
-namespace puptent
+namespace pockets
 {
   struct Vertex
   {
@@ -58,7 +58,7 @@ namespace puptent
   */
   typedef std::shared_ptr<class RenderMesh> RenderMeshRef;
   class SpriteData;
-  struct RenderMesh : Component<RenderMesh>
+  struct RenderMesh
   {
     RenderMesh( int vertex_count=3 )
     {
@@ -73,9 +73,9 @@ namespace puptent
     void setAsBox( const ci::Rectf &bounds );
     //! Set the texture coords to those specified by the sprite data
     //! Does not affect shape of mesh
-    void setBoxTextureCoords( const SpriteData &sprite_data );
+//    void setBoxTextureCoords( const SpriteData &sprite_data );
     //! Set the mesh as a box of sprite's size with correct texture coordinates
-    void matchTexture( const SpriteData &sprite_data );
+//    void matchTexture( const SpriteData &sprite_data );
     //! Transform all vertices by \a mat
     void transform( const ci::MatrixAffine2f &mat );
     //! Make an expanded ribbon from a ci::Vec2f skeleton

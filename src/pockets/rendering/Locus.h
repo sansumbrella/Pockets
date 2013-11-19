@@ -26,9 +26,9 @@
  */
 
 #pragma once
-#include "puptent/PupTent.h"
+#include "Pockets.h"
 
-namespace puptent
+namespace pockets
 {
   /**
    A Component storing the basic positional information for an Entity
@@ -39,7 +39,8 @@ namespace puptent
    Updated by movement systems (Physics, Custom Motion)
    No assumption is made about the units used
   */
-  struct Locus : Component<Locus>
+  typedef std::shared_ptr<class Locus> LocusRef;
+  struct Locus
   {
     Locus() = default;
     Locus( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, std::shared_ptr<Locus> parent=nullptr ):

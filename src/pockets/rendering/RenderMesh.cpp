@@ -25,10 +25,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "puptent/RenderMesh.h"
-#include "puptent/TextureAtlas.h"
+#include "pockets/rendering/RenderMesh.h"
 
-using namespace puptent;
+using namespace pockets;
 using namespace cinder;
 
 void RenderMesh::transform(const ci::MatrixAffine2f &mat)
@@ -75,6 +74,7 @@ void RenderMesh::setAsBox( const Rectf &bounds )
   vertices[3].position = bounds.getLowerLeft();
 }
 
+/*
 void RenderMesh::setBoxTextureCoords( const SpriteData &sprite_data )
 {
   vertices[0].tex_coord = sprite_data.texture_bounds.getUpperRight();
@@ -97,6 +97,7 @@ void RenderMesh::matchTexture(const SpriteData &sprite_data)
   vertices[2].tex_coord = sprite_data.texture_bounds.getLowerRight();
   vertices[3].tex_coord = sprite_data.texture_bounds.getLowerLeft();
 }
+*/
 
 void RenderMesh::setAsTriangle(const ci::Vec2f &a, const ci::Vec2f &b, const ci::Vec2f &c)
 {

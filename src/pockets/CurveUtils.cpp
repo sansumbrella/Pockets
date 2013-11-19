@@ -25,7 +25,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "LineUtils.h"
+#include "CurveUtils.h"
 #include "cinder/Vector.h"
 
 using namespace cinder;

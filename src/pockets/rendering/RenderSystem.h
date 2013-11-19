@@ -27,11 +27,12 @@
 
 #pragma once
 
-#include "puptent/PupTent.h"
-#include "puptent/Locus.h"
-#include "puptent/RenderMesh.h"
+#include "pockets/Pockets.h"
+#include "pockets/rendering/Locus.h"
+#include "pockets/rendering/RenderMesh.h"
+#include <array>
 
-namespace puptent
+namespace pockets
 {
   /**
    RenderPass:
@@ -53,7 +54,7 @@ namespace puptent
    Requires an extra step when defining element components
    */
   typedef std::shared_ptr<class RenderData> RenderDataRef;
-  struct RenderData : Component<RenderData>
+  struct RenderData
   {
     RenderData( RenderMeshRef mesh, LocusRef locus, int render_layer=0, RenderPass pass=eNormalPass ):
     mesh( mesh ),
@@ -89,24 +90,19 @@ namespace puptent
    For "untextured" geometry, we leave a white pixel in the top-left corner
    of our sprite sheets and set all vertex tex coords to their default 0,0.
    */
-  struct RenderSystem : public System<RenderSystem>, Receiver<RenderSystem>
+  struct RenderSystem
   {
-    //! listen for events
-    void        configure( EventManagerRef event_manager ) override;
     //! sort the render data in the normal pass by render layer
     //! needed if you are dynamically changing Locus render_layers
     inline void sort()
     { stable_sort( mGeometry[eNormalPass].begin(), mGeometry[eNormalPass].end(), &RenderSystem::layerSort ); }
     //! generate vertex list by transforming meshes by locii
-    void        update( EntityManagerRef es, EventManagerRef events, double dt ) override;
+    void        update();
     //! batch render scene to screen
     void        draw() const;
     //! set a texture to be bound for all rendering
     inline void setTexture( ci::gl::TextureRef texture )
     { mTexture = texture; }
-    void        receive( const EntityDestroyedEvent &event );
-    void        receive( const ComponentAddedEvent<RenderData> &event );
-    void        receive( const ComponentRemovedEvent<RenderData> &event );
     void        checkOrdering() const;
   private:
     std::array<std::vector<RenderDataRef>, 3>  mGeometry;
