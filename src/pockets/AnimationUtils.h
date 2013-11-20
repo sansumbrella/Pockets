@@ -32,7 +32,7 @@
 namespace pockets
 {
   //! returns f with precision of 1/steps (e.g. for 0.31 with 5 steps, yields 0.4, with 10 steps, yields 0.3 )
-	float quantize( float f, float steps );
+  float quantize( float f, float steps );
 
   //! lerp color through HSV space; wraps Hue from 0—1
   ci::ColorA lerpHSVA( const ci::ColorA &start, const ci::ColorA &finish, float time );
