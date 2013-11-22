@@ -54,7 +54,7 @@ size_t ScanlinePacker::pushRect( Rectf rect )
 		if( loc.x + rect.getWidth() < mConstraints.x - mPadding.x )
 		{	// probably placed, let's check our boundaries
 			placed = true;
-			Rectf potentialBounds = (rect + loc).inflated( Vec2f{ -1.0f, -1.0f } );
+			Rectf potentialBounds = (rect + loc).inflated( Vec2f( -1.0f, -1.0f ) );
 			for( const Rectf &r : mRectangles )
 			{
 				Rectf bounds = r.inflated( mPadding );

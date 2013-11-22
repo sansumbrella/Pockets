@@ -28,6 +28,7 @@
 #pragma once
 
 #include "pockets/Pockets.h"
+#include "cinder/Rect.h"
 
 namespace pockets
 {
@@ -64,7 +65,7 @@ namespace pockets
 		enum{
 			eUnconstrained = -1
 		};
-		ScanlinePacker() = default;
+		ScanlinePacker() {}
 		ScanlinePacker( float maxWidth, float maxHeight = eUnconstrained ):
 		mConstraints( maxWidth, maxHeight ),
 		mPadding( 8.0f, 8.0f )
