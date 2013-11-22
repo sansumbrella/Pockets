@@ -28,6 +28,8 @@
 #pragma once
 
 #include "Pockets.h"
+#include "cinder/Color.h"
+#include "cinder/Quaternion.h"
 
 namespace pockets
 {
