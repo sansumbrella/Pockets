@@ -35,47 +35,31 @@
 namespace pockets
 {
   /**
-   RenderPass:
-   Flag to tell RenderSystem when to draw the given geometry.
-   First, the normal pass is drawn in layer-sorted order.
-   Second, an additive pass is made (unsorted, since it doesn't affect output).
-   Finally, a multiplicative pass is made (also unsorted).
-   */
-  enum RenderPass
-  {
-    eNormalPass,
-    eAdditivePass,
-    eMultiplyPass,
-  };
-  /**
    RenderData:
-   Composite component.
-   Lets us store information needed for RenderSystem in one fast-to-access place.
-   Requires an extra step when defining element components
+ 
+   Composite data
+   The mesh (vertices) and locus (transform) are stored here.
+   Also, we store a render layer to support layer-sorted 2d rendering
    */
   typedef std::shared_ptr<class RenderData> RenderDataRef;
   struct RenderData
   {
-    RenderData( RenderMeshRef mesh, LocusRef locus, int render_layer=0, RenderPass pass=eNormalPass ):
+    RenderData( RenderMesh2DRef mesh, Locus2DRef locus, int render_layer=0 ):
     mesh( mesh ),
     locus( locus ),
-    render_layer( render_layer ),
-    pass( pass )
+    render_layer( render_layer )
     {}
-    RenderMeshRef     mesh;
-    LocusRef          locus;
+    RenderMesh2DRef   mesh;
+    Locus2DRef        locus;
     int               render_layer;
-    const RenderPass  pass;
+    static bool       layerSort( const RenderDataRef &lhs, const RenderDataRef &rhs )
+    { return lhs->render_layer < rhs->render_layer; }
   };
 
   /**
-   RenderSystem:
-   Multi-pass, layer-sorted rendering system.
+   BatchRenderer:
 
-   The RenderSystem is designed to quickly display active entities. It can
-   handle all of your sprites, particles, and generative 2d meshes.
-
-   For rendering large background and foreground elements, use a different system.
+   Single-pass batch renderer.
 
    Each pass is a batch of RenderData components combined into a single
    triangle strip. The render passes are:
@@ -90,28 +74,40 @@ namespace pockets
    For "untextured" geometry, we leave a white pixel in the top-left corner
    of our sprite sheets and set all vertex tex coords to their default 0,0.
    */
-  struct RenderSystem
+  typedef std::shared_ptr<class BatchRenderer>  BatchRendererRef;
+  class BatchRenderer
   {
+  public:
+    virtual ~BatchRenderer() {}
     //! sort the render data in the normal pass by render layer
-    //! needed if you are dynamically changing Locus render_layers
+    //! needed iff you are dynamically changing render_layers
     inline void sort()
-    { stable_sort( mGeometry[eNormalPass].begin(), mGeometry[eNormalPass].end(), &RenderSystem::layerSort ); }
+    { stable_sort( mGeometry.begin(), mGeometry.end(), &RenderData::layerSort ); }
+    //! add a piece of RenderData to draw
+    void        append( RenderDataRef data );
+    //! remove a piece of RenderData
+    void        remove( RenderDataRef data );
     //! generate vertex list by transforming meshes by locii
-    void        update();
+    virtual void update() = 0;
     //! batch render scene to screen
-    void        draw() const;
-    //! set a texture to be bound for all rendering
-    inline void setTexture( ci::gl::TextureRef texture )
-    { mTexture = texture; }
-    void        checkOrdering() const;
-  private:
-    std::array<std::vector<RenderDataRef>, 3>  mGeometry;
-    std::array<std::vector<Vertex>, 3>         mVertices;
-    ci::gl::TextureRef                         mTexture;
-    static bool                 layerSort( const RenderDataRef &lhs, const RenderDataRef &rhs )
-    { return lhs->render_layer < rhs->render_layer; }
-    // maybe add a CameraRef for positioning the scene
-    // use a POV and Locus component as camera, allowing dynamic switching
+    virtual void draw() const = 0;
+  protected:
+    std::vector<RenderDataRef>	mGeometry;
+    std::vector<Vertex>         mVertices;
   };
 
-} // puptent::
+  class BatchTriangleRenderer : public BatchRenderer
+  {
+  public:
+    void update();
+    void draw() const;
+  };
+
+  class BatchTriangleStripRenderer : public BatchRenderer
+  {
+  public:
+    void update();
+    void draw() const;
+  };
+
+} // pockets::

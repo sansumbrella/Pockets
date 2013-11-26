@@ -30,7 +30,7 @@
 using namespace pockets;
 using namespace cinder;
 
-MatrixAffine2f Locus::toMatrix() const
+MatrixAffine2f Locus2D::toMatrix() const
 {
   MatrixAffine2f mat;
   mat.translate( position + registration_point );
@@ -41,22 +41,22 @@ MatrixAffine2f Locus::toMatrix() const
   return mat;
 }
 
-float Locus::getScale() const
+float Locus2D::getScale() const
 {
   return parent ? parent->getScale() * scale : scale;
 }
 
-float Locus::getRotation() const
+float Locus2D::getRotation() const
 {
   return parent ? parent->getRotation() + rotation : rotation;
 }
 
-Vec2f Locus::getPosition() const
+Vec2f Locus2D::getPosition() const
 {
   return parent ? parent->toMatrix().transformPoint( position ) : position;
 }
 
-void Locus::detachFromParent()
+void Locus2D::detachFromParent()
 {
   if( parent )
   {

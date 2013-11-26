@@ -31,39 +31,52 @@
 namespace pockets
 {
   /**
-   A Component storing the basic positional information for an Entity
-   Position, Rotation, and Scale
-   Scales and rotates around the Registration Point when using toMatrix()
+   Locus2D:
 
-   Used by RenderSystem to transform RenderMesh component vertices
-   Updated by movement systems (Physics, Custom Motion)
-   No assumption is made about the units used
+   Stores Position, Rotation, and Scale
+   Enables direct manipulation of positional aspects and composing transforms.
+   Scales and rotates around the Registration Point when using toMatrix()
   */
-  typedef std::shared_ptr<class Locus> LocusRef;
-  struct Locus
+  typedef std::shared_ptr<class Locus2D> Locus2DRef;
+  struct Locus2D
   {
-    Locus() = default;
-    Locus( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, std::shared_ptr<Locus> parent=nullptr ):
+    Locus2D() = default;
+    Locus2D( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, Locus2DRef parent=nullptr ):
     position( pos ),
     registration_point( registration ),
     rotation( rot ),
     parent( parent )
     {}
-    ci::Vec2f         position = ci::Vec2f::zero();
-    ci::Vec2f         registration_point = ci::Vec2f::zero();
-    float             rotation = 0.0f;
-    float             scale = 1.0f;
+    ci::Vec2f           position = ci::Vec2f::zero();
+    ci::Vec2f           registration_point = ci::Vec2f::zero();
+    float               rotation = 0.0f;
+    float               scale = 1.0f;
     //! returns total rotation including any accumulated from parents
-    float             getRotation() const;
+    float               getRotation() const;
     //! returns total scale including any accumulated from parents
-    float             getScale() const;
+    float               getScale() const;
     //! returns total position including any accumulated from parents
-    ci::Vec2f         getPosition() const;
+    ci::Vec2f           getPosition() const;
     //! transform parent; toMatrix() is multiplied by parent->toMatrix() if present
-    std::shared_ptr<Locus> parent = nullptr;
+    Locus2DRef          parent = nullptr;
     //! returns a matrix that will transform points based on Locus properties
     ci::MatrixAffine2f  toMatrix() const;
     //! remove parent after composing its transform into our own
-    void              detachFromParent();
+    void                detachFromParent();
+  };
+
+
+  /**
+   Locus3D:
+   
+   Stub for a 3d equivalent to Locus2D
+   */
+  typedef std::shared_ptr<class Locus3D> Locus3DRef;
+  struct Locus3D
+  {
+    // TODO
+    ci::Vec3f         mPosition;
+    ci::Quatf         mOrientation;
+    float             mScale;
   };
 }

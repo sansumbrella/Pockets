@@ -44,10 +44,10 @@ namespace pockets
     ci::Vec2f     tex_coord;
   };
   /**
-   RenderMesh:
-   Collection of vertices suitable for rendering as a triangle strip.
-   Drawn by the RenderSystem
-   Updated by SpriteAnimationSystem or user Scripts
+   RenderMesh2D:
+
+   Collection of vertices suitable for rendering.
+   Currently, all of the setAs* methods assume a TRIANGLE_STRIP renderer
    Member functions let you conveniently set it to various shapes:
    - Box
    - Circle
@@ -56,11 +56,11 @@ namespace pockets
    - Texture billboard (special case of Box)
    Additional methods ease the texturing of those shapes.
   */
-  typedef std::shared_ptr<class RenderMesh> RenderMeshRef;
+  typedef std::shared_ptr<class RenderMesh2D> RenderMesh2DRef;
   class SpriteData;
-  struct RenderMesh
+  struct RenderMesh2D
   {
-    RenderMesh( int vertex_count=3 )
+    RenderMesh2D( int vertex_count=3 )
     {
       vertices.assign( vertex_count, Vertex{} );
     }
@@ -71,11 +71,6 @@ namespace pockets
     void setAsCircle( const ci::Vec2f &radius, float start_radians=0, float end_radians=M_PI * 2, size_t segments=0 );
     //! Set the mesh bounds to a box shape
     void setAsBox( const ci::Rectf &bounds );
-    //! Set the texture coords to those specified by the sprite data
-    //! Does not affect shape of mesh
-//    void setBoxTextureCoords( const SpriteData &sprite_data );
-    //! Set the mesh as a box of sprite's size with correct texture coordinates
-//    void matchTexture( const SpriteData &sprite_data );
     //! Transform all vertices by \a mat
     void transform( const ci::MatrixAffine2f &mat );
     //! Make an expanded ribbon from a ci::Vec2f skeleton
@@ -92,7 +87,7 @@ namespace pockets
 
 
   template<typename T>
-  void RenderMesh::setAsRibbon( const T &skeleton, float width, bool closed )
+  void RenderMesh2D::setAsRibbon( const T &skeleton, float width, bool closed )
   {
     using ci::Vec2f;
     if( vertices.size() != skeleton.size() * 2 )

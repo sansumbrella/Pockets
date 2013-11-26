@@ -30,7 +30,7 @@
 using namespace pockets;
 using namespace cinder;
 
-void RenderMesh::transform(const ci::MatrixAffine2f &mat)
+void RenderMesh2D::transform(const ci::MatrixAffine2f &mat)
 {
   for( Vertex &v : vertices )
   {
@@ -38,7 +38,7 @@ void RenderMesh::transform(const ci::MatrixAffine2f &mat)
   }
 }
 
-void RenderMesh::setAsCircle(const ci::Vec2f &radius, float start_radians, float end_radians, size_t segments )
+void RenderMesh2D::setAsCircle(const ci::Vec2f &radius, float start_radians, float end_radians, size_t segments )
 {
   if( segments < 2 ) { // based off of cinder, though we're less generous with the vertices
     segments = math<float>::floor( math<float>::max( radius.x, radius.y ) * abs(end_radians - start_radians) / 3 );
@@ -65,7 +65,7 @@ void RenderMesh::setAsCircle(const ci::Vec2f &radius, float start_radians, float
   }
 }
 
-void RenderMesh::setAsBox( const Rectf &bounds )
+void RenderMesh2D::setAsBox( const Rectf &bounds )
 {
   if( vertices.size() != 4 ){ vertices.assign( 4, Vertex{} ); }
   vertices[0].position = bounds.getUpperRight();
@@ -74,32 +74,7 @@ void RenderMesh::setAsBox( const Rectf &bounds )
   vertices[3].position = bounds.getLowerLeft();
 }
 
-/*
-void RenderMesh::setBoxTextureCoords( const SpriteData &sprite_data )
-{
-  vertices[0].tex_coord = sprite_data.texture_bounds.getUpperRight();
-  vertices[1].tex_coord = sprite_data.texture_bounds.getUpperLeft();
-  vertices[2].tex_coord = sprite_data.texture_bounds.getLowerRight();
-  vertices[3].tex_coord = sprite_data.texture_bounds.getLowerLeft();
-}
-
-void RenderMesh::matchTexture(const SpriteData &sprite_data)
-{
-  if( vertices.size() != 4 ){ vertices.assign( 4, Vertex{} ); }
-  Rectf screen_bounds{ { 0.0f, 0.0f }, sprite_data.size };
-  screen_bounds -= sprite_data.registration_point;
-  vertices[0].position = screen_bounds.getUpperRight();
-  vertices[1].position = screen_bounds.getUpperLeft();
-  vertices[2].position = screen_bounds.getLowerRight();
-  vertices[3].position = screen_bounds.getLowerLeft();
-  vertices[0].tex_coord = sprite_data.texture_bounds.getUpperRight();
-  vertices[1].tex_coord = sprite_data.texture_bounds.getUpperLeft();
-  vertices[2].tex_coord = sprite_data.texture_bounds.getLowerRight();
-  vertices[3].tex_coord = sprite_data.texture_bounds.getLowerLeft();
-}
-*/
-
-void RenderMesh::setAsTriangle(const ci::Vec2f &a, const ci::Vec2f &b, const ci::Vec2f &c)
+void RenderMesh2D::setAsTriangle(const ci::Vec2f &a, const ci::Vec2f &b, const ci::Vec2f &c)
 {
   if( vertices.size() != 3 ){ vertices.assign( 3, Vertex{} ); }
   vertices[0].position = a;
@@ -107,7 +82,7 @@ void RenderMesh::setAsTriangle(const ci::Vec2f &a, const ci::Vec2f &b, const ci:
   vertices[2].position = c;
 }
 
-void RenderMesh::setAsLine( const Vec2f &begin, const Vec2f &end, float width )
+void RenderMesh2D::setAsLine( const Vec2f &begin, const Vec2f &end, float width )
 {
   Vec2f ray = end - begin;
   Vec2f side = ray.normalized() * width;
@@ -122,7 +97,7 @@ void RenderMesh::setAsLine( const Vec2f &begin, const Vec2f &end, float width )
   vertices.at(3).position = end + N;
 }
 
-void RenderMesh::setAsCappedLine( const ci::Vec2f &begin, const ci::Vec2f &end, float width )
+void RenderMesh2D::setAsCappedLine( const ci::Vec2f &begin, const ci::Vec2f &end, float width )
 {
   Vec2f ray = end - begin;
   Vec2f cap = ray.normalized() * width;
@@ -145,7 +120,7 @@ void RenderMesh::setAsCappedLine( const ci::Vec2f &begin, const ci::Vec2f &end, 
   vertices.at(7).position = end + NE;
 }
 
-void RenderMesh::setColor( const ColorA8u &color )
+void RenderMesh2D::setColor( const ColorA8u &color )
 {
   for( auto &vert : vertices )
   {
