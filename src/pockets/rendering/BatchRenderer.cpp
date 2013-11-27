@@ -32,6 +32,12 @@ using namespace cinder;
 using namespace pockets;
 using namespace std;
 
+RenderDataRef RenderData::create()
+{
+  RenderMesh2DRef mesh( new RenderMesh2D() );
+  Locus2DRef locus( new Locus2D() );
+  return RenderDataRef( new RenderData( mesh, locus ) );
+}
 
 void BatchRenderer::append( RenderDataRef data )
 {

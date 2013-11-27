@@ -49,6 +49,7 @@ namespace pockets
     locus( locus ),
     render_layer( render_layer )
     {}
+    static RenderDataRef create();
     RenderMesh2DRef   mesh;
     Locus2DRef        locus;
     int               render_layer;
