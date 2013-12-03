@@ -109,6 +109,8 @@ namespace pockets
   public:
     void update();
     void draw() const;
+    static std::shared_ptr<BatchTriangleStripRenderer> create()
+    { return std::shared_ptr<BatchTriangleStripRenderer>( new BatchTriangleStripRenderer() ); }
   };
 
 } // pockets::
