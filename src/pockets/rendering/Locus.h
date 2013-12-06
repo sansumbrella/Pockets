@@ -50,11 +50,11 @@ namespace pockets
     ci::Vec2f           position = ci::Vec2f::zero();
     ci::Vec2f           registration_point = ci::Vec2f::zero();
     float               rotation = 0.0f;
-    float               scale = 1.0f;
+    ci::Vec2f           scale = ci::Vec2f( 1.0f, 1.0f );
     //! returns total rotation including any accumulated from parents
     float               getRotation() const;
     //! returns total scale including any accumulated from parents
-    float               getScale() const;
+    ci::Vec2f           getScale() const;
     //! returns total position including any accumulated from parents
     ci::Vec2f           getPosition() const;
     //! transform parent; toMatrix() is multiplied by parent->toMatrix() if present

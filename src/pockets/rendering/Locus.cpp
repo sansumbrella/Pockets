@@ -41,7 +41,7 @@ MatrixAffine2f Locus2D::toMatrix() const
   return mat;
 }
 
-float Locus2D::getScale() const
+ci::Vec2f Locus2D::getScale() const
 {
   return parent ? parent->getScale() * scale : scale;
 }
