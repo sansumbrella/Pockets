@@ -39,6 +39,11 @@ namespace pockets
   //! lerp color through HSV space; wraps Hue from 0—1
   ci::ColorA lerpHSVA( const ci::ColorA &start, const ci::ColorA &finish, float time );
 
+  //! calculate a grid with at least \a minCells and an aspect ratio close to
+  //! \a targetAspect (columns:rows). Returns Vec2i with the number of columns
+  //! and rows that such a grid would contain
+  ci::Vec2i	calcProportionalGridToFit( size_t minCells, float targetAspect );
+
   //! Lerp from value a to value b, wrapping around a circle where
   //! a value of w is equivalent to a value of zero (e.g. 2π)
   template<typename T>
