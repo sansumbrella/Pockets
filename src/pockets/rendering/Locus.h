@@ -40,17 +40,23 @@ namespace pockets
   typedef std::shared_ptr<class Locus2D> Locus2DRef;
   struct Locus2D
   {
-    Locus2D() = default;
+    Locus2D():
+    position( ci::Vec2f::zero() ),
+    registration_point( ci::Vec2f::zero() ),
+    rotation( 0.0f ),
+    scale( 1.0f, 1.0f ),
+    parent( nullptr )
+    {};
     Locus2D( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, Locus2DRef parent=nullptr ):
     position( pos ),
     registration_point( registration ),
     rotation( rot ),
     parent( parent )
     {}
-    ci::Vec2f           position = ci::Vec2f::zero();
-    ci::Vec2f           registration_point = ci::Vec2f::zero();
-    float               rotation = 0.0f;
-    ci::Vec2f           scale = ci::Vec2f( 1.0f, 1.0f );
+    ci::Vec2f           position;
+    ci::Vec2f           registration_point;
+    float               rotation;
+    ci::Vec2f           scale;
     //! returns total rotation including any accumulated from parents
     float               getRotation() const;
     //! returns total scale including any accumulated from parents
@@ -58,7 +64,7 @@ namespace pockets
     //! returns total position including any accumulated from parents
     ci::Vec2f           getPosition() const;
     //! transform parent; toMatrix() is multiplied by parent->toMatrix() if present
-    Locus2DRef          parent = nullptr;
+    Locus2DRef          parent;
     //! returns a matrix that will transform points based on Locus properties
     ci::MatrixAffine2f  toMatrix() const;
     //! remove parent after composing its transform into our own
@@ -68,7 +74,7 @@ namespace pockets
 
   /**
    Locus3D:
-   
+
    Stub for a 3d equivalent to Locus2D
    */
   typedef std::shared_ptr<class Locus3D> Locus3DRef;
