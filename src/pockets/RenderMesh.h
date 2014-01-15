@@ -26,7 +26,8 @@
  */
 
 #pragma once
-#include "Pockets.h"
+#include "../Pockets.h"
+#include "cinder/Vector.h"
 
 namespace pockets
 {
