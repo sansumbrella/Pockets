@@ -28,8 +28,8 @@
 #pragma once
 
 #include "pockets/Pockets.h"
-#include "pockets/rendering/Locus.h"
-#include "pockets/rendering/RenderMesh.h"
+#include "pockets/Locus.h"
+#include "pockets/RenderMesh.h"
 #include <array>
 
 namespace pockets

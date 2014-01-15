@@ -26,8 +26,7 @@
  */
 
 #pragma once
-#include "../Pockets.h"
-#include "cinder/Vector.h"
+#include "Pockets.h"
 
 namespace pockets
 {
@@ -63,7 +62,7 @@ namespace pockets
   {
     RenderMesh2D( int vertex_count=3 )
     {
-      vertices.assign( vertex_count, Vertex{} );
+      vertices.assign( vertex_count, Vertex() );
     }
     //! vertices in triangle_strip order
     std::vector<Vertex> vertices;

@@ -52,8 +52,10 @@ class ImagePacker
   {
   public:
     ImageData( ci::Surface surface, const std::string &id ):
-    mSurface( surface )
-    , mId( id )
+    mSurface( surface ),
+	mLoc( ci::Vec2i::zero() ),
+	mRegistrationPoint( ci::Vec2i::zero() ),
+    mId( id )
     {}
     ci::Rectf           getPlacedBounds() const { return mSurface.getBounds() + getLoc(); }
     ci::Area            getBounds() const { return mSurface.getBounds(); }
@@ -81,13 +83,16 @@ class ImagePacker
     }
   private:
     ci::Surface     mSurface;
-    ci::Vec2i       mLoc = ci::Vec2i::zero();
-    ci::Vec2i       mRegistrationPoint = ci::Vec2i::zero();
+    ci::Vec2i       mLoc;
+    ci::Vec2i       mRegistrationPoint;
     std::string     mId;
   };
   typedef std::shared_ptr<ImageData> ImageDataRef;
-	ImagePacker();
-	~ImagePacker();
+  ImagePacker():
+  mWidth( 1024 ),
+  mHeight( 1 ) // avoid division-by-zero errors
+  {}
+  ~ImagePacker();
   //! add an image to the sheet. If trim_alpha, trims image bounds to non-alpha area
   ImageDataRef              addImage( const std::string &id, ci::Surface surface, bool trim_alpha=false );
   //! add the specified glyphs from a font; id is equal to the character, e.g. "a"
@@ -109,9 +114,9 @@ class ImagePacker
   std::vector<ImageDataRef>::iterator end(){ return mImages.end(); }
 private:
   //! width should be set to maximum desired width
-  uint32_t                  mWidth = 1024;
+  uint32_t                  mWidth;
   //! height expands as elements are added
-  uint32_t                  mHeight = 1;
+  uint32_t                  mHeight;
   std::vector<ImageDataRef> mImages;
 };
 } // ns pockets

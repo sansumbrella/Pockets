@@ -35,9 +35,6 @@ using namespace ci;
 using namespace std;
 using namespace pockets;
 
-ImagePacker::ImagePacker()
-{}
-
 ImagePacker::~ImagePacker()
 {}
 
@@ -159,7 +156,7 @@ void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const int wi
   for( int i = 1; i < mImages.size(); ++i )
   { // for each following image, start at top-left and look on each
     // pixel row for a potential free space
-    Vec2i loc{ padding };
+    Vec2i loc( padding );
     auto img = mImages.at( i );
     bool placed = false;
     while ( !placed )
@@ -179,7 +176,7 @@ void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const int wi
         img->setLoc( loc );
         placed = true;
         // shrink potential bounds by one, since sharing a vertex counts as Rectf intersecting
-        auto potential_bounds = img->getPlacedBounds().inflated( { -1, -1 } );
+        auto potential_bounds = img->getPlacedBounds().inflated( Vec2i( -1, -1 ) );
         for( int j = 0; j < i; ++j )
         { // check that the placed boundaries don't overlap any other placed image
           auto bounds = mImages.at( j )->getPlacedBounds().inflated( padding );

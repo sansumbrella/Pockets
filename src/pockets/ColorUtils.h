@@ -27,7 +27,7 @@
 
 #pragma once
 
-#include "cinder/Color.h"
+#include "Pockets.h"
 
 namespace pockets
 {

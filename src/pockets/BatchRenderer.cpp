@@ -25,8 +25,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "pockets/rendering/BatchRenderer.h"
-#include "pockets/CollectionUtilities.hpp"
+#include "BatchRenderer.h"
+#include "CollectionUtilities.hpp"
 
 using namespace cinder;
 using namespace pockets;
@@ -76,7 +76,7 @@ void BatchTriangleRenderer::update()
     auto mat = loc->toMatrix();
     for( auto &vert : mesh->vertices )
     {
-      mVertices.emplace_back( Vertex{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
+      mVertices.emplace_back( Vertex( mat.transformPoint( vert.position ), vert.color, vert.tex_coord ) );
     }
   }
 }
@@ -113,11 +113,11 @@ void BatchTriangleStripRenderer::update()
     { // create degenerate triangle between previous and current shape
       mVertices.emplace_back( mVertices.back() );
       auto vert = mesh->vertices.front();
-      mVertices.emplace_back( Vertex{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
+      mVertices.emplace_back( Vertex( mat.transformPoint( vert.position ), vert.color, vert.tex_coord ) );
     }
     for( auto &vert : mesh->vertices )
     {
-      mVertices.emplace_back( Vertex{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
+      mVertices.emplace_back( Vertex( mat.transformPoint( vert.position ), vert.color, vert.tex_coord ) );
     }
   }
 }

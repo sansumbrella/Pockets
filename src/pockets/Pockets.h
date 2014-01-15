@@ -26,6 +26,20 @@
  */
 
 #include "cinder/Cinder.h"
+#ifdef CINDER_MSW
+// Visual Studio doesn't have the nice .pch file that we have in XCode
+// so we include those useful headers here. You could then precompile
+// Pockets.h in Visual Studio to get a similar effect.
+#include "cinder/Vector.h"
+#include "cinder/Matrix.h"
+#include "cinder/Quaternion.h"
+#include "cinder/Color.h"
+#include "cinder/Rect.h"
+#include "cinder/Surface.h"
+#include "cinder/gl/gl.h"
+#include <vector>
+#include <map>
+#endif
 
 #pragma once
 

@@ -52,6 +52,9 @@ TODO: rename
 class SplineArcLengthParameterizer
 {
 public:
+  SplineArcLengthParameterizer():
+  mArcLength( 0.0f )
+  {}
   //! Get the curve time from normalized arc-length s[0,1] on sampled curve
   float getTime( float s ) const;
   //! Get the curve position from normalized arc-length s[0,1] on sampled curve
@@ -62,13 +65,18 @@ private:
   // a Sample stores the arc position, time, and slope of the curve at a given point
   struct Sample
   {
-    float t = 0.0f;
-    float s = 0.0f;
+    Sample( float at = 0.0f, float as = 0.0f, float aslope = 0.0f ):
+	t( at ),
+	s( as ),
+	slope( aslope )
+	{}
+    float t;
+    float s;
     // slope dt/ds between previous sample and this one
-    float slope = 0.0f;
+    float slope;
   };
   std::vector<Sample> mSamples;
-  float               mArcLength = 0.0f;
+  float               mArcLength;
   ci::BSpline3f       mSpline;
 };
 
