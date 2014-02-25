@@ -27,6 +27,8 @@
 
 #include "Pockets.h"
 #include <vector>
+#include "cinder/Vector.h"
+#include "cinder/BSpline.h"
 
 #pragma once
 
