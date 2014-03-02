@@ -43,11 +43,14 @@ Animation Utilities
 File Utilities
 - Get next sequential filename
 
+Todo:
+CSV parsing a la d3/R
+
 Conventions:
 
-For the creation of smart pointers, we use the following typedefs:
-std::shared_ptr<class Type>	TypeRef;
-std::unique_ptr<class Type> TypeUniqueRef;
+For the creation of smart pointers, we use the following typedefs:  
+    std::shared_ptr<class Type>	TypeRef;
+    std::unique_ptr<class Type> TypeUniqueRef;
 Factory ::create() methods return TypeUniqueRef
 You can easily get a TypeRef at creation if that's what you want
 TypeRef t = Type::create(); // compiler will make a shared_ptr w/o explicit call to move()

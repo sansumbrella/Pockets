@@ -1,7 +1,6 @@
 
-In-progress simple scene graph for UI development.
+Simple 2D scene graph for UI development.
 Dynamically allocated.
-2D
 Organizes elements in space
 Handles user interaction event hierarchy
 
