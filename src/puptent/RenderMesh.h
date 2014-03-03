@@ -40,7 +40,7 @@ namespace puptent
     tex_coord( uv )
     {}
     ci::Vec2f     position;
-    ci::ColorA8u  color;
+    ci::ColorA    color;
     ci::Vec2f     tex_coord;
   };
   /**
