@@ -352,6 +352,8 @@ void PupTentApp::draw()
   gl::color( Color::white() );
   Timer dr;
   dr.start();
+  gl::setMatricesWindow( getWindowSize() );
+  gl::setDefaultShaderVars();
   //  mSystemManager->system<PhysicsSystem>()->debugDraw();
   mSystemManager->system<RenderSystem>()->draw();
   double ms = dr.getSeconds() * 1000;

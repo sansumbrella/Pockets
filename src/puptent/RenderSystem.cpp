@@ -28,6 +28,7 @@
 #include "puptent/RenderSystem.h"
 #include "pockets/CollectionUtilities.hpp"
 #include "cinder/gl/Texture.h"
+#include "cinder/gl/Context.h"
 
 using namespace cinder;
 using namespace puptent;
@@ -40,6 +41,20 @@ void RenderSystem::configure( EventManagerRef event_manager )
   event_manager->subscribe<ComponentRemovedEvent<RenderData>>( *this );
 
   mVbo = gl::Vbo::create( GL_ARRAY_BUFFER, 1.0e4 * sizeof( Vertex ), nullptr, GL_STREAM_DRAW );
+  mAttributes = gl::Vao::create();
+  gl::VaoScope attr( mAttributes );
+  mVbo->bind();
+  mRenderProg = gl::getStockShader( gl::ShaderDef().color().texture() );
+  GLuint pos = mRenderProg->getAttribSemanticLocation( geom::Attrib::POSITION );
+  GLuint color = mRenderProg->getAttribSemanticLocation( geom::Attrib::COLOR );
+  GLuint tex_coord = mRenderProg->getAttribSemanticLocation( geom::Attrib::TEX_COORD_0 );
+  gl::enableVertexAttribArray( pos );
+  gl::enableVertexAttribArray( color );
+  gl::enableVertexAttribArray( tex_coord );
+
+  gl::vertexAttribPointer( pos, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, position) );
+  gl::vertexAttribPointer( color, 4, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, color));
+  gl::vertexAttribPointer( tex_coord, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex,tex_coord));
 }
 
 void RenderSystem::receive(const ComponentAddedEvent<puptent::RenderData> &event)
@@ -126,10 +141,17 @@ void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double d
         v.emplace_back( Vertex{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
       }
     }
-    mVbo->map( GL_WRITE_ONLY );
-
-    mVbo->unmap();
   }
+  Vertex *ptr = static_cast<Vertex*>( mVbo->map( GL_WRITE_ONLY ) );
+  for( const auto &pass : passes )
+  {
+    for( const auto &vertex : mVertices[pass] )
+    {
+      *ptr = vertex;
+      ++ptr;
+    }
+  }
+  mVbo->unmap();
 }
 
 void RenderSystem::draw() const
@@ -144,17 +166,14 @@ void RenderSystem::draw() const
 //  glMatrixMode( GL_PROJECTION );
 //  glFrustum( left, right, bottom, top, near, far );
 //  glMatrixMode( GL_MODELVIEW );
-
-  gl::setDefaultShaderVars();
-  if( mTexture )
-  {
-    gl::enable( GL_TEXTURE_2D );
-    mTexture->bind();
-  }
+  gl::GlslProgScope shader( mRenderProg );
+  gl::enable( GL_TEXTURE_2D );
+  gl::TextureBindScope( mTexture, 0 );
 
   // premultiplied alpha blending for normal pass
   gl::enableAlphaBlending( true );
-  mVbo->bind();
+  
+  gl::VaoScope attr( mAttributes );
   size_t begin = 0;
   size_t end = mVertices[eNormalPass].size();
   gl::drawArrays( GL_TRIANGLE_STRIP, begin, end );
@@ -171,9 +190,5 @@ void RenderSystem::draw() const
   gl::drawArrays( GL_TRIANGLE_STRIP, begin, end );
   gl::disableAlphaBlending();
 
-  if( mTexture )
-  {
-    mTexture->unbind();
-    gl::disable( GL_TEXTURE_2D );
-  }
+  gl::disable( GL_TEXTURE_2D );
 }

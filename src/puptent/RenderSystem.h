@@ -114,7 +114,9 @@ namespace puptent
     std::array<std::vector<RenderDataRef>, 3> mGeometry;
     std::array<std::vector<Vertex>, 3>        mVertices;
     ci::gl::VboRef                            mVbo;
+    ci::gl::VaoRef                            mAttributes;
     ci::gl::TextureRef                        mTexture;
+    ci::gl::GlslProgRef                       mRenderProg;
     static bool                 layerSort( const RenderDataRef &lhs, const RenderDataRef &rhs )
     { return lhs->render_layer < rhs->render_layer; }
     // maybe add a CameraRef for positioning the scene
