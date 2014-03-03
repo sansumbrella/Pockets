@@ -54,7 +54,7 @@ void RenderSystem::configure( EventManagerRef event_manager )
   gl::enableVertexAttribArray( 2 );
 
   gl::vertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, position) );
-  gl::vertexAttribPointer( 1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, color));
+  gl::vertexAttribPointer( 1, 4, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, color));
   gl::vertexAttribPointer( 2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex,tex_coord) );
   mVbo->unbind();
 }
@@ -173,12 +173,12 @@ void RenderSystem::draw() const
   // additive blending
   begin += count;
   count = mVertices[eAdditivePass].size();
-  glBlendFunc( GL_SRC_ALPHA, GL_ONE );
-  gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
+//  glBlendFunc( GL_SRC_ALPHA, GL_ONE );
+//  gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
 //  // multiply blending
 //  begin += count;
 //  count = mVertices[eMultiplyPass].size();
-//  glBlendFunc( GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA );
+//  glBlendFunc( GL_DST_COLOR,  GL_ONE_MINUS_SRC_ALPHA );
 //  gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
   gl::disableAlphaBlending();
 }
