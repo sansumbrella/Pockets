@@ -11,5 +11,5 @@ out vec4 oColor;
 void main()
 {
 	vec4 color = texture( uTex0, TexCoord );
-	oColor = color * Color;
+	oColor = color;
 }

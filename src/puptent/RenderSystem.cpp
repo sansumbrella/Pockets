@@ -40,7 +40,7 @@ void RenderSystem::configure( EventManagerRef event_manager )
   event_manager->subscribe<ComponentAddedEvent<RenderData>>( *this );
   event_manager->subscribe<ComponentRemovedEvent<RenderData>>( *this );
 
-  mVbo = gl::Vbo::create( GL_ARRAY_BUFFER, 1.0e4 * sizeof( Vertex ), nullptr, GL_STREAM_DRAW );
+  mVbo = gl::Vbo::create( GL_ARRAY_BUFFER, 1.0e5 * sizeof( Vertex ), nullptr, GL_STREAM_DRAW );
   mAttributes = gl::Vao::create();
   gl::VaoScope attr( mAttributes );
   mVbo->bind();
@@ -55,7 +55,7 @@ void RenderSystem::configure( EventManagerRef event_manager )
 
   gl::vertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, position) );
   gl::vertexAttribPointer( 1, 4, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, color));
-  gl::vertexAttribPointer( 2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex,tex_coord));
+  gl::vertexAttribPointer( 2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex,tex_coord) );
   mVbo->unbind();
 }
 
@@ -152,7 +152,6 @@ void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double d
       *ptr = vertex;
       ++ptr;
     }
-    app::console() << "Vertices uploaded: " << mVertices[pass].size() << endl;
   }
   mVbo->unmap();
 }
@@ -161,7 +160,6 @@ void RenderSystem::draw() const
 {
   gl::VaoScope attr( mAttributes );
   gl::GlslProgScope shader( mRenderProg );
-  mVbo->bind();
   gl::setDefaultShaderVars();
   gl::TextureBindScope( mTexture, 0 );
 
@@ -169,19 +167,19 @@ void RenderSystem::draw() const
   gl::enableAlphaBlending( true );
 
   size_t begin = 0;
-  size_t end = mVertices[eNormalPass].size();
-  gl::drawArrays( GL_TRIANGLE_STRIP, begin, end );
-//
-//  // additive blending
-  begin = end;
-  end = begin + mVertices[eAdditivePass].size();
+  size_t count = mVertices[eNormalPass].size();
+  gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
+
+  // additive blending
+  begin += count;
+  count = mVertices[eAdditivePass].size();
   glBlendFunc( GL_SRC_ALPHA, GL_ONE );
-  gl::drawArrays( GL_TRIANGLE_STRIP, begin, end );
-//  // multiply blending
-  begin = end;
-  end = begin + mVertices[eMultiplyPass].size();
-  glBlendFunc( GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA );
-  gl::drawArrays( GL_TRIANGLE_STRIP, begin, end );
-  gl::disableAlphaBlending();
+  gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
+  // multiply blending
+//  begin += count;
+//  count = mVertices[eMultiplyPass].size();
+//  glBlendFunc( GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA );
+//  gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
+//  gl::disableAlphaBlending();
   mVbo->unbind();
 }
