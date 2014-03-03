@@ -38,6 +38,8 @@ void RenderSystem::configure( EventManagerRef event_manager )
   event_manager->subscribe<EntityDestroyedEvent>( *this );
   event_manager->subscribe<ComponentAddedEvent<RenderData>>( *this );
   event_manager->subscribe<ComponentRemovedEvent<RenderData>>( *this );
+
+  mVbo = gl::Vbo::create( GL_ARRAY_BUFFER, 1.0e4 * sizeof( Vertex ), nullptr, GL_STREAM_DRAW );
 }
 
 void RenderSystem::receive(const ComponentAddedEvent<puptent::RenderData> &event)
@@ -124,6 +126,9 @@ void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double d
         v.emplace_back( Vertex{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
       }
     }
+    mVbo->map( GL_WRITE_ONLY );
+
+    mVbo->unmap();
   }
 }
 
@@ -140,37 +145,30 @@ void RenderSystem::draw() const
 //  glFrustum( left, right, bottom, top, near, far );
 //  glMatrixMode( GL_MODELVIEW );
 
+  gl::setDefaultShaderVars();
   if( mTexture )
   {
     gl::enable( GL_TEXTURE_2D );
     mTexture->bind();
   }
-  glEnableClientState( GL_VERTEX_ARRAY );
-  glEnableClientState( GL_COLOR_ARRAY );
-  glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 
   // premultiplied alpha blending for normal pass
   gl::enableAlphaBlending( true );
-  glVertexPointer( 2, GL_FLOAT, sizeof( Vertex ), &mVertices[eNormalPass][0].position.x );
-  glTexCoordPointer( 2, GL_FLOAT, sizeof( Vertex ), &mVertices[eNormalPass][0].tex_coord.x );
-  glColorPointer( 4, GL_UNSIGNED_BYTE, sizeof( Vertex ), &mVertices[eNormalPass][0].color.r );
-  glDrawArrays( GL_TRIANGLE_STRIP, 0, mVertices[eNormalPass].size() );
-  // additive blending
+  mVbo->bind();
+  size_t begin = 0;
+  size_t end = mVertices[eNormalPass].size();
+  gl::drawArrays( GL_TRIANGLE_STRIP, begin, end );
+//
+//  // additive blending
+  begin = end;
+  end = begin + mVertices[eAdditivePass].size();
   glBlendFunc( GL_SRC_ALPHA, GL_ONE );
-  glVertexPointer( 2, GL_FLOAT, sizeof( Vertex ), &mVertices[eAdditivePass][0].position.x );
-  glTexCoordPointer( 2, GL_FLOAT, sizeof( Vertex ), &mVertices[eAdditivePass][0].tex_coord.x );
-  glColorPointer( 4, GL_UNSIGNED_BYTE, sizeof( Vertex ), &mVertices[eAdditivePass][0].color.r );
-  glDrawArrays( GL_TRIANGLE_STRIP, 0, mVertices[eAdditivePass].size() );
-  // multiply blending
+  gl::drawArrays( GL_TRIANGLE_STRIP, begin, end );
+//  // multiply blending
+  begin = end;
+  end = begin + mVertices[eMultiplyPass].size();
   glBlendFunc( GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA );
-  glVertexPointer( 2, GL_FLOAT, sizeof( Vertex ), &mVertices[eMultiplyPass][0].position.x );
-  glTexCoordPointer( 2, GL_FLOAT, sizeof( Vertex ), &mVertices[eMultiplyPass][0].tex_coord.x );
-  glColorPointer( 4, GL_UNSIGNED_BYTE, sizeof( Vertex ), &mVertices[eMultiplyPass][0].color.r );
-  glDrawArrays( GL_TRIANGLE_STRIP, 0, mVertices[eMultiplyPass].size() );
-
-  glDisableClientState( GL_VERTEX_ARRAY );
-  glDisableClientState( GL_COLOR_ARRAY );
-  glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+  gl::drawArrays( GL_TRIANGLE_STRIP, begin, end );
   gl::disableAlphaBlending();
 
   if( mTexture )

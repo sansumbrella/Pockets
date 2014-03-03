@@ -30,6 +30,8 @@
 #include "puptent/PupTent.h"
 #include "puptent/Locus.h"
 #include "puptent/RenderMesh.h"
+#include "cinder/gl/VboMesh.h"
+#include "cinder/gl/Vbo.h"
 
 namespace puptent
 {
@@ -109,9 +111,10 @@ namespace puptent
     void        receive( const ComponentRemovedEvent<RenderData> &event );
     void        checkOrdering() const;
   private:
-    std::array<std::vector<RenderDataRef>, 3>  mGeometry;
-    std::array<std::vector<Vertex>, 3>         mVertices;
-    ci::gl::TextureRef                         mTexture;
+    std::array<std::vector<RenderDataRef>, 3> mGeometry;
+    std::array<std::vector<Vertex>, 3>        mVertices;
+    ci::gl::VboRef                            mVbo;
+    ci::gl::TextureRef                        mTexture;
     static bool                 layerSort( const RenderDataRef &lhs, const RenderDataRef &rhs )
     { return lhs->render_layer < rhs->render_layer; }
     // maybe add a CameraRef for positioning the scene

@@ -1,9 +1,11 @@
 #include "cinder/app/AppNative.h"
+#include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include "cinder/Rand.h"
 #include "cinder/Json.h"
 #include "cinder/ip/Premultiply.h"
 #include "cinder/Easing.h"
+
 
 #include "entityx/Event.h"
 #include "entityx/Entity.h"
@@ -360,4 +362,4 @@ void PupTentApp::draw()
   }
 }
 
-CINDER_APP_NATIVE( PupTentApp, RendererGl( RendererGl::AA_MSAA_4 ) )
+CINDER_APP_NATIVE( PupTentApp, RendererGl( RendererGl::Options().antiAliasing( RendererGl::AA_MSAA_4 ) ) )
