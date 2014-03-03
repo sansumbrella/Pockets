@@ -44,17 +44,19 @@ void RenderSystem::configure( EventManagerRef event_manager )
   mAttributes = gl::Vao::create();
   gl::VaoScope attr( mAttributes );
   mVbo->bind();
-  mRenderProg = gl::getStockShader( gl::ShaderDef().color().texture() );
-  GLuint pos = mRenderProg->getAttribSemanticLocation( geom::Attrib::POSITION );
-  GLuint color = mRenderProg->getAttribSemanticLocation( geom::Attrib::COLOR );
-  GLuint tex_coord = mRenderProg->getAttribSemanticLocation( geom::Attrib::TEX_COORD_0 );
-  gl::enableVertexAttribArray( pos );
-  gl::enableVertexAttribArray( color );
-  gl::enableVertexAttribArray( tex_coord );
+  mRenderProg = gl::GlslProg::create( gl::GlslProg::Format().vertex( app::loadAsset( "renderer.vs" ) )
+                                     .fragment( app::loadAsset( "renderer.fs" ) )
+                                     .attribLocation( "iPosition", 0 )
+                                     .attribLocation( "iColor", 1 )
+                                     .attribLocation( "iTexCoord", 2 ) );
+  gl::enableVertexAttribArray( 0 );
+  gl::enableVertexAttribArray( 1 );
+  gl::enableVertexAttribArray( 2 );
 
-  gl::vertexAttribPointer( pos, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, position) );
-  gl::vertexAttribPointer( color, 4, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, color));
-  gl::vertexAttribPointer( tex_coord, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex,tex_coord));
+  gl::vertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, position) );
+  gl::vertexAttribPointer( 1, 4, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, color));
+  gl::vertexAttribPointer( 2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex,tex_coord));
+  mVbo->unbind();
 }
 
 void RenderSystem::receive(const ComponentAddedEvent<puptent::RenderData> &event)
@@ -150,30 +152,22 @@ void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double d
       *ptr = vertex;
       ++ptr;
     }
+    app::console() << "Vertices uploaded: " << mVertices[pass].size() << endl;
   }
   mVbo->unmap();
 }
 
 void RenderSystem::draw() const
 {
-//  float x = 400; // left
-//  float y = 100; // bottom
-//  float w = 125;
-//  float h = 500;
-//  gl::setViewport( Area( x, y, x + w, y + h ) );
-//  gl::setMatricesWindow( w, h );
-//  gl::translate( -x, -y );
-//  glMatrixMode( GL_PROJECTION );
-//  glFrustum( left, right, bottom, top, near, far );
-//  glMatrixMode( GL_MODELVIEW );
+  gl::VaoScope attr( mAttributes );
   gl::GlslProgScope shader( mRenderProg );
-  gl::enable( GL_TEXTURE_2D );
+  mVbo->bind();
+  gl::setDefaultShaderVars();
   gl::TextureBindScope( mTexture, 0 );
 
   // premultiplied alpha blending for normal pass
   gl::enableAlphaBlending( true );
-  
-  gl::VaoScope attr( mAttributes );
+
   size_t begin = 0;
   size_t end = mVertices[eNormalPass].size();
   gl::drawArrays( GL_TRIANGLE_STRIP, begin, end );
@@ -189,6 +183,5 @@ void RenderSystem::draw() const
   glBlendFunc( GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA );
   gl::drawArrays( GL_TRIANGLE_STRIP, begin, end );
   gl::disableAlphaBlending();
-
-  gl::disable( GL_TEXTURE_2D );
+  mVbo->unbind();
 }
