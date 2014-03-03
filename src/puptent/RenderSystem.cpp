@@ -175,11 +175,10 @@ void RenderSystem::draw() const
   count = mVertices[eAdditivePass].size();
   glBlendFunc( GL_SRC_ALPHA, GL_ONE );
   gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
-  // multiply blending
+//  // multiply blending
 //  begin += count;
 //  count = mVertices[eMultiplyPass].size();
 //  glBlendFunc( GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA );
 //  gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
-//  gl::disableAlphaBlending();
-  mVbo->unbind();
+  gl::disableAlphaBlending();
 }
