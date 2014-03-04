@@ -75,12 +75,12 @@
 		159385D917E5FF670025D5DD /* ConnectionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159385D717E5FF670025D5DD /* ConnectionManager.cpp */; };
 		159385DC17E60B810025D5DD /* KeyboardInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159385DA17E60B810025D5DD /* KeyboardInput.cpp */; };
 		15A3BBF617D8D0A500450158 /* ExpiresSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A3BBF417D8D0A500450158 /* ExpiresSystem.cpp */; };
-		15D4415617D298C600A926F0 /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = 15D4413317D298C600A926F0 /* COPYING */; };
-		15D4415717D298C600A926F0 /* Entity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15D4413417D298C600A926F0 /* Entity.cc */; };
-		15D4415917D298C600A926F0 /* Event.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15D4413717D298C600A926F0 /* Event.cc */; };
-		15D4416817D298C600A926F0 /* System.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15D4414C17D298C600A926F0 /* System.cc */; };
-		15D4416A17D298C600A926F0 /* TagsComponent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15D4415017D298C600A926F0 /* TagsComponent.cc */; };
 		15D4417B17D409B400A926F0 /* RenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D4417917D409B400A926F0 /* RenderSystem.cpp */; };
+		15DBCE3518C605EA0092A52C /* Dependencies.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15DBCE2518C605EA0092A52C /* Dependencies.cc */; };
+		15DBCE3618C605EA0092A52C /* Entity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15DBCE2718C605EA0092A52C /* Entity.cc */; };
+		15DBCE3718C605EA0092A52C /* Event.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15DBCE2A18C605EA0092A52C /* Event.cc */; };
+		15DBCE3818C605EA0092A52C /* System.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15DBCE2D18C605EA0092A52C /* System.cc */; };
+		15DBCE3918C605EA0092A52C /* TagsComponent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15DBCE3018C605EA0092A52C /* TagsComponent.cc */; };
 		2CC77AAE2CEC44BB970D6A3F /* ImagePacker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51EECC52FF46449CB328CBEE /* ImagePacker.cpp */; };
 		33B077D9B21C4A6A973C0DA6 /* PupTentApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5360D1B7B6C443D2B5370B74 /* PupTentApp.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
@@ -220,20 +220,14 @@
 		15A3BBF517D8D0A500450158 /* ExpiresSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpiresSystem.h; sourceTree = "<group>"; };
 		15A8A94017D6A10700474DA6 /* ParticleSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleSystem.cpp; sourceTree = "<group>"; };
 		15A8A94117D6A10700474DA6 /* ParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleSystem.h; sourceTree = "<group>"; };
-		15D4413017D298C600A926F0 /* simplesignal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simplesignal.h; sourceTree = "<group>"; };
-		15D4413317D298C600A926F0 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
-		15D4413417D298C600A926F0 /* Entity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cc; sourceTree = "<group>"; };
-		15D4413517D298C600A926F0 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
-		15D4413717D298C600A926F0 /* Event.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cc; sourceTree = "<group>"; };
-		15D4413817D298C600A926F0 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
-		15D4414C17D298C600A926F0 /* System.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = System.cc; sourceTree = "<group>"; };
-		15D4414D17D298C600A926F0 /* System.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
-		15D4415017D298C600A926F0 /* TagsComponent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TagsComponent.cc; sourceTree = "<group>"; };
-		15D4415117D298C600A926F0 /* TagsComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsComponent.h; sourceTree = "<group>"; };
-		15D4416C17D29AEB00A926F0 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		15D4417917D409B400A926F0 /* RenderSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderSystem.cpp; sourceTree = "<group>"; };
 		15D4417A17D409B400A926F0 /* RenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderSystem.h; sourceTree = "<group>"; };
 		15D4417D17D40A3C00A926F0 /* PupTent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PupTent.h; sourceTree = "<group>"; };
+		15DBCE2518C605EA0092A52C /* Dependencies.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dependencies.cc; sourceTree = "<group>"; };
+		15DBCE2718C605EA0092A52C /* Entity.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cc; sourceTree = "<group>"; };
+		15DBCE2A18C605EA0092A52C /* Event.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cc; sourceTree = "<group>"; };
+		15DBCE2D18C605EA0092A52C /* System.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = System.cc; sourceTree = "<group>"; };
+		15DBCE3018C605EA0092A52C /* TagsComponent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TagsComponent.cc; sourceTree = "<group>"; };
 		1C488A17000B4EB4A41BC68E /* FileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = FileUtils.cpp; path = ../../../../Pockets/src/pockets/FileUtils.cpp; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -507,45 +501,11 @@
 		15D4412D17D298C600A926F0 /* PupTent */ = {
 			isa = PBXGroup;
 			children = (
-				15D4412E17D298C600A926F0 /* entityx */,
+				15DBCE1D18C605EA0092A52C /* entityx */,
 				15D4415317D298C600A926F0 /* puptent */,
 			);
 			name = PupTent;
 			path = ../../../src;
-			sourceTree = "<group>";
-		};
-		15D4412E17D298C600A926F0 /* entityx */ = {
-			isa = PBXGroup;
-			children = (
-				15D4416C17D29AEB00A926F0 /* config.h */,
-				15D4412F17D298C600A926F0 /* 3rdparty */,
-				15D4413317D298C600A926F0 /* COPYING */,
-				15D4413417D298C600A926F0 /* Entity.cc */,
-				15D4413517D298C600A926F0 /* Entity.h */,
-				15D4413717D298C600A926F0 /* Event.cc */,
-				15D4413817D298C600A926F0 /* Event.h */,
-				15D4414C17D298C600A926F0 /* System.cc */,
-				15D4414D17D298C600A926F0 /* System.h */,
-				15D4414F17D298C600A926F0 /* tags */,
-			);
-			path = entityx;
-			sourceTree = "<group>";
-		};
-		15D4412F17D298C600A926F0 /* 3rdparty */ = {
-			isa = PBXGroup;
-			children = (
-				15D4413017D298C600A926F0 /* simplesignal.h */,
-			);
-			path = 3rdparty;
-			sourceTree = "<group>";
-		};
-		15D4414F17D298C600A926F0 /* tags */ = {
-			isa = PBXGroup;
-			children = (
-				15D4415017D298C600A926F0 /* TagsComponent.cc */,
-				15D4415117D298C600A926F0 /* TagsComponent.h */,
-			);
-			path = tags;
 			sourceTree = "<group>";
 		};
 		15D4415317D298C600A926F0 /* puptent */ = {
@@ -574,6 +534,35 @@
 				15A3BBF517D8D0A500450158 /* ExpiresSystem.h */,
 			);
 			path = puptent;
+			sourceTree = "<group>";
+		};
+		15DBCE1D18C605EA0092A52C /* entityx */ = {
+			isa = PBXGroup;
+			children = (
+				15DBCE2418C605EA0092A52C /* deps */,
+				15DBCE2718C605EA0092A52C /* Entity.cc */,
+				15DBCE2A18C605EA0092A52C /* Event.cc */,
+				15DBCE2D18C605EA0092A52C /* System.cc */,
+				15DBCE2F18C605EA0092A52C /* tags */,
+			);
+			name = entityx;
+			path = 3rdparty/entityx;
+			sourceTree = "<group>";
+		};
+		15DBCE2418C605EA0092A52C /* deps */ = {
+			isa = PBXGroup;
+			children = (
+				15DBCE2518C605EA0092A52C /* Dependencies.cc */,
+			);
+			path = deps;
+			sourceTree = "<group>";
+		};
+		15DBCE2F18C605EA0092A52C /* tags */ = {
+			isa = PBXGroup;
+			children = (
+				15DBCE3018C605EA0092A52C /* TagsComponent.cc */,
+			);
+			path = tags;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -711,7 +700,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15D4415617D298C600A926F0 /* COPYING in Resources */,
 				1432D287CA264169832FA33A /* CinderApp.icns in Resources */,
 				1556C85817D65FB900811B85 /* Readme.txt in Resources */,
 				1556C85717D65FB900811B85 /* License.txt in Resources */,
@@ -739,12 +727,12 @@
 				1556C84817D65FB900811B85 /* b2EdgeAndCircleContact.cpp in Sources */,
 				1556C83A17D65FB900811B85 /* b2Settings.cpp in Sources */,
 				151F137517D76461002EC4BE /* ParticleBehaviorSystems.cpp in Sources */,
-				15D4416A17D298C600A926F0 /* TagsComponent.cc in Sources */,
 				1556C84717D65FB900811B85 /* b2ContactSolver.cpp in Sources */,
 				1556C84F17D65FB900811B85 /* b2Joint.cpp in Sources */,
 				1556C85B17D65FB900811B85 /* Sandbox.cpp in Sources */,
 				1556C82C17D65FB900811B85 /* b2CollideCircle.cpp in Sources */,
 				1556C84217D65FB900811B85 /* b2WorldCallbacks.cpp in Sources */,
+				15DBCE3718C605EA0092A52C /* Event.cc in Sources */,
 				1556C84A17D65FB900811B85 /* b2PolygonAndCircleContact.cpp in Sources */,
 				15053BEC17D4EE9500C2FE2D /* SpriteSystem.cpp in Sources */,
 				159385DC17E60B810025D5DD /* KeyboardInput.cpp in Sources */,
@@ -755,7 +743,6 @@
 				1556C83117D65FB900811B85 /* b2DynamicTree.cpp in Sources */,
 				1556C83B17D65FB900811B85 /* b2StackAllocator.cpp in Sources */,
 				159385D917E5FF670025D5DD /* ConnectionManager.cpp in Sources */,
-				15D4416817D298C600A926F0 /* System.cc in Sources */,
 				1556C85517D65FB900811B85 /* b2WeldJoint.cpp in Sources */,
 				1556C83517D65FB900811B85 /* b2EdgeShape.cpp in Sources */,
 				1556C85D17D65FB900811B85 /* SimpleControl.cpp in Sources */,
@@ -763,6 +750,7 @@
 				1556C82E17D65FB900811B85 /* b2CollidePolygon.cpp in Sources */,
 				1556C85317D65FB900811B85 /* b2RevoluteJoint.cpp in Sources */,
 				1556C84917D65FB900811B85 /* b2EdgeAndPolygonContact.cpp in Sources */,
+				15DBCE3618C605EA0092A52C /* Entity.cc in Sources */,
 				1556C85017D65FB900811B85 /* b2MouseJoint.cpp in Sources */,
 				1556C83017D65FB900811B85 /* b2Distance.cpp in Sources */,
 				06D2053C8A0E4EE09D31C099 /* FileUtils.cpp in Sources */,
@@ -780,7 +768,6 @@
 				1556C85C17D65FB900811B85 /* Scale.cpp in Sources */,
 				1556C7B817D64EF300811B85 /* ScriptSystem.cpp in Sources */,
 				1556C82B17D65FB900811B85 /* b2BroadPhase.cpp in Sources */,
-				15D4415717D298C600A926F0 /* Entity.cc in Sources */,
 				1556C83417D65FB900811B85 /* b2CircleShape.cpp in Sources */,
 				1556C83317D65FB900811B85 /* b2ChainShape.cpp in Sources */,
 				1556C85417D65FB900811B85 /* b2RopeJoint.cpp in Sources */,
@@ -788,9 +775,11 @@
 				1556C83217D65FB900811B85 /* b2TimeOfImpact.cpp in Sources */,
 				1556C84317D65FB900811B85 /* b2ChainAndCircleContact.cpp in Sources */,
 				1556C82D17D65FB900811B85 /* b2CollideEdge.cpp in Sources */,
-				15D4415917D298C600A926F0 /* Event.cc in Sources */,
+				15DBCE3818C605EA0092A52C /* System.cc in Sources */,
 				1556C85917D65FB900811B85 /* b2Rope.cpp in Sources */,
 				15053BF517D5418C00C2FE2D /* TextureAtlas.cpp in Sources */,
+				15DBCE3518C605EA0092A52C /* Dependencies.cc in Sources */,
+				15DBCE3918C605EA0092A52C /* TagsComponent.cc in Sources */,
 				1556C84C17D65FB900811B85 /* b2DistanceJoint.cpp in Sources */,
 				15A3BBF617D8D0A500450158 /* ExpiresSystem.cpp in Sources */,
 			);
@@ -824,7 +813,7 @@
 				OTHER_LDFLAGS = "\"$(CINDER_PATH)/lib/libcinder_d.a\"";
 				PRODUCT_NAME = PupTent;
 				SYMROOT = ./build;
-				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../../Pockets/src ../../../src";
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include \"$(CINDER_PATH)/blocks/Pockets/src\" ../../../src \"$(CINDER_PATH)/blocks/Pockets/src/3rdparty\"";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -852,7 +841,7 @@
 				PRODUCT_NAME = PupTent;
 				STRIP_INSTALLED_PRODUCT = YES;
 				SYMROOT = ./build;
-				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../../Pockets/src ../../../src";
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include \"$(CINDER_PATH)/blocks/Pockets/src\" ../../../src \"$(CINDER_PATH)/blocks/Pockets/src/3rdparty\"";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

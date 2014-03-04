@@ -6,10 +6,6 @@
 #include "cinder/ip/Premultiply.h"
 #include "cinder/Easing.h"
 
-
-#include "entityx/Event.h"
-#include "entityx/Entity.h"
-#include "entityx/System.h"
 #include "entityx/tags/TagsComponent.h"
 
 #include "pockets/AnimationUtils.h"

@@ -1,2 +1,2 @@
 # our compiled test file
-test
+*.tests
