@@ -164,7 +164,7 @@ void RenderSystem::draw() const
   gl::TextureBindScope( mTexture, 0 );
 
   // premultiplied alpha blending for normal pass
-  gl::enableAlphaBlending( true );
+  gl::BlendScope premultBlend( GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
 
   size_t begin = 0;
   size_t count = mVertices[eNormalPass].size();
@@ -173,12 +173,12 @@ void RenderSystem::draw() const
   // additive blending
   begin += count;
   count = mVertices[eAdditivePass].size();
-//  glBlendFunc( GL_SRC_ALPHA, GL_ONE );
-//  gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
+  gl::BlendScope addBlend( GL_SRC_ALPHA, GL_ONE );
+  gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
 //  // multiply blending
-//  begin += count;
-//  count = mVertices[eMultiplyPass].size();
-//  glBlendFunc( GL_DST_COLOR,  GL_ONE_MINUS_SRC_ALPHA );
-//  gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
+  begin += count;
+  count = mVertices[eMultiplyPass].size();
+  gl::BlendScope multBlend( GL_DST_COLOR,  GL_ONE_MINUS_SRC_ALPHA );
+  gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
   gl::disableAlphaBlending();
 }
