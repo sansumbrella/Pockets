@@ -8,8 +8,6 @@
 	>
 	<sourcePattern>src/pockets/*.cpp</sourcePattern>
 	<headerPattern>src/pockets/*.h</headerPattern>
-	<sourcePattern>src/pockets/gl/*.cpp</sourcePattern>
-	<headerPattern>src/pockets/gl/*.h</headerPattern>
 	<header>src/pockets/Pockets.h</header>
 	<includePath system="false">src</includePath>
 </block>

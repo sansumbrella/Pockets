@@ -9,7 +9,7 @@ mWaiting( false ),
 mValue( 0 )
 {}
 //! initialize OpenGL state of timer
-void setup()
+void OpenGLTimer::setup()
 {
   glGenQueries( 1, &mId );
 }
