@@ -75,6 +75,8 @@
 		159385D917E5FF670025D5DD /* ConnectionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159385D717E5FF670025D5DD /* ConnectionManager.cpp */; };
 		159385DC17E60B810025D5DD /* KeyboardInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159385DA17E60B810025D5DD /* KeyboardInput.cpp */; };
 		15A3BBF617D8D0A500450158 /* ExpiresSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15A3BBF417D8D0A500450158 /* ExpiresSystem.cpp */; };
+		15AD5DC518C6270400B86D3C /* PupTent_Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15AD5DC418C6270400B86D3C /* PupTent_Tests.cpp */; };
+		15AD5DC718C6270400B86D3C /* Catch_Tests.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 15AD5DC618C6270400B86D3C /* Catch_Tests.1 */; };
 		15D4417B17D409B400A926F0 /* RenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D4417917D409B400A926F0 /* RenderSystem.cpp */; };
 		15DBCE3518C605EA0092A52C /* Dependencies.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15DBCE2518C605EA0092A52C /* Dependencies.cc */; };
 		15DBCE3618C605EA0092A52C /* Entity.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15DBCE2718C605EA0092A52C /* Entity.cc */; };
@@ -88,6 +90,19 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		CC4A488ACD9648628B387DFB /* AnimationUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DBFCA696D9074EB491DB23ED /* AnimationUtils.cpp */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		15AD5DC018C6270400B86D3C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				15AD5DC718C6270400B86D3C /* Catch_Tests.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0091D8F80E81B9330029341E /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
@@ -220,6 +235,10 @@
 		15A3BBF517D8D0A500450158 /* ExpiresSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpiresSystem.h; sourceTree = "<group>"; };
 		15A8A94017D6A10700474DA6 /* ParticleSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleSystem.cpp; sourceTree = "<group>"; };
 		15A8A94117D6A10700474DA6 /* ParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleSystem.h; sourceTree = "<group>"; };
+		15AD5DAE18C6242100B86D3C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		15AD5DC218C6270400B86D3C /* Catch Tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Catch Tests"; sourceTree = BUILT_PRODUCTS_DIR; };
+		15AD5DC418C6270400B86D3C /* PupTent_Tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PupTent_Tests.cpp; sourceTree = "<group>"; };
+		15AD5DC618C6270400B86D3C /* Catch_Tests.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Catch_Tests.1; sourceTree = "<group>"; };
 		15D4417917D409B400A926F0 /* RenderSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderSystem.cpp; sourceTree = "<group>"; };
 		15D4417A17D409B400A926F0 /* RenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderSystem.h; sourceTree = "<group>"; };
 		15D4417D17D40A3C00A926F0 /* PupTent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PupTent.h; sourceTree = "<group>"; };
@@ -247,6 +266,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		15AD5DBF18C6270400B86D3C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072E0486CEB800E47090 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -498,6 +524,15 @@
 			path = box2d;
 			sourceTree = "<group>";
 		};
+		15AD5DC318C6270400B86D3C /* Catch Tests */ = {
+			isa = PBXGroup;
+			children = (
+				15AD5DC418C6270400B86D3C /* PupTent_Tests.cpp */,
+				15AD5DC618C6270400B86D3C /* Catch_Tests.1 */,
+			);
+			path = "Catch Tests";
+			sourceTree = "<group>";
+		};
 		15D4412D17D298C600A926F0 /* PupTent */ = {
 			isa = PBXGroup;
 			children = (
@@ -569,6 +604,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* PupTent.app */,
+				15AD5DC218C6270400B86D3C /* Catch Tests */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -580,6 +616,7 @@
 				29B97315FDCFA39411CA2CEA /* Headers */,
 				080E96DDFE201D6D7F000001 /* Source */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				15AD5DC318C6270400B86D3C /* Catch Tests */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -611,6 +648,7 @@
 			isa = PBXGroup;
 			children = (
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				15AD5DAE18C6242100B86D3C /* XCTest.framework */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -651,6 +689,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		15AD5DC118C6270400B86D3C /* Catch Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 15AD5DC818C6270400B86D3C /* Build configuration list for PBXNativeTarget "Catch Tests" */;
+			buildPhases = (
+				15AD5DBE18C6270400B86D3C /* Sources */,
+				15AD5DBF18C6270400B86D3C /* Frameworks */,
+				15AD5DC018C6270400B86D3C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Catch Tests";
+			productName = "Catch Tests";
+			productReference = 15AD5DC218C6270400B86D3C /* Catch Tests */;
+			productType = "com.apple.product-type.tool";
+		};
 		8D1107260486CEB800E47090 /* PupTent */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "PupTent" */;
@@ -685,12 +740,14 @@
 				Japanese,
 				French,
 				German,
+				en,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* PupTent */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* PupTent */,
+				15AD5DC118C6270400B86D3C /* Catch Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -709,6 +766,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		15AD5DBE18C6270400B86D3C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15AD5DC518C6270400B86D3C /* PupTent_Tests.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072C0486CEB800E47090 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -788,6 +853,70 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		15AD5DC918C6270400B86D3C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../../Pockets/src ../../../../Pockets/src/3rdparty";
+			};
+			name = Debug;
+		};
+		15AD5DCA18C6270400B86D3C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../../Pockets/src ../../../../Pockets/src/3rdparty";
+			};
+			name = Release;
+		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -883,6 +1012,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		15AD5DC818C6270400B86D3C /* Build configuration list for PBXNativeTarget "Catch Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				15AD5DC918C6270400B86D3C /* Debug */,
+				15AD5DCA18C6270400B86D3C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "PupTent" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

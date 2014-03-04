@@ -19,6 +19,9 @@
 #include "puptent/ParticleBehaviorSystems.h"
 #include "KeyboardInput.h"
 
+//#define CATCH_CONFIG_MAIN // let catch define our main method
+//#include "catch.hpp"
+
 /**
  Sample app used to develop features of PupTent.
  Learning about component systems and building my own components.
@@ -199,7 +202,7 @@ Entity PupTentApp::createShip()
                                  locus->position += input->getForce() * dt * 100.0f;
                                  if( delta.lengthSquared() > EPSILON_VALUE )
                                  {
-                                   locus->rotation = wrapLerp( locus->rotation, (float)M_PI * 0.5f + math<float>::atan2( delta.y, delta.x ), (float)M_PI * 2, 0.2f );
+                                   locus->rotation = lerpWrapped( locus->rotation, (float)M_PI * 0.5f + math<float>::atan2( delta.y, delta.x ), (float)M_PI * 2, 0.2f );
                                  }
 
                                  if( input->getKeyPressed( KeyEvent::KEY_d ) )

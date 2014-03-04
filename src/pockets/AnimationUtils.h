@@ -47,7 +47,7 @@ namespace pockets
   //! Lerp from value a to value b, wrapping around a circle where
   //! a value of w is equivalent to a value of zero (e.g. 2π)
   template<typename T>
-  T wrapLerp( T a, T b, T w, float t )
+  T lerpWrapped( T a, T b, T w, float t )
   {
     if( cinder::math<T>::abs( b - a ) > w / 2.0f )
     {

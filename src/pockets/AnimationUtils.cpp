@@ -55,7 +55,7 @@ ColorA pk::lerpHSVA( const ci::ColorA &start, const ci::ColorA &finish, float ti
 	auto s_hsv = Color( start.r, start.g, start.b ).get( CM_HSV );
 	auto f_hsv = Color( finish.r, finish.g, finish.b ).get( CM_HSV );
 	return ColorA( CM_HSV
-                , wrapLerp( s_hsv.x, f_hsv.x, 1.0f, time )
+                , lerpWrapped( s_hsv.x, f_hsv.x, 1.0f, time )
                 , lerp( s_hsv.y, f_hsv.y, time )
                 , lerp( s_hsv.z, f_hsv.z, time )
                 , lerp( start.a, finish.a, time ) );
