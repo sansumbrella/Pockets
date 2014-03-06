@@ -27,10 +27,28 @@
 
 #include "SimplePhysics.h"
 
+#include "cinder/gl/gl.h"
+
 using namespace pockets;
 using namespace physics;
 using namespace cinder;
 using namespace std;
+
+NodeRef World::createNode()
+{
+  NodeRef node = make_shared<Node>();
+  node->pos = node->ppos = Vec3f::zero();
+  mNodes.push_back( node );
+  return node;
+}
+
+void World::drawNodes()
+{
+  for( auto &node : mNodes )
+  {
+    gl::drawSolidCircle( Vec2f( node->pos.x, node->pos.y ), 12.0f );
+  }
+}
 
 void World::step( double dt )
 {
@@ -41,6 +59,10 @@ void World::step( double dt )
     { // avoid a position, seek a target, etc
       e->apply( node.get() );
     }
+    Vec3f vel = node->pos - node->ppos;
+    Vec3f current = node->pos;
+    node->pos += vel * mFriction;
+    node->ppos = current;
   }
   // apply constraints
   for( auto &constraint : mConstraints )

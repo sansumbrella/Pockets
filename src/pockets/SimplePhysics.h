@@ -68,11 +68,13 @@ namespace pockets
     public:
       //! advance physics one timestep
       void step( double dt );
+      void drawNodes();
+      NodeRef createNode();
     private:
       std::vector<NodeRef>        mNodes;
       std::vector<ConstraintRef>  mConstraints;
       std::vector<EffectorRef>    mEffectors;
-      float                       mFriction;
+      float                       mFriction = 0.9f;
     };
 	}
 }
