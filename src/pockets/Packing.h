@@ -27,7 +27,7 @@
 
 #pragma once
 
-#include "pockets/Pockets.h"
+#include "Pockets.h"
 #include "cinder/Rect.h"
 
 namespace pockets
