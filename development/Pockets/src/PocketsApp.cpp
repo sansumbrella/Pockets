@@ -42,7 +42,8 @@ void PocketsApp::setup()
   mTargetPosition = mWorld.createNode( getWindowCenter() );
   mWorld.createConstraint<physics::Leash>( mActualPosition, mTargetPosition, 0.05f );
   float centerX = getWindowWidth() / 2.0f;
-  mWorld.createConstraint<physics::Range>( mTargetPosition, Vec2f( centerX, 0.0f ), Vec2f( centerX, getWindowHeight() ) );
+  mWorld.createConstraint<physics::Range>( mTargetPosition, Vec2f( centerX, 0.0f ), Vec2f( centerX, getWindowHeight() - 200.0f ) );
+  mWorld.createConstraint<physics::Range>( mActualPosition, Vec2f( centerX, -100.0f ), Vec2f( centerX, getWindowHeight() - 100.0f ) );
 }
 
 void PocketsApp::mouseDown( MouseEvent event )
