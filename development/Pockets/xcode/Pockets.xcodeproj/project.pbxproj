@@ -514,6 +514,7 @@
 				153B52E118C8169C00880325 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pockets" */ = {
 			isa = XCConfigurationList;

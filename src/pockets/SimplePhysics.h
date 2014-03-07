@@ -39,11 +39,13 @@ namespace pockets
 {
 	namespace physics
 	{
+    typedef ci::Vec2f Vec;
     struct Node
     {
-      ci::Vec3f pos;
-      ci::Vec3f ppos;
+      Vec pos;
+      Vec ppos;
     };
+    typedef std::shared_ptr<Node>       NodeRef;
 
     class Effector
     {
@@ -51,6 +53,7 @@ namespace pockets
       //! apply effect to node
       virtual void apply( Node *node ) const = 0;
     };
+    typedef std::shared_ptr<Effector>   EffectorRef;
 
     class Constraint
     {
@@ -58,10 +61,24 @@ namespace pockets
       virtual void apply() const = 0;
     private:
     };
-
-    typedef std::shared_ptr<Node>       NodeRef;
     typedef std::shared_ptr<Constraint> ConstraintRef;
-    typedef std::shared_ptr<Effector>   EffectorRef;
+
+    class Spring : public Constraint
+    {
+    public:
+      //! Create a spring connection between two nodes, with a rest length of the distance between them
+      Spring( NodeRef a, NodeRef b, float stiffness=0.9f );
+      void apply() const override;
+      //! set how strongly the spring returns to rest length
+      Spring& stiffness( float s ) { mStiffness = s; return *this; }
+      //! sets the spring's rest length; defaults to initial distance between nodes
+      Spring& restLength( float l ) { mRestLength = l; return *this; }
+    private:
+      NodeRef mA;
+      NodeRef mB;
+      float   mRestLength;
+      float   mStiffness;
+    };
 
     class World
     {
@@ -69,12 +86,30 @@ namespace pockets
       //! advance physics one timestep
       void step( double dt );
       void drawNodes();
+      //! Create a new physics node in the simulation and return it
       NodeRef createNode();
+      //! Returns the node nearest to \a pos
+      NodeRef nearestNode( const Vec &pos );
+
+      //! Sets the global friction (1.0 being highest, 0.0 being none)
+      World&  friction( float f ) { mFriction = f; return *this; }
+      //! Creates a new constraint and returns a reference to the new object
+      template<typename T, typename... Args>
+      std::shared_ptr<T> createConstraint( Args... args );
     private:
       std::vector<NodeRef>        mNodes;
       std::vector<ConstraintRef>  mConstraints;
       std::vector<EffectorRef>    mEffectors;
-      float                       mFriction = 0.9f;
+      float                       mFriction = 0.5f;
+      double                      mPDT = 1.0 / 60.0; // previous delta time
     };
+
+    template<typename T, typename... Args>
+    std::shared_ptr<T> World::createConstraint( Args... args )
+    {
+      auto constraint = std::make_shared<T>( std::forward<Args>(args)... );
+      mConstraints.push_back( constraint );
+      return constraint;
+    }
 	}
 }

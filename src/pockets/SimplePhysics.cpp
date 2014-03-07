@@ -34,12 +34,42 @@ using namespace physics;
 using namespace cinder;
 using namespace std;
 
+Spring::Spring( NodeRef a, NodeRef b, float stiffness ):
+mA( a ),
+mB( b ),
+mRestLength( a->pos.distance( b->pos ) ),
+mStiffness( stiffness )
+{}
+
+void Spring::apply() const
+{
+  Vec delta = mB->pos - mA->pos;
+  float distance = delta.length();
+  float offset = mRestLength - distance;
+  Vec correction = delta * (offset / distance) / 2.0f * mStiffness;
+  mA->pos -= correction;
+  mB->pos += correction;
+}
+
 NodeRef World::createNode()
 {
   NodeRef node = make_shared<Node>();
-  node->pos = node->ppos = Vec3f::zero();
+  node->pos = node->ppos = Vec::zero();
   mNodes.push_back( node );
   return node;
+}
+
+NodeRef World::nearestNode( const Vec &pos )
+{
+  NodeRef nearest = mNodes.front();
+  for( auto &node : mNodes )
+  {
+    if( node->pos.distanceSquared( pos ) < nearest->pos.distanceSquared( pos ) )
+    {
+      nearest = node;
+    }
+  }
+  return nearest;
 }
 
 void World::drawNodes()
@@ -59,10 +89,12 @@ void World::step( double dt )
     { // avoid a position, seek a target, etc
       e->apply( node.get() );
     }
-    Vec3f vel = node->pos - node->ppos;
-    Vec3f current = node->pos;
-    node->pos += vel * mFriction;
-    node->ppos = current;
+    Vec prev = node->pos;
+    float time_factor = dt / mPDT;
+    Vec deceleration = (node->ppos - node->pos) * mFriction * time_factor;
+    node->pos = node->pos * 2.0f - node->ppos * time_factor + deceleration;
+    node->ppos = prev;
+    mPDT = dt;
   }
   // apply constraints
   for( auto &constraint : mConstraints )
