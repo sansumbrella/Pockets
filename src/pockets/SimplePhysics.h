@@ -63,6 +63,21 @@ namespace pockets
     };
     typedef std::shared_ptr<Constraint> ConstraintRef;
 
+    // a leash keeps one thing a fixed distance from another
+    class Leash : public Constraint
+    {
+    public:
+      //!
+      Leash( NodeRef pet, NodeRef owner, float stiffness=0.5f );
+      void apply() const override;
+      //! set how strongly the spring returns to rest length
+      Leash& stiffness( float s ) { mStiffness = s; return *this; }
+    private:
+      NodeRef mPet;
+      NodeRef mRock;
+      float   mStiffness;
+    };
+
     class Spring : public Constraint
     {
     public:
@@ -80,6 +95,28 @@ namespace pockets
       float   mStiffness;
     };
 
+    class Pin : public Constraint
+    {
+    public:
+      Pin( NodeRef node ): mNode( node )
+      {}
+      void apply() const override
+      { mNode->pos = mNode->ppos; }
+    private:
+      NodeRef mNode;
+    };
+
+    class Range : public Constraint
+    {
+    public:
+      Range( NodeRef node, Vec first, Vec second );
+      void apply() const override;
+    private:
+      NodeRef mNode;
+      Vec     mMin;
+      Vec     mMax;
+    };
+
     class World
     {
     public:
@@ -87,7 +124,7 @@ namespace pockets
       void step( double dt );
       void drawNodes();
       //! Create a new physics node in the simulation and return it
-      NodeRef createNode();
+      NodeRef createNode( const Vec &pos=Vec( 0.0f, 0.0f ) );
       //! Returns the node nearest to \a pos
       NodeRef nearestNode( const Vec &pos );
 

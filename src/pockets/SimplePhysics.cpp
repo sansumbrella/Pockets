@@ -34,6 +34,21 @@ using namespace physics;
 using namespace cinder;
 using namespace std;
 
+Range::Range( NodeRef node, Vec first, Vec second ):
+mNode( node ),
+mMin( min( first.x, second.x ), min( first.y, second.y ) ),
+mMax( max( first.x, second.x ), max( first.y, second.y ) )
+{}
+
+void Range::apply() const
+{
+  auto &pos = mNode->pos;
+  if( pos.x > mMax.x ){ pos.x = mMax.x; }
+  else if( pos.x < mMin.x ){ pos.x = mMin.x; }
+  if( pos.y > mMax.y ){ pos.y = mMax.y; }
+  else if( pos.y < mMin.y ){ pos.y = mMin.y; }
+}
+
 Spring::Spring( NodeRef a, NodeRef b, float stiffness ):
 mA( a ),
 mB( b ),
@@ -46,15 +61,29 @@ void Spring::apply() const
   Vec delta = mB->pos - mA->pos;
   float distance = delta.length();
   float offset = mRestLength - distance;
-  Vec correction = delta * (offset / distance) / 2.0f * mStiffness;
+  if( distance > ci::EPSILON_VALUE )
+  { offset /= distance; }
+  Vec correction = delta * offset / 2.0f * mStiffness;
   mA->pos -= correction;
   mB->pos += correction;
 }
 
-NodeRef World::createNode()
+Leash::Leash( NodeRef pet, NodeRef owner, float stiffness ):
+mPet( pet ),
+mRock( owner ),
+mStiffness( stiffness )
+{}
+
+void Leash::apply() const
+{
+  Vec delta = mRock->pos - mPet->pos;
+  mPet->pos += delta * mStiffness;
+}
+
+NodeRef World::createNode( const Vec &pos )
 {
   NodeRef node = make_shared<Node>();
-  node->pos = node->ppos = Vec::zero();
+  node->pos = node->ppos = pos;
   mNodes.push_back( node );
   return node;
 }
@@ -82,6 +111,11 @@ void World::drawNodes()
 
 void World::step( double dt )
 {
+  // apply constraints
+  for( auto &constraint : mConstraints )
+  { // pin a node at a distance from another, etc
+    constraint->apply();
+  }
   // update node positions
   for( auto &node : mNodes )
   {

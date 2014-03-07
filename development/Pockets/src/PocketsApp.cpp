@@ -11,6 +11,7 @@ using namespace ci::app;
 using namespace std;
 using namespace pockets;
 
+
 class PocketsApp : public AppNative {
   public:
 	void setup();
@@ -22,8 +23,13 @@ class PocketsApp : public AppNative {
 private:
 
   physics::World    mWorld;
-  physics::NodeRef  mMouseNode;
   Vec2f             mMousePos;
+  Vec2f             mMouseStart;
+  Vec2f             mNodeStart;
+  bool              mMouseDown = false;
+
+  physics::NodeRef  mActualPosition; // connected to target by spring, draw here
+  physics::NodeRef  mTargetPosition; // moves with/flung by user
 };
 
 void PocketsApp::setup()
@@ -31,62 +37,54 @@ void PocketsApp::setup()
 
   Rand r;
 
-  mWorld.friction( 0.4f );
-  auto root = mWorld.createNode();
-  root->ppos = root->pos = getWindowCenter();
-  physics::NodeRef prev;
-
-  for( int i = 0; i < 100; ++i )
-  {
-    auto node = mWorld.createNode();
-    node->pos = node->ppos = getWindowCenter() + r.nextVec2f() * 100.0f;
-//    node->ppos += r.nextVec2f() * 10.0f;
-    mWorld.createConstraint<physics::Spring>( root, node, 0.25f );
-    if( prev )
-    { mWorld.createConstraint<physics::Spring>( prev, node )->stiffness( 0.5f ); }
-    prev = node;
-  }
-
-
+  mWorld.friction( 0.5f );
+  mActualPosition = mWorld.createNode( getWindowCenter() );
+  mTargetPosition = mWorld.createNode( getWindowCenter() );
+  mWorld.createConstraint<physics::Leash>( mActualPosition, mTargetPosition, 0.05f );
+  float centerX = getWindowWidth() / 2.0f;
+  mWorld.createConstraint<physics::Range>( mTargetPosition, Vec2f( centerX, 0.0f ), Vec2f( centerX, getWindowHeight() ) );
 }
 
 void PocketsApp::mouseDown( MouseEvent event )
 {
+  mMouseDown = true;
   mMousePos = event.getPos();
-  mMouseNode = mWorld.nearestNode( event.getPos() );
-  mMouseNode->ppos = mMouseNode->pos = event.getPos();
+  mMouseStart = event.getPos();
+  mNodeStart = mTargetPosition->pos;
 }
 
 void PocketsApp::mouseDrag( MouseEvent event )
 {
-  if( mMouseNode )
-  { mMouseNode->ppos = mMouseNode->pos = event.getPos(); }
   mMousePos = event.getPos();
 }
 
 void PocketsApp::mouseUp( MouseEvent event )
 {
-  if( mMouseNode )
-  {
-    mMouseNode->pos = event.getPos();
-    mMouseNode.reset();
-  }
+  mMouseDown = false;
+  mMousePos = event.getPos();
+  auto pos = mNodeStart + (mMousePos - mMouseStart);
+  mTargetPosition->pos = pos;
 }
 
 void PocketsApp::update()
 {
-  mWorld.step( 1.0 / 60.0 );
-  if( mMouseNode )
+  if( mMouseDown )
   {
-    mMouseNode->pos = mMouseNode->ppos = mMousePos;
+    auto pos = mNodeStart + (mMousePos - mMouseStart);
+    mTargetPosition->pos = mTargetPosition->ppos = pos;
   }
+  mWorld.step( 1.0 / 60.0 );
 }
 
 void PocketsApp::draw()
 {
 	// clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) );
-  mWorld.drawNodes();
+
+  gl::color( Color( 1.0f, 1.0f, 0.0f ) );
+  gl::drawSolidRect( Rectf( mActualPosition->pos, mActualPosition->pos + Vec2f( 100.0f, 200.0f ) ) );
+  gl::color( Color( 1.0f, 0.0f, 1.0f ) );
+  gl::drawStrokedCircle( mTargetPosition->pos, 12.0f );
 }
 
 CINDER_APP_NATIVE( PocketsApp, RendererGl )
