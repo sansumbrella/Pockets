@@ -68,13 +68,13 @@ void Spring::apply() const
   mB->pos += correction;
 }
 
-Leash::Leash( NodeRef pet, NodeRef owner, float stiffness ):
+Lashing::Lashing( NodeRef pet, NodeRef owner, float stiffness ):
 mPet( pet ),
 mRock( owner ),
 mStiffness( stiffness )
 {}
 
-void Leash::apply() const
+void Lashing::apply() const
 {
   Vec delta = mRock->pos - mPet->pos;
   mPet->pos += delta * mStiffness;

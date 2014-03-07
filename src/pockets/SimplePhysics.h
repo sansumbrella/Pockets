@@ -63,15 +63,15 @@ namespace pockets
     };
     typedef std::shared_ptr<Constraint> ConstraintRef;
 
-    // a leash keeps one thing a fixed distance from another
-    class Leash : public Constraint
+    // a leash keeps one thing attached to another
+    class Lashing : public Constraint
     {
     public:
       //!
-      Leash( NodeRef pet, NodeRef owner, float stiffness=0.5f );
+      Lashing( NodeRef pet, NodeRef owner, float stiffness=0.5f );
       void apply() const override;
       //! set how strongly the spring returns to rest length
-      Leash& stiffness( float s ) { mStiffness = s; return *this; }
+      Lashing& stiffness( float s ) { mStiffness = s; return *this; }
     private:
       NodeRef mPet;
       NodeRef mRock;
