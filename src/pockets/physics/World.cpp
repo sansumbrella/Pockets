@@ -25,7 +25,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "SimplePhysics.h"
+#include "World.h"
+#include "pockets/physics/Effectors.h"
+#include "pockets/physics/Constraints.h"
 
 #include "cinder/gl/gl.h"
 
@@ -33,57 +35,6 @@ using namespace pockets;
 using namespace physics;
 using namespace cinder;
 using namespace std;
-
-Range::Range( NodeRef node, Vec first, Vec second ):
-mNode( node ),
-mMin( min( first.x, second.x ), min( first.y, second.y ) ),
-mMax( max( first.x, second.x ), max( first.y, second.y ) )
-{}
-
-void Range::apply() const
-{
-  auto &pos = mNode->pos;
-  if( pos.x > mMax.x ){ pos.x = mMax.x; }
-  else if( pos.x < mMin.x ){ pos.x = mMin.x; }
-  if( pos.y > mMax.y ){ pos.y = mMax.y; }
-  else if( pos.y < mMin.y ){ pos.y = mMin.y; }
-}
-
-Spring::Spring( NodeRef a, NodeRef b, float stiffness ):
-mA( a ),
-mB( b ),
-mRestLength( a->pos.distance( b->pos ) ),
-mStiffness( stiffness )
-{}
-
-void Spring::apply() const
-{
-  Vec delta = mB->pos - mA->pos;
-  float distance = delta.length();
-  float offset = mRestLength - distance;
-  if( distance > ci::EPSILON_VALUE )
-  { offset /= distance; }
-  Vec correction = delta * offset / 2.0f * mStiffness;
-  mA->pos -= correction;
-  mB->pos += correction;
-}
-
-Lashing::Lashing( NodeRef pet, NodeRef owner, float stiffness ):
-mPet( pet ),
-mRock( owner ),
-mStiffness( stiffness )
-{}
-
-void Lashing::apply() const
-{
-  Vec delta = mRock->pos - mPet->pos;
-  mPet->pos += delta * mStiffness;
-}
-
-void Acceleration::apply( Node *node, double dt ) const
-{
-  node->pos += mForce * dt;
-}
 
 NodeRef World::createNode( const Vec &pos )
 {

@@ -26,9 +26,8 @@
  */
 
 #pragma once
-#include "pockets/Pockets.h"
-#include "cinder/Vector.h"
-#include <vector>
+
+#include "pockets/physics/Types.h"
 
 /*
  A basic verlet physics engine.
@@ -39,92 +38,6 @@ namespace pockets
 {
 	namespace physics
 	{
-    typedef ci::Vec2f Vec;
-    struct Node
-    {
-      Vec pos;
-      Vec ppos;
-    };
-    typedef std::shared_ptr<Node>       NodeRef;
-
-    class Effector
-    {
-    public:
-      //! apply effect to node
-      virtual void apply( Node *node, double dt ) const = 0;
-    };
-    typedef std::shared_ptr<Effector>   EffectorRef;
-
-    class Acceleration : public Effector
-    {
-    public:
-      Acceleration( const Vec &force ): mForce( force ) {}
-      void apply( Node *node, double dt ) const override;
-    private:
-      Vec mForce;
-    };
-
-    class Constraint
-    {
-    public:
-      virtual void apply() const = 0;
-    };
-    typedef std::shared_ptr<Constraint> ConstraintRef;
-
-    // a leash keeps one thing attached to another
-    class Lashing : public Constraint
-    {
-    public:
-      //!
-      Lashing( NodeRef pet, NodeRef owner, float stiffness=0.5f );
-      void apply() const override;
-      //! set how strongly the spring returns to rest length
-      Lashing& stiffness( float s ) { mStiffness = s; return *this; }
-    private:
-      NodeRef mPet;
-      NodeRef mRock;
-      float   mStiffness;
-    };
-
-    class Spring : public Constraint
-    {
-    public:
-      //! Create a spring connection between two nodes, with a rest length of the distance between them
-      Spring( NodeRef a, NodeRef b, float stiffness=0.9f );
-      void apply() const override;
-      //! set how strongly the spring returns to rest length
-      Spring& stiffness( float s ) { mStiffness = s; return *this; }
-      //! sets the spring's rest length; defaults to initial distance between nodes
-      Spring& restLength( float l ) { mRestLength = l; return *this; }
-    private:
-      NodeRef mA;
-      NodeRef mB;
-      float   mRestLength;
-      float   mStiffness;
-    };
-
-    class Pin : public Constraint
-    {
-    public:
-      Pin( NodeRef node ): mNode( node )
-      {}
-      void apply() const override
-      { mNode->pos = mNode->ppos; }
-    private:
-      NodeRef mNode;
-    };
-
-    class Range : public Constraint
-    {
-    public:
-      Range( NodeRef node, Vec first, Vec second );
-      void apply() const override;
-    private:
-      NodeRef mNode;
-      Vec     mMin;
-      Vec     mMax;
-    };
-
     class World
     {
     public:

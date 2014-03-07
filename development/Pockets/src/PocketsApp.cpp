@@ -4,7 +4,7 @@
 
 #include "cinder/Rand.h"
 
-#include "pockets/SimplePhysics.h"
+#include "pockets/physics/SimplePhysics.h"
 
 using namespace ci;
 using namespace ci::app;
