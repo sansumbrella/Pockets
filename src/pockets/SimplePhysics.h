@@ -51,15 +51,23 @@ namespace pockets
     {
     public:
       //! apply effect to node
-      virtual void apply( Node *node ) const = 0;
+      virtual void apply( Node *node, double dt ) const = 0;
     };
     typedef std::shared_ptr<Effector>   EffectorRef;
+
+    class Acceleration : public Effector
+    {
+    public:
+      Acceleration( const Vec &force ): mForce( force ) {}
+      void apply( Node *node, double dt ) const override;
+    private:
+      Vec mForce;
+    };
 
     class Constraint
     {
     public:
       virtual void apply() const = 0;
-    private:
     };
     typedef std::shared_ptr<Constraint> ConstraintRef;
 
@@ -133,6 +141,9 @@ namespace pockets
       //! Creates a new constraint and returns a reference to the new object
       template<typename T, typename... Args>
       std::shared_ptr<T> createConstraint( Args... args );
+      //! Creates a new effector and returns a reference to the new object
+      template<typename T, typename... Args>
+      std::shared_ptr<T> createEffector( Args... args );
     private:
       std::vector<NodeRef>        mNodes;
       std::vector<ConstraintRef>  mConstraints;
@@ -147,6 +158,14 @@ namespace pockets
       auto constraint = std::make_shared<T>( std::forward<Args>(args)... );
       mConstraints.push_back( constraint );
       return constraint;
+    }
+
+    template<typename T, typename... Args>
+    std::shared_ptr<T> World::createEffector( Args... args )
+    {
+      auto effector = std::make_shared<T>( std::forward<Args>(args)... );
+      mEffectors.push_back( effector );
+      return effector;
     }
 	}
 }

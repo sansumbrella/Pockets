@@ -80,6 +80,11 @@ void Lashing::apply() const
   mPet->pos += delta * mStiffness;
 }
 
+void Acceleration::apply( Node *node, double dt ) const
+{
+  node->pos += mForce * dt;
+}
+
 NodeRef World::createNode( const Vec &pos )
 {
   NodeRef node = make_shared<Node>();
@@ -113,15 +118,13 @@ void World::step( double dt )
 {
   // apply constraints
   for( auto &constraint : mConstraints )
-  { // pin a node at a distance from another, etc
-    constraint->apply();
-  }
+  { constraint->apply(); }
   // update node positions
   for( auto &node : mNodes )
   {
     for( const auto &e : mEffectors )
-    { // avoid a position, seek a target, etc
-      e->apply( node.get() );
+    { // apply any effects, like gravity
+      e->apply( node.get(), dt );
     }
     Vec prev = node->pos;
     float time_factor = dt / mPDT;
@@ -132,7 +135,5 @@ void World::step( double dt )
   }
   // apply constraints
   for( auto &constraint : mConstraints )
-  { // pin a node at a distance from another, etc
-    constraint->apply();
-  }
+  { constraint->apply(); }
 }

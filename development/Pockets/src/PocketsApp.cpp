@@ -40,7 +40,7 @@ void PocketsApp::setup()
   mWorld.friction( 0.5f );
   mActualPosition = mWorld.createNode( getWindowCenter() );
   mTargetPosition = mWorld.createNode( getWindowCenter() );
-  mWorld.createConstraint<physics::Lashing>( mActualPosition, mTargetPosition, 0.05f );
+  mWorld.createConstraint<physics::Lashing>( mActualPosition, mTargetPosition, 0.054f );
   float centerX = getWindowWidth() / 2.0f;
   mWorld.createConstraint<physics::Range>( mTargetPosition, Vec2f( centerX, 0.0f ), Vec2f( centerX, getWindowHeight() - 200.0f ) );
   mWorld.createConstraint<physics::Range>( mActualPosition, Vec2f( centerX, -100.0f ), Vec2f( centerX, getWindowHeight() - 100.0f ) );
