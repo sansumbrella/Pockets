@@ -20,8 +20,11 @@ public:
   void prepareSettings( Settings *settings ) override;
 	void setup() override;
 	void draw() override;
+  void nextSample();
 private:
+  vector<std::function<SceneRef ()> > mConstructors;
   SceneRef      mCurrentScene;
+  size_t        mIndex = 0;
   cobweb::Node  mRoot;
 };
 
@@ -31,17 +34,28 @@ void PocketsApp::prepareSettings( Settings *settings )
 
 void PocketsApp::setup()
 {
-  mCurrentScene = make_shared<TexturePackingSample>();
-  mCurrentScene->setup();
-  mCurrentScene->connect( getWindow() );
-  mCurrentScene->show( getWindow(), true );
+  mConstructors.push_back( &make_shared<PhysicsScrolling> );
+  mConstructors.push_back( &make_shared<TexturePackingSample> );
+
 
   // TODO: build a CobWeb gui to select between samples
-  auto button = make_shared<cobweb::ButtonBase>( Rectf( 0.0f, 0.0f, getWindowWidth() * 0.5f, getWindowHeight() * 0.5f ) );
-  button->setSelectFn( []() { app::console() << "Hello from button" << endl; } );
+  auto button = make_shared<cobweb::ButtonBase>( Rectf( 0.0f, 0.0f, 100.0f, 100.0f ) );
+  button->setSelectFn( [this]() { nextSample(); } );
   mRoot.appendChild( button );
   mRoot.deepConnect( getWindow() );
   console() << "Button is active: " << (button->isActive() ? "yes" : "no") << endl;
+
+  nextSample();
+}
+
+void PocketsApp::nextSample()
+{
+  mCurrentScene = mConstructors[mIndex]();
+  mCurrentScene->setup();
+  mCurrentScene->connect( getWindow() );
+  mCurrentScene->show( getWindow(), true );
+  mIndex++;
+  if( mIndex >= mConstructors.size() ){ mIndex = 0; }
 }
 
 void PocketsApp::draw()
