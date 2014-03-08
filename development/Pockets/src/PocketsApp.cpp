@@ -38,7 +38,7 @@ void PocketsApp::setup()
   mCurrentScene->show( getWindow(), true );
 
   // TODO: build a CobWeb gui to select between samples
-  auto button = make_shared<cobweb::ButtonBase>( getWindowBounds() );
+  auto button = make_shared<cobweb::ButtonBase>( Rectf( 0.0f, 0.0f, getWindowWidth() * 0.5f, getWindowHeight() * 0.5f ) );
   button->setSelectFn( []() { app::console() << "Hello from button" << endl; } );
   mRoot.appendChild( button );
   mRoot.deepConnect( getWindow() );
