@@ -38,3 +38,14 @@ namespace pockets
 {
 }
 namespace pk = pockets;
+
+
+/** \mainpage
+ Pockets contains a variety of utilities of varying utility.
+
+ Hopefully you can find some things of use to you here.
+ Have a look at the namespaces page for more info.
+ - pockets::puptent
+ - pockets::cobweb
+ - pockets::physics
+ */
