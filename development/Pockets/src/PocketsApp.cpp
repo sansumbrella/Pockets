@@ -44,6 +44,7 @@ void PocketsApp::setup()
   auto button = cobweb::SimpleButton::createLabelButton( "Next Sample", arial );
 
   button->setSelectFn( [this]() { nextSample(); } );
+  button->setPosition( getWindowSize() - button->getSize() );
   mRoot.appendChild( button );
   mRoot.deepConnect( getWindow() );
 

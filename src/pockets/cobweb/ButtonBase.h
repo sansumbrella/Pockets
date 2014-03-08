@@ -33,6 +33,8 @@ namespace pockets
     void            customDisconnect(){ mActive = false; }
     //! returns hit box size in points
     ci::Rectf     	getHitBounds() const { return mHitBounds; }
+    //!
+    ci::Vec2f       getSize() const { return ci::Vec2f( mHitBounds.getWidth(), mHitBounds.getHeight() ); }
     //! set the hit bounds in points
     void            setHitBounds( const ci::Rectf &bounds ){ mHitBounds = bounds; }
     //! expand hit box by \a horizontal and \a vertical pixels on each side
