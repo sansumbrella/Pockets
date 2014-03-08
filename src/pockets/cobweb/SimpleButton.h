@@ -30,16 +30,16 @@ namespace pockets
     //! create a button with a string label foreground set in \a font
     static SimpleButtonRef createLabelButton( const std::string &str, const ci::Font &font );
     //! create a button from a foreground graphic centered in bounds
-    static SimpleButtonRef create( const ci::gl::Texture &foreground, const ci::Rectf &bounds );
+    static SimpleButtonRef create( const ci::gl::TextureRef &foreground, const ci::Rectf &bounds );
     void            hoverStart();
     void            hoverEnd();
   private:
-    SimpleButton( const ci::gl::Texture &foreground, const ci::Rectf &bounds );
+    SimpleButton( const ci::gl::TextureRef &foreground, const ci::Rectf &bounds );
     //! screen boundary of element
     ci::Rectf           mBackgroundBounds;
     ci::Rectf           mForegroundBounds;
 
-    ci::gl::Texture     mForegroundTexture;
+    ci::gl::TextureRef  mForegroundTexture;
     ci::Color           mBackingColor = ci::Color::black();
     ci::Color           mForegroundColor = ci::Color::white();
   };

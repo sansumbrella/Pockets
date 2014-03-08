@@ -14,11 +14,11 @@ using namespace cinder;
 using namespace pockets;
 using namespace cobweb;
 
-SimpleButton::SimpleButton( const gl::Texture &fg, const ci::Rectf &bounds ):
+SimpleButton::SimpleButton( const gl::TextureRef &fg, const ci::Rectf &bounds ):
 ButtonBase( Area(bounds) )
 , mForegroundTexture( fg )
 , mBackgroundBounds( bounds )
-, mForegroundBounds( app::toPoints(Rectf(fg.getBounds())).getCenteredFit( mBackgroundBounds, false ) )
+, mForegroundBounds( app::toPoints(Rectf(fg->getBounds())).getCenteredFit( mBackgroundBounds, false ) )
 {
   getLocus()->registration_point = mBackgroundBounds.getCenter();
 }
@@ -26,7 +26,7 @@ ButtonBase( Area(bounds) )
 SimpleButton::~SimpleButton()
 {}
 
-SimpleButtonRef SimpleButton::create(const ci::gl::Texture &foreground, const ci::Rectf &bounds )
+SimpleButtonRef SimpleButton::create(const ci::gl::TextureRef &foreground, const ci::Rectf &bounds )
 {
   return SimpleButtonRef( new SimpleButton( foreground, bounds ) );
 }
@@ -42,7 +42,7 @@ SimpleButtonRef SimpleButton::createLabelButton(const std::string &str, const ci
   Surface fg = layout.render( true, true );
   Rectf bounds( 0, 0, app::toPoints(fg.getWidth() + font.getSize() * 0.5f), app::toPoints(fg.getHeight() + font.getSize() * 0.375f) );
 
-  return SimpleButton::create( fg, bounds );
+  return SimpleButton::create( gl::Texture::create( fg ), bounds );
 }
 
 void SimpleButton::setHitPadding(float horizontal, float vertical)
@@ -72,10 +72,8 @@ void SimpleButton::draw()
   gl::color( mBackingColor );
   gl::drawSolidRect( mBackgroundBounds );
 
-  mForegroundTexture.bind( 0 );
   gl::color( mForegroundColor );
-  gl::drawSolidRect( mForegroundBounds );
-  mForegroundTexture.unbind();
+  gl::draw( mForegroundTexture, mForegroundBounds );
 
   gl::popModelView();
 }
