@@ -38,6 +38,12 @@ namespace pockets
 {
 	namespace physics
 	{
+    /**
+     A constant function that affects all nodes.
+     
+     Effectors are called once per node in a World step.
+     Can be used to implement gravity, global attraction, and repulsion.
+    */
     class Effector
     {
     public:

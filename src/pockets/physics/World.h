@@ -38,6 +38,12 @@ namespace pockets
 {
 	namespace physics
 	{
+     /**
+      Container for physics simulations.
+      
+      step() performs Verlet integration on all nodes.
+      Provides factory methods for nodes, constraints, and effectors.
+     */
     class World
     {
     public:

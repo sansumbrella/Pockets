@@ -39,6 +39,13 @@ namespace pockets
 {
 	namespace physics
 	{
+    /**
+     A constant function applied twice per world timestep.
+     
+     Constraints are applied once before integration and once after
+     integration by the physics World.
+     Useful for specifying springs and other inter-object relationships.
+     */
     class Constraint
     {
     public:

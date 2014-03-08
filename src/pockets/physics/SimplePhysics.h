@@ -30,7 +30,12 @@
 #include "pockets/physics/World.h"
 #include "pockets/physics/Effectors.h"
 #include "pockets/physics/Constraints.h"
-/*
- A basic verlet physics engine.
- Useful primarily for UI animation.
-*/
+namespace pockets
+{
+  /**
+   A basic verlet physics engine for UI animation.
+   Provides Constraint, Effector, and a simple Node type.
+   Everything is controlled by a physics::World.
+  */
+  namespace physics {}
+}

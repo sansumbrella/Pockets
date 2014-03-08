@@ -10,17 +10,17 @@
 
 #include "Node.h"
 
-/*
- Handler of touch events to fire off button "presses"
- Doesn't render itself
-
- Subclasses are responsible for drawing themselves to screen.
- Would be cool to have a button decorator to turn anything into a button
-*/
 
 namespace pockets
 {
   typedef std::shared_ptr<class ButtonBase> ButtonRef;
+  /**
+   Handler of touch events to fire off button "presses"
+   Doesn't render itself
+
+   Subclasses are responsible for drawing themselves to screen.
+   Would be cool to have a button decorator to turn anything into a button
+  */
   class ButtonBase : public Node
   {
   public:

@@ -11,14 +11,6 @@
 #include "Node.h"
 #include "ButtonBase.h"
 
-/**
-A generic interactive interface is as simple as
-virtual void connect( ci::app::WindowRef window );
-void disconnect(); // disconnects all stored connections
-storeConnection( connection ); // hold onto connection for mgmt
-//
-*/
-
 namespace pockets
 {
   typedef std::shared_ptr<class SimpleButton> SimpleButtonRef;
@@ -26,8 +18,6 @@ namespace pockets
   A simple button specialized for Word Shift's needs
   Displays a texture on top of a rectangular backing
   Pulls color from the global game color functions based on state.
-  TODO: make a button that can display sprited graphics. Or an intermediary
-  ImageType that can wrap either a Sprited graphic or a Texture.
   */
   class SimpleButton : public ButtonBase
   {

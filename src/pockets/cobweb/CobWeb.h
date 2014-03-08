@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 David Wicks, sansumbrella.com
+ * Copyright (c) 2014 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -26,31 +26,10 @@
  */
 
 #pragma once
-
-#include "entityx/Entity.h"
-#include "entityx/System.h"
-#include "entityx/Event.h"
-
 namespace pockets
 {
   /**
-  Entities and components built on top of entityx.
-
-  PupTent is meant for use in the development of small games with big hearts.
-  It is especially supportive of mixing procedural and hand-drawn 2d art.
+   A simple 2d scene graph for UI development.
   */
-  namespace puptent
-  {
-    using namespace entityx;
-    // entityx notation niceties
-    typedef entityx::ptr<EntityManager> EntityManagerRef;
-    typedef entityx::ptr<EventManager>  EventManagerRef;
-    // forward declarations for common components
-    typedef std::shared_ptr<class Locus>            LocusRef;
-    typedef std::shared_ptr<class RenderMesh>       RenderMeshRef;
-    typedef std::shared_ptr<class SystemManager>    SystemManagerRef;
-    // forward declarations for common utilities
-    typedef std::shared_ptr<class TextureAtlas>     TextureAtlasRef;
-  } // puptent::
-  namespace pt = puptent;
-} // pockets::
+  namespace cobweb {}
+}

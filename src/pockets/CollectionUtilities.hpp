@@ -27,7 +27,7 @@
 
 #pragma once
 
-/**
+/** \file
  Functions for easier manipulation of STL containers.
 */
 
@@ -53,7 +53,7 @@ namespace pockets
 		}
 	}
 
-  // Return a vector of all the keys in a map
+  //! Return a vector of all the keys in a map
   template<typename K, typename V>
   std::vector<K> map_keys( const std::map<K, V> &map )
   {
@@ -75,6 +75,7 @@ namespace pockets
                , vec->end() );
   }
 
+  //! Remove all elements from \a container that match \a compare
   //! This is closer to an earlier strategy I had than vector_erase_if,
   //! but that was plagued by obscure error messages. Will see if this works
   //! a bit better / more flexibly

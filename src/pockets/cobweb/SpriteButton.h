@@ -11,12 +11,12 @@
 #include "ButtonBase.h"
 #include "pockets/Sprite.h"
 
-/**
- A button displayed as a pair of sprites (backing and foreground)
-*/
 namespace pockets
 {
   typedef std::shared_ptr<class SpriteButton> SpriteButtonRef;
+  /**
+   A button displayed as a pair of sprites (backing and foreground)
+  */
   class SpriteButton : public ButtonBase
   {
   public:
