@@ -15,6 +15,7 @@
 		15027ABB18CB66AE005473FB /* PhysicsScrolling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15027AB918CB66AE005473FB /* PhysicsScrolling.cpp */; };
 		15027ABE18CB67FF005473FB /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15027ABD18CB67FF005473FB /* Scene.cpp */; };
 		15027ABF18CB67FF005473FB /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15027ABD18CB67FF005473FB /* Scene.cpp */; };
+		15027AC218CB9844005473FB /* TexturePackingSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15027AC118CB9844005473FB /* TexturePackingSample.cpp */; };
 		150EE01318CA259F000AFD9E /* Constraints.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 150EE00C18CA259F000AFD9E /* Constraints.cpp */; };
 		150EE01418CA259F000AFD9E /* Constraints.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 150EE00C18CA259F000AFD9E /* Constraints.cpp */; };
 		150EE01518CA259F000AFD9E /* Effectors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 150EE00E18CA259F000AFD9E /* Effectors.cpp */; };
@@ -62,6 +63,8 @@
 		15027ABA18CB66AE005473FB /* PhysicsScrolling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsScrolling.h; sourceTree = "<group>"; };
 		15027ABC18CB67FF005473FB /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		15027ABD18CB67FF005473FB /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
+		15027AC018CB9844005473FB /* TexturePackingSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TexturePackingSample.h; sourceTree = "<group>"; };
+		15027AC118CB9844005473FB /* TexturePackingSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TexturePackingSample.cpp; sourceTree = "<group>"; };
 		150EE00C18CA259F000AFD9E /* Constraints.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Constraints.cpp; sourceTree = "<group>"; };
 		150EE00D18CA259F000AFD9E /* Constraints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constraints.h; sourceTree = "<group>"; };
 		150EE00E18CA259F000AFD9E /* Effectors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Effectors.cpp; sourceTree = "<group>"; };
@@ -174,6 +177,8 @@
 		1502794118CB6676005473FB /* Samples */ = {
 			isa = PBXGroup;
 			children = (
+				15027AC018CB9844005473FB /* TexturePackingSample.h */,
+				15027AC118CB9844005473FB /* TexturePackingSample.cpp */,
 				15027AB918CB66AE005473FB /* PhysicsScrolling.cpp */,
 				15027ABA18CB66AE005473FB /* PhysicsScrolling.h */,
 			);
@@ -390,6 +395,7 @@
 				15F72B6518C8150A000DE2EB /* ConnectionManager.cpp in Sources */,
 				150EE01318CA259F000AFD9E /* Constraints.cpp in Sources */,
 				15F72B6F18C8150A000DE2EB /* Profiling.cpp in Sources */,
+				15027AC218CB9844005473FB /* TexturePackingSample.cpp in Sources */,
 				566255008148472EBC9849A1 /* PocketsApp.cpp in Sources */,
 				15027ABE18CB67FF005473FB /* Scene.cpp in Sources */,
 				150EE01518CA259F000AFD9E /* Effectors.cpp in Sources */,

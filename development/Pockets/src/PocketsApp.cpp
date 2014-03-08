@@ -4,9 +4,10 @@
 
 #include "cinder/Rand.h"
 
-#include "pockets/physics/SimplePhysics.h"
+#include "pockets/cobweb/CobWeb.h"
 
 #include "PhysicsScrolling.h"
+#include "TexturePackingSample.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -24,10 +25,12 @@ private:
 
 void PocketsApp::setup()
 {
-  mCurrentScene = make_shared<PhysicsScrolling>();
+  mCurrentScene = make_shared<TexturePackingSample>();
   mCurrentScene->setup();
   mCurrentScene->connect( getWindow() );
   mCurrentScene->show( getWindow(), true );
+
+  // TODO: build a CobWeb gui to select between samples
 }
 
 void PocketsApp::draw()
