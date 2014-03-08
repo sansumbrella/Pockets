@@ -34,7 +34,7 @@
 namespace pockets
 {
   /**
-  Entities and components built on top of entityx.
+  A suite of entities and components for game development using entityx.
 
   PupTent is meant for use in the development of small games with big hearts.
   It is especially supportive of mixing procedural and hand-drawn 2d art.

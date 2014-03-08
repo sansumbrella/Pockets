@@ -33,7 +33,7 @@
 namespace pockets
 {
   /**
-   A basic verlet physics engine for UI animation.
+   A simple verlet physics engine for UI animation.
    Provides Constraint, Effector, and a simple Node type.
    Everything is controlled by a physics::World.
   */

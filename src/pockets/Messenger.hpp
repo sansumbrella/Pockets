@@ -29,7 +29,7 @@
 
 #include "Receiver.hpp"
 
-/**
+/** \file
 Simple message passing library
 
 Message: What is sent from Messenger to Subject, a templated type.
