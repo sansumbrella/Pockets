@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 David Wicks, sansumbrella.com
+ * Copyright (c) 2013 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -25,15 +25,45 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#pragma once
-namespace pockets
+#include "Locus.h"
+
+using namespace pockets;
+using namespace cinder;
+
+MatrixAffine2f Locus2D::toMatrix() const
 {
-  /**
-   A simple 2d scene graph for UI development.
-  */
-  namespace cobweb {}
+  MatrixAffine2f mat;
+  mat.translate( position + registration_point );
+  mat.rotate( rotation );
+  mat.scale( scale );
+  mat.translate( -registration_point );
+  if( parent ){ mat = parent->toMatrix() * mat; }
+  return mat;
 }
 
-#include "pockets/cobweb/Node.h"
-#include "pockets/cobweb/ButtonBase.h"
-#include "pockets/cobweb/TypeNode.h"
+ci::Vec2f Locus2D::getScale() const
+{
+  return parent ? parent->getScale() * scale : scale;
+}
+
+float Locus2D::getRotation() const
+{
+  return parent ? parent->getRotation() + rotation : rotation;
+}
+
+Vec2f Locus2D::getPosition() const
+{
+  return parent ? parent->toMatrix().transformPoint( position ) : position;
+}
+
+void Locus2D::detachFromParent()
+{
+  if( parent )
+  {
+    scale *= parent->getScale();
+    rotation += parent->getRotation();
+    position = parent->toMatrix().transformPoint( position );
+
+    parent.reset();
+  }
+}

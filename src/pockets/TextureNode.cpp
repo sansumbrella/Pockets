@@ -8,12 +8,12 @@
 
 #include "TextureNode.h"
 
-using namespace pockets;
 using namespace cinder;
+using namespace pockets;
+using namespace cobweb;
 
-TextureNode::TextureNode( const gl::Texture &texture ):
-Node( app::toPoints( texture.getSize() ) )
-, mTexture( texture )
+TextureNode::TextureNode( const gl::TextureRef &texture ):
+  mTexture( texture )
 {}
 
 TextureNode::~TextureNode()
@@ -22,9 +22,9 @@ TextureNode::~TextureNode()
 void TextureNode::draw()
 {
   gl::pushModelView();
-  gl::multModelView( *getLocus() );
+  gl::multModelView( Matrix44f( getLocus()->toMatrix() ) );
 
-  gl::draw( mTexture, app::toPoints( mTexture.getBounds() ) );
+  gl::draw( mTexture, app::toPoints( mTexture->getBounds() ) );
 
   gl::popModelView();
 }

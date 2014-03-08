@@ -13,6 +13,8 @@
 
 namespace pockets
 {
+  namespace cobweb
+  {
   typedef std::shared_ptr<class ButtonBase> ButtonRef;
   /**
    Handler of touch events to fire off button "presses"
@@ -64,6 +66,7 @@ namespace pockets
     //! returns whether a point is inside the button's hit box
     bool            contains( const ci::Vec2i point ) { return mHitBounds.contains( transformedPoint(point) ); }
     //! unproject point from our drawing space
-    ci::Vec2f       transformedPoint( const ci::Vec2f &point ) { return getLocus()->getTransform().invertCopy().transformPoint( point ); }
+    ci::Vec2f       transformedPoint( const ci::Vec2f &point ) { return getLocus()->toMatrix().invertCopy().transformPoint( point ); }
   };
-}
+  } // cobweb::
+} // pockets::

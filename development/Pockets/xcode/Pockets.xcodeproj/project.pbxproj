@@ -24,6 +24,23 @@
 		150EE01818CA259F000AFD9E /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 150EE01118CA259F000AFD9E /* World.cpp */; };
 		153B52DC18C8169C00880325 /* Pockets_Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 153B52DB18C8169C00880325 /* Pockets_Tests.cpp */; };
 		153B52DE18C8169C00880325 /* Tests.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 153B52DD18C8169C00880325 /* Tests.1 */; };
+		155BEF9018CBA749000A36FC /* ButtonBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF7218CBA749000A36FC /* ButtonBase.cpp */; };
+		155BEF9118CBA749000A36FC /* ButtonBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF7218CBA749000A36FC /* ButtonBase.cpp */; };
+		155BEF9418CBA749000A36FC /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF7718CBA749000A36FC /* Node.cpp */; };
+		155BEF9518CBA749000A36FC /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF7718CBA749000A36FC /* Node.cpp */; };
+		155BEF9818CBA749000A36FC /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 155BEF7B18CBA749000A36FC /* README.md */; };
+		155BEF9B18CBA749000A36FC /* ShapeNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF7E18CBA749000A36FC /* ShapeNode.cpp */; };
+		155BEF9C18CBA749000A36FC /* ShapeNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF7E18CBA749000A36FC /* ShapeNode.cpp */; };
+		155BEF9D18CBA749000A36FC /* SimpleButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF8018CBA749000A36FC /* SimpleButton.cpp */; };
+		155BEF9E18CBA749000A36FC /* SimpleButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF8018CBA749000A36FC /* SimpleButton.cpp */; };
+		155BEFAB18CBA749000A36FC /* TypeNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF8E18CBA749000A36FC /* TypeNode.cpp */; };
+		155BEFAC18CBA749000A36FC /* TypeNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF8E18CBA749000A36FC /* TypeNode.cpp */; };
+		155BEFAE18CBA7BD000A36FC /* Locus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEFAD18CBA7BD000A36FC /* Locus.cpp */; };
+		155BEFAF18CBA7BD000A36FC /* Locus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEFAD18CBA7BD000A36FC /* Locus.cpp */; };
+		155BEFB118CBA807000A36FC /* TextureNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEFB018CBA807000A36FC /* TextureNode.cpp */; };
+		155BEFB218CBA807000A36FC /* TextureNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEFB018CBA807000A36FC /* TextureNode.cpp */; };
+		155BEFB418CBAA3E000A36FC /* RenderMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEFB318CBAA3E000A36FC /* RenderMesh.cpp */; };
+		155BEFB518CBAA3E000A36FC /* RenderMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEFB318CBAA3E000A36FC /* RenderMesh.cpp */; };
 		15F72B6118C8150A000DE2EB /* AnimationUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F72B4C18C8150A000DE2EB /* AnimationUtils.cpp */; };
 		15F72B6318C8150A000DE2EB /* ColorUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F72B4F18C8150A000DE2EB /* ColorUtils.cpp */; };
 		15F72B6518C8150A000DE2EB /* ConnectionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F72B5118C8150A000DE2EB /* ConnectionManager.cpp */; };
@@ -75,6 +92,22 @@
 		153B52D918C8169C00880325 /* Tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Tests; sourceTree = BUILT_PRODUCTS_DIR; };
 		153B52DB18C8169C00880325 /* Pockets_Tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Pockets_Tests.cpp; sourceTree = "<group>"; };
 		153B52DD18C8169C00880325 /* Tests.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Tests.1; sourceTree = "<group>"; };
+		155BEF7218CBA749000A36FC /* ButtonBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ButtonBase.cpp; sourceTree = "<group>"; };
+		155BEF7318CBA749000A36FC /* ButtonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonBase.h; sourceTree = "<group>"; };
+		155BEF7418CBA749000A36FC /* CobWeb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CobWeb.h; sourceTree = "<group>"; };
+		155BEF7718CBA749000A36FC /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
+		155BEF7818CBA749000A36FC /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		155BEF7B18CBA749000A36FC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		155BEF7E18CBA749000A36FC /* ShapeNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeNode.cpp; sourceTree = "<group>"; };
+		155BEF7F18CBA749000A36FC /* ShapeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShapeNode.h; sourceTree = "<group>"; };
+		155BEF8018CBA749000A36FC /* SimpleButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleButton.cpp; sourceTree = "<group>"; };
+		155BEF8118CBA749000A36FC /* SimpleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleButton.h; sourceTree = "<group>"; };
+		155BEF8D18CBA749000A36FC /* TextureNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureNode.h; sourceTree = "<group>"; };
+		155BEF8E18CBA749000A36FC /* TypeNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TypeNode.cpp; sourceTree = "<group>"; };
+		155BEF8F18CBA749000A36FC /* TypeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeNode.h; sourceTree = "<group>"; };
+		155BEFAD18CBA7BD000A36FC /* Locus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Locus.cpp; sourceTree = "<group>"; };
+		155BEFB018CBA807000A36FC /* TextureNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureNode.cpp; path = ../TextureNode.cpp; sourceTree = "<group>"; };
+		155BEFB318CBAA3E000A36FC /* RenderMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderMesh.cpp; sourceTree = "<group>"; };
 		15F72B4C18C8150A000DE2EB /* AnimationUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationUtils.cpp; sourceTree = "<group>"; };
 		15F72B4D18C8150A000DE2EB /* AnimationUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationUtils.h; sourceTree = "<group>"; };
 		15F72B4E18C8150A000DE2EB /* CollectionUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CollectionUtilities.hpp; sourceTree = "<group>"; };
@@ -209,9 +242,31 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		155BEF7118CBA749000A36FC /* cobweb */ = {
+			isa = PBXGroup;
+			children = (
+				155BEF7218CBA749000A36FC /* ButtonBase.cpp */,
+				155BEF7318CBA749000A36FC /* ButtonBase.h */,
+				155BEF7418CBA749000A36FC /* CobWeb.h */,
+				155BEF7718CBA749000A36FC /* Node.cpp */,
+				155BEF7818CBA749000A36FC /* Node.h */,
+				155BEF7B18CBA749000A36FC /* README.md */,
+				155BEF7E18CBA749000A36FC /* ShapeNode.cpp */,
+				155BEF7F18CBA749000A36FC /* ShapeNode.h */,
+				155BEF8018CBA749000A36FC /* SimpleButton.cpp */,
+				155BEF8118CBA749000A36FC /* SimpleButton.h */,
+				155BEF8D18CBA749000A36FC /* TextureNode.h */,
+				155BEFB018CBA807000A36FC /* TextureNode.cpp */,
+				155BEF8E18CBA749000A36FC /* TypeNode.cpp */,
+				155BEF8F18CBA749000A36FC /* TypeNode.h */,
+			);
+			path = cobweb;
+			sourceTree = "<group>";
+		};
 		15F72B4B18C8150A000DE2EB /* pockets */ = {
 			isa = PBXGroup;
 			children = (
+				155BEF7118CBA749000A36FC /* cobweb */,
 				150EE00B18CA259F000AFD9E /* physics */,
 				15F72B4C18C8150A000DE2EB /* AnimationUtils.cpp */,
 				15F72B4D18C8150A000DE2EB /* AnimationUtils.h */,
@@ -226,6 +281,7 @@
 				15F72B5618C8150A000DE2EB /* FileUtils.h */,
 				15F72B5718C8150A000DE2EB /* ImagePacker.cpp */,
 				15F72B5818C8150A000DE2EB /* ImagePacker.h */,
+				155BEFAD18CBA7BD000A36FC /* Locus.cpp */,
 				15F72B5918C8150A000DE2EB /* MessageType.hpp */,
 				15F72B5A18C8150A000DE2EB /* Messenger.hpp */,
 				15F72B5B18C8150A000DE2EB /* Packing.cpp */,
@@ -234,6 +290,7 @@
 				15F72B5E18C8150A000DE2EB /* Profiling.cpp */,
 				15F72B5F18C8150A000DE2EB /* Profiling.h */,
 				15F72B6018C8150A000DE2EB /* Receiver.hpp */,
+				155BEFB318CBAA3E000A36FC /* RenderMesh.cpp */,
 				15027ABC18CB67FF005473FB /* Scene.h */,
 				15027ABD18CB67FF005473FB /* Scene.cpp */,
 			);
@@ -365,6 +422,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				155BEF9818CBA749000A36FC /* README.md in Resources */,
 				70CD6A9A959B45E3A5D75EF5 /* CinderApp.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -376,11 +434,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				155BEF9118CBA749000A36FC /* ButtonBase.cpp in Sources */,
+				155BEFB218CBA807000A36FC /* TextureNode.cpp in Sources */,
+				155BEFAC18CBA749000A36FC /* TypeNode.cpp in Sources */,
 				150EE01418CA259F000AFD9E /* Constraints.cpp in Sources */,
+				155BEF9C18CBA749000A36FC /* ShapeNode.cpp in Sources */,
 				150EE01618CA259F000AFD9E /* Effectors.cpp in Sources */,
+				155BEFB518CBAA3E000A36FC /* RenderMesh.cpp in Sources */,
 				150EE01818CA259F000AFD9E /* World.cpp in Sources */,
+				155BEF9E18CBA749000A36FC /* SimpleButton.cpp in Sources */,
 				15027ABF18CB67FF005473FB /* Scene.cpp in Sources */,
+				155BEFAF18CBA7BD000A36FC /* Locus.cpp in Sources */,
 				153B52DC18C8169C00880325 /* Pockets_Tests.cpp in Sources */,
+				155BEF9518CBA749000A36FC /* Node.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,11 +456,16 @@
 			files = (
 				15F72B6718C8150A000DE2EB /* CurveUtils.cpp in Sources */,
 				15F72B6D18C8150A000DE2EB /* Packing.cpp in Sources */,
+				155BEFB418CBAA3E000A36FC /* RenderMesh.cpp in Sources */,
 				150EE01718CA259F000AFD9E /* World.cpp in Sources */,
 				15F72B6118C8150A000DE2EB /* AnimationUtils.cpp in Sources */,
+				155BEFB118CBA807000A36FC /* TextureNode.cpp in Sources */,
 				15F72B6518C8150A000DE2EB /* ConnectionManager.cpp in Sources */,
 				150EE01318CA259F000AFD9E /* Constraints.cpp in Sources */,
+				155BEF9018CBA749000A36FC /* ButtonBase.cpp in Sources */,
 				15F72B6F18C8150A000DE2EB /* Profiling.cpp in Sources */,
+				155BEF9418CBA749000A36FC /* Node.cpp in Sources */,
+				155BEFAE18CBA7BD000A36FC /* Locus.cpp in Sources */,
 				15027AC218CB9844005473FB /* TexturePackingSample.cpp in Sources */,
 				566255008148472EBC9849A1 /* PocketsApp.cpp in Sources */,
 				15027ABE18CB67FF005473FB /* Scene.cpp in Sources */,
@@ -403,6 +474,9 @@
 				15F72B6B18C8150A000DE2EB /* ImagePacker.cpp in Sources */,
 				15027ABB18CB66AE005473FB /* PhysicsScrolling.cpp in Sources */,
 				15F72B6918C8150A000DE2EB /* FileUtils.cpp in Sources */,
+				155BEF9B18CBA749000A36FC /* ShapeNode.cpp in Sources */,
+				155BEF9D18CBA749000A36FC /* SimpleButton.cpp in Sources */,
+				155BEFAB18CBA749000A36FC /* TypeNode.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

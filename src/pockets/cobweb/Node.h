@@ -7,12 +7,15 @@
 //
 
 #pragma once
-#include "pockets/Locus2d.h"
-#include "pockets/Renderer2d.h"
+#include "pockets/Locus.h"
+#include "pockets/ConnectionManager.h"
+#include "cinder/app/App.h"
 
 namespace pockets
 {
-  /*
+  namespace cobweb
+  {
+  /**
   A thing positioned on screen that can connect to a window.
   Uses UI signals for events, does not connect to draw signal.
   Has no default interactions, instead lets any interested children connect
@@ -21,41 +24,23 @@ namespace pockets
   A simple scene graph, modeled loosely on AS3 Sprites.
   */
 
-  // temporary measure
-  auto getBackingColor() -> ci::Color;
-  auto getBackingHighlightColor() -> ci::Color;
-  auto getTextColor() -> ci::Color;
-  auto getAltTextColor() -> ci::Color;
-  auto getBackgroundColor() -> ci::Color;
-
-  auto getBackingColor() -> ci::Color { return ci::Color::black(); }
-  auto getBackingHighlightColor() -> ci::Color { return ci::Color( 1.0f, 1.0f, 0.0f ); }
-  auto getTextColor() -> ci::Color { return ci::Color::gray( 0.8f ); }
-  auto getAltTextColor() -> ci::Color { return ci::Color::gray( 0.2f ); }
-  auto getBackgroundColor() -> ci::Color { return ci::Color::gray( 0.9f ); }
-
-  namespace { // TODO: root node methods
-    // BatchRendererTriangles2d
-    void            drawGraphics();
-    // BatchRendererText
-    void            drawText();
-  }
-
   typedef std::shared_ptr<class Node> NodeRef;
   typedef std::unique_ptr<class Node> NodeUniqueRef;
   typedef std::weak_ptr<class Node>   NodeWeakRef;
-  class Node : public std::enable_shared_from_this<Node>, public Renderer2d::Renderable
+  class Node
   {
   public:
     static NodeUniqueRef create();
-    virtual ~Node(){ disconnect(); }
+	//! construct an empty node
+	//! note that stack-allocated nodes are only useful as a root node
+	Node():
+      mLocus( std::make_shared<Locus2D>() ),
+      mParent( nullptr )
+    {}
+    virtual ~Node();
     void            deepDraw();
     void            deepConnect( ci::app::WindowRef window );
     void            deepDisconnect();
-
-    //! default implementation returns an empty vector
-    //! might move to having a vector of vertices in here that children update
-    std::vector<Vertex> getVertices() override { return {}; };
 
     //! call block() on all child objects
     void            blockChildren();
@@ -84,23 +69,21 @@ namespace pockets
     virtual void    cancelInteractions(){}
     void            deepCancelInteractions();
     //! set top-left of element
-    void            setLoc( const ci::Vec2f &loc ){ mLocus->setLoc( loc ); }
-    ci::Vec2f       getLoc() const { return mLocus->getLoc(); }
+    void            setPosition( const ci::Vec2f &pos ){ mLocus->position = pos; }
+    ci::Vec2f       getPosition() const { return mLocus->getPosition(); }
+	//! set xy scale of element
+	void			setScale( const ci::Vec2f &scale ){ mLocus->scale = scale; }
+	ci::Vec2f		getScale() const { return mLocus->getScale(); }
     //! set rotation around z-axis
-    void            setRotation( float radians ){ mLocus->setRotation( radians ); }
-    void            setRegistrationPoint( const ci::Vec2f &loc ){ mLocus->setRegistrationPoint( loc ); }
-    pk::Locus2dRef  getLocus(){ return mLocus; }
-    ci::Vec2f       getSize() const { return mSize; }
-    int             getWidth() const { return mSize.x; }
-    int             getHeight() const { return mSize.y; }
-    int             totalHeight() const;
-    int             childHeight() const;
+    void            setRotation( float radians ){ mLocus->rotation = radians; }
+    void            setRegistrationPoint( const ci::Vec2f &loc ){ mLocus->registration_point = loc; }
+    pk::Locus2DRef  getLocus(){ return mLocus; }
     //! add a Node as a child; will receive connect/disconnect events and have its locus parented
     void            appendChild( NodeRef element );
     //! called when a child is added to this Node
     virtual void    childAdded( NodeRef element ){}
     void            removeChild( NodeRef element );
-    NodeRef         getParent(){ return mParent.lock(); }
+    Node*           getParent(){ return mParent; }
 
     // Child Manipulation
     size_t          numChildren() const { return mChildren.size(); }
@@ -109,20 +92,14 @@ namespace pockets
     //! return child vector, allowing manipulation of each child, but not the vector
     const std::vector<NodeRef>& getChildren() const { return mChildren; }
   protected:
-    Node() = default;
-    Node( const ci::Vec2f &size );
-    void            setHeight( float height ){ mSize.y = height; }
-    void            setWidth( float width ){ mSize.x = width; }
     //! store a connection so it can be blocked/unblocked/disconnected later
-    void            storeConnection( const ci::signals::connection &connection ){ mConnections.push_back( connection ); }
+    void            storeConnection( const ci::signals::connection &connection ){ mConnectionManager.store( connection ); }
   private:
-    pk::Locus2dRef            mLocus = pk::Locus2dRef( new pk::Locus2d );
-    ci::Vec2i                 mSize;
-    NodeWeakRef               mParent;
-    std::vector<NodeRef>      mChildren;
-
-    void setParent(NodeWeakRef parent);
-    std::vector<ci::signals::connection>              mConnections;
-    std::vector<ci::signals::shared_connection_block> mBlocks;
+    pk::Locus2DRef          mLocus;
+    Node*                   mParent;
+    std::vector<NodeRef>    mChildren;
+    ConnectionManager       mConnectionManager;
+    void setParent( Node *parent );
   };
-}
+  } // cobweb::
+} // pockets::

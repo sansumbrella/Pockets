@@ -13,6 +13,8 @@
 
 namespace pockets
 {
+  namespace cobweb
+  {
   typedef std::shared_ptr<class SimpleButton> SimpleButtonRef;
   /**
   A simple button specialized for Word Shift's needs
@@ -38,8 +40,9 @@ namespace pockets
     ci::Rectf           mForegroundBounds;
 
     ci::gl::Texture     mForegroundTexture;
-    ci::Color           mBackingColor = getBackingColor();
-    ci::Color           mForegroundColor = getTextColor();
+    ci::Color           mBackingColor = ci::Color::black();
+    ci::Color           mForegroundColor = ci::Color::white();
   };
+  } // cobweb::
 
 } // pockets::

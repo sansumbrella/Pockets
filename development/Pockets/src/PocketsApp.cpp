@@ -17,11 +17,18 @@ using namespace pockets;
 
 class PocketsApp : public AppNative {
 public:
-	void setup();
-	void draw();
+  void prepareSettings( Settings *settings ) override;
+	void setup() override;
+	void draw() override;
 private:
   SceneRef      mCurrentScene;
+  cobweb::Node  mRoot;
 };
+
+void PocketsApp::prepareSettings( Settings *settings )
+{
+  settings->enableMultiTouch();
+}
 
 void PocketsApp::setup()
 {
@@ -31,10 +38,16 @@ void PocketsApp::setup()
   mCurrentScene->show( getWindow(), true );
 
   // TODO: build a CobWeb gui to select between samples
+  auto button = make_shared<cobweb::ButtonBase>( getWindowBounds() );
+  button->setSelectFn( []() { app::console() << "Hello from button" << endl; } );
+  mRoot.appendChild( button );
+  mRoot.deepConnect( getWindow() );
+  console() << "Button is active: " << (button->isActive() ? "yes" : "no") << endl;
 }
 
 void PocketsApp::draw()
 {
+  mRoot.deepDraw();
 }
 
 CINDER_APP_NATIVE( PocketsApp, RendererGl )

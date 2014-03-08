@@ -8,15 +8,13 @@
 
 #include "ButtonBase.h"
 
+using namespace cinder;
 using namespace pockets;
-using namespace ci;
+using namespace cobweb;
 
 ButtonBase::ButtonBase( const Rectf &bounds ):
 mHitBounds( bounds )
-{
-  setWidth( bounds.getWidth() );
-  setHeight( bounds.getHeight() );
-}
+{}
 
 ButtonBase::~ButtonBase()
 {}
@@ -109,8 +107,7 @@ void ButtonBase::touchesEnded(ci::app::TouchEvent &event)
     }
   }
   if( selected )
-  {
-    // in case of side effects in select function, emit selection last
+  { // in case of side effects in select function, emit selection last
     // e.g. if button navigates to a new screen, it will destroy itself
     emitSelect();
   }

@@ -9,24 +9,30 @@
 #include "Node.h"
 #include "pockets/CollectionUtilities.hpp"
 
+using namespace std;
 using namespace cinder;
 using namespace pockets;
-using namespace std;
+using namespace cobweb;
 
 NodeUniqueRef Node::create()
 {
-  return NodeUniqueRef{ new Node{} };
+  return NodeUniqueRef( new Node() );
 }
 
-Node::Node( const Vec2f &size ):
-mSize( size )
-{}
+Node::~Node()
+{
+  for( auto &child : mChildren )
+  {
+    child->setParent( nullptr );
+  }
+}
 
 void Node::appendChild(NodeRef element)
 {
-  NodeRef former_parent = element->getParent();
-  if( former_parent ){ former_parent->removeChild( element ); }
-  element->setParent( shared_from_this() );
+  Node *former_parent = element->getParent();
+  if( former_parent ) // remove child from parent (but skip notifying child)
+  { vector_remove( &former_parent->mChildren, element ); }
+  element->setParent( this );
   mChildren.push_back( element );
   childAdded( element );
 }
@@ -34,30 +40,25 @@ void Node::appendChild(NodeRef element)
 void Node::removeChild(NodeRef element)
 {
   vector_remove( &mChildren, element );
-  element->setParent( NodeWeakRef() );
+  element->setParent( nullptr );
 }
 
-void Node::setParent(NodeWeakRef parent)
+void Node::setParent( Node *parent )
 {
   mParent = parent;
-  NodeRef p = mParent.lock();
-  if( p )
+  if( parent )
   {
-    mLocus->setParent( p->getLocus() );
+    mLocus->parent = parent->getLocus();
   }
   else
   {
-    mLocus->unsetParent();
+    mLocus->detachFromParent();
   }
 }
 
 void Node::disconnect()
 {
-  for( signals::connection &connect : mConnections )
-  {
-    connect.disconnect();
-  }
-  mConnections.clear();
+  mConnectionManager.disconnect();
   customDisconnect();
 }
 
@@ -118,15 +119,12 @@ void Node::unblockChildren()
 void Node::block()
 {
   customBlock();
-  for( signals::connection &connect : mConnections )
-  {
-    mBlocks.push_back( signals::shared_connection_block( connect ) );
-  }
+  mConnectionManager.block();
 }
 
 void Node::unblock()
 {
-  mBlocks.clear();
+  mConnectionManager.resume();
   customUnblock();
 }
 
@@ -136,38 +134,3 @@ void Node::setChildIndex(NodeRef child, size_t index)
   index = math<int32_t>::min( index, mChildren.size() );
   mChildren.insert( mChildren.begin() + index, child );
 }
-
-int Node::totalHeight() const
-{
-  return math<int>::max( getHeight(), childHeight() );
-}
-
-int Node::childHeight() const
-{
-  int top = 0;
-  int bottom = 0;
-  for( auto &child : mChildren )
-  {
-    int y = child->getLoc().y;
-    top = math<int>::min( y, top );
-    bottom = math<int>::max( y + child->getHeight(), bottom );
-  }
-
-  return bottom - top;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

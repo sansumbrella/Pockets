@@ -10,8 +10,9 @@
 #include "cinder/Text.h"
 
 using namespace std;
-using namespace ci;
+using namespace cinder;
 using namespace pockets;
+using namespace cobweb;
 
 SimpleButton::SimpleButton( const gl::Texture &fg, const ci::Rectf &bounds ):
 ButtonBase( Area(bounds) )
@@ -19,7 +20,7 @@ ButtonBase( Area(bounds) )
 , mBackgroundBounds( bounds )
 , mForegroundBounds( app::toPoints(Rectf(fg.getBounds())).getCenteredFit( mBackgroundBounds, false ) )
 {
-  getLocus()->setRegistrationPoint( mBackgroundBounds.getCenter() );
+  getLocus()->registration_point = mBackgroundBounds.getCenter();
 }
 
 SimpleButton::~SimpleButton()
@@ -52,18 +53,18 @@ void SimpleButton::setHitPadding(float horizontal, float vertical)
 
 void SimpleButton::hoverStart()
 {
-  mBackingColor = getBackingHighlightColor();
+  mBackingColor = Color::gray( 0.5f );
 }
 
 void SimpleButton::hoverEnd()
 {
-  mBackingColor = getBackingColor();
+  mBackingColor = Color::black();
 }
 
 void SimpleButton::draw()
 {
   gl::pushModelView();
-  gl::multModelView( *getLocus() );
+  gl::multModelView( Matrix44f( getLocus()->toMatrix() ) );
 
   //  gl::color( Color( 1, 0, 0 ) );
   //  gl::drawSolidRect( getHitBounds() );
@@ -71,7 +72,7 @@ void SimpleButton::draw()
   gl::color( mBackingColor );
   gl::drawSolidRect( mBackgroundBounds );
 
-  mForegroundTexture.enableAndBind();
+  mForegroundTexture.bind( 0 );
   gl::color( mForegroundColor );
   gl::drawSolidRect( mForegroundBounds );
   mForegroundTexture.unbind();
