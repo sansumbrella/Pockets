@@ -59,6 +59,9 @@ namespace pockets
     void            touchesBegan( ci::app::TouchEvent &event );
     void            touchesMoved( ci::app::TouchEvent &event );
     void            touchesEnded( ci::app::TouchEvent &event );
+    void            mouseDown( ci::app::MouseEvent &event );
+    void            mouseDrag( ci::app::MouseEvent &event );
+    void            mouseUp( ci::app::MouseEvent &event );
 
     void setHovering();
     void endHovering( bool selected );

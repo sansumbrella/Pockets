@@ -27,7 +27,6 @@ private:
 
 void PocketsApp::prepareSettings( Settings *settings )
 {
-  settings->enableMultiTouch();
 }
 
 void PocketsApp::setup()

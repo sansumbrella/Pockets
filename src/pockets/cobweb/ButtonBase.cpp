@@ -33,6 +33,10 @@ void ButtonBase::connect( app::WindowRef window )
   storeConnection( window->getSignalTouchesBegan().connect( [this]( app::TouchEvent &event ){ touchesBegan( event ); } ) );
   storeConnection( window->getSignalTouchesMoved().connect( [this]( app::TouchEvent &event ){ touchesMoved( event ); } ) );
   storeConnection( window->getSignalTouchesEnded().connect( [this]( app::TouchEvent &event ){ touchesEnded( event ); } ) );
+
+  storeConnection( window->getSignalMouseDown().connect( [this]( app::MouseEvent &event ){ mouseDown( event ); } ) );
+  storeConnection( window->getSignalMouseDrag().connect( [this]( app::MouseEvent &event ){ mouseDrag( event ); } ) );
+  storeConnection( window->getSignalMouseUp().connect( [this]( app::MouseEvent &event ){ mouseUp( event ); } ) );
 }
 
 void ButtonBase::cancelInteractions()
@@ -59,6 +63,38 @@ void ButtonBase::setHovering()
   }
 }
 
+void ButtonBase::mouseDown(ci::app::MouseEvent &event)
+{
+  if( contains( event.getPos() ) )
+  {
+    mTrackedTouch = std::numeric_limits<uint32_t>::max();
+    setHovering();
+  }
+}
+
+void ButtonBase::mouseDrag(ci::app::MouseEvent &event)
+{
+  if( contains( event.getPos() ) )
+  {
+    setHovering();
+  }
+  else
+  {
+    endHovering( false );
+  }
+}
+
+void ButtonBase::mouseUp(ci::app::MouseEvent &event)
+{
+  bool selected = false;
+  mTrackedTouch = 0;
+  if( contains( event.getPos() ) )
+    { selected = true; }
+  endHovering( selected );
+  if( selected )
+    { emitSelect(); }
+}
+
 void ButtonBase::touchesBegan(ci::app::TouchEvent &event)
 {
   for( auto &touch : event.getTouches() )
@@ -78,13 +114,9 @@ void ButtonBase::touchesMoved(ci::app::TouchEvent &event)
     if( touch.getId() == mTrackedTouch )
     {
       if( contains( touch.getPos() ) )
-      {
-        setHovering();
-      }
+        { setHovering(); }
       else
-      {
-        endHovering( false );
-      }
+        { endHovering( false ); }
     }
   }
 }
@@ -99,13 +131,12 @@ void ButtonBase::touchesEnded(ci::app::TouchEvent &event)
       mTrackedTouch = 0;
       if( contains( touch.getPos() ) )
       {
-        endHovering( true );
         selected = true;
         break;
       }
-      endHovering( false );
     }
   }
+  endHovering( selected );
   if( selected )
   { // in case of side effects in select function, emit selection last
     // e.g. if button navigates to a new screen, it will destroy itself
