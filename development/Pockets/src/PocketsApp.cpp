@@ -1,6 +1,7 @@
 #include "cinder/app/AppNative.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
+#include "cinder/Font.h"
 
 #include "cinder/Rand.h"
 
@@ -39,11 +40,12 @@ void PocketsApp::setup()
 
 
   // TODO: build a CobWeb gui to select between samples
-  auto button = make_shared<cobweb::ButtonBase>( Rectf( 0.0f, 0.0f, 100.0f, 100.0f ) );
+  Font arial( "Arial", 14.0f );
+  auto button = cobweb::SimpleButton::createLabelButton( "Next Sample", arial );
+
   button->setSelectFn( [this]() { nextSample(); } );
   mRoot.appendChild( button );
   mRoot.deepConnect( getWindow() );
-  console() << "Button is active: " << (button->isActive() ? "yes" : "no") << endl;
 
   nextSample();
 }

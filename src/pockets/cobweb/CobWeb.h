@@ -36,4 +36,5 @@ namespace pockets
 
 #include "pockets/cobweb/Node.h"
 #include "pockets/cobweb/ButtonBase.h"
+#include "pockets/cobweb/SimpleButton.h"
 #include "pockets/cobweb/TypeNode.h"
