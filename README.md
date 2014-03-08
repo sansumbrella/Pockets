@@ -1,7 +1,9 @@
-What have I got in my pocket?
-A collection of utilities of varying utility.
-Intended for use with Cinder 0.8.5.
-Written against clang/C++11.
+# Pockets
+
+What have I got in my pocket?  
+A collection of utilities of varying utility.  
+Intended for use with Cinder 0.8.5.  
+Written against clang/C++11.  
 
 These bits of software are written as a library; each piece should stand
 on its own as something generally useful.

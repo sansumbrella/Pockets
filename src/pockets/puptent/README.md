@@ -1,8 +1,8 @@
+# PupTent - a 2D game engine built on Cinder and entityx
+
 PupTent is not ready for public consumption.
 It's likely to change quite a bit.
-But I want to share it with some friends, so here it is.
-
-# PupTent - a 2D game engine built on Cinder and entityx
+But I wanted to share it with some friends, so here it is.
 
 PupTent is meant for use in the development of small games with big hearts.
 It is especially supportive of mixing procedural and hand-drawn 2d art.
