@@ -1,72 +1,64 @@
 //
-//  SceneController.cpp
+//  Scene.cpp
 //  WordShift
 //
 //  Created by David Wicks on 2/21/13.
 //  Copyright (c) 2013 __MyCompanyName__. All rights reserved.
 //
 
-#include "SceneController.h"
+#include "Scene.h"
 
 using namespace pockets;
 using namespace cinder;
 
-SceneController::SceneController()
+Scene::Scene()
 { // start updating
-  mUpdateConnection = app::App::get()->getSignalUpdate().connect( [this](){ update(); } );
+  mUpdateConnection.store( app::App::get()->getSignalUpdate().connect( [this]()
+  {
+    update( mTimer.getSeconds() );
+    mTimer.start();
+  } ) );
 }
 
-SceneController::~SceneController()
+Scene::~Scene()
 { // make sure nothing references us anymore
   mUpdateConnection.disconnect();
   disconnect();
   removeFromDisplay();
 }
 
-void SceneController::breakStoredConnections()
+void Scene::block()
 {
-  for( signals::connection &connection : mUIConnections )
-  {
-    connection.disconnect();
-  }
-  mUIConnections.clear();
+  mUIConnections.block();
 }
 
-void SceneController::block()
+void Scene::unblock()
 {
-  for( signals::connection &connect : mUIConnections )
-  {
-    mBlocks.push_back( signals::shared_connection_block( connect ) );
-  }
+  mUIConnections.resume();
 }
 
-void SceneController::unblock()
+void Scene::pause()
 {
-  mBlocks.clear();
-}
-
-void SceneController::pause()
-{
-  mUpdateBlock = signals::shared_connection_block( mUpdateConnection );
+  mTimer.stop();
+  mUpdateConnection.block();
   customPause();
 }
 
-void SceneController::resume()
+void Scene::resume()
 {
-  mUpdateBlock.unblock();
-  mUpdateBlock = signals::shared_connection_block();
+  mUpdateConnection.resume();
   customResume();
 }
 
-SceneController::Callback SceneController::vanishCompleteFn( SceneController::Callback finishFn)
+Scene::Callback Scene::vanishCompleteFn( Scene::Callback finishFn)
 {
   return [this, finishFn](){ removeFromDisplay(); if( finishFn ){ finishFn(); } };
 }
 
-void SceneController::show( app::WindowRef window, bool useWindowBounds )
+void Scene::show( app::WindowRef window, bool useWindowBounds )
 {
-  if( mDisplayConnection.connected() ){ mDisplayConnection.disconnect(); }
-  mDisplayConnection = window->getSignalDraw().connect( 1, [this](){ draw(); } );
+  mDisplayConnection.disconnect();
+  mDisplayConnection.store( window->getSignalDraw().connect( 1, [this](){ draw(); } ) );
   if( useWindowBounds ){ setBounds( window->getBounds() ); }
   appear();
 }

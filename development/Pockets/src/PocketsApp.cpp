@@ -6,6 +6,8 @@
 
 #include "pockets/physics/SimplePhysics.h"
 
+#include "PhysicsScrolling.h"
+
 using namespace ci;
 using namespace ci::app;
 using namespace std;
@@ -13,79 +15,23 @@ using namespace pockets;
 
 
 class PocketsApp : public AppNative {
-  public:
+public:
 	void setup();
-	void mouseDown( MouseEvent event );
-  void mouseDrag( MouseEvent event );
-  void mouseUp( MouseEvent event );
-	void update();
 	void draw();
 private:
-
-  physics::World    mWorld;
-  Vec2f             mMousePos;
-  Vec2f             mMouseStart;
-  Vec2f             mNodeStart;
-  bool              mMouseDown = false;
-
-  physics::NodeRef  mActualPosition; // connected to target by spring, draw here
-  physics::NodeRef  mTargetPosition; // moves with/flung by user
+  SceneRef      mCurrentScene;
 };
 
 void PocketsApp::setup()
 {
-
-  Rand r;
-
-  mWorld.friction( 0.5f );
-  mActualPosition = mWorld.createNode( getWindowCenter() );
-  mTargetPosition = mWorld.createNode( getWindowCenter() );
-  mWorld.createConstraint<physics::Lashing>( mActualPosition, mTargetPosition, 0.054f );
-
-  mWorld.createConstraint<physics::Range>( mTargetPosition, Vec2f( 0.0f, 0.0f ), Vec2f( 0.0f, getWindowHeight() - 200.0f ) );
-  mWorld.createConstraint<physics::Range>( mActualPosition, Vec2f( 0.0f, -100.0f ), Vec2f( 0.0f, getWindowHeight() - 100.0f ) );
-}
-
-void PocketsApp::mouseDown( MouseEvent event )
-{
-  mMouseDown = true;
-  mMousePos = event.getPos();
-  mMouseStart = event.getPos();
-  mNodeStart = mTargetPosition->pos;
-}
-
-void PocketsApp::mouseDrag( MouseEvent event )
-{
-  mMousePos = event.getPos();
-}
-
-void PocketsApp::mouseUp( MouseEvent event )
-{
-  mMouseDown = false;
-  mMousePos = event.getPos();
-  auto pos = mNodeStart + (mMousePos - mMouseStart);
-  mTargetPosition->pos = pos;
-}
-
-void PocketsApp::update()
-{
-  if( mMouseDown )
-  {
-    auto pos = mNodeStart + (mMousePos - mMouseStart);
-    mTargetPosition->pos = mTargetPosition->ppos = pos;
-  }
-  mWorld.step( 1.0 / 60.0 );
+  mCurrentScene = make_shared<PhysicsScrolling>();
+  mCurrentScene->setup();
+  mCurrentScene->connect( getWindow() );
+  mCurrentScene->show( getWindow(), true );
 }
 
 void PocketsApp::draw()
 {
-	// clear out the window with black
-	gl::clear( Color( 0, 0, 0 ) );
-
-  gl::color( Color( 1.0f, 1.0f, 0.0f ) );
-  gl::drawSolidRect( Rectf( mActualPosition->pos, mActualPosition->pos + Vec2f( 200.0f, 200.0f ) ) );
-  gl::color( Color( 1.0f, 0.0f, 1.0f ) );
-  gl::drawSolidRect( Rectf( mTargetPosition->pos, mTargetPosition->pos + Vec2f( 20.0f, 20.0f ) ) );
 }
 
 CINDER_APP_NATIVE( PocketsApp, RendererGl )
