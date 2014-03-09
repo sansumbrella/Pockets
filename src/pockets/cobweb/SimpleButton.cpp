@@ -63,8 +63,8 @@ void SimpleButton::hoverEnd()
 
 void SimpleButton::draw()
 {
-  gl::pushModelView();
-  gl::multModelView( Matrix44f( getLocus()->toMatrix() ) );
+  gl::pushModelMatrix();
+  gl::multModelMatrix( Matrix44f( getLocus()->toMatrix() ) );
 
   //  gl::color( Color( 1, 0, 0 ) );
   //  gl::drawSolidRect( getHitBounds() );
@@ -75,5 +75,5 @@ void SimpleButton::draw()
   gl::color( mForegroundColor );
   gl::draw( mForegroundTexture, mForegroundBounds );
 
-  gl::popModelView();
+  gl::popModelMatrix();
 }

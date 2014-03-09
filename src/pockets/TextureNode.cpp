@@ -21,10 +21,10 @@ TextureNode::~TextureNode()
 
 void TextureNode::draw()
 {
-  gl::pushModelView();
-  gl::multModelView( Matrix44f( getLocus()->toMatrix() ) );
+  gl::pushModelMatrix();
+  gl::multModelMatrix( Matrix44f( getLocus()->toMatrix() ) );
 
   gl::draw( mTexture, app::toPoints( mTexture->getBounds() ) );
 
-  gl::popModelView();
+  gl::popModelMatrix();
 }

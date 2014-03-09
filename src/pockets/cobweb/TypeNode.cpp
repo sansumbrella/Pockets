@@ -35,14 +35,14 @@ void TypeNode::setText( const string &text )
 
 void TypeNode::draw()
 {
-  gl::pushModelView();
-  gl::multModelView( Matrix44f( getLocus()->toMatrix() ) );
+  gl::pushModelMatrix();
+  gl::multModelMatrix( Matrix44f( getLocus()->toMatrix() ) );
   if( mFlipped )
   { gl::scale( 1.0f, -1.0f ); }
 
   mFont->drawGlyphs( mGlyphs, Vec2f::zero() );
 
-  gl::popModelView();
+  gl::popModelMatrix();
 }
 
 TypeNodeUniqueRef TypeNode::create( gl::TextureFontRef font, const std::string &text )
