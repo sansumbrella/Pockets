@@ -18,6 +18,12 @@ using namespace pockets;
  File-loaded animations playback at animation-defined speed
  Mouse position determines speed and direction of total animation playback
 
+ Loads a spritesheet and json descriptor.
+ If no animation file is provided, assumes all sequential names (name-##)
+ in spritesheet the basis of animations.
+ Allows you to adjust hold times and ordering of frames.
+ Exports animations in JSON format.
+
 */
 
 class SpriteAnimationApp : public AppNative {
