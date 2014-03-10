@@ -42,12 +42,13 @@ PhysicsScrolling::~PhysicsScrolling()
 void PhysicsScrolling::setup()
 {
   mWorld.friction( 0.5f );
-  mActualPosition = mWorld.createNode( getWindowCenter() );
-  mTargetPosition = mWorld.createNode( getWindowCenter() );
+  Vec2f center = getWindowCenter();
+  mActualPosition = mWorld.createNode( glm::vec2( center.x, center.y ) );
+  mTargetPosition = mWorld.createNode( glm::vec2( center.x, center.y ) );
   mWorld.createConstraint<physics::Lashing>( mActualPosition, mTargetPosition, 0.054f );
 
-  mWorld.createConstraint<physics::Range>( mTargetPosition, Vec2f( 0.0f, 0.0f ), Vec2f( 0.0f, getWindowHeight() - 200.0f ) );
-  mWorld.createConstraint<physics::Range>( mActualPosition, Vec2f( 0.0f, -100.0f ), Vec2f( 0.0f, getWindowHeight() - 100.0f ) );
+  mWorld.createConstraint<physics::Range>( mTargetPosition, glm::vec2( 0.0f, 0.0f ), glm::vec2( 0.0f, getWindowHeight() - 200.0f ) );
+  mWorld.createConstraint<physics::Range>( mActualPosition, glm::vec2( 0.0f, -100.0f ), glm::vec2( 0.0f, getWindowHeight() - 100.0f ) );
 }
 
 void PhysicsScrolling::connect( app::WindowRef window )
@@ -63,20 +64,23 @@ void PhysicsScrolling::connect( app::WindowRef window )
 void PhysicsScrolling::mouseDown( MouseEvent event )
 {
   mMouseDown = true;
-  mMousePos = event.getPos();
-  mMouseStart = event.getPos();
+  mMousePos.x = event.getX();
+  mMousePos.y = event.getY();
+  mMouseStart = mMousePos;
   mNodeStart = mTargetPosition->pos;
 }
 
 void PhysicsScrolling::mouseDrag( MouseEvent event )
 {
-  mMousePos = event.getPos();
+  mMousePos.x = event.getPos().x;
+  mMousePos.y = event.getPos().y;
 }
 
 void PhysicsScrolling::mouseUp( MouseEvent event )
 {
   mMouseDown = false;
-  mMousePos = event.getPos();
+  mMousePos.x = event.getX();
+  mMousePos.y = event.getY();
   auto pos = mNodeStart + (mMousePos - mMouseStart);
   mTargetPosition->pos = pos;
 }
@@ -97,8 +101,10 @@ void PhysicsScrolling::draw() const
 	gl::clear( Color( 0, 0, 0 ) );
 
   gl::color( Color( 1.0f, 1.0f, 0.0f ) );
-  gl::drawSolidRect( Rectf( mActualPosition->pos, mActualPosition->pos + Vec2f( 200.0f, 200.0f ) ) );
+  gl::drawSolidRect( Rectf( mActualPosition->pos.x, mActualPosition->pos.y,
+                            mActualPosition->pos.x + 200.0f, mActualPosition->pos.y + 200.0f ) );
   gl::color( Color( 1.0f, 0.0f, 1.0f ) );
-  gl::drawSolidRect( Rectf( mTargetPosition->pos, mTargetPosition->pos + Vec2f( 20.0f, 20.0f ) ) );
+  gl::drawSolidRect( Rectf( mTargetPosition->pos.x, mTargetPosition->pos.y,
+                            mTargetPosition->pos.x + 10.0f, mTargetPosition->pos.y + 10.0f ) );
 }
 

@@ -10,6 +10,8 @@
 #include "PhysicsScrolling.h"
 #include "TexturePackingSample.h"
 
+#include "glm.hpp"
+
 using namespace ci;
 using namespace ci::app;
 using namespace std;

@@ -49,7 +49,7 @@ NodeRef World::nearestNode( const Vec &pos )
   NodeRef nearest = mNodes.front();
   for( auto &node : mNodes )
   {
-    if( node->pos.distanceSquared( pos ) < nearest->pos.distanceSquared( pos ) )
+    if( glm::distance( node->pos, pos ) < glm::distance( nearest->pos, pos ) )
     {
       nearest = node;
     }

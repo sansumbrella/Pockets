@@ -52,7 +52,7 @@ void Range::apply() const
 Spring::Spring( NodeRef a, NodeRef b, float stiffness ):
 mA( a ),
 mB( b ),
-mRestLength( a->pos.distance( b->pos ) ),
+mRestLength( glm::distance( a->pos, b->pos ) ),
 mStiffness( stiffness )
 {}
 

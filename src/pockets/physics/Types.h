@@ -27,6 +27,7 @@
 
 #pragma once
 #include "pockets/Pockets.h"
+#include "glm.hpp"
 #include "cinder/Vector.h"
 #include <vector>
 
@@ -41,7 +42,8 @@ namespace pockets
 {
   namespace physics
   {
-    typedef ci::Vec2f Vec;
+    typedef glm::vec2 Vec;
+//    typedef ci::Vec2f Vec;
     struct Node
     {
       Vec pos;
