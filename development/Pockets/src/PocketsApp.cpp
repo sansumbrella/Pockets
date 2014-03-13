@@ -22,18 +22,20 @@ public:
 	void setup() override;
 	void draw() override;
   void nextScene();
+  void prevScene();
   void playScene( const function<SceneRef ()> &builder );
   void buildMenu();
 private:
   vector< pair<string, function<SceneRef ()> > > mScenes;
   SceneRef      mCurrentScene;
-  size_t        mIndex = 0;
+  int           mIndex = 0;
   cobweb::Node  mRoot;
 };
 
 void PocketsApp::prepareSettings( Settings *settings )
 {
   settings->setWindowSize( 1280, 720 );
+  settings->enableMultiTouch();
 }
 
 void PocketsApp::setup()
@@ -56,7 +58,13 @@ void PocketsApp::playScene(const function<SceneRef ()> &builder)
 
 void PocketsApp::nextScene()
 {
-  if( ++mIndex >= mScenes.size() ){ mIndex = 0; }
+  if( ++mIndex >= mScenes.size() ) { mIndex = 0; }
+  playScene( mScenes[mIndex].second );
+}
+
+void PocketsApp::prevScene()
+{
+  if( --mIndex < 0 ) { mIndex = mScenes.size() - 1; }
   playScene( mScenes[mIndex].second );
 }
 
@@ -83,10 +91,17 @@ void PocketsApp::buildMenu()
     index++;
   }
 
-  auto button = cobweb::SimpleButton::createLabelButton( "Next Scene", arial );
-  button->setPosition( Vec2f( 0.0f, y ) );
-  button->setSelectFn( [this](){ nextScene(); } );
-  mRoot.appendChild( button );
+  auto prev = cobweb::SimpleButton::createLabelButton( "Previous", arial );
+  prev->setPosition( Vec2f( 0.0f, y ) );
+  prev->setSelectFn( [this](){ prevScene(); } );
+  auto next = cobweb::SimpleButton::createLabelButton( "Next", arial );
+  next->setPosition( Vec2f( prev->getWidth() + 2, y ) );
+  next->setSelectFn( [this](){ nextScene(); } );
+  widest = math<float>::max( next->getWidth() + next->getPosition().x, widest );
+
+  mRoot.appendChild( prev );
+  mRoot.appendChild( next );
+
   mRoot.setPosition( Vec2f( getWindowWidth() - (widest + 10.0f), 10.0f ) );
   mRoot.connectRoot( getWindow() );
 }
