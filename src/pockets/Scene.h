@@ -32,6 +32,7 @@ namespace pockets
 	{
 	public:
     typedef std::function<void ()> Callback;
+    Scene();
     virtual ~Scene();
     //! Set up scene when OpenGL context is guaranteed to exist (in or after app::setup())
     virtual void  setup() {}
@@ -69,7 +70,6 @@ namespace pockets
     //! manage the lifetime of the given connection and control with block/unblock
     void          storeConnection( const ci::signals::connection &c ) { mUIConnections.store( c ); }
   protected:
-    Scene();
     //! called by show after adding view to widow
     virtual void appear(){}
     //! called by hide before removing from window; user must call removeFromDisplay when finished animating

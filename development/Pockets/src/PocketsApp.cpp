@@ -21,9 +21,11 @@ public:
   void prepareSettings( Settings *settings ) override;
 	void setup() override;
 	void draw() override;
-  void nextSample();
+  void nextScene();
+  void playScene( const function<SceneRef ()> &builder );
+  void buildMenu();
 private:
-  vector<std::function<SceneRef ()> > mConstructors;
+  vector< pair<string, function<SceneRef ()> > > mScenes;
   SceneRef      mCurrentScene;
   size_t        mIndex = 0;
   cobweb::Node  mRoot;
@@ -36,34 +38,57 @@ void PocketsApp::prepareSettings( Settings *settings )
 
 void PocketsApp::setup()
 {
-  mConstructors.push_back( &make_shared<PhysicsScrolling> );
-  mConstructors.push_back( &make_shared<TexturePackingSample> );
+  mScenes.push_back( make_pair( "Physics Scrolling Thing", &make_shared<PhysicsScrolling> ) );
+  mScenes.push_back( make_pair( "Texture Packer", &make_shared<TexturePackingSample> ) );
+  mScenes.push_back( make_pair( "Sprite Animation", &make_shared<Scene> ) );
+  mScenes.push_back( make_pair( "Simple GUI", &make_shared<Scene> ) );
 
-
-  Font arial( "Arial", 24.0f );
-  auto button = cobweb::SimpleButton::createLabelButton( "Next Sample", arial );
-
-  button->setSelectFn( [this]() { nextSample(); } );
-  button->setPosition( getWindowSize() - button->getSize() );
-  mRoot.appendChild( button );
-  mRoot.connectRoot( getWindow() );
-
-  nextSample();
+  buildMenu();
 }
 
-void PocketsApp::nextSample()
+void PocketsApp::playScene(const function<SceneRef ()> &builder)
 {
-  mCurrentScene = mConstructors[mIndex]();
+  mCurrentScene = builder();
   mCurrentScene->setup();
   mCurrentScene->connect( getWindow() );
   mCurrentScene->show( getWindow(), true );
-  mIndex++;
-  if( mIndex >= mConstructors.size() ){ mIndex = 0; }
+}
+
+void PocketsApp::nextScene()
+{
+  if( ++mIndex >= mScenes.size() ){ mIndex = 0; }
+  playScene( mScenes[mIndex].second );
 }
 
 void PocketsApp::draw()
 {
   mRoot.deepDraw();
+}
+
+void PocketsApp::buildMenu()
+{
+  Font arial( "Arial", 14.0f );
+  int y = 0;
+  size_t index = 0;
+  int widest = 0;
+  for( auto &pair : mScenes )
+  {
+    auto button = cobweb::SimpleButton::createLabelButton( pair.first, arial );
+    mRoot.appendChild( button );
+    auto fn = pair.second;
+    button->setSelectFn( [this,index,fn]() { mIndex = index; playScene( fn ); } );
+    button->setPosition( Vec2f( 0.0f, y ) );
+    y += button->getHeight() + 2;
+    widest = math<float>::max( button->getWidth(), widest );
+    index++;
+  }
+
+  auto button = cobweb::SimpleButton::createLabelButton( "Next Scene", arial );
+  button->setPosition( Vec2f( 0.0f, y ) );
+  button->setSelectFn( [this](){ nextScene(); } );
+  mRoot.appendChild( button );
+  mRoot.setPosition( Vec2f( getWindowWidth() - (widest + 10.0f), 10.0f ) );
+  mRoot.connectRoot( getWindow() );
 }
 
 CINDER_APP_NATIVE( PocketsApp, RendererGl )
