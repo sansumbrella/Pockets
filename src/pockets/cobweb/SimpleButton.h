@@ -25,14 +25,14 @@ namespace pockets
   {
   public:
     ~SimpleButton();
-    void            draw();
-    void            setHitPadding( float horizontal, float vertical );
+    void                    draw();
+    void                    setHitPadding( float horizontal, float vertical );
+    void                    hoverStart() override;
+    void                    hoverEnd() override;
     //! create a button with a string label foreground set in \a font
-    static SimpleButtonRef createLabelButton( const std::string &str, const ci::Font &font );
+    static SimpleButtonRef  createLabelButton( const std::string &str, const ci::Font &font );
     //! create a button from a foreground graphic centered in bounds
     static SimpleButtonRef create( const ci::gl::TextureRef &foreground, const ci::Rectf &bounds );
-    void            hoverStart();
-    void            hoverEnd();
   private:
     SimpleButton( const ci::gl::TextureRef &foreground, const ci::Rectf &bounds );
     //! screen boundary of element

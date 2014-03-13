@@ -31,6 +31,7 @@ private:
 
 void PocketsApp::prepareSettings( Settings *settings )
 {
+  settings->setWindowSize( 1280, 720 );
 }
 
 void PocketsApp::setup()
@@ -39,14 +40,13 @@ void PocketsApp::setup()
   mConstructors.push_back( &make_shared<TexturePackingSample> );
 
 
-  // TODO: build a CobWeb gui to select between samples
-  Font arial( "Arial", 14.0f );
+  Font arial( "Arial", 24.0f );
   auto button = cobweb::SimpleButton::createLabelButton( "Next Sample", arial );
 
   button->setSelectFn( [this]() { nextSample(); } );
   button->setPosition( getWindowSize() - button->getSize() );
   mRoot.appendChild( button );
-  mRoot.deepConnect( getWindow() );
+  mRoot.connectRoot( getWindow() );
 
   nextSample();
 }

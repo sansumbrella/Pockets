@@ -36,7 +36,7 @@ void TypeNode::setText( const string &text )
 void TypeNode::draw()
 {
   gl::pushModelMatrix();
-  gl::multModelMatrix( Matrix44f( getLocus()->toMatrix() ) );
+  gl::multModelMatrix( Matrix44f( getLocus().toMatrix() ) );
   if( mFlipped )
   { gl::scale( 1.0f, -1.0f ); }
 

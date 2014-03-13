@@ -20,7 +20,7 @@ ButtonBase( Area(bounds) )
 , mBackgroundBounds( bounds )
 , mForegroundBounds( app::toPoints(Rectf(fg->getBounds())).getCenteredFit( mBackgroundBounds, false ) )
 {
-  getLocus()->registration_point = mBackgroundBounds.getCenter();
+  getLocus().registration_point = mBackgroundBounds.getCenter();
 }
 
 SimpleButton::~SimpleButton()
@@ -63,17 +63,11 @@ void SimpleButton::hoverEnd()
 
 void SimpleButton::draw()
 {
-  gl::pushModelMatrix();
-  gl::multModelMatrix( Matrix44f( getLocus()->toMatrix() ) );
-
   //  gl::color( Color( 1, 0, 0 ) );
   //  gl::drawSolidRect( getHitBounds() );
-
   gl::color( mBackingColor );
   gl::drawSolidRect( mBackgroundBounds );
 
   gl::color( mForegroundColor );
   gl::draw( mForegroundTexture, mForegroundBounds );
-
-  gl::popModelMatrix();
 }

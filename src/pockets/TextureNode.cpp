@@ -22,7 +22,7 @@ TextureNode::~TextureNode()
 void TextureNode::draw()
 {
   gl::pushModelMatrix();
-  gl::multModelMatrix( Matrix44f( getLocus()->toMatrix() ) );
+  gl::multModelMatrix( Matrix44f( getLocus().toMatrix() ) );
 
   gl::draw( mTexture, app::toPoints( mTexture->getBounds() ) );
 

@@ -29,8 +29,6 @@ namespace pockets
     typedef std::function<void ()> SelectFn;
     ButtonBase( const ci::Rectf &bounds );
     virtual ~ButtonBase();
-    void            connect( ci::app::WindowRef window );
-    void            customDisconnect(){ mActive = false; }
     //! returns hit box size in points
     ci::Rectf     	getHitBounds() const { return mHitBounds; }
     //!
@@ -41,37 +39,36 @@ namespace pockets
     void            expandHitBounds( float horizontal, float vertical );
     //! set the function to call when this button is selected or "pressed"
     void            setSelectFn( SelectFn fn ){ mSelectFn = fn; }
-    void            emitSelect(){ if( mSelectFn ){ mSelectFn(); } }
+    //! called on touches end if this button was selected
+    void            emitSelect() { if( mSelectFn ){ mSelectFn(); } }
     //! stop tracking the touch
     void            cancelInteractions();
     //! called when a finger enters the button's hit area
-    virtual void    hoverStart(){}
+    virtual void    hoverStart() {}
     //! called when a finger leaves the button's hit area
-    virtual void    hoverEnd(){}
-    //! true if we are connected to a window's events
-    bool            isActive(){ return mActive; }
+    virtual void    hoverEnd() {}
+  protected:
+    // handle Node interaction events
+    virtual bool    touchesBegan( ci::app::TouchEvent &event ) override;
+    virtual bool    touchesMoved( ci::app::TouchEvent &event ) override;
+    virtual bool    touchesEnded( ci::app::TouchEvent &event ) override;
+    virtual bool    mouseDown( ci::app::MouseEvent &event ) override;
+    virtual bool    mouseDrag( ci::app::MouseEvent &event ) override;
+    virtual bool    mouseUp( ci::app::MouseEvent &event ) override;
   private:
     //! touch boundary of element
-    ci::Rectf           mHitBounds;
-    uint32_t            mTrackedTouch = 0;
-    SelectFn            mSelectFn;
-    std::atomic<bool>   mActive = { false };
-    bool                mHovering = false;
-    //! touch event handlers (called when connected to a window)
-    void            touchesBegan( ci::app::TouchEvent &event );
-    void            touchesMoved( ci::app::TouchEvent &event );
-    void            touchesEnded( ci::app::TouchEvent &event );
-    void            mouseDown( ci::app::MouseEvent &event );
-    void            mouseDrag( ci::app::MouseEvent &event );
-    void            mouseUp( ci::app::MouseEvent &event );
+    ci::Rectf       mHitBounds;
+    uint32_t        mTrackedTouch = 0;
+    SelectFn        mSelectFn;
+    bool            mHovering = false;
 
-    void setHovering();
-    void endHovering( bool selected );
+    void            setHovering();
+    void            endHovering( bool selected );
 
     //! returns whether a point is inside the button's hit box
     bool            contains( const ci::Vec2i point ) { return mHitBounds.contains( transformedPoint(point) ); }
     //! unproject point from our drawing space
-    ci::Vec2f       transformedPoint( const ci::Vec2f &point ) { return getLocus()->toMatrix().invertCopy().transformPoint( point ); }
+    ci::Vec2f       transformedPoint( const ci::Vec2f &point ) { return getFullTransform().invertCopy().transformPoint( point ); }
   };
   } // cobweb::
 } // pockets::

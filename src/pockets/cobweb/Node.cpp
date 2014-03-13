@@ -27,17 +27,12 @@ Node::~Node()
   }
 }
 
-void Node::appendChild(NodeRef element)
+void Node::appendChild( NodeRef element )
 {
-  Node *former_parent = element->getParent();
-  if( former_parent ) // remove child from parent (but skip notifying child)
-  { vector_remove( &former_parent->mChildren, element ); }
-  element->setParent( this );
-  mChildren.push_back( element );
-  childAdded( element );
+  insertChildAt( element, mChildren.size() );
 }
 
-void Node::removeChild(NodeRef element)
+void Node::removeChild( NodeRef element )
 {
   vector_remove( &mChildren, element );
   element->setParent( nullptr );
@@ -46,24 +41,124 @@ void Node::removeChild(NodeRef element)
 void Node::setParent( Node *parent )
 {
   mParent = parent;
-  if( parent )
-  {
-    mLocus->parent = parent->getLocus();
-  }
-  else
-  {
-    mLocus->detachFromParent();
-  }
 }
 
-void Node::disconnect()
+void Node::connectRoot( ci::app::WindowRef window )
+{
+  storeConnection( window->getSignalTouchesBegan().connect( [this]( app::TouchEvent &event )
+  {
+    if( deepTouchesBegan( event ) )
+      { event.setHandled(); }
+  } ) );
+  storeConnection( window->getSignalTouchesMoved().connect( [this]( app::TouchEvent &event )
+  {
+    if( deepTouchesMoved( event ) )
+      { event.setHandled(); }
+  } ) );
+  storeConnection( window->getSignalTouchesEnded().connect( [this]( app::TouchEvent &event )
+  {
+    if( deepTouchesEnded( event ) )
+      { event.setHandled(); }
+  } ) );
+
+  storeConnection( window->getSignalMouseDown().connect( [this]( app::MouseEvent &event )
+  {
+    if( deepMouseDown( event ) )
+      { event.setHandled(); }
+  } ) );
+  storeConnection( window->getSignalMouseDrag().connect( [this]( app::MouseEvent &event )
+  {
+    if( deepMouseDrag( event ) )
+      { event.setHandled(); }
+  } ) );
+  storeConnection( window->getSignalMouseUp().connect( [this]( app::MouseEvent &event )
+  {
+    if( deepMouseUp( event ) )
+      { event.setHandled(); }
+  } ) );
+}
+
+void Node::disconnectRoot()
 {
   mConnectionManager.disconnect();
-  customDisconnect();
+}
+
+bool Node::deepTouchesBegan( ci::app::TouchEvent &event )
+{
+  bool captured = touchesBegan( event );
+  for( NodeRef &child : mChildren )
+  { // stop evaluation if event was captured by self or a child
+    if( captured )
+      { break; }
+    captured = child->deepTouchesBegan( event );
+  }
+  return captured;
+}
+
+bool Node::deepTouchesMoved( ci::app::TouchEvent &event )
+{
+  bool captured = touchesMoved( event );
+  for( NodeRef &child : mChildren )
+  { // stop evaluation if event was captured by self or a child
+    if( captured )
+      { break; }
+    captured = child->deepTouchesMoved( event );
+  }
+  return captured;
+}
+
+bool Node::deepTouchesEnded( ci::app::TouchEvent &event )
+{
+  bool captured = touchesEnded( event );
+  for( NodeRef &child : mChildren )
+  { // stop evaluation if event was captured by self or a child
+    if( captured )
+      { break; }
+    captured = child->deepTouchesEnded( event );
+  }
+  return captured;
+}
+
+bool Node::deepMouseDown( ci::app::MouseEvent &event )
+{
+  bool captured = mouseDown( event );
+  for( NodeRef &child : mChildren )
+  { // stop evaluation if event was captured by self or a child
+    if( captured )
+      { break; }
+    captured = child->deepMouseDown( event );
+  }
+  return captured;
+}
+
+bool Node::deepMouseDrag( ci::app::MouseEvent &event )
+{
+  bool captured = mouseDrag( event );
+  for( NodeRef &child : mChildren )
+  { // stop evaluation if event was captured by self or a child
+    if( captured )
+      { break; }
+    captured = child->deepMouseDrag( event );
+  }
+  return captured;
+}
+
+bool Node::deepMouseUp( ci::app::MouseEvent &event )
+{
+  bool captured = mouseUp( event );
+  for( NodeRef &child : mChildren )
+  { // stop evaluation if event was captured by self or a child
+    if( captured )
+      { break; }
+    captured = child->deepMouseUp( event );
+  }
+  return captured;
 }
 
 void Node::deepDraw()
 {
+  gl::pushModelMatrix();
+  gl::multModelMatrix( Matrix44f( mLocus.toMatrix() ) );
   draw();
   preChildDraw();
   for( NodeRef &child : mChildren )
@@ -71,6 +166,7 @@ void Node::deepDraw()
     child->deepDraw();
   }
   postChildDraw();
+  gl::popModelMatrix();
 }
 
 void Node::deepCancelInteractions()
@@ -82,50 +178,14 @@ void Node::deepCancelInteractions()
   }
 }
 
-void Node::deepConnect(ci::app::WindowRef window)
+void Node::insertChildAt( NodeRef child, size_t index )
 {
-  connect( window );
-  for( NodeRef &child : mChildren )
-  {
-    child->deepConnect( window );
-  }
-}
-
-void Node::deepDisconnect()
-{
-  disconnect();
-  for( NodeRef &child : mChildren )
-  {
-    child->deepDisconnect();
-  }
-}
-
-void Node::blockChildren()
-{
-  for( NodeRef &child : mChildren )
-  {
-    child->block();
-  }
-}
-
-void Node::unblockChildren()
-{
-  for( NodeRef &child : mChildren )
-  {
-    child->unblock();
-  }
-}
-
-void Node::block()
-{
-  customBlock();
-  mConnectionManager.block();
-}
-
-void Node::unblock()
-{
-  mConnectionManager.resume();
-  customUnblock();
+  Node *former_parent = child->getParent();
+  if( former_parent ) // remove child from parent (but skip notifying child)
+  { vector_remove( &former_parent->mChildren, child ); }
+  child->setParent( this );
+  mChildren.insert( mChildren.begin() + index, child );
+  childAdded( child );
 }
 
 void Node::setChildIndex(NodeRef child, size_t index)
@@ -133,4 +193,12 @@ void Node::setChildIndex(NodeRef child, size_t index)
   vector_remove( &mChildren, child );
   index = math<int32_t>::min( index, mChildren.size() );
   mChildren.insert( mChildren.begin() + index, child );
+}
+
+MatrixAffine2f Node::getFullTransform() const
+{
+  MatrixAffine2f mat = mLocus.toMatrix();
+  if( mParent )
+    { mat = mParent->getFullTransform() * mat; }
+  return mat;
 }

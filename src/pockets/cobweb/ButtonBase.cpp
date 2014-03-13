@@ -27,18 +27,6 @@ void ButtonBase::expandHitBounds( float horizontal, float vertical )
   mHitBounds.y2 += vertical;
 }
 
-void ButtonBase::connect( app::WindowRef window )
-{
-  mActive = true;
-  storeConnection( window->getSignalTouchesBegan().connect( [this]( app::TouchEvent &event ){ touchesBegan( event ); } ) );
-  storeConnection( window->getSignalTouchesMoved().connect( [this]( app::TouchEvent &event ){ touchesMoved( event ); } ) );
-  storeConnection( window->getSignalTouchesEnded().connect( [this]( app::TouchEvent &event ){ touchesEnded( event ); } ) );
-
-  storeConnection( window->getSignalMouseDown().connect( [this]( app::MouseEvent &event ){ mouseDown( event ); } ) );
-  storeConnection( window->getSignalMouseDrag().connect( [this]( app::MouseEvent &event ){ mouseDrag( event ); } ) );
-  storeConnection( window->getSignalMouseUp().connect( [this]( app::MouseEvent &event ){ mouseUp( event ); } ) );
-}
-
 void ButtonBase::cancelInteractions()
 {
   mTrackedTouch = 0;
@@ -63,16 +51,18 @@ void ButtonBase::setHovering()
   }
 }
 
-void ButtonBase::mouseDown(ci::app::MouseEvent &event)
+bool ButtonBase::mouseDown(ci::app::MouseEvent &event)
 {
   if( contains( event.getPos() ) )
   {
     mTrackedTouch = std::numeric_limits<uint32_t>::max();
     setHovering();
+    return true;
   }
+  return false;
 }
 
-void ButtonBase::mouseDrag(ci::app::MouseEvent &event)
+bool ButtonBase::mouseDrag(ci::app::MouseEvent &event)
 {
   if( contains( event.getPos() ) )
   {
@@ -82,9 +72,10 @@ void ButtonBase::mouseDrag(ci::app::MouseEvent &event)
   {
     endHovering( false );
   }
+  return false;
 }
 
-void ButtonBase::mouseUp(ci::app::MouseEvent &event)
+bool ButtonBase::mouseUp(ci::app::MouseEvent &event)
 {
   bool selected = false;
   mTrackedTouch = 0;
@@ -93,9 +84,10 @@ void ButtonBase::mouseUp(ci::app::MouseEvent &event)
   endHovering( selected );
   if( selected )
     { emitSelect(); }
+  return selected;
 }
 
-void ButtonBase::touchesBegan(ci::app::TouchEvent &event)
+bool ButtonBase::touchesBegan(ci::app::TouchEvent &event)
 {
   for( auto &touch : event.getTouches() )
   {
@@ -103,25 +95,28 @@ void ButtonBase::touchesBegan(ci::app::TouchEvent &event)
     {
       mTrackedTouch = touch.getId();
       setHovering();
+      return true;
     }
   }
+  return false;
 }
 
-void ButtonBase::touchesMoved(ci::app::TouchEvent &event)
+bool ButtonBase::touchesMoved(ci::app::TouchEvent &event)
 {
   for( auto &touch : event.getTouches() )
   {
     if( touch.getId() == mTrackedTouch )
-    {
+    { // sliding a finger into a button won't trigger it
       if( contains( touch.getPos() ) )
         { setHovering(); }
       else
         { endHovering( false ); }
     }
   }
+  return false;
 }
 
-void ButtonBase::touchesEnded(ci::app::TouchEvent &event)
+bool ButtonBase::touchesEnded(ci::app::TouchEvent &event)
 {
   bool selected = false;
   for( auto &touch : event.getTouches() )
@@ -134,12 +129,13 @@ void ButtonBase::touchesEnded(ci::app::TouchEvent &event)
         selected = true;
         break;
       }
+      endHovering( selected );  // only end hovering if it was our tracked touch that ended
     }
   }
-  endHovering( selected );
   if( selected )
   { // in case of side effects in select function, emit selection last
     // e.g. if button navigates to a new screen, it will destroy itself
     emitSelect();
   }
+  return selected;
 }
