@@ -62,29 +62,34 @@ namespace pockets
     virtual void    preChildDraw() {}
     //! called in deepdraw after drawing children
     virtual void    postChildDraw() {}
-    //! block all stored signals, stopping UI events from entering tree
+    //! Block UI signals. Only works on root node.
     void            blockRoot() { mConnectionManager.block(); }
-    //! unblock all stored signals, stopping UI events from entering tree
+    //! Resume receiving UI signals. Only works on root node.
     void            unblockRoot() { mConnectionManager.resume(); }
-    //! connects to mouse and touch events
+    //! Connects tree to mouse and touch events. Only call on your root node.
     void            connectRoot( ci::app::WindowRef window );
-    //! disconnects all stored connections
+    //! Disconnects tree from mouse and touch events. Only call on your root node.
     void            disconnectRoot();
-    //! stop whatever event-related tracking this object was doing
+    //! Stop whatever event-related tracking this object was doing. Considering for removal
     virtual void    cancelInteractions() {}
     void            deepCancelInteractions();
-    //! set top-left of element
+    //! Set top-left of element.
     void            setPosition( const ci::Vec2f &pos ){ mLocus.position = pos; }
+    //! Get top-left of element.
     ci::Vec2f       getPosition() const { return mLocus.getPosition(); }
-    //! set xy scale of element
+    //! Set xy scale of element.
     void            setScale( const ci::Vec2f &scale ){ mLocus.scale = scale; }
     ci::Vec2f       getScale() const { return mLocus.getScale(); }
-    //! set rotation around z-axis
+    //! Set element rotation around z-axis.
     void            setRotation( float radians ){ mLocus.rotation = radians; }
+    //! Set registration point for rotation and scaling.
     void            setRegistrationPoint( const ci::Vec2f &loc ){ mLocus.registration_point = loc; }
+    //! Returns this node's locus for.
     pk::Locus2D&    getLocus(){ return mLocus; }
-    //! returns this node's parent transform, as transformed by its parents
+    //! Returns this node's transform, as transformed by its parents.
     ci::MatrixAffine2f  getFullTransform() const;
+    //! Returns this node's transform, ignoring parent transformations.
+    ci::MatrixAffine2f  getLocalTransform() const { return mLocus.toMatrix(); }
 
     //! called when a child is added to this Node
     virtual void    childAdded( NodeRef element ){}

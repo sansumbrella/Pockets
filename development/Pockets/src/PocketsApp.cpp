@@ -41,7 +41,10 @@ void PocketsApp::prepareSettings( Settings *settings )
 void PocketsApp::setup()
 {
   mScenes.push_back( make_pair( "Physics Scrolling Thing", &make_shared<PhysicsScrolling> ) );
+  // Pack a stack of textures into a sprite sheet
   mScenes.push_back( make_pair( "Texture Packer", &make_shared<TexturePackingSample> ) );
+  // Load an SVG file and turn layers into sprites
+  mScenes.push_back( make_pair( "SVG Spritifier", &make_shared<TexturePackingSample> ) );
   mScenes.push_back( make_pair( "Sprite Animation", &make_shared<Scene> ) );
   mScenes.push_back( make_pair( "Simple GUI", &make_shared<Scene> ) );
 
