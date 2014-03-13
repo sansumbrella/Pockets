@@ -94,6 +94,7 @@ void TexturePackingSample::addFile(const fs::path &file)
 
 void TexturePackingSample::draw() const
 {
+  gl::clear( Color::black() );
   mParams->draw();
 }
 

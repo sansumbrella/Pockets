@@ -46,8 +46,8 @@ void PhysicsScrolling::setup()
   mTargetPosition = mWorld.createNode( getWindowCenter() );
   mWorld.createConstraint<physics::Lashing>( mActualPosition, mTargetPosition, 0.054f );
 
-  mWorld.createConstraint<physics::Range>( mTargetPosition, Vec2f( 0.0f, 0.0f ), Vec2f( 0.0f, getWindowHeight() - 200.0f ) );
-  mWorld.createConstraint<physics::Range>( mActualPosition, Vec2f( 0.0f, -100.0f ), Vec2f( 0.0f, getWindowHeight() - 100.0f ) );
+  mWorld.createConstraint<physics::Range>( mTargetPosition, Vec2f( 100.0f, 0.0f ), Vec2f( 100.0f, getWindowHeight() - 200.0f ) );
+  mWorld.createConstraint<physics::Range>( mActualPosition, Vec2f( 100.0f, -100.0f ), Vec2f( 100.0f, getWindowHeight() - 100.0f ) );
 }
 
 void PhysicsScrolling::connect( app::WindowRef window )
