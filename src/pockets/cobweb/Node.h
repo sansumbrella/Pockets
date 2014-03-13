@@ -15,19 +15,16 @@ namespace pockets
 {
   namespace cobweb
   {
-  /**
-  A thing positioned on screen that can connect to a window.
-  Uses UI signals for events, does not connect to draw signal.
-  Has no default interactions, instead lets any interested children connect
-  or disconnect to signals they care about.
-
-  A simple scene graph, modeled loosely on AS3 Sprites.
-  Nodes are connected in a tree; they can have multiple children
-  but only one parent.
-  */
 
   typedef std::shared_ptr<class Node> NodeRef;
   typedef std::unique_ptr<class Node> NodeUniqueRef;
+  /**
+   Base node type in a simple scene graph.
+   
+   The graph is modeled loosely on AS3 Sprites.
+   Nodes are connected in a tree, with a single root node connecting to
+   window UI events and propagating them to all of its children.
+   */
   class Node
   {
   public:
@@ -94,6 +91,7 @@ namespace pockets
     //! called when a child is added to this Node
     virtual void    childAdded( NodeRef element ){}
     void            removeChild( NodeRef element );
+    void            removeChild( Node *element );
     Node*           getParent(){ return mParent; }
 
     //! return child vector, allowing manipulation of each child, but not the vector
@@ -115,7 +113,8 @@ namespace pockets
     Node*                   mParent;
     std::vector<NodeRef>    mChildren;
     ConnectionManager       mConnectionManager;
-    void setParent( Node *parent );
+    //! Sets the node's parent, notifying previous parent (if any)
+    void            setParent( Node *parent );
   };
   } // cobweb::
 } // pockets::

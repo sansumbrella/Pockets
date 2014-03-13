@@ -23,7 +23,7 @@ Node::~Node()
 {
   for( auto &child : mChildren )
   {
-    child->setParent( nullptr );
+    child->mParent = nullptr;
   }
 }
 
@@ -32,14 +32,39 @@ void Node::appendChild( NodeRef element )
   insertChildAt( element, mChildren.size() );
 }
 
+void Node::insertChildAt( NodeRef child, size_t index )
+{
+  Node *former_parent = child->getParent();
+  if( former_parent ) // remove child from parent (but skip notifying child)
+  { vector_remove( &former_parent->mChildren, child ); }
+  child->setParent( this );
+  mChildren.insert( mChildren.begin() + index, child );
+  childAdded( child );
+}
+
+void Node::setChildIndex(NodeRef child, size_t index)
+{
+  vector_remove( &mChildren, child );
+  index = math<int32_t>::min( index, mChildren.size() );
+  mChildren.insert( mChildren.begin() + index, child );
+}
+
 void Node::removeChild( NodeRef element )
 {
   vector_remove( &mChildren, element );
-  element->setParent( nullptr );
+  element->mParent = nullptr;
+}
+
+void Node::removeChild( Node *element )
+{
+  vector_erase_if( &mChildren, [element]( NodeRef &n ){ return n.get() == element; } );
+  element->mParent = nullptr;
 }
 
 void Node::setParent( Node *parent )
 {
+  if( mParent && mParent != parent )
+  { mParent->removeChild( this ); }
   mParent = parent;
 }
 
@@ -176,23 +201,6 @@ void Node::deepCancelInteractions()
   {
     child->deepCancelInteractions();
   }
-}
-
-void Node::insertChildAt( NodeRef child, size_t index )
-{
-  Node *former_parent = child->getParent();
-  if( former_parent ) // remove child from parent (but skip notifying child)
-  { vector_remove( &former_parent->mChildren, child ); }
-  child->setParent( this );
-  mChildren.insert( mChildren.begin() + index, child );
-  childAdded( child );
-}
-
-void Node::setChildIndex(NodeRef child, size_t index)
-{
-  vector_remove( &mChildren, child );
-  index = math<int32_t>::min( index, mChildren.size() );
-  mChildren.insert( mChildren.begin() + index, child );
 }
 
 MatrixAffine2f Node::getFullTransform() const
