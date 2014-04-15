@@ -27,8 +27,8 @@
 
 #include "ScriptSystem.h"
 
-using namespace puptent;
 using namespace std;
+using namespace pockets::puptent;
 
 void ScriptSystem::update(shared_ptr<entityx::EntityManager> es, shared_ptr<entityx::EventManager> events, double dt)
 {

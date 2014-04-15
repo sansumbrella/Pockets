@@ -28,23 +28,27 @@
 #pragma once
 
 #include "puptent/PupTent.h"
+#include "cinder/Vector.h"
 
 /**
  A set of systems for adding common particle behaviors.
  If you want a given particle to have a specific behavior, add the behavior
  component(s) to develop it.
  */
-namespace puptent
+namespace pockets
 {
-  /**
-   Seek:
-   Move toward a target.
-   To change to avoid, set negative strength values
-   */
-  struct Seek : Component<Seek>
+  namespace puptent
   {
-    ci::Vec2f strength;
-    LocusRef  target;
-  };
+    /**
+     Seek:
+     Move toward a target.
+     To change to avoid, set negative strength values
+     */
+    struct Seek : Component<Seek>
+    {
+      ci::Vec2f strength;
+      LocusRef  target;
+    };
 
+  }
 }

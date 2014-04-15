@@ -29,10 +29,11 @@
 #include "pockets/CollectionUtilities.hpp"
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/Context.h"
+#include "cinder/app/App.h"
 
-using namespace cinder;
-using namespace puptent;
 using namespace std;
+using namespace cinder;
+using namespace pockets::puptent;
 
 void RenderSystem::configure( EventManagerRef event_manager )
 {
@@ -42,7 +43,7 @@ void RenderSystem::configure( EventManagerRef event_manager )
 
   mVbo = gl::Vbo::create( GL_ARRAY_BUFFER, 1.0e5 * sizeof( Vertex ), nullptr, GL_STREAM_DRAW );
   mAttributes = gl::Vao::create();
-  gl::VaoScope attr( mAttributes );
+  gl::ScopedVao attr( mAttributes );
   mVbo->bind();
   mRenderProg = gl::GlslProg::create( gl::GlslProg::Format().vertex( app::loadAsset( "renderer.vs" ) )
                                      .fragment( app::loadAsset( "renderer.fs" ) )
@@ -54,7 +55,7 @@ void RenderSystem::configure( EventManagerRef event_manager )
   gl::enableVertexAttribArray( 2 );
 
   gl::vertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, position) );
-  gl::vertexAttribPointer( 1, 4, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, color));
+  gl::vertexAttribPointer( 1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, color));
   gl::vertexAttribPointer( 2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex,tex_coord) );
   mVbo->unbind();
 }
@@ -158,13 +159,13 @@ void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double d
 
 void RenderSystem::draw() const
 {
-  gl::VaoScope attr( mAttributes );
-  gl::GlslProgScope shader( mRenderProg );
+  gl::ScopedGlslProg    shader( mRenderProg );
+  gl::ScopedVao         attr( mAttributes );
+  gl::ScopedTextureBind tex( mTexture, 0 );
   gl::setDefaultShaderVars();
-  gl::TextureBindScope( mTexture, 0 );
 
   // premultiplied alpha blending for normal pass
-  gl::BlendScope premultBlend( GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
+  gl::ScopedBlend premultBlend( GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
 
   size_t begin = 0;
   size_t count = mVertices[eNormalPass].size();
@@ -173,12 +174,13 @@ void RenderSystem::draw() const
   // additive blending
   begin += count;
   count = mVertices[eAdditivePass].size();
-  gl::BlendScope addBlend( GL_SRC_ALPHA, GL_ONE );
+  gl::ScopedBlend addBlend( GL_SRC_ALPHA, GL_ONE );
   gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
-//  // multiply blending
+
+  // multiply blending
   begin += count;
   count = mVertices[eMultiplyPass].size();
-  gl::BlendScope multBlend( GL_DST_COLOR,  GL_ONE_MINUS_SRC_ALPHA );
+  gl::ScopedBlend multBlend( GL_DST_COLOR,  GL_ONE_MINUS_SRC_ALPHA );
   gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
   gl::disableAlphaBlending();
 }

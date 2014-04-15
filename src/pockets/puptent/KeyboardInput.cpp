@@ -4,13 +4,13 @@
 //
 
 #include "puptent/KeyboardInput.h"
-#include "cinder/app/Window.h"
 #include "pockets/CollectionUtilities.hpp"
+#include "cinder/app/App.h"
 
+using namespace std;
 using namespace cinder;
 using namespace cinder::app;
-using namespace std;
-using namespace puptent;
+using namespace pockets::puptent;
 
 KeyboardInput::KeyboardInput()
 {}

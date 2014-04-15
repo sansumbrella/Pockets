@@ -5,6 +5,7 @@
 
 #pragma once
 #include "pockets/ConnectionManager.h"
+#include "cinder/app/Window.h"
 #include <set>
 
 /**
@@ -18,7 +19,8 @@
  vertical direction keys are held.
 */
 
-namespace puptent
+namespace pockets
+{ namespace puptent
 {
   typedef std::shared_ptr<class KeyboardInput> KeyboardInputRef;
   class KeyboardInput
@@ -56,4 +58,5 @@ namespace puptent
     void keyUp( const ci::app::KeyEvent &event );
     void update();
   };
-}
+} // puptent::
+} // pockets::

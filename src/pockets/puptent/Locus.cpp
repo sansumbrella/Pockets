@@ -27,8 +27,9 @@
 
 #include "Locus.h"
 
-using namespace puptent;
 using namespace cinder;
+using namespace pockets;
+using namespace puptent;
 
 MatrixAffine2f Locus::toMatrix() const
 {

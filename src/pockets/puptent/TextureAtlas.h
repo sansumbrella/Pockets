@@ -27,13 +27,16 @@
 
 #pragma once
 #include "puptent/PupTent.h"
+#include "cinder/Surface.h"
+#include "cinder/gl/Texture.h"
 
 namespace cinder
 {
   class JsonTree;
 }
 
-namespace puptent
+namespace pockets
+{ namespace puptent
 {
   /**
    Sprite location within a TextureAtlas
@@ -88,3 +91,4 @@ namespace puptent
   };
 
 } // puptent::
+} // pockets::

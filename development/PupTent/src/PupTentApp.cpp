@@ -32,7 +32,8 @@
 using namespace ci;
 using namespace ci::app;
 using namespace std;
-using namespace puptent;
+using namespace pockets::puptent;
+using namespace pockets;
 
 class PupTentApp : public AppNative
 {
@@ -55,7 +56,6 @@ private:
   double                    mAverageUpdateTime = 1.0;
   double                    mAverageRenderTime = 1.0;
   Timer                     mTimer;
-  TextureAtlas              mTextureAtlas;
 };
 
 void PupTentApp::prepareSettings( Settings *settings )
@@ -355,6 +355,8 @@ void PupTentApp::draw()
   gl::setDefaultShaderVars();
   //  mSystemManager->system<PhysicsSystem>()->debugDraw();
   mSystemManager->system<RenderSystem>()->draw();
+
+
   double ms = dr.getSeconds() * 1000;
   mAverageRenderTime = (mAverageRenderTime * 59.0 + ms) / 60.0;
   if( getElapsedFrames() % 90 == 0 )

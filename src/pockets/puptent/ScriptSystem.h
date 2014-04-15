@@ -30,57 +30,59 @@
 #include "cinder/app/TouchEvent.h"
 #include "cinder/app/KeyEvent.h"
 
-namespace puptent
-{
-  /**
-   ScriptComponent:
-   Runs an arbitrary script on every update cycle.
-   Use for behavior unique to an entity, like user-controlled entities,
-   special items, synching timeline animations, or temporary behaviors.
-
-   Either extend ScriptComponent and override update, or provide a bound function
-   or lambda to FunctionComponent.
-   Eventually, LuaComponent will execute arbitrary lua code.
-   */
-  // ScriptFn receives self entity, entity manager for world queries, event manager, and timestep
-  struct ScriptComponent : Component<ScriptComponent>
+namespace pockets
+{ namespace puptent
   {
-    ScriptComponent() = default;
-    //! update with the Entity the script is attached to and frame delta time
-    virtual void update( Entity, double dt ) {} // noop
-  };
+    /**
+     ScriptComponent:
+     Runs an arbitrary script on every update cycle.
+     Use for behavior unique to an entity, like user-controlled entities,
+     special items, synching timeline animations, or temporary behaviors.
 
-  /**
-   FunctionComponent
-   Run a bound function on update
-   */
-  struct CppScriptComponent : public ScriptComponent
-  {
-    typedef std::function<void (Entity, double dt)> ScriptFn;
-    CppScriptComponent( ScriptFn fn ):
-    script( fn )
-    {}
-    void update( Entity e, double dt ){ script( e, dt ); }
-    ScriptFn script;
-  };
+     Either extend ScriptComponent and override update, or provide a bound function
+     or lambda to FunctionComponent.
+     Eventually, LuaComponent will execute arbitrary lua code.
+     */
+    // ScriptFn receives self entity, entity manager for world queries, event manager, and timestep
+    struct ScriptComponent : Component<ScriptComponent>
+    {
+      ScriptComponent() = default;
+      //! update with the Entity the script is attached to and frame delta time
+      virtual void update( Entity, double dt ) {} // noop
+    };
 
-  struct LuaScriptComponent : public ScriptComponent
-  {
-    // TODO
-    // main work for this to be useful is exposing entities and other components to lua
-    // should probably live in its own file separate from the base scriptsystem
-  };
+    /**
+     FunctionComponent
+     Run a bound function on update
+     */
+    struct CppScriptComponent : public ScriptComponent
+    {
+      typedef std::function<void (Entity, double dt)> ScriptFn;
+      CppScriptComponent( ScriptFn fn ):
+      script( fn )
+      {}
+      void update( Entity e, double dt ){ script( e, dt ); }
+      ScriptFn script;
+    };
 
-  /**
-   ScriptSystem:
-   Executes arbitrary code on a component.
-   Passes in entity information.
-   Currently runs c++ functions.
-   Planning to eventually expand to run Lua scripts.
-   */
-  struct ScriptSystem : public System<ScriptSystem>, Receiver<ScriptSystem>
-  {
-    //! gather scripts and execute them
-    void update( EntityManagerRef es, EventManagerRef events, double dt ) override;
-  };
-}
+    struct LuaScriptComponent : public ScriptComponent
+    {
+      // TODO
+      // main work for this to be useful is exposing entities and other components to lua
+      // should probably live in its own file separate from the base scriptsystem
+    };
+
+    /**
+     ScriptSystem:
+     Executes arbitrary code on a component.
+     Passes in entity information.
+     Currently runs c++ functions.
+     Planning to eventually expand to run Lua scripts.
+     */
+    struct ScriptSystem : public System<ScriptSystem>, Receiver<ScriptSystem>
+    {
+      //! gather scripts and execute them
+      void update( EntityManagerRef es, EventManagerRef events, double dt ) override;
+    };
+  } // puptent::
+} // pockets::

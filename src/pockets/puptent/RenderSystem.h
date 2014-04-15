@@ -33,94 +33,96 @@
 #include "cinder/gl/VboMesh.h"
 #include "cinder/gl/Vbo.h"
 
-namespace puptent
-{
-  /**
-   RenderPass:
-   Flag to tell RenderSystem when to draw the given geometry.
-   First, the normal pass is drawn in layer-sorted order.
-   Second, an additive pass is made (unsorted, since it doesn't affect output).
-   Finally, a multiplicative pass is made (also unsorted).
-   */
-  enum RenderPass
+namespace pockets
+{ namespace puptent
   {
-    eNormalPass,
-    eAdditivePass,
-    eMultiplyPass,
-  };
-  /**
-   RenderData:
-   Composite component.
-   Lets us store information needed for RenderSystem in one fast-to-access place.
-   Requires an extra step when defining element components
-   */
-  typedef std::shared_ptr<class RenderData> RenderDataRef;
-  struct RenderData : Component<RenderData>
-  {
-    RenderData( RenderMeshRef mesh, LocusRef locus, int render_layer=0, RenderPass pass=eNormalPass ):
-    mesh( mesh ),
-    locus( locus ),
-    render_layer( render_layer ),
-    pass( pass )
-    {}
-    RenderMeshRef     mesh;
-    LocusRef          locus;
-    int               render_layer;
-    const RenderPass  pass;
-  };
+    /**
+     RenderPass:
+     Flag to tell RenderSystem when to draw the given geometry.
+     First, the normal pass is drawn in layer-sorted order.
+     Second, an additive pass is made (unsorted, since it doesn't affect output).
+     Finally, a multiplicative pass is made (also unsorted).
+     */
+    enum RenderPass
+    {
+      eNormalPass,
+      eAdditivePass,
+      eMultiplyPass,
+    };
+    /**
+     RenderData:
+     Composite component.
+     Lets us store information needed for RenderSystem in one fast-to-access place.
+     Requires an extra step when defining element components
+     */
+    typedef std::shared_ptr<class RenderData> RenderDataRef;
+    struct RenderData : Component<RenderData>
+    {
+      RenderData( RenderMeshRef mesh, LocusRef locus, int render_layer=0, RenderPass pass=eNormalPass ):
+      mesh( mesh ),
+      locus( locus ),
+      render_layer( render_layer ),
+      pass( pass )
+      {}
+      RenderMeshRef     mesh;
+      LocusRef          locus;
+      int               render_layer;
+      const RenderPass  pass;
+    };
 
-  /**
-   RenderSystem:
-   Multi-pass, layer-sorted rendering system.
+    /**
+     RenderSystem:
+     Multi-pass, layer-sorted rendering system.
 
-   The RenderSystem is designed to quickly display active entities. It can
-   handle all of your sprites, particles, and generative 2d meshes.
+     The RenderSystem is designed to quickly display active entities. It can
+     handle all of your sprites, particles, and generative 2d meshes.
 
-   For rendering large background and foreground elements, use a different system.
+     For rendering large background and foreground elements, use a different system.
 
-   Each pass is a batch of RenderData components combined into a single
-   triangle strip. The render passes are:
-   1. Normal Pass
-   - Geometry is drawn in layer order with premultiplied alpha blending
-   2. Additive Pass
-   - Geometry is drawn with additive blending (color += color.rgb)
-   3. Multiply Pass
-   - Geometry is drawn with multiply blending (color *= color.rgb)
-   If a texture is assigned, it will be bound before rendering begins.
-   The same texture will remain bound through all render passes.
-   For "untextured" geometry, we leave a white pixel in the top-left corner
-   of our sprite sheets and set all vertex tex coords to their default 0,0.
-   */
-  struct RenderSystem : public System<RenderSystem>, Receiver<RenderSystem>
-  {
-    //! listen for events
-    void        configure( EventManagerRef event_manager ) override;
-    //! sort the render data in the normal pass by render layer
-    //! needed if you are dynamically changing Locus render_layers
-    inline void sort()
-    { stable_sort( mGeometry[eNormalPass].begin(), mGeometry[eNormalPass].end(), &RenderSystem::layerSort ); }
-    //! generate vertex list by transforming meshes by locii
-    void        update( EntityManagerRef es, EventManagerRef events, double dt ) override;
-    //! batch render scene to screen
-    void        draw() const;
-    //! set a texture to be bound for all rendering
-    inline void setTexture( ci::gl::TextureRef texture )
-    { mTexture = texture; }
-    void        receive( const EntityDestroyedEvent &event );
-    void        receive( const ComponentAddedEvent<RenderData> &event );
-    void        receive( const ComponentRemovedEvent<RenderData> &event );
-    void        checkOrdering() const;
-  private:
-    std::array<std::vector<RenderDataRef>, 3> mGeometry;
-    std::array<std::vector<Vertex>, 3>        mVertices;
-    ci::gl::VboRef                            mVbo;
-    ci::gl::VaoRef                            mAttributes;
-    ci::gl::TextureRef                        mTexture;
-    ci::gl::GlslProgRef                       mRenderProg;
-    static bool                 layerSort( const RenderDataRef &lhs, const RenderDataRef &rhs )
-    { return lhs->render_layer < rhs->render_layer; }
-    // maybe add a CameraRef for positioning the scene
-    // use a POV and Locus component as camera, allowing dynamic switching
-  };
-
-} // puptent::
+     Each pass is a batch of RenderData components combined into a single
+     triangle strip. The render passes are:
+     1. Normal Pass
+     - Geometry is drawn in layer order with premultiplied alpha blending
+     2. Additive Pass
+     - Geometry is drawn with additive blending (color += color.rgb)
+     3. Multiply Pass
+     - Geometry is drawn with multiply blending (color *= color.rgb)
+     If a texture is assigned, it will be bound before rendering begins.
+     The same texture will remain bound through all render passes.
+     For "untextured" geometry, we leave a white pixel in the top-left corner
+     of our sprite sheets and set all vertex tex coords to their default 0,0.
+     */
+    struct RenderSystem : public System<RenderSystem>, Receiver<RenderSystem>
+    {
+      //! listen for events
+      void        configure( EventManagerRef event_manager ) override;
+      //! sort the render data in the normal pass by render layer
+      //! needed if you are dynamically changing Locus render_layers
+      inline void sort()
+      { stable_sort( mGeometry[eNormalPass].begin(), mGeometry[eNormalPass].end(), &RenderSystem::layerSort ); }
+      //! generate vertex list by transforming meshes by locii
+      void        update( EntityManagerRef es, EventManagerRef events, double dt ) override;
+      //! batch render scene to screen
+      void        draw() const;
+      //! set a texture to be bound for all rendering
+      inline void setTexture( ci::gl::TextureRef texture )
+      { mTexture = texture; }
+      void        receive( const EntityDestroyedEvent &event );
+      void        receive( const ComponentAddedEvent<RenderData> &event );
+      void        receive( const ComponentRemovedEvent<RenderData> &event );
+      void        checkOrdering() const;
+    private:
+      std::array<std::vector<RenderDataRef>, 3> mGeometry;
+      std::array<std::vector<Vertex>, 3>        mVertices;
+      ci::gl::VboRef                            mVbo;
+      ci::gl::VaoRef                            mAttributes;
+      ci::gl::TextureRef                        mTexture;
+      ci::gl::GlslProgRef                       mRenderProg;
+      static bool                 layerSort( const RenderDataRef &lhs, const RenderDataRef &rhs )
+      { return lhs->render_layer < rhs->render_layer; }
+      // maybe add a CameraRef for positioning the scene
+      // use a POV and Locus component as camera, allowing dynamic switching
+    };
+    
+  } // puptent::
+} // pockets::

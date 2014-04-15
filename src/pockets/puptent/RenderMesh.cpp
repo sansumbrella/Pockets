@@ -28,7 +28,7 @@
 #include "puptent/RenderMesh.h"
 #include "puptent/TextureAtlas.h"
 
-using namespace puptent;
+using namespace pockets::puptent;
 using namespace cinder;
 
 void RenderMesh::transform(const ci::MatrixAffine2f &mat)

@@ -27,8 +27,10 @@
 
 #pragma once
 #include "puptent/PupTent.h"
+#include "cinder/MatrixAffine2.h"
 
-namespace puptent
+namespace pockets
+{ namespace puptent
 {
   /**
    A Component storing the basic positional information for an Entity
@@ -65,4 +67,5 @@ namespace puptent
     //! remove parent after composing its transform into our own
     void              detachFromParent();
   };
-}
+} // puptent::
+} // pockets::

@@ -27,9 +27,12 @@
 
 #pragma once
 
+#include "pockets/Pockets.h"
 #include "entityx/Entity.h"
 #include "entityx/System.h"
 #include "entityx/Event.h"
+
+#include "cinder/Vector.h"
 
 namespace pockets
 {

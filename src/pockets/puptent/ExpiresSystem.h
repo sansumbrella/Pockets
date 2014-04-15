@@ -28,34 +28,37 @@
 #pragma once
 #include "puptent/PupTent.h"
 
-namespace puptent
+namespace pockets
 {
-  /**
-   Expires:
-   Stores time in seconds after which the entity holding the expires will be
-   destroyed.
-   If present, callback is executed immediately before the entity is destroyed
-
-   future consideridations:
-   have callback return a bool; if false, expiration is delayed.
-   */
-  struct Expires : Component<Expires>
+  namespace puptent
   {
-    Expires( double time=1.0, std::function<void ()> callback=nullptr ):
-    time( time ),
-    callback( callback )
-    {}
-    double                  time;
-    std::function<void ()>  callback;
-  };
+    /**
+     Expires:
+     Stores time in seconds after which the entity holding the expires will be
+     destroyed.
+     If present, callback is executed immediately before the entity is destroyed
 
-  /**
-   ExpiresSystem:
-   Destroys an entity once the time in Expires runs out.
-   */
-  struct ExpiresSystem : public System<ExpiresSystem>, Receiver<ExpiresSystem>
-  {
-    void update( EntityManagerRef es, EventManagerRef events, double dt ) override;
-  private:
-  };
+     future consideridations:
+     have callback return a bool; if false, expiration is delayed.
+     */
+    struct Expires : Component<Expires>
+    {
+      Expires( double time=1.0, std::function<void ()> callback=nullptr ):
+      time( time ),
+      callback( callback )
+      {}
+      double                  time;
+      std::function<void ()>  callback;
+    };
+
+    /**
+     ExpiresSystem:
+     Destroys an entity once the time in Expires runs out.
+     */
+    struct ExpiresSystem : public System<ExpiresSystem>, Receiver<ExpiresSystem>
+    {
+      void update( EntityManagerRef es, EventManagerRef events, double dt ) override;
+    private:
+    };
+  }
 }

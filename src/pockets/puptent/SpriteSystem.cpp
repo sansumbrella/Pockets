@@ -29,9 +29,9 @@
 #include "puptent/RenderMesh.h"
 #include "cinder/Json.h"
 
-using namespace puptent;
-using namespace cinder;
 using namespace std;
+using namespace cinder;
+using namespace pockets::puptent;
 
 SpriteAnimationSystemRef SpriteAnimationSystem::create( TextureAtlasRef atlas, const ci::JsonTree &animations )
 {

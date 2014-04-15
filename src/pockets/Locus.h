@@ -27,6 +27,9 @@
 
 #pragma once
 #include "Pockets.h"
+#include "cinder/Vector.h"
+#include "cinder/MatrixAffine2.h"
+#include "cinder/Quaternion.h"
 
 namespace pockets
 {

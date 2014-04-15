@@ -27,6 +27,7 @@
 
 #include "puptent/ExpiresSystem.h"
 
+using namespace pockets;
 using namespace puptent;
 using namespace std;
 

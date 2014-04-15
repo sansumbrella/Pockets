@@ -28,7 +28,8 @@
 #pragma once
 #include "puptent/PupTent.h"
 
-namespace puptent
+namespace pockets
+{ namespace puptent
 {
   struct ParticleEmitter : Component<ParticleEmitter>
   {
@@ -83,3 +84,4 @@ namespace puptent
     bool                      mHandleEvents;
   };
 } // puptent::
+} // pockets::

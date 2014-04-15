@@ -35,7 +35,8 @@ namespace cinder
   class JsonTree;
 }
 
-namespace puptent
+namespace pockets
+{ namespace puptent
 {
   /**
    SpriteAnimation:
@@ -109,3 +110,4 @@ namespace puptent
   };
 
 } // puptent::
+} // pockets::

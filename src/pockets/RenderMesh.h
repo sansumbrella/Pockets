@@ -26,7 +26,12 @@
  */
 
 #pragma once
-#include "Pockets.h"
+#include "pockets/Pockets.h"
+#include "cinder/Vector.h"
+#include "cinder/Color.h"
+#include "cinder/Rect.h"
+#include "cinder/MatrixAffine2.h"
+#include <vector>
 
 namespace pockets
 {

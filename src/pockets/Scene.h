@@ -9,6 +9,8 @@
 #pragma once
 #include "pockets/Pockets.h"
 #include "pockets/ConnectionManager.h"
+#include "cinder/app/Window.h"
+#include "cinder/Timer.h"
 
 namespace pockets
 {

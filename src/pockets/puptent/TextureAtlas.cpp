@@ -29,9 +29,9 @@
 #include "cinder/Json.h"
 #include "cinder/gl/Texture.h"
 
-using namespace cinder;
-using namespace puptent;
 using namespace std;
+using namespace cinder;
+using namespace pockets::puptent;
 
 TextureAtlas::TextureAtlas( const Surface &images, const ci::JsonTree &description )
 {

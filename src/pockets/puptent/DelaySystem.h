@@ -29,7 +29,8 @@
 
 #include "puptent/PupTent.h"
 
-namespace puptent
+namespace pockets
+{ namespace puptent
 {
   /**
    DelayActionComponent:
@@ -73,4 +74,5 @@ namespace puptent
     void update( EntityManagerRef es, EventManagerRef events, double dt ) override;
   private:
   };
-}
+} // puptent::
+} // pockets::

@@ -29,6 +29,7 @@
 #include "puptent/Locus.h"
 #include "pockets/CollectionUtilities.hpp"
 
+using namespace pockets;
 using namespace puptent;
 using namespace cinder;
 

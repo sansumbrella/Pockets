@@ -9,6 +9,6 @@ out vec4 oColor;
 
 void main()
 {
-	vec4 color = texture( uTex0, TexCoord );
-	oColor = Color * color / 255.0;
+	vec4 color = texture( uTex0, TexCoord.st );
+	oColor = Color * color;
 }

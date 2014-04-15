@@ -8,6 +8,7 @@
 
 #include "Node.h"
 #include "pockets/CollectionUtilities.hpp"
+#include "cinder/gl/gl.h"
 
 using namespace std;
 using namespace cinder;
