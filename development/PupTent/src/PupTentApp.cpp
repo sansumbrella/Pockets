@@ -199,13 +199,13 @@ Entity PupTentApp::createShip()
                                  auto locus = self.component<Locus>();
                                  auto verlet = self.component<Particle>();
                                  Vec2f delta = locus->position - verlet->p_position;
-                                 locus->position += input->getForce() * dt * 100.0f;
+                                 locus->position += input->direction() * dt * 100.0f;
                                  if( delta.lengthSquared() > EPSILON_VALUE )
                                  {
                                    locus->rotation = lerpWrapped( locus->rotation, (float)M_PI * 0.5f + math<float>::atan2( delta.y, delta.x ), (float)M_PI * 2, 0.2f );
                                  }
 
-                                 if( input->getKeyPressed( KeyEvent::KEY_d ) )
+                                 if( input->wasKeyPressed( KeyEvent::KEY_d ) )
                                  {
                                    // break off children
                                    auto l_loc = left_wing.component<Locus>();
@@ -219,8 +219,8 @@ Entity PupTentApp::createShip()
 
                                    l_loc->detachFromParent();
                                    r_loc->detachFromParent();
-                                   l_loc->position += input->getForce() * dt * 100.0f;
-                                   r_loc->position += input->getForce() * dt * 100.0f;
+                                   l_loc->position += input->direction() * dt * 100.0f;
+                                   r_loc->position += input->direction() * dt * 100.0f;
                                    l_loc->position += Rand::randVec2f() * 10.0f;
                                    r_loc->position += Rand::randVec2f() * 10.0f;
                                    l_loc->rotation += Rand::randFloat( M_PI * 0.1f );

@@ -91,17 +91,17 @@ void KeyboardInput::keyUp( const ci::app::KeyEvent &event )
   pk::vector_remove( &mHeldKeys, event.getCode() );
 }
 
-bool KeyboardInput::getKeyDown(int key) const
+bool KeyboardInput::isKeyDown(int key) const
 {
   return pk::vector_contains( mHeldKeys, key );
 }
 
-bool KeyboardInput::getKeyPressed(int key) const
+bool KeyboardInput::wasKeyPressed(int key) const
 {
   return mPressedKeys.find( key ) != mPressedKeys.end();
 }
 
-bool KeyboardInput::getKeyReleased( int key ) const
+bool KeyboardInput::wasKeyReleased( int key ) const
 {
   return mReleasedKeys.find( key ) != mReleasedKeys.end();
 }

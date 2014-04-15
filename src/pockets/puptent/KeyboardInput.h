@@ -8,21 +8,21 @@
 #include "cinder/app/Window.h"
 #include <set>
 
-/**
- KeyboardInput:
- Receives user KeyboardInput events and stores them in a format
- useful for the main game update.
- Arrow keys get stored as normalized xy forces.
- TODO: mapping from keycodes to "buttons" for easier script access
- Note that hardware key rollover limits can prevent high-quality KeyboardInput.
- e.g. on my keyboard the horizontal direction keys don't register if both
- vertical direction keys are held.
-*/
 
 namespace pockets
 { namespace puptent
 {
   typedef std::shared_ptr<class KeyboardInput> KeyboardInputRef;
+  /**
+   KeyboardInput:
+   Receives user KeyboardInput events and stores them in a format
+   useful for the main game update.
+   Arrow keys get stored as normalized xy forces.
+   TODO: mapping from keycodes to "buttons" for easier script access
+   Note that hardware key rollover limits can prevent high-quality KeyboardInput.
+   e.g. on my USB keyboard the horizontal direction keys don't register if both
+   vertical direction keys are held.
+   */
   class KeyboardInput
   {
   public:
@@ -31,20 +31,20 @@ namespace pockets
     //! connect to keyboard events for given window and start updating
     void connect( ci::app::WindowRef window );
     //! stop receiving input (also stops reporting keys and force)
-    void pause(){ mConnections.block(); mHeldKeys.clear(); }
+    void pause() { mConnections.block(); mHeldKeys.clear(); }
     //! resume receiving input
-    void resume(){ mConnections.resume(); }
+    void resume() { mConnections.resume(); }
 
     //! returns normalized force along xy axes
-    auto getForce() -> ci::Vec2f const { return mForce; }
+    const ci::Vec2f&        direction() const { return mForce; }
     //! returns true if the key with code key is down
-    bool getKeyDown( int key ) const;
+    bool                    isKeyDown( int key ) const;
     //! returns true if the key with code key was pressed this frame
-    bool getKeyPressed( int key ) const;
+    bool                    wasKeyPressed( int key ) const;
     //! returns true if the key with code key was released this frame
-    bool getKeyReleased( int key ) const;
+    bool                    wasKeyReleased( int key ) const;
     //! creates a new KeyboardInputRef
-    static auto create() -> KeyboardInputRef;
+    static KeyboardInputRef create();
   private:
     pk::ConnectionManager           mConnections;
     ci::Vec2f                       mForce = ci::Vec2f::zero();
