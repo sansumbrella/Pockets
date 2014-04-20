@@ -30,6 +30,8 @@
 #include "cinder/app/TouchEvent.h"
 #include "cinder/app/KeyEvent.h"
 
+struct lua_State;
+
 namespace pockets
 { namespace puptent
   {
@@ -70,6 +72,7 @@ namespace pockets
       // TODO
       // main work for this to be useful is exposing entities and other components to lua
       // should probably live in its own file separate from the base scriptsystem
+      void update( Entity e, double dt );
     };
 
     /**
@@ -81,8 +84,14 @@ namespace pockets
      */
     struct ScriptSystem : public System<ScriptSystem>, Receiver<ScriptSystem>
     {
+      ScriptSystem();
+      ~ScriptSystem();
+//      void        configure( EventManagerRef event_manager ) override;
       //! gather scripts and execute them
       void update( EntityManagerRef es, EventManagerRef events, double dt ) override;
+    private:
+      void handleLuaError( int error );
+      lua_State *L;
     };
   } // puptent::
 } // pockets::
