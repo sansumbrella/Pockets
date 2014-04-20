@@ -73,8 +73,9 @@ void ScriptSystem::configure( EventManagerRef event_manager )
   event_manager->subscribe<ComponentAddedEvent<ScriptComponent>>( *this );
 
   auto script = ci::loadString( ci::app::loadAsset( "test.lua" ) );
-  int error = luaL_dostring( L, script.c_str() );
-  handleLuaError( error );
+  handleLuaError( luaL_dostring( L, script.c_str() ) );
+  lua_getglobal( L, "setup" );
+  handleLuaError( lua_pcall( L, 0, 0, 0 ) );
 }
 
 void ScriptSystem::update(shared_ptr<entityx::EntityManager> es, shared_ptr<entityx::EventManager> events, double dt)
