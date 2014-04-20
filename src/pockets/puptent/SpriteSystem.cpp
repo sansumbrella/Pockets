@@ -39,7 +39,7 @@ SpriteAnimationSystemRef SpriteAnimationSystem::create( TextureAtlasRef atlas, c
 }
 
 SpriteAnimationSystem::SpriteAnimationSystem( TextureAtlasRef atlas, const JsonTree &animations ):
-mAtlas( atlas )
+_atlas( atlas )
 {
   try
   {
@@ -51,10 +51,10 @@ mAtlas( atlas )
       auto frames = anim.getChild("frames");
       for( auto &child : frames.getChildren() )
       { // stored in json as [ "id", duration ]
-        drawings.emplace_back( mAtlas->get(child[0].getValue()), child[1].getValue<float>() );
+        drawings.emplace_back( _atlas->get(child[0].getValue()), child[1].getValue<float>() );
       }
-      mAnimations.emplace_back( Animation{ key, drawings, frame_duration } );
-      mAnimationIds[key] = mAnimations.size() - 1;
+      _animations.emplace_back( Animation{ key, drawings, frame_duration } );
+      _animation_ids[key] = _animations.size() - 1;
     }
   }
   catch( JsonTree::Exception &exc )
@@ -70,15 +70,15 @@ void SpriteAnimationSystem::configure( EventManagerRef events )
 
 void SpriteAnimationSystem::addAnimation(const string &name, const Animation &animation)
 {
-  mAnimations.emplace_back( animation );
-  mAnimationIds[name] = mAnimations.size() - 1;
+  _animations.emplace_back( animation );
+  _animation_ids[name] = _animations.size() - 1;
 }
 
 AnimationId SpriteAnimationSystem::getAnimationId( const string &name ) const
 {
   AnimationId index = 0;
-  auto iter = mAnimationIds.find( name );
-  if( iter != mAnimationIds.end() )
+  auto iter = _animation_ids.find( name );
+  if( iter != _animation_ids.end() )
   {
     index = iter->second;
   }
@@ -102,7 +102,7 @@ void SpriteAnimationSystem::receive(const ComponentAddedEvent<SpriteAnimation> &
   if( mesh )
   {
     auto sprite = event.component;
-    auto drawings = mAnimations.at( sprite->animation ).drawings;
+    auto drawings = _animations.at( sprite->animation ).drawings;
     sprite->current_index = math<int>::clamp( sprite->current_index, 0, drawings.size() - 1 );
     mesh->matchTexture( drawings.at( sprite->current_index ).drawing );
   }
@@ -115,7 +115,7 @@ void SpriteAnimationSystem::update( EntityManagerRef es, EventManagerRef events,
     auto sprite = entity.component<SpriteAnimation>();
     auto mesh = entity.component<RenderMesh>();
 
-    const auto &anim = mAnimations.at( sprite->animation );
+    const auto &anim = _animations.at( sprite->animation );
     const auto &current_drawing = anim.drawings.at( sprite->current_index );
     sprite->hold += dt * sprite->rate;
     int next_index = sprite->current_index;

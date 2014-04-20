@@ -103,10 +103,10 @@ namespace pockets
     //! You can then create components that reference your animation
     void addAnimation( const std::string &name, const Animation &animation );
   private:
-    TextureAtlasRef                     mAtlas;
+    TextureAtlasRef                     _atlas;
     // name : index into mAnimations
-    std::map<std::string, AnimationId>  mAnimationIds;
-    std::vector<Animation>              mAnimations;
+    std::map<std::string, AnimationId>  _animation_ids;
+    std::vector<Animation>              _animations;
   };
 
 } // puptent::
