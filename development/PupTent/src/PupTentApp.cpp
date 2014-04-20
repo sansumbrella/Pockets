@@ -291,10 +291,9 @@ Entity PupTentApp::createPlayer()
   // give custom behavior to the player
   auto view = tags::TagsComponent::view( mEntities->entities_with_components<Locus>(), "treasure" );
 
-  /*
   player.assign<CppScriptComponent>( [=](Entity self, double dt){
     auto locus = self.component<Locus>();
-//    locus->position += input->getForce() * dt * 100.0f;
+    locus->position += input->direction() * dt * 100.0f;
     for( auto entity : view )
     {
       auto other_loc = entity.component<Locus>();
@@ -305,7 +304,7 @@ Entity PupTentApp::createPlayer()
       }
     }
   } );
-  */
+
   return player;
 }
 

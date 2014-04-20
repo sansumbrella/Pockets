@@ -71,6 +71,7 @@ ScriptSystem::~ScriptSystem()
 void ScriptSystem::configure( EventManagerRef event_manager )
 {
   event_manager->subscribe<ComponentAddedEvent<ScriptComponent>>( *this );
+  event_manager->subscribe<ComponentRemovedEvent<ScriptComponent>>( *this );
 
   auto script = ci::loadString( ci::app::loadAsset( "test.lua" ) );
   handleLuaError( luaL_dostring( L, script.c_str() ) );
@@ -83,6 +84,7 @@ void ScriptSystem::update(shared_ptr<entityx::EntityManager> es, shared_ptr<enti
   for( auto entity : es->entities_with_components<ScriptComponent>() )
   {
     auto script = entity.component<ScriptComponent>();
+    lua_getglobal( L, script->table );
   }
 
   // call global function "update" with one argument, zero results, and no error handler function

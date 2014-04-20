@@ -53,6 +53,7 @@ namespace pockets
     {
       ci::fs::path script_path;
       std::string  script;
+      const char*  table; // where this objects functions are stored in lua
     };
 
     /**
@@ -69,6 +70,7 @@ namespace pockets
       void  update( EntityManagerRef es, EventManagerRef events, double dt ) override;
       //! TODO: load the specified script when component is added
       void  receive( const ComponentAddedEvent<ScriptComponent> &event ) {}
+      void  receive( const ComponentRemovedEvent<ScriptComponent> &event ) {}
     private:
       void  handleLuaError( int error );
       lua_State *L;
