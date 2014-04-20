@@ -1008,7 +1008,7 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "/Users/davidwicks/Code/lua-5.2.2/install/lib/";
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"\"$(CINDER_PATH)/lib/libcinder_d.a\"",
 					"/Users/davidwicks/Code/lua-5.2.2/install/lib/liblua.a",
@@ -1039,8 +1039,11 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "/Users/davidwicks/Code/lua-5.2.2/install/lib/";
-				OTHER_LDFLAGS = "\"$(CINDER_PATH)/lib/libcinder.a\"";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = (
+					"\"$(CINDER_PATH)/lib/libcinder.a\"",
+					"/Users/davidwicks/Code/lua-5.2.2/install/lib/liblua.a",
+				);
 				PRODUCT_NAME = PupTent;
 				STRIP_INSTALLED_PRODUCT = YES;
 				SYMROOT = ./build;
