@@ -45,50 +45,28 @@ namespace pockets
      or lambda to FunctionComponent.
      Eventually, LuaComponent will execute arbitrary lua code.
      */
+
     // ScriptFn receives self entity, entity manager for world queries, event manager, and timestep
     struct ScriptComponent : Component<ScriptComponent>
     {
-      ScriptComponent() = default;
-      //! update with the Entity the script is attached to and frame delta time
-      virtual void update( Entity, double dt ) {} // noop
-    };
-
-    /**
-     FunctionComponent
-     Run a bound function on update
-     */
-    struct CppScriptComponent : public ScriptComponent
-    {
-      typedef std::function<void (Entity, double dt)> ScriptFn;
-      CppScriptComponent( ScriptFn fn ):
-      script( fn )
-      {}
-      void update( Entity e, double dt ){ script( e, dt ); }
-      ScriptFn script;
-    };
-
-    struct LuaScriptComponent : public ScriptComponent
-    {
-      // TODO
-      // main work for this to be useful is exposing entities and other components to lua
-      // should probably live in its own file separate from the base scriptsystem
-      void update( Entity e, double dt );
+      ci::fs::path script_path;
+      std::string  script;
     };
 
     /**
      ScriptSystem:
      Executes arbitrary code on a component.
      Passes in entity information.
-     Currently runs c++ functions.
-     Planning to eventually expand to run Lua scripts.
      */
     struct ScriptSystem : public System<ScriptSystem>, Receiver<ScriptSystem>
     {
       ScriptSystem();
       ~ScriptSystem();
-//      void        configure( EventManagerRef event_manager ) override;
+      void        configure( EventManagerRef event_manager ) override;
       //! gather scripts and execute them
       void update( EntityManagerRef es, EventManagerRef events, double dt ) override;
+      //! TODO: load the specified script when component is added
+      void receive( const ComponentAddedEvent<ScriptComponent> &event ) {}
     private:
       void handleLuaError( int error );
       lua_State *L;

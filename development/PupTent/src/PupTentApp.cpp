@@ -181,6 +181,7 @@ Entity PupTentApp::createShip()
     ribbon_vertices.assign( 11, loc->toMatrix().transformPoint( { 0.0f, 40.0f } ) );
     auto mesh = trailing_ribbon.assign<RenderMesh>( 20 );
     trailing_ribbon.assign<RenderData>( mesh, locus, 4 );
+    /*
     trailing_ribbon.assign<CppScriptComponent>([=]( Entity self, double dt ) mutable
                                             { // use the ship locus to update out vertices
                                               auto locus = self.component<Locus>();
@@ -190,10 +191,12 @@ Entity PupTentApp::createShip()
                                               auto mesh = self.component<RenderMesh>();
                                               mesh->setAsRibbon( ribbon_vertices, 4.0f );
                                             } );
+     */
   }
 
   auto input = KeyboardInput::create();
   input->connect( getWindow() );
+  /*
   ship.assign<CppScriptComponent>( [=]( Entity self, double dt ) mutable
                                {
                                  auto locus = self.component<Locus>();
@@ -227,6 +230,7 @@ Entity PupTentApp::createShip()
                                    r_loc->rotation += Rand::randFloat( M_PI * 0.1f );
                                  }
                                } );
+   */
   return ship;
 }
 
@@ -255,9 +259,11 @@ Entity PupTentApp::createLine()
   auto loc = e.assign<Locus>();
   auto mesh = e.assign<RenderMesh>();
   e.assign<RenderData>( mesh, loc, 20 );
+  /*
   e.assign<CppScriptComponent>( [=](Entity self, double dt){
     mesh->setAsLine( { 0, 0 }, getMousePos(), 8.0f );
   } );
+   */
   return e;
 }
 
@@ -287,6 +293,8 @@ Entity PupTentApp::createPlayer()
   input->connect( getWindow() );
   // give custom behavior to the player
   auto view = tags::TagsComponent::view( mEntities->entities_with_components<Locus>(), "treasure" );
+
+  /*
   player.assign<CppScriptComponent>( [=](Entity self, double dt){
     auto locus = self.component<Locus>();
 //    locus->position += input->getForce() * dt * 100.0f;
@@ -300,6 +308,7 @@ Entity PupTentApp::createPlayer()
       }
     }
   } );
+  */
   return player;
 }
 

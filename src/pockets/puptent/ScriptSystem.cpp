@@ -26,6 +26,7 @@
  */
 
 #include "ScriptSystem.h"
+#include "cinder/Utilities.h"
 
 extern "C"{
 #include "lua.h"
@@ -38,8 +39,9 @@ using namespace pockets::puptent;
 
 // test function for scripting
 int l_cout( lua_State *L ){
-  double d = luaL_checknumber( L, 1 );
-  cout << "Number from lua: " << d << endl;
+//  double d = luaL_checknumber( L, 1 );
+  string s = luaL_checkstring( L, 1 );
+  cout << "Lua: " << s << endl;
   return 0; // number of results
 }
 
@@ -59,9 +61,6 @@ ScriptSystem::ScriptSystem()
   luaL_newlib( L, l_lib );
   // assign them to the "su" namespace
   lua_setglobal( L, "su" );
-
-  int error = luaL_loadstring( L, "a = 1.5" ) || lua_pcall( L, 0, 0, 0 );
-  handleLuaError( error );
 }
 
 ScriptSystem::~ScriptSystem()
@@ -69,18 +68,34 @@ ScriptSystem::~ScriptSystem()
   lua_close( L );
 }
 
+void ScriptSystem::configure( EventManagerRef event_manager )
+{
+  event_manager->subscribe<ComponentAddedEvent<ScriptComponent>>( *this );
+
+  auto script = ci::loadString( ci::app::loadAsset( "test.lua" ) );
+  int error = luaL_dostring( L, script.c_str() );
+  handleLuaError( error );
+}
+
 void ScriptSystem::update(shared_ptr<entityx::EntityManager> es, shared_ptr<entityx::EventManager> events, double dt)
 {
   for( auto entity : es->entities_with_components<ScriptComponent>() )
   {
     auto script = entity.component<ScriptComponent>();
-    script->update( entity, dt );
   }
 
+  // call global function "update" with one argument, zero results, and no error handler function
+  lua_getglobal( L, "update" );
+  lua_pushnumber( L, dt );
+  int error = lua_pcall( L, 1, 0, 0 );
+  handleLuaError( error );
+
+/*
   int error = luaL_loadstring( L, "a = a + 2" ) || lua_pcall( L, 0, 0, 0 );
   handleLuaError( error );
   error = luaL_loadstring( L, "su.cout( a )" ) || lua_pcall( L, 0, 0, 0 );
   handleLuaError( error );
+  */
 }
 
 void ScriptSystem::handleLuaError( int error )
