@@ -83,6 +83,7 @@ void PupTentApp::setup()
   mSystemManager->add<ExpiresSystem>();
   mSystemManager->add<ParticleSystem>();
   mSystemManager->add<ScriptSystem>();
+  mSystemManager->add<CppScriptSystem>();
   mSpriteSystem = mSystemManager->add<SpriteAnimationSystem>( atlas, animations );
   auto renderer = mSystemManager->add<RenderSystem>();
   renderer->setTexture( atlas->getTexture() );
@@ -181,7 +182,7 @@ Entity PupTentApp::createShip()
     ribbon_vertices.assign( 11, loc->toMatrix().transformPoint( { 0.0f, 40.0f } ) );
     auto mesh = trailing_ribbon.assign<RenderMesh>( 20 );
     trailing_ribbon.assign<RenderData>( mesh, locus, 4 );
-    /*
+
     trailing_ribbon.assign<CppScriptComponent>([=]( Entity self, double dt ) mutable
                                             { // use the ship locus to update out vertices
                                               auto locus = self.component<Locus>();
@@ -191,12 +192,11 @@ Entity PupTentApp::createShip()
                                               auto mesh = self.component<RenderMesh>();
                                               mesh->setAsRibbon( ribbon_vertices, 4.0f );
                                             } );
-     */
   }
 
   auto input = KeyboardInput::create();
   input->connect( getWindow() );
-  /*
+
   ship.assign<CppScriptComponent>( [=]( Entity self, double dt ) mutable
                                {
                                  auto locus = self.component<Locus>();
@@ -230,7 +230,6 @@ Entity PupTentApp::createShip()
                                    r_loc->rotation += Rand::randFloat( M_PI * 0.1f );
                                  }
                                } );
-   */
   return ship;
 }
 
@@ -259,11 +258,9 @@ Entity PupTentApp::createLine()
   auto loc = e.assign<Locus>();
   auto mesh = e.assign<RenderMesh>();
   e.assign<RenderData>( mesh, loc, 20 );
-  /*
   e.assign<CppScriptComponent>( [=](Entity self, double dt){
     mesh->setAsLine( { 0, 0 }, getMousePos(), 8.0f );
   } );
-   */
   return e;
 }
 
@@ -343,6 +340,7 @@ void PupTentApp::update()
   up.start();
   mSystemManager->update<ExpiresSystem>( dt );
   mSystemManager->update<ScriptSystem>( dt );
+  mSystemManager->update<CppScriptSystem>( dt );
   mSystemManager->update<SpriteAnimationSystem>( dt );
   mSystemManager->update<ParticleSystem>( dt );
   mSystemManager->update<RenderSystem>( dt );

@@ -35,14 +35,16 @@ struct lua_State;
 namespace pockets
 { namespace puptent
   {
+    //
+    //  Dynamic Script Behaviors
+    //
+
     /**
      ScriptComponent:
      Runs an arbitrary script on every update cycle.
      Use for behavior unique to an entity, like user-controlled entities,
      special items, synching timeline animations, or temporary behaviors.
 
-     Either extend ScriptComponent and override update, or provide a bound function
-     or lambda to FunctionComponent.
      Eventually, LuaComponent will execute arbitrary lua code.
      */
 
@@ -62,14 +64,32 @@ namespace pockets
     {
       ScriptSystem();
       ~ScriptSystem();
-      void        configure( EventManagerRef event_manager ) override;
+      void  configure( EventManagerRef event_manager ) override;
       //! gather scripts and execute them
-      void update( EntityManagerRef es, EventManagerRef events, double dt ) override;
+      void  update( EntityManagerRef es, EventManagerRef events, double dt ) override;
       //! TODO: load the specified script when component is added
-      void receive( const ComponentAddedEvent<ScriptComponent> &event ) {}
+      void  receive( const ComponentAddedEvent<ScriptComponent> &event ) {}
     private:
-      void handleLuaError( int error );
+      void  handleLuaError( int error );
       lua_State *L;
+    };
+
+    //
+    //  C++ driven behaviors
+    //
+
+    // update_fn receives self entity and timestep
+    struct CppScriptComponent : Component<CppScriptComponent>
+    {
+      CppScriptComponent( const std::function<void (Entity, double)> &fn )
+      : update_fn( fn )
+      {}
+      std::function<void (Entity, double)>  update_fn;
+    };
+
+    struct CppScriptSystem : public System<CppScriptSystem>
+    {
+      void  update( EntityManagerRef es, EventManagerRef events, double dt ) override;
     };
   } // puptent::
 } // pockets::

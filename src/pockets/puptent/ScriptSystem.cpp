@@ -108,3 +108,16 @@ void ScriptSystem::handleLuaError( int error )
   }
 }
 
+//
+//  C++ Script system
+//
+
+void CppScriptSystem::update( EntityManagerRef es, EventManagerRef events, double dt )
+{
+  for( auto entity : es->entities_with_components<CppScriptComponent>() )
+  {
+    auto behavior = entity.component<CppScriptComponent>();
+    behavior->update_fn( entity, dt );
+  }
+}
+
