@@ -29,6 +29,7 @@
 #include "puptent/PupTent.h"
 #include "cinder/app/TouchEvent.h"
 #include "cinder/app/KeyEvent.h"
+#include "selene.h"
 
 struct lua_State;
 
@@ -41,11 +42,11 @@ namespace pockets
 
     /**
      ScriptComponent:
-     Runs an arbitrary script on every update cycle.
+     Runs an arbitrary Lua script on every update cycle.
      Use for behavior unique to an entity, like user-controlled entities,
      special items, synching timeline animations, or temporary behaviors.
 
-     Eventually, LuaComponent will execute arbitrary lua code.
+     We are going to use Selene to handle the initial Lua binding.
      */
 
     // ScriptFn receives self entity, entity manager for world queries, event manager, and timestep

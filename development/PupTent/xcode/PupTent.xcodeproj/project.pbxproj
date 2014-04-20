@@ -99,6 +99,7 @@
 		1563A54218FCE20500D1FF54 /* TagsComponent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A53518FCE20500D1FF54 /* TagsComponent.cc */; };
 		1563A54318FCE20500D1FF54 /* TagsComponent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A53518FCE20500D1FF54 /* TagsComponent.cc */; };
 		159385D917E5FF670025D5DD /* ConnectionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159385D717E5FF670025D5DD /* ConnectionManager.cpp */; };
+		159FADC6190494F30085C5F2 /* LuaExports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159FADC4190494F30085C5F2 /* LuaExports.cpp */; };
 		15AD5DC518C6270400B86D3C /* PupTent_Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15AD5DC418C6270400B86D3C /* PupTent_Tests.cpp */; };
 		15AD5DC718C6270400B86D3C /* Catch_Tests.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 15AD5DC618C6270400B86D3C /* Catch_Tests.1 */; };
 		2CC77AAE2CEC44BB970D6A3F /* ImagePacker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51EECC52FF46449CB328CBEE /* ImagePacker.cpp */; };
@@ -272,6 +273,8 @@
 		1563A53618FCE20500D1FF54 /* TagsComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsComponent.h; sourceTree = "<group>"; };
 		159385D717E5FF670025D5DD /* ConnectionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConnectionManager.cpp; path = ../../../../Pockets/src/pockets/ConnectionManager.cpp; sourceTree = "<group>"; };
 		159385D817E5FF670025D5DD /* ConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionManager.h; path = ../../../../Pockets/src/pockets/ConnectionManager.h; sourceTree = "<group>"; };
+		159FADC4190494F30085C5F2 /* LuaExports.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaExports.cpp; sourceTree = "<group>"; };
+		159FADC5190494F30085C5F2 /* LuaExports.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaExports.h; sourceTree = "<group>"; };
 		15AD5DAE18C6242100B86D3C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		15AD5DC218C6270400B86D3C /* Catch Tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Catch Tests"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15AD5DC418C6270400B86D3C /* PupTent_Tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PupTent_Tests.cpp; sourceTree = "<group>"; };
@@ -579,6 +582,8 @@
 				1563A50618FCE1F600D1FF54 /* SpriteSystem.h */,
 				1563A50718FCE1F600D1FF54 /* TextureAtlas.cpp */,
 				1563A50818FCE1F600D1FF54 /* TextureAtlas.h */,
+				159FADC4190494F30085C5F2 /* LuaExports.cpp */,
+				159FADC5190494F30085C5F2 /* LuaExports.h */,
 			);
 			name = puptent;
 			path = ../../../src/pockets/puptent;
@@ -875,6 +880,7 @@
 				159385D917E5FF670025D5DD /* ConnectionManager.cpp in Sources */,
 				1556C85517D65FB900811B85 /* b2WeldJoint.cpp in Sources */,
 				1556C83517D65FB900811B85 /* b2EdgeShape.cpp in Sources */,
+				159FADC6190494F30085C5F2 /* LuaExports.cpp in Sources */,
 				1556C85D17D65FB900811B85 /* SimpleControl.cpp in Sources */,
 				1556C84617D65FB900811B85 /* b2Contact.cpp in Sources */,
 				1556C82E17D65FB900811B85 /* b2CollidePolygon.cpp in Sources */,
@@ -1005,6 +1011,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(CINDER_PATH)/boost\"",
 					"\"$(CINDER_PATH)/blocks/suBox2D/src\"",
+					"/Users/davidwicks/Code/lua-5.2.2/install/include/",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -1015,7 +1022,7 @@
 				);
 				PRODUCT_NAME = PupTent;
 				SYMROOT = ./build;
-				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../src \"$(CINDER_PATH)/blocks/Pockets/src\" \"$(CINDER_PATH)/blocks/Pockets/src/pockets\" \"$(CINDER_PATH)/blocks/Pockets/src/3rdparty\" /Users/davidwicks/Code/lua-5.2.2/install/include/";
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../src \"$(CINDER_PATH)/blocks/Pockets/src\" \"$(CINDER_PATH)/blocks/Pockets/src/pockets\" \"$(CINDER_PATH)/blocks/Pockets/src/3rdparty\" /Users/davidwicks/Code/Selene/include/";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1036,6 +1043,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(CINDER_PATH)/boost\"",
 					"\"$(CINDER_PATH)/blocks/suBox2D/src\"",
+					"/Users/davidwicks/Code/lua-5.2.2/install/include/",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -1047,7 +1055,7 @@
 				PRODUCT_NAME = PupTent;
 				STRIP_INSTALLED_PRODUCT = YES;
 				SYMROOT = ./build;
-				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../src \"$(CINDER_PATH)/blocks/Pockets/src\" \"$(CINDER_PATH)/blocks/Pockets/src/pockets\" \"$(CINDER_PATH)/blocks/Pockets/src/3rdparty\" /Users/davidwicks/Code/lua-5.2.2/install/include/";
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../src \"$(CINDER_PATH)/blocks/Pockets/src\" \"$(CINDER_PATH)/blocks/Pockets/src/pockets\" \"$(CINDER_PATH)/blocks/Pockets/src/3rdparty\" /Users/davidwicks/Code/Selene/include/";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -27,6 +27,7 @@
 
 #include "ScriptSystem.h"
 #include "cinder/Utilities.h"
+#include "puptent/LuaExports.h"
 
 extern "C"{
 #include "lua.h"
@@ -61,6 +62,8 @@ ScriptSystem::ScriptSystem()
   luaL_newlib( L, l_lib );
   // assign them to the "su" namespace
   lua_setglobal( L, "su" );
+
+  buildLuaLibrary();
 }
 
 ScriptSystem::~ScriptSystem()
