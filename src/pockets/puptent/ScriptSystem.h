@@ -31,8 +31,6 @@
 #include "cinder/app/KeyEvent.h"
 #include "selene.h"
 
-struct lua_State;
-
 namespace pockets
 { namespace puptent
   {
@@ -74,7 +72,7 @@ namespace pockets
       void  receive( const ComponentRemovedEvent<ScriptComponent> &event ) {}
     private:
       void  handleLuaError( int error );
-      lua_State *L;
+      sel::State  _state;
     };
 
     //

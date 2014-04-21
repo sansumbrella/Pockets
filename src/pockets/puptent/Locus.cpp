@@ -25,7 +25,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "Locus.h"
+#include "puptent/Locus.h"
 
 using namespace cinder;
 using namespace pockets;

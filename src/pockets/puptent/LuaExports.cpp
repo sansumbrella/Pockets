@@ -26,12 +26,27 @@
  */
 
 #include "LuaExports.h"
+#include "puptent/Locus.h"
+#include "PupTent.h"
+
+#include "selene.h"
 
 using namespace pockets;
 using namespace puptent;
 
-void puptent::buildLuaLibrary()
+struct Sample
 {
-  
+  void setValue( lua_Number value ) { _value = value; }
+  lua_Number value() { return _value; }
+  float _value;
+};
+
+void puptent::buildLuaLibrary( sel::State &state )
+{
+  state["do_something"] = []() { std::cout << "Doing something. Not very useful." << std::endl; };
+//  state["Locus"].SetClass<Locus>( "rotation", &Locus::rotation );
+  state["Sample"].SetClass<Sample>( "value", &Sample::value,
+                                   "set_value", &Sample::setValue );
+//  state["Entity"].SetClass<Entity>( "rotation", &Entity::component<Locus> );
 }
 

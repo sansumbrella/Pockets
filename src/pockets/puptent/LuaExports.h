@@ -27,10 +27,15 @@
 
 #pragma once
 
+namespace sel
+{
+  class State;
+}
+
 namespace pockets
 { namespace puptent
   {
-    // Exposes the PupTent Scripting API to Lua
-    void buildLuaLibrary();
+    // Exposes the PupTent Scripting API to the provided Lua state
+    void buildLuaLibrary( sel::State &state );
   }
 }

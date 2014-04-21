@@ -12,8 +12,8 @@ end
 
 function update( dt )
 	value = value + dt
-	su.cout( "Elapsed time: " .. value )
-	print("Yo")
+	print( "Elapsed time: " .. value )
+	do_something()
 end
 
 -- This seems like a promising start for creating
@@ -30,8 +30,8 @@ function LuaScript()
 
 	function obj:update( dt )
 		t = t + dt
-		su.cout( "Elapsed time: " .. t )
-		print("Hey")
+		-- su.cout( "Elapsed time: " .. t )
+		print( "Elapsed time: " .. t )
 	end
 
 	return obj

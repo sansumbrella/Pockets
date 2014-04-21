@@ -60,6 +60,15 @@ just gives you easy access to the event and update mechanisms within the framewo
 - ScriptComponent executes arbitrary c++ functions on Entities
 - (TODO eventually) Lua scripting support
 
+Model scripting after Bitsquid: http://bitsquid.blogspot.com/2011/06/lightweight-lua-bindings.html
+use light userdata (entity id; shared pointers for components)
+manage object lifetime in C++
+factory creation methods for Lua/scripting language
+Look at how entityx does this with Python.
+In general, I don't want to create a bunch of (or really any)
+objects to be managed by Lua.
+(bring Lua book to NYC)
+
 ### (Incomplete) Physics system
 - PhysicsComponent updates the Locus based on Box2D physics simulation
 - (TODO) callbacks on collision
