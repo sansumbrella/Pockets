@@ -31,7 +31,7 @@
 
 namespace pockets
 { namespace cobweb
-  {
+{
 
   class RootNode : public Node
   {
@@ -50,6 +50,5 @@ namespace pockets
     ConnectionManager       mConnectionManager;
   };
 
-  }
-}
-
+} // cobweb::
+} // pockets::
