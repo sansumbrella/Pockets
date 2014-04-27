@@ -27,9 +27,9 @@ public:
   void buildMenu();
 private:
   vector< pair<string, function<SceneRef ()> > > mScenes;
-  SceneRef      mCurrentScene;
-  int           mIndex = 0;
-  cobweb::Node  mRoot;
+  SceneRef          mCurrentScene;
+  int               mIndex = 0;
+  cobweb::RootNode  mRoot;
 };
 
 void PocketsApp::prepareSettings( Settings *settings )

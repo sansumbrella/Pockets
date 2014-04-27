@@ -52,21 +52,14 @@ namespace pockets
     NodeRef         getChildAt( size_t index ){ return mChildren.at( index ); }
     void            setChildIndex( NodeRef child, size_t index );
 
+    //! Call to draw the entire node hierarchy.
     void            deepDraw();
-    //! draw content to screen, called after model matrix is transformed by locus
+    //! Draw content to screen. Called after model matrix is transformed by locus.
     virtual void    draw() {}
     //! called in deepdraw before drawing children
     virtual void    preChildDraw() {}
     //! called in deepdraw after drawing children
     virtual void    postChildDraw() {}
-    //! Block UI signals. Only works on root node.
-    void            blockRoot() { mConnectionManager.block(); }
-    //! Resume receiving UI signals. Only works on root node.
-    void            unblockRoot() { mConnectionManager.resume(); }
-    //! Connects tree to mouse and touch events. Only call on your root node.
-    void            connectRoot( ci::app::WindowRef window );
-    //! Disconnects tree from mouse and touch events. Only call on your root node.
-    void            disconnectRoot();
     //! Stop whatever event-related tracking this object was doing. Considering for removal
     virtual void    cancelInteractions() {}
     void            deepCancelInteractions();
@@ -106,13 +99,10 @@ namespace pockets
     virtual bool    mouseDown( ci::app::MouseEvent &event ) { return false; }
     virtual bool    mouseDrag( ci::app::MouseEvent &event ) { return false; }
     virtual bool    mouseUp( ci::app::MouseEvent &event ) { return false; }
-    //! store a connection so it can be blocked/unblocked/disconnected later
-    void            storeConnection( const ci::signals::connection &connection ){ mConnectionManager.store( connection ); }
   private:
     pk::Locus2D             mLocus;
     Node*                   mParent;
     std::vector<NodeRef>    mChildren;
-    ConnectionManager       mConnectionManager;
     //! Sets the node's parent, notifying previous parent (if any)
     void            setParent( Node *parent );
   };

@@ -69,46 +69,6 @@ void Node::setParent( Node *parent )
   mParent = parent;
 }
 
-void Node::connectRoot( ci::app::WindowRef window )
-{
-  storeConnection( window->getSignalTouchesBegan().connect( [this]( app::TouchEvent &event )
-  {
-    if( deepTouchesBegan( event ) )
-      { event.setHandled(); }
-  } ) );
-  storeConnection( window->getSignalTouchesMoved().connect( [this]( app::TouchEvent &event )
-  {
-    if( deepTouchesMoved( event ) )
-      { event.setHandled(); }
-  } ) );
-  storeConnection( window->getSignalTouchesEnded().connect( [this]( app::TouchEvent &event )
-  {
-    if( deepTouchesEnded( event ) )
-      { event.setHandled(); }
-  } ) );
-
-  storeConnection( window->getSignalMouseDown().connect( [this]( app::MouseEvent &event )
-  {
-    if( deepMouseDown( event ) )
-      { event.setHandled(); }
-  } ) );
-  storeConnection( window->getSignalMouseDrag().connect( [this]( app::MouseEvent &event )
-  {
-    if( deepMouseDrag( event ) )
-      { event.setHandled(); }
-  } ) );
-  storeConnection( window->getSignalMouseUp().connect( [this]( app::MouseEvent &event )
-  {
-    if( deepMouseUp( event ) )
-      { event.setHandled(); }
-  } ) );
-}
-
-void Node::disconnectRoot()
-{
-  mConnectionManager.disconnect();
-}
-
 bool Node::deepTouchesBegan( ci::app::TouchEvent &event )
 {
   bool captured = touchesBegan( event );

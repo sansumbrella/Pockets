@@ -26,16 +26,30 @@
  */
 
 #pragma once
-namespace pockets
-{
-  /**
-   A simple 2d scene graph for UI development.
-  */
-  namespace cobweb {}
-}
 
 #include "pockets/cobweb/Node.h"
-#include "pockets/cobweb/RootNode.h"
-#include "pockets/cobweb/ButtonBase.h"
-#include "pockets/cobweb/SimpleButton.h"
-#include "pockets/cobweb/TypeNode.h"
+
+namespace pockets
+{ namespace cobweb
+  {
+
+  class RootNode : public Node
+  {
+  public:
+    //! Connects tree to mouse and touch events.
+    void            connectRoot( ci::app::WindowRef window );
+    //! Disconnects tree from mouse and touch events.
+    void            disconnectRoot();
+    //! Temporarily block UI signals.
+    void            blockRoot() { mConnectionManager.block(); }
+    //! Resume receiving UI signals.
+    void            unblockRoot() { mConnectionManager.resume(); }
+  private:
+    //! store a connection so it can be blocked/unblocked/disconnected later
+    void            storeConnection( const ci::signals::connection &connection ){ mConnectionManager.store( connection ); }
+    ConnectionManager       mConnectionManager;
+  };
+
+  }
+}
+
