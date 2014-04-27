@@ -37,13 +37,13 @@ namespace pockets
   {
   public:
     //! Connects tree to mouse and touch events.
-    void            connectRoot( ci::app::WindowRef window );
+    void            connect( ci::app::WindowRef window );
     //! Disconnects tree from mouse and touch events.
-    void            disconnectRoot();
+    void            disconnect();
     //! Temporarily block UI signals.
-    void            blockRoot() { mConnectionManager.block(); }
+    void            block() { mConnectionManager.block(); }
     //! Resume receiving UI signals.
-    void            unblockRoot() { mConnectionManager.resume(); }
+    void            unblock() { mConnectionManager.resume(); }
   private:
     //! store a connection so it can be blocked/unblocked/disconnected later
     void            storeConnection( const ci::signals::connection &connection ){ mConnectionManager.store( connection ); }

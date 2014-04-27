@@ -106,7 +106,7 @@ void PocketsApp::buildMenu()
   mRoot.appendChild( next );
 
   mRoot.setPosition( Vec2f( getWindowWidth() - (widest + 10.0f), 10.0f ) );
-  mRoot.connectRoot( getWindow() );
+  mRoot.connect( getWindow() );
 }
 
 CINDER_APP_NATIVE( PocketsApp, RendererGl )

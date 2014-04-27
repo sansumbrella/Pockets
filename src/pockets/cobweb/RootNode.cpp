@@ -31,7 +31,7 @@ using namespace cinder;
 using namespace pockets;
 using namespace cobweb;
 
-void RootNode::connectRoot( ci::app::WindowRef window )
+void RootNode::connect( ci::app::WindowRef window )
 {
   storeConnection( window->getSignalTouchesBegan().connect( [this]( app::TouchEvent &event )
                                                            {
@@ -66,7 +66,7 @@ void RootNode::connectRoot( ci::app::WindowRef window )
                                                       } ) );
 }
 
-void RootNode::disconnectRoot()
+void RootNode::disconnect()
 {
   mConnectionManager.disconnect();
 }
