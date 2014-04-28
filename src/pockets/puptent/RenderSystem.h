@@ -50,6 +50,7 @@ namespace pockets
       MULTIPLY,
       NUM_RENDER_PASSES
     };
+
     /**
      RenderData:
      Composite component.
@@ -74,6 +75,15 @@ namespace pockets
     /**
      RenderSystem:
      Multi-pass, layer-sorted rendering system.
+
+     TODO:
+     New RenderSystem type (combined 2d and 3d)
+     Separate passes for blend mode only.
+     Determine layer-order by using OpenGL depth buffer; should enable more seamless 2d + 3d combinations.
+     Provide convenience method for 1:1 scaling when pushing content back in Z.
+     Use render pass like tag predicate for iteration.
+     Skip the initial render pass generation.
+     For sprites, we can't draw to depth buffer (because of masking in zero-alpha regions)
 
      The RenderSystem is designed to quickly display active entities. It can
      handle all of your sprites, particles, and generative 2d meshes.
