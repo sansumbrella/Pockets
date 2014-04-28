@@ -95,13 +95,9 @@ namespace pockets
     struct RenderSystem : public System<RenderSystem>, Receiver<RenderSystem>
     {
       //! listen for events
-      void        configure( EventManagerRef event_manager ) override;
-      //! sort the render data in the normal pass by render layer
-      //! needed if you are dynamically changing Locus render_layers
-      inline void sort()
-      { stable_sort( mGeometry[eNormalPass].begin(), mGeometry[eNormalPass].end(), &RenderSystem::layerSort ); }
+      void        configure( EventManager &event_manager ) override;
       //! generate vertex list by transforming meshes by locii
-      void        update( EntityManagerRef es, EventManagerRef events, double dt ) override;
+      void        update( EntityManager &es, EventManager &events, double dt ) override;
       //! batch render scene to screen
       void        draw() const;
       //! set a texture to be bound for all rendering
@@ -111,14 +107,18 @@ namespace pockets
       void        receive( const ComponentAddedEvent<RenderData> &event );
       void        receive( const ComponentRemovedEvent<RenderData> &event );
       void        checkOrdering() const;
+      //! sort the render data in the normal pass by render layer
+      //! needed iff you are dynamically changing Locus render_layers
+      inline void sort()
+      { stable_sort( mGeometry[eNormalPass].begin(), mGeometry[eNormalPass].end(), &RenderSystem::layerSort ); }
     private:
-      std::array<std::vector<RenderDataRef>, 3> mGeometry;
+      std::array<std::vector< ComponentHandle<RenderData> >, 3> mGeometry;
       std::array<std::vector<Vertex>, 3>        mVertices;
       ci::gl::VboRef                            mVbo;
       ci::gl::VaoRef                            mAttributes;
       ci::gl::TextureRef                        mTexture;
       ci::gl::GlslProgRef                       mRenderProg;
-      static bool                 layerSort( const RenderDataRef &lhs, const RenderDataRef &rhs )
+      static bool                 layerSort( const ComponentHandle<RenderData> &lhs, const ComponentHandle<RenderData> &rhs )
       { return lhs->render_layer < rhs->render_layer; }
       // maybe add a CameraRef for positioning the scene
       // use a POV and Locus component as camera, allowing dynamic switching

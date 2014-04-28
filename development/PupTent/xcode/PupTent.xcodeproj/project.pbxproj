@@ -98,6 +98,10 @@
 		1563A54118FCE20500D1FF54 /* System.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A53218FCE20500D1FF54 /* System.cc */; };
 		1563A54218FCE20500D1FF54 /* TagsComponent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A53518FCE20500D1FF54 /* TagsComponent.cc */; };
 		1563A54318FCE20500D1FF54 /* TagsComponent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A53518FCE20500D1FF54 /* TagsComponent.cc */; };
+		1591373A190DFF240069964D /* Pool.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15913736190DFF240069964D /* Pool.cc */; };
+		1591373B190DFF240069964D /* Pool.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15913736190DFF240069964D /* Pool.cc */; };
+		1591373C190DFF240069964D /* Timer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15913738190DFF240069964D /* Timer.cc */; };
+		1591373D190DFF240069964D /* Timer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15913738190DFF240069964D /* Timer.cc */; };
 		159385D917E5FF670025D5DD /* ConnectionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159385D717E5FF670025D5DD /* ConnectionManager.cpp */; };
 		159FADC6190494F30085C5F2 /* LuaExports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159FADC4190494F30085C5F2 /* LuaExports.cpp */; };
 		15AD5DC518C6270400B86D3C /* PupTent_Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15AD5DC418C6270400B86D3C /* PupTent_Tests.cpp */; };
@@ -271,6 +275,11 @@
 		1563A53318FCE20500D1FF54 /* System.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
 		1563A53518FCE20500D1FF54 /* TagsComponent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TagsComponent.cc; sourceTree = "<group>"; };
 		1563A53618FCE20500D1FF54 /* TagsComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsComponent.h; sourceTree = "<group>"; };
+		15913735190DFF240069964D /* NonCopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NonCopyable.h; sourceTree = "<group>"; };
+		15913736190DFF240069964D /* Pool.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pool.cc; sourceTree = "<group>"; };
+		15913737190DFF240069964D /* Pool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pool.h; sourceTree = "<group>"; };
+		15913738190DFF240069964D /* Timer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cc; sourceTree = "<group>"; };
+		15913739190DFF240069964D /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
 		159385D717E5FF670025D5DD /* ConnectionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConnectionManager.cpp; path = ../../../../Pockets/src/pockets/ConnectionManager.cpp; sourceTree = "<group>"; };
 		159385D817E5FF670025D5DD /* ConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionManager.h; path = ../../../../Pockets/src/pockets/ConnectionManager.h; sourceTree = "<group>"; };
 		159FADC4190494F30085C5F2 /* LuaExports.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaExports.cpp; sourceTree = "<group>"; };
@@ -601,6 +610,7 @@
 		1563A52218FCE20500D1FF54 /* entityx */ = {
 			isa = PBXGroup;
 			children = (
+				15913734190DFF240069964D /* help */,
 				1563A52418FCE20500D1FF54 /* 3rdparty */,
 				1563A52618FCE20500D1FF54 /* config.h */,
 				1563A52918FCE20500D1FF54 /* deps */,
@@ -640,6 +650,18 @@
 				1563A53618FCE20500D1FF54 /* TagsComponent.h */,
 			);
 			path = tags;
+			sourceTree = "<group>";
+		};
+		15913734190DFF240069964D /* help */ = {
+			isa = PBXGroup;
+			children = (
+				15913735190DFF240069964D /* NonCopyable.h */,
+				15913736190DFF240069964D /* Pool.cc */,
+				15913737190DFF240069964D /* Pool.h */,
+				15913738190DFF240069964D /* Timer.cc */,
+				15913739190DFF240069964D /* Timer.h */,
+			);
+			path = help;
 			sourceTree = "<group>";
 		};
 		15AD5DC318C6270400B86D3C /* Catch Tests */ = {
@@ -831,9 +853,11 @@
 				1563A53D18FCE20500D1FF54 /* Entity.cc in Sources */,
 				1563A50A18FCE1F600D1FF54 /* DelaySystem.cpp in Sources */,
 				1563A51418FCE1F600D1FF54 /* ParticleSystem.cpp in Sources */,
+				1591373D190DFF240069964D /* Timer.cc in Sources */,
 				1563A51D18FCE1F600D1FF54 /* SpriteSystem.cpp in Sources */,
 				1563A51018FCE1F600D1FF54 /* Locus.cpp in Sources */,
 				1563A51718FCE1F600D1FF54 /* RenderMesh.cpp in Sources */,
+				1591373B190DFF240069964D /* Pool.cc in Sources */,
 				15AD5DC518C6270400B86D3C /* PupTent_Tests.cpp in Sources */,
 				1563A51B18FCE1F600D1FF54 /* ScriptSystem.cpp in Sources */,
 				1563A50C18FCE1F600D1FF54 /* ExpiresSystem.cpp in Sources */,
@@ -869,6 +893,7 @@
 				1563A50F18FCE1F600D1FF54 /* Locus.cpp in Sources */,
 				1556C82C17D65FB900811B85 /* b2CollideCircle.cpp in Sources */,
 				1556C84217D65FB900811B85 /* b2WorldCallbacks.cpp in Sources */,
+				1591373C190DFF240069964D /* Timer.cc in Sources */,
 				1556C84A17D65FB900811B85 /* b2PolygonAndCircleContact.cpp in Sources */,
 				1556C83D17D65FB900811B85 /* b2Body.cpp in Sources */,
 				1556C83C17D65FB900811B85 /* b2Timer.cpp in Sources */,
@@ -894,6 +919,7 @@
 				1556C84D17D65FB900811B85 /* b2FrictionJoint.cpp in Sources */,
 				1563A53C18FCE20500D1FF54 /* Entity.cc in Sources */,
 				2CC77AAE2CEC44BB970D6A3F /* ImagePacker.cpp in Sources */,
+				1591373A190DFF240069964D /* Pool.cc in Sources */,
 				1556C83F17D65FB900811B85 /* b2Fixture.cpp in Sources */,
 				1556C83817D65FB900811B85 /* b2Draw.cpp in Sources */,
 				1556C85217D65FB900811B85 /* b2PulleyJoint.cpp in Sources */,

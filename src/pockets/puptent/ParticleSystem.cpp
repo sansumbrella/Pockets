@@ -40,13 +40,13 @@ p_scale( locus->getScale() )
 {}
 
 
-void ParticleSystem::configure( EventManagerRef events )
+void ParticleSystem::configure( EventManager &events )
 {
-  events->subscribe<ComponentAddedEvent<Particle>>( *this );
-  events->subscribe<ComponentRemovedEvent<Particle>>( *this );
-  events->subscribe<ComponentAddedEvent<ParticleEmitter>>( *this );
-  events->subscribe<ComponentRemovedEvent<ParticleEmitter>>( *this );
-  events->subscribe<EntityDestroyedEvent>( *this );
+  events.subscribe<ComponentAddedEvent<Particle>>( *this );
+  events.subscribe<ComponentRemovedEvent<Particle>>( *this );
+  events.subscribe<ComponentAddedEvent<ParticleEmitter>>( *this );
+  events.subscribe<ComponentRemovedEvent<ParticleEmitter>>( *this );
+  events.subscribe<EntityDestroyedEvent>( *this );
 }
 
 void ParticleSystem::receive( const ComponentAddedEvent<Particle> &event )
@@ -82,13 +82,13 @@ void ParticleSystem::receive( const EntityDestroyedEvent &event )
   }
 }
 
-void ParticleSystem::update( EntityManagerRef es, EventManagerRef events, double dt )
+void ParticleSystem::update( EntityManager &es, EventManager &events, double dt )
 {
   for( auto entity : mEmitters )
   {
     auto emitter = entity.component<ParticleEmitter>();
     auto loc = entity.component<Locus>();
-    Entity e = es->create();
+    Entity e = es.create();
     auto p = e.assign<Particle>();
     auto l = e.assign<Locus>();
     if( emitter->build_fn )
@@ -100,8 +100,8 @@ void ParticleSystem::update( EntityManagerRef es, EventManagerRef events, double
   for( auto entity : mParticles )
   {
     // Perform verlet integration
-    ParticleRef p = entity.component<Particle>();
-    LocusRef l = entity.component<Locus>();
+    auto p = entity.component<Particle>();
+    auto l = entity.component<Locus>();
     if( l )
     {
       Vec2f position = l->position;
