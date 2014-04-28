@@ -146,7 +146,7 @@
 		155BEF8E18CBA749000A36FC /* TypeNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TypeNode.cpp; sourceTree = "<group>"; };
 		155BEF8F18CBA749000A36FC /* TypeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeNode.h; sourceTree = "<group>"; };
 		155BEFAD18CBA7BD000A36FC /* Locus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Locus.cpp; sourceTree = "<group>"; };
-		155BEFB018CBA807000A36FC /* TextureNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureNode.cpp; path = ../TextureNode.cpp; sourceTree = "<group>"; };
+		155BEFB018CBA807000A36FC /* TextureNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureNode.cpp; sourceTree = "<group>"; };
 		155BEFB318CBAA3E000A36FC /* RenderMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderMesh.cpp; sourceTree = "<group>"; };
 		1563A48D18FCD53300D1FF54 /* DelaySystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DelaySystem.cpp; sourceTree = "<group>"; };
 		1563A48E18FCD53300D1FF54 /* DelaySystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelaySystem.h; sourceTree = "<group>"; };

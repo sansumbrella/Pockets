@@ -59,9 +59,6 @@ void SpriteToggle::hoverEnd()
 
 void SpriteToggle::draw()
 {
-  gl::pushModelView();
-  gl::multModelView( *getLocus() );
-
   if( isActive() )
   {
     gl::disable( GL_TEXTURE_2D );
@@ -84,6 +81,4 @@ void SpriteToggle::draw()
     gl::color( getBackgroundColor() );
     mSprite->draw();
   }
-
-  gl::popModelView();
 }
