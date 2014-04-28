@@ -134,7 +134,7 @@ Entity PupTentApp::createPlanet()
     locus->registration_point = Vec2f{ 0.0f, 20.0f };
     locus->rotation = Rand::randFloat( M_PI );
     locus->scale = Rand::randFloat( 0.5f, 4.0f );
-    e.assign<RenderData>( mesh, locus, 1, RenderPass::eMultiplyPass );
+    e.assign<RenderData>( mesh, locus, 1, RenderPass::MULTIPLY );
   }
 
   return planet;
@@ -185,7 +185,6 @@ Entity PupTentApp::createShip()
 
     trailing_ribbon.assign<CppScriptComponent>([=]( Entity self, double dt ) mutable
                                             { // use the ship locus to update out vertices
-                                              auto locus = self.component<Locus>();
                                               auto front = loc->toMatrix().transformPoint( { 0.0f, 40.0f } );
                                               ribbon_vertices.emplace_front( front );
                                               ribbon_vertices.pop_back();
@@ -323,7 +322,7 @@ Entity PupTentApp::createTreasure()
   mesh->setColor( color );
   entity.assign( anim );
   entity.assign( loc );
-  entity.assign<RenderData>( mesh, loc, Rand::randInt( 50 ), eNormalPass );
+  entity.assign<RenderData>( mesh, loc, Rand::randInt( 50 ), RenderPass::PREMULTIPLIED );
   // randomized expire time, weighted toward end
   entity.assign<Expires>( easeOutQuad( Rand::randFloat() ) * 5.0f + 1.0f );
   entity.assign<tags::TagsComponent>( "treasure" );

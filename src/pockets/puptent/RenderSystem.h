@@ -45,9 +45,10 @@ namespace pockets
      */
     enum RenderPass
     {
-      eNormalPass,
-      eAdditivePass,
-      eMultiplyPass,
+      PREMULTIPLIED,
+      ADD,
+      MULTIPLY,
+      NUM_RENDER_PASSES
     };
 
     /**
@@ -59,7 +60,7 @@ namespace pockets
     typedef std::shared_ptr<class RenderData> RenderDataRef;
     struct RenderData : Component<RenderData>
     {
-      RenderData( RenderMeshRef mesh, LocusRef locus, int render_layer=0, RenderPass pass=eNormalPass ):
+      RenderData( RenderMeshRef mesh, LocusRef locus, int render_layer=0, RenderPass pass=PREMULTIPLIED ):
       mesh( mesh ),
       locus( locus ),
       render_layer( render_layer ),
@@ -106,10 +107,6 @@ namespace pockets
     {
       //! listen for events
       void        configure( EventManagerRef event_manager ) override;
-      //! sort the render data in the normal pass by render layer
-      //! needed if you are dynamically changing Locus render_layers
-      inline void sort()
-      { stable_sort( mGeometry[eNormalPass].begin(), mGeometry[eNormalPass].end(), &RenderSystem::layerSort ); }
       //! generate vertex list by transforming meshes by locii
       void        update( EntityManagerRef es, EventManagerRef events, double dt ) override;
       //! batch render scene to screen
@@ -121,8 +118,12 @@ namespace pockets
       void        receive( const ComponentAddedEvent<RenderData> &event );
       void        receive( const ComponentRemovedEvent<RenderData> &event );
       void        checkOrdering() const;
+      //! sort the render data in the normal pass by render layer
+      //! needed iff you are dynamically changing Locus render_layers
+      inline void sort()
+      { stable_sort( mGeometry[PREMULTIPLIED].begin(), mGeometry[PREMULTIPLIED].end(), &RenderSystem::layerSort ); }
     private:
-      std::array<std::vector<RenderDataRef>, 3> mGeometry;
+      std::array<std::vector<RenderDataRef>, NUM_RENDER_PASSES> mGeometry;
       std::array<std::vector<Vertex>, 3>        mVertices;
       ci::gl::VboRef                            mVbo;
       ci::gl::VaoRef                            mAttributes;
