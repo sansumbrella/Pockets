@@ -72,9 +72,6 @@ void TextPane::update( float deltaTime )
 
 void TextPane::draw()
 {
-  gl::pushModelView();
-  gl::multModelView( *getLocus() );
   gl::draw( mTexture, mTextureRegion + mTextureOffset(), mScreenBounds );
-  gl::popModelView();
 }
 

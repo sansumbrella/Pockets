@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include <boost/unordered_set.hpp>
+#include <unordered_set>
 #include <string>
 #include "entityx/Entity.h"
 
@@ -19,13 +19,20 @@ namespace tags {
 
 /**
  * Allow entities to be tagged with strings.
+ *
+ * entity.assign<TagsComponent>("tag1", "tag2");
+ *
+ * ComponentPtr<TagsComponent> tags;
+ * for (Entity entity : entity_manager.entities_with_components(tags))
+ * for (Entity entity : TagsComponent::view(entity_manager, "tag1")) {
+ * }
  */
 class TagsComponent : public Component<TagsComponent> {
   struct TagsPredicate {
     explicit TagsPredicate(const std::string &tag) : tag(tag) {}
 
-    bool operator() (ptr<EntityManager> manager, Entity::Id id) {
-      auto tags = manager->component<TagsComponent>(id);
+    bool operator() (const EntityManager &manager, Entity::Id id) {
+      auto tags = manager.component<TagsComponent>(id);
       return tags && tags->tags.find(tag) != tags->tags.end();
     }
 
@@ -50,7 +57,7 @@ class TagsComponent : public Component<TagsComponent> {
     return EntityManager::View(view, TagsPredicate(tag));
   }
 
-  boost::unordered_set<std::string> tags;
+  std::unordered_set<std::string> tags;
 
  private:
   template <typename ... Args>

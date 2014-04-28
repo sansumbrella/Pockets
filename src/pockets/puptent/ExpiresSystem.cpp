@@ -31,9 +31,9 @@ using namespace pockets;
 using namespace puptent;
 using namespace std;
 
-void ExpiresSystem::update(shared_ptr<entityx::EntityManager> es, shared_ptr<entityx::EventManager> events, double dt)
+void ExpiresSystem::update( EntityManager &es, EventManager &events, double dt)
 {
-  for( auto entity : es->entities_with_components<Expires>() )
+  for( auto entity : es.entities_with_components<Expires>() )
   {
     auto expires = entity.component<Expires>();
     expires->time -= dt;

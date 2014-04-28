@@ -35,12 +35,13 @@ using namespace std;
 using namespace cinder;
 using namespace pockets::puptent;
 
-void RenderSystem::configure( EventManagerRef event_manager )
+void RenderSystem::configure( EventManager &event_manager )
 {
-  event_manager->subscribe<EntityDestroyedEvent>( *this );
-  event_manager->subscribe<ComponentAddedEvent<RenderData>>( *this );
-  event_manager->subscribe<ComponentRemovedEvent<RenderData>>( *this );
+  event_manager.subscribe<EntityDestroyedEvent>( *this );
+  event_manager.subscribe<ComponentAddedEvent<RenderData>>( *this );
+  event_manager.subscribe<ComponentRemovedEvent<RenderData>>( *this );
 
+  // make buffer large enough to hold all the vertices you will ever need
   mVbo = gl::Vbo::create( GL_ARRAY_BUFFER, 1.0e5 * sizeof( Vertex ), nullptr, GL_STREAM_DRAW );
   mAttributes = gl::Vao::create();
   gl::ScopedVao attr( mAttributes );
@@ -60,11 +61,11 @@ void RenderSystem::configure( EventManagerRef event_manager )
   mVbo->unbind();
 }
 
-void RenderSystem::receive(const ComponentAddedEvent<puptent::RenderData> &event)
+void RenderSystem::receive( const ComponentAddedEvent<puptent::RenderData> &event )
 {
   auto data = event.component;
   const RenderPass pass = data->pass;
-  if( pass == eNormalPass )
+  if( pass == PREMULTIPLIED )
   { // put element in correct sorted position
     int target_layer = data->render_layer;
     if( mGeometry[pass].empty() )
@@ -74,7 +75,7 @@ void RenderSystem::receive(const ComponentAddedEvent<puptent::RenderData> &event
     else
     {
       auto iter = mGeometry[pass].begin();
-      while( iter != mGeometry[pass].end() && (**iter).render_layer < target_layer )
+      while( iter != mGeometry[pass].end() && (*iter)->render_layer < target_layer )
       { // place the component in the first position on its layer
         ++iter;
       }
@@ -90,12 +91,12 @@ void RenderSystem::receive(const ComponentAddedEvent<puptent::RenderData> &event
 
 void RenderSystem::checkOrdering() const
 {
-  if( mGeometry[eNormalPass].size() > 1 )
+  if( mGeometry[PREMULTIPLIED].size() > 1 )
   {
-    for( int i = 0; i < mGeometry[eNormalPass].size() - 2; ++i )
+    for( int i = 0; i < mGeometry[PREMULTIPLIED].size() - 2; ++i )
     {
-      int lhs = mGeometry[eNormalPass].at( i )->render_layer;
-      int rhs = mGeometry[eNormalPass].at( i + 1 )->render_layer;
+      int lhs = mGeometry[PREMULTIPLIED].at( i )->render_layer;
+      int rhs = mGeometry[PREMULTIPLIED].at( i + 1 )->render_layer;
       if( rhs < lhs )
       {
         std::cout << "ERROR: Render order incorrect: " << rhs << " after " << lhs << std::endl;
@@ -107,8 +108,8 @@ void RenderSystem::checkOrdering() const
 
 void RenderSystem::receive(const ComponentRemovedEvent<puptent::RenderData> &event)
 {
-  auto data = event.component;
-  vector_remove( &mGeometry[data->pass], data );
+  auto render_data = event.component;
+  vector_remove( &mGeometry[render_data->pass], render_data );
 }
 
 void RenderSystem::receive(const EntityDestroyedEvent &event)
@@ -121,9 +122,12 @@ void RenderSystem::receive(const EntityDestroyedEvent &event)
   }
 }
 
-void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double dt )
+namespace {
+  const array<RenderPass, NUM_RENDER_PASSES> passes = { PREMULTIPLIED, ADD, MULTIPLY };
+} // anon::
+
+void RenderSystem::update( EntityManager &es, EventManager &events, double dt )
 { // assemble vertices for each pass
-  const array<RenderPass, 3> passes = { eNormalPass, eAdditivePass, eMultiplyPass };
   for( const auto &pass : passes )
   {
     auto &v = mVertices[pass];
@@ -133,14 +137,13 @@ void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double d
       auto mesh = pair->mesh;
       auto loc = pair->locus;
       auto mat = loc->toMatrix();
-      if( !v.empty() )
-      { // create degenerate triangle between previous and current shape
+      if( !v.empty() ) {
+        // create degenerate triangle between previous and current shape
         v.emplace_back( v.back() );
         auto vert = mesh->vertices.front();
         v.emplace_back( Vertex{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
       }
-      for( auto &vert : mesh->vertices )
-      {
+      for( auto &vert : mesh->vertices ) {
         v.emplace_back( Vertex{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
       }
     }
@@ -149,8 +152,7 @@ void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double d
   GLintptr  offset = 0;
   for( const auto &pass : passes )
   {
-    if( !mVertices[pass].empty() )
-    {
+    if( !mVertices[pass].empty() ) {
       mVbo->bufferSubData( offset, mVertices[pass].size() * sizeof( Vertex ), mVertices[pass].data() );
       offset += mVertices[pass].size() * sizeof( Vertex );
     }
@@ -168,19 +170,20 @@ void RenderSystem::draw() const
   gl::ScopedBlend premultBlend( GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
 
   size_t begin = 0;
-  size_t count = mVertices[eNormalPass].size();
+  size_t count = mVertices[PREMULTIPLIED].size();
   gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
 
   // additive blending
   begin += count;
-  count = mVertices[eAdditivePass].size();
+  count = mVertices[ADD].size();
   gl::ScopedBlend addBlend( GL_SRC_ALPHA, GL_ONE );
   gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
 
   // multiply blending
   begin += count;
-  count = mVertices[eMultiplyPass].size();
+  count = mVertices[MULTIPLY].size();
   gl::ScopedBlend multBlend( GL_DST_COLOR,  GL_ONE_MINUS_SRC_ALPHA );
   gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
   gl::disableAlphaBlending();
+
 }

@@ -31,6 +31,7 @@
 #include "entityx/Entity.h"
 #include "entityx/System.h"
 #include "entityx/Event.h"
+#include "entityx/quick.h"
 
 #include "cinder/Vector.h"
 
@@ -45,12 +46,9 @@ namespace pockets
   namespace puptent
   {
     using namespace entityx;
-    // entityx notation niceties
-    typedef entityx::ptr<EntityManager> EntityManagerRef;
-    typedef entityx::ptr<EventManager>  EventManagerRef;
     // forward declarations for common components
-    typedef std::shared_ptr<class Locus>            LocusRef;
-    typedef std::shared_ptr<class RenderMesh>       RenderMeshRef;
+    typedef ComponentHandle<class Locus>            LocusRef;
+    typedef ComponentHandle<class RenderMesh>       RenderMeshRef;
     typedef std::shared_ptr<class SystemManager>    SystemManagerRef;
     // forward declarations for common utilities
     typedef std::shared_ptr<class TextureAtlas>     TextureAtlasRef;

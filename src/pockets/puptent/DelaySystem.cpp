@@ -30,9 +30,9 @@
 using namespace pockets;
 using namespace puptent;
 
-void DelaySystem::update( EntityManagerRef es, EventManagerRef events, double dt )
+void DelaySystem::update( EntityManager &es, EventManager &events, double dt )
 {
-  for( auto entity : es->entities_with_components<DelayActionComponent>() )
+  for( auto entity : es.entities_with_components<DelayActionComponent>() )
   {
     auto action = entity.component<DelayActionComponent>();
     action->time -= dt;

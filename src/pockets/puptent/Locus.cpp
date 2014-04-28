@@ -38,33 +38,33 @@ MatrixAffine2f Locus::toMatrix() const
   mat.rotate( rotation );
   mat.scale( scale );
   mat.translate( -registration_point );
-  if( parent ){ mat = parent->toMatrix() * mat; }
+  if( parent.valid() ){ mat = parent->toMatrix() * mat; }
   return mat;
 }
 
 float Locus::getScale() const
 {
-  return parent ? parent->getScale() * scale : scale;
+  return parent.valid() ? parent->getScale() * scale : scale;
 }
 
 float Locus::getRotation() const
 {
-  return parent ? parent->getRotation() + rotation : rotation;
+  return parent.valid() ? parent->getRotation() + rotation : rotation;
 }
 
 Vec2f Locus::getPosition() const
 {
-  return parent ? parent->toMatrix().transformPoint( position ) : position;
+  return parent.valid() ? parent->toMatrix().transformPoint( position ) : position;
 }
 
 void Locus::detachFromParent()
 {
-  if( parent )
+  if( parent.valid() )
   {
     scale *= parent->getScale();
     rotation += parent->getRotation();
     position = parent->toMatrix().transformPoint( position );
 
-    parent.reset();
+//    parent.reset();
   }
 }

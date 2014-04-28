@@ -63,9 +63,9 @@ _atlas( atlas )
   }
 }
 
-void SpriteAnimationSystem::configure( EventManagerRef events )
+void SpriteAnimationSystem::configure( EventManager &events )
 {
-  events->subscribe<ComponentAddedEvent<SpriteAnimation>>( *this );
+  events.subscribe<ComponentAddedEvent<SpriteAnimation>>( *this );
 }
 
 void SpriteAnimationSystem::addAnimation(const string &name, const Animation &animation)
@@ -108,9 +108,9 @@ void SpriteAnimationSystem::receive(const ComponentAddedEvent<SpriteAnimation> &
   }
 }
 
-void SpriteAnimationSystem::update( EntityManagerRef es, EventManagerRef events, double dt )
+void SpriteAnimationSystem::update( EntityManager &es, EventManager &events, double dt )
 {
-  for( auto entity : es->entities_with_components<SpriteAnimation, RenderMesh>() )
+  for( auto entity : es.entities_with_components<SpriteAnimation, RenderMesh>() )
   {
     auto sprite = entity.component<SpriteAnimation>();
     auto mesh = entity.component<RenderMesh>();

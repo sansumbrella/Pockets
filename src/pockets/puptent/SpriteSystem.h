@@ -38,13 +38,16 @@ namespace cinder
 namespace pockets
 { namespace puptent
 {
+  struct SpriteAnimation;
+  typedef size_t AnimationId;
+  typedef std::shared_ptr<SpriteAnimation>  SpriteAnimationRef;
+  typedef ComponentHandle<SpriteAnimation>  SpriteAnimationHandle;
+  typedef std::function<void (SpriteAnimationHandle)> SpriteAnimationCallback;
+
   /**
    SpriteAnimation:
    A playing animation
-  */
-  typedef size_t AnimationId;
-  typedef std::shared_ptr<class SpriteAnimation>  SpriteAnimationRef;
-  typedef std::function<void (SpriteAnimationRef)> SpriteAnimationCallback;
+   */
   struct SpriteAnimation : Component<SpriteAnimation>
   {
     SpriteAnimation() = default;
@@ -60,13 +63,13 @@ namespace pockets
     SpriteAnimationCallback   finish_fn = nullptr;
   };
 
+  typedef std::shared_ptr<class SpriteAnimationSystem> SpriteAnimationSystemRef;
   /**
    SpriteAnimationSystem:
    Plays back SpriteAnimations
    Updates a RenderMesh component with the current animation frame
    Assumes that whatever renderer will bind the correct texture for display
    */
-  typedef std::shared_ptr<class SpriteAnimationSystem> SpriteAnimationSystemRef;
   struct SpriteAnimationSystem : public System<SpriteAnimationSystem>, Receiver<SpriteAnimationSystem>
   {
     struct Drawing
@@ -88,10 +91,10 @@ namespace pockets
     //! create a new animation system drawing from \a atlas with \a animations
     static SpriteAnimationSystemRef create( TextureAtlasRef atlas, const ci::JsonTree &animations );
     //! called by SystemManager to register event handlers
-    void configure( EventManagerRef events ) override;
+    void configure( EventManager &events ) override;
     //! update mesh on sprite creation
     void receive( const ComponentAddedEvent<SpriteAnimation> &event );
-    void update( EntityManagerRef es, EventManagerRef events, double dt ) override;
+    void update( EntityManager &es, EventManager &events, double dt ) override;
     //! Create a component to play \a animation_name
     //! To display the animation properly, you will need to assign new component's mesh
     SpriteAnimationRef createSpriteAnimation( const std::string &animation_name ) const;

@@ -57,7 +57,7 @@ namespace pockets
      */
     struct ExpiresSystem : public System<ExpiresSystem>, Receiver<ExpiresSystem>
     {
-      void update( EntityManagerRef es, EventManagerRef events, double dt ) override;
+      void update( EntityManager &es, EventManager &events, double dt ) override;
     private:
     };
   }

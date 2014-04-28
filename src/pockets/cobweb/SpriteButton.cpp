@@ -39,9 +39,6 @@ void SpriteButton::hoverEnd()
 
 void SpriteButton::draw()
 {
-  gl::pushModelView();
-  gl::multModelView( *getLocus() );
-
   if( isActive() )
   {
     gl::disable( GL_TEXTURE_2D );
@@ -64,6 +61,4 @@ void SpriteButton::draw()
     gl::color( getBackgroundColor() );
     mIcon.draw();
   }
-
-  gl::popModelView();
 }
