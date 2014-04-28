@@ -145,21 +145,22 @@ void Node::deepDraw()
 {
   gl::pushModelMatrix();
   gl::multModelMatrix( Matrix44f( mLocus.toMatrix() ) );
+
   draw();
+
   preChildDraw();
-  for( NodeRef &child : mChildren )
-  {
+  for( NodeRef &child : mChildren ) {
     child->deepDraw();
   }
   postChildDraw();
+
   gl::popModelMatrix();
 }
 
 void Node::deepCancelInteractions()
 {
   cancelInteractions();
-  for( NodeRef &child : mChildren )
-  {
+  for( NodeRef &child : mChildren ) {
     child->deepCancelInteractions();
   }
 }

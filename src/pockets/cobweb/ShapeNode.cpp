@@ -13,8 +13,6 @@ mMesh( new RenderMesh2D() )
 /*
 void ShapeNode::draw()
 {
-  gl::pushModelView();
-  gl::multModelView( Matrix44f( getLocus()->toMatrix() ) );
   glEnableClientState( GL_VERTEX_ARRAY );
   glEnableClientState( GL_COLOR_ARRAY );
   glEnableClientState( GL_TEXTURE_COORD_ARRAY );
@@ -27,6 +25,5 @@ void ShapeNode::draw()
   glDisableClientState( GL_VERTEX_ARRAY );
   glDisableClientState( GL_COLOR_ARRAY );
   glDisableClientState( GL_TEXTURE_COORD_ARRAY );
-  gl::popModelView();
 }
  */
