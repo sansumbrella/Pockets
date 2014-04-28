@@ -45,9 +45,10 @@ namespace pockets
      */
     enum RenderPass
     {
-      eNormalPass,
-      eAdditivePass,
-      eMultiplyPass,
+      PREMULTIPLIED,
+      ADD,
+      MULTIPLY,
+      NUM_RENDER_PASSES
     };
     /**
      RenderData:
@@ -58,7 +59,7 @@ namespace pockets
     typedef std::shared_ptr<class RenderData> RenderDataRef;
     struct RenderData : Component<RenderData>
     {
-      RenderData( RenderMeshRef mesh, LocusRef locus, int render_layer=0, RenderPass pass=eNormalPass ):
+      RenderData( RenderMeshRef mesh, LocusRef locus, int render_layer=0, RenderPass pass=PREMULTIPLIED ):
       mesh( mesh ),
       locus( locus ),
       render_layer( render_layer ),
@@ -110,9 +111,9 @@ namespace pockets
       //! sort the render data in the normal pass by render layer
       //! needed iff you are dynamically changing Locus render_layers
       inline void sort()
-      { stable_sort( mGeometry[eNormalPass].begin(), mGeometry[eNormalPass].end(), &RenderSystem::layerSort ); }
+      { stable_sort( mGeometry[PREMULTIPLIED].begin(), mGeometry[PREMULTIPLIED].end(), &RenderSystem::layerSort ); }
     private:
-      std::array<std::vector< ComponentHandle<RenderData> >, 3> mGeometry;
+      std::array<std::vector< ComponentHandle<RenderData> >, NUM_RENDER_PASSES> mGeometry;
       std::array<std::vector<Vertex>, 3>        mVertices;
       ci::gl::VboRef                            mVbo;
       ci::gl::VaoRef                            mAttributes;

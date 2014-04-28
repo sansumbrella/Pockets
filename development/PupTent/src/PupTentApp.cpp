@@ -129,7 +129,7 @@ Entity PupTentApp::createPlanet()
     locus->registration_point = Vec2f{ 0.0f, 20.0f };
     locus->rotation = Rand::randFloat( M_PI );
     locus->scale = Rand::randFloat( 0.5f, 4.0f );
-    e.assign<RenderData>( mesh, locus, 1, RenderPass::eMultiplyPass );
+    e.assign<RenderData>( mesh, locus, 1, RenderPass::PREMULTIPLIED );
   }
 
   return planet;
@@ -314,7 +314,7 @@ Entity PupTentApp::createTreasure()
   loc->position = { Rand::randFloat( getWindowWidth() ), Rand::randFloat( getWindowHeight() ) };
   loc->rotation = Rand::randFloat( M_PI * 2 );
   loc->registration_point = { 20.0f, 10.0f }; // center of the mesh created below
-  entity.assign<RenderData>( mesh, loc, Rand::randInt( 50 ), eNormalPass );
+  entity.assign<RenderData>( mesh, loc, Rand::randInt( 50 ), RenderPass::PREMULTIPLIED );
   // randomized expire time, weighted toward end
   entity.assign<Expires>( easeOutQuad( Rand::randFloat() ) * 5.0f + 1.0f );
   entity.assign<tags::TagsComponent>( "treasure" );
