@@ -337,7 +337,7 @@ void PupTentApp::update()
   mTimer.start();
   Timer up;
   up.start();
-  mSystemManager->update<ExpiresSystem>( dt );
+//  mSystemManager->update<ExpiresSystem>( dt );
   mSystemManager->update<ScriptSystem>( dt );
   mSystemManager->update<CppScriptSystem>( dt );
   mSystemManager->update<SpriteAnimationSystem>( dt );
