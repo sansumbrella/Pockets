@@ -124,7 +124,7 @@ Entity PupTentApp::createPlanet()
     mesh->setColor( Color( CM_HSV, 0.25f, 1.0f, 1.0f ) );
 
     auto locus = e.assign<Locus>();
-//    locus->parent = loc;
+    locus->parent = loc;
     locus->position = Vec2f{ Rand::randFloat( -1.0f, 1.0f ), Rand::randFloat( -1.0f, 1.0f ) } * planet_size * 0.5f;
     locus->registration_point = Vec2f{ 0.0f, 20.0f };
     locus->rotation = Rand::randFloat( M_PI );
@@ -152,7 +152,7 @@ Entity PupTentApp::createShip()
     auto mesh = left_wing.assign<RenderMesh>( 3 );
     mesh->setAsTriangle( Vec2f{ 0.0f, 0.0f }, Vec2f{ -20.0f, 40.0f }, Vec2f{ 0.0f, 40.0f } );
     mesh->setColor( Color( CM_HSV, 0.55f, 1.0f, 1.0f ) );
-//    locus->parent = loc;
+    locus->parent = loc;
     locus->rotation = M_PI * 0.05f;
     locus->position = Vec2f{ -1.0f, 0.0f };
     left_wing.assign<RenderData>( mesh, locus, 5 );
@@ -164,7 +164,7 @@ Entity PupTentApp::createShip()
     auto mesh = right_wing.assign<RenderMesh>( 3 );
     mesh->setAsTriangle( Vec2f{ 0.0f, 0.0f }, Vec2f{ 20.0f, 40.0f }, Vec2f{ 0.0f, 40.0f } );
     mesh->setColor( Color( CM_HSV, 0.65f, 1.0f, 1.0f ) );
-//    locus->parent = loc;
+    locus->parent = loc;
     locus->rotation = -M_PI * 0.05f;
     locus->position = Vec2f{ 1.0f, 0.0f };
     right_wing.assign<RenderData>( mesh, locus, 5 );

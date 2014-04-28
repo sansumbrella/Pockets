@@ -44,7 +44,7 @@ namespace pockets
   struct Locus : Component<Locus>
   {
     Locus() = default;
-    Locus( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, std::shared_ptr<Locus> parent=nullptr ):
+    Locus( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, ComponentHandle<Locus> parent=ComponentHandle<Locus>() ):
     position( pos ),
     registration_point( registration ),
     rotation( rot ),
@@ -61,7 +61,7 @@ namespace pockets
     //! returns total position including any accumulated from parents
     ci::Vec2f         getPosition() const;
     //! transform parent; toMatrix() is multiplied by parent->toMatrix() if present
-    std::shared_ptr<Locus> parent = nullptr;
+    ComponentHandle<Locus> parent;
     //! returns a matrix that will transform points based on Locus properties
     ci::MatrixAffine2f  toMatrix() const;
     //! remove parent after composing its transform into our own
