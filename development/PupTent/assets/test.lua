@@ -12,8 +12,8 @@ end
 
 function update( dt )
 	value = value + dt
-	su.cout( "Elapsed time: " .. value )
-	print("Yo")
+	-- su.cout( "Elapsed time: " .. value )
+	-- print("Yo")
 end
 
 -- This seems like a promising start for creating

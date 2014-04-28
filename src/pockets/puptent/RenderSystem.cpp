@@ -145,16 +145,16 @@ void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double d
       }
     }
   }
-  Vertex *ptr = static_cast<Vertex*>( mVbo->map( GL_WRITE_ONLY ) );
+
+  GLintptr  offset = 0;
   for( const auto &pass : passes )
   {
-    for( const auto &vertex : mVertices[pass] )
+    if( !mVertices[pass].empty() )
     {
-      *ptr = vertex;
-      ++ptr;
+      mVbo->bufferSubData( offset, mVertices[pass].size() * sizeof( Vertex ), mVertices[pass].data() );
+      offset += mVertices[pass].size() * sizeof( Vertex );
     }
   }
-  mVbo->unmap();
 }
 
 void RenderSystem::draw() const
