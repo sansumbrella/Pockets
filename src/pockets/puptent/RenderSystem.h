@@ -124,7 +124,7 @@ namespace pockets
       { stable_sort( mGeometry[PREMULTIPLIED].begin(), mGeometry[PREMULTIPLIED].end(), &RenderSystem::layerSort ); }
     private:
       std::array<std::vector<RenderDataRef>, NUM_RENDER_PASSES> mGeometry;
-      std::array<std::vector<Vertex>, 3>        mVertices;
+      std::array<std::vector<Vertex>, NUM_RENDER_PASSES>        mVertices;
       ci::gl::VboRef                            mVbo;
       ci::gl::VaoRef                            mAttributes;
       ci::gl::TextureRef                        mTexture;

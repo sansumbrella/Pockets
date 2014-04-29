@@ -140,7 +140,7 @@ void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double d
       auto mat = loc->toMatrix();
       if( !v.empty() ) {
         // create degenerate triangle between previous and current shape
-        v.emplace_back( v.back() );
+        v.push_back( v.back() );
         auto vert = mesh->vertices.front();
         v.emplace_back( Vertex{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
       }
