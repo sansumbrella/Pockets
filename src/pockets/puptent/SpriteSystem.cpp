@@ -25,8 +25,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "puptent/SpriteSystem.h"
-#include "puptent/RenderMesh.h"
+#include "pockets/puptent/SpriteSystem.h"
+#include "pockets/puptent/RenderMesh.h"
 #include "cinder/Json.h"
 
 using namespace std;

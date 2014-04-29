@@ -26,10 +26,10 @@
  */
 
 #pragma once
-#include "puptent/PupTent.h"
+#include "pockets/puptent/PupTent.h"
 #include "cinder/app/TouchEvent.h"
 #include "cinder/app/KeyEvent.h"
-#include "selene.h"
+//#include "selene.h"
 
 struct lua_State;
 

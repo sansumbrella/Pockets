@@ -25,7 +25,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "puptent/ExpiresSystem.h"
+#include "pockets/puptent/ExpiresSystem.h"
 
 using namespace pockets;
 using namespace puptent;

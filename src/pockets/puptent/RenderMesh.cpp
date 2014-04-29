@@ -25,8 +25,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "puptent/RenderMesh.h"
-#include "puptent/TextureAtlas.h"
+#include "pockets/puptent/RenderMesh.h"
+#include "pockets/puptent/TextureAtlas.h"
 
 using namespace pockets::puptent;
 using namespace cinder;

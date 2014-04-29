@@ -26,7 +26,7 @@
  */
 
 #pragma once
-#include "puptent/PupTent.h"
+#include "pockets/puptent/PupTent.h"
 #include "cinder/Color.h"
 #include "cinder/Rect.h"
 #include "cinder/Matrix.h"

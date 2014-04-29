@@ -26,7 +26,7 @@
  */
 
 #pragma once
-#include "puptent/PupTent.h"
+#include "pockets/puptent/PupTent.h"
 
 namespace pockets
 {

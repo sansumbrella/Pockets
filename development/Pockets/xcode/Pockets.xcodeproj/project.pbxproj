@@ -28,8 +28,6 @@
 		155BEF9118CBA749000A36FC /* ButtonBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF7218CBA749000A36FC /* ButtonBase.cpp */; };
 		155BEF9418CBA749000A36FC /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF7718CBA749000A36FC /* Node.cpp */; };
 		155BEF9518CBA749000A36FC /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF7718CBA749000A36FC /* Node.cpp */; };
-		155BEF9B18CBA749000A36FC /* ShapeNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF7E18CBA749000A36FC /* ShapeNode.cpp */; };
-		155BEF9C18CBA749000A36FC /* ShapeNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF7E18CBA749000A36FC /* ShapeNode.cpp */; };
 		155BEF9D18CBA749000A36FC /* SimpleButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF8018CBA749000A36FC /* SimpleButton.cpp */; };
 		155BEF9E18CBA749000A36FC /* SimpleButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF8018CBA749000A36FC /* SimpleButton.cpp */; };
 		155BEFAB18CBA749000A36FC /* TypeNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155BEF8E18CBA749000A36FC /* TypeNode.cpp */; };
@@ -138,8 +136,6 @@
 		155BEF7718CBA749000A36FC /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
 		155BEF7818CBA749000A36FC /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
 		155BEF7B18CBA749000A36FC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		155BEF7E18CBA749000A36FC /* ShapeNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeNode.cpp; sourceTree = "<group>"; };
-		155BEF7F18CBA749000A36FC /* ShapeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShapeNode.h; sourceTree = "<group>"; };
 		155BEF8018CBA749000A36FC /* SimpleButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleButton.cpp; sourceTree = "<group>"; };
 		155BEF8118CBA749000A36FC /* SimpleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleButton.h; sourceTree = "<group>"; };
 		155BEF8D18CBA749000A36FC /* TextureNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureNode.h; sourceTree = "<group>"; };
@@ -339,8 +335,6 @@
 				155BEF7718CBA749000A36FC /* Node.cpp */,
 				155BEF7818CBA749000A36FC /* Node.h */,
 				155BEF7B18CBA749000A36FC /* README.md */,
-				155BEF7E18CBA749000A36FC /* ShapeNode.cpp */,
-				155BEF7F18CBA749000A36FC /* ShapeNode.h */,
 				155BEF8018CBA749000A36FC /* SimpleButton.cpp */,
 				155BEF8118CBA749000A36FC /* SimpleButton.h */,
 				155BEF8D18CBA749000A36FC /* TextureNode.h */,
@@ -622,7 +616,6 @@
 				150EE01418CA259F000AFD9E /* Constraints.cpp in Sources */,
 				1563A4EF18FCE00200D1FF54 /* TagsComponent.cc in Sources */,
 				1563A4A918FCD53300D1FF54 /* ExpiresSystem.cpp in Sources */,
-				155BEF9C18CBA749000A36FC /* ShapeNode.cpp in Sources */,
 				1563A4ED18FCE00200D1FF54 /* System.cc in Sources */,
 				1563A4E918FCE00200D1FF54 /* Entity.cc in Sources */,
 				150EE01618CA259F000AFD9E /* Effectors.cpp in Sources */,
@@ -682,7 +675,6 @@
 				1563A4A818FCD53300D1FF54 /* ExpiresSystem.cpp in Sources */,
 				15F72B6918C8150A000DE2EB /* FileUtils.cpp in Sources */,
 				1563A4EA18FCE00200D1FF54 /* Event.cc in Sources */,
-				155BEF9B18CBA749000A36FC /* ShapeNode.cpp in Sources */,
 				1563A4EE18FCE00200D1FF54 /* TagsComponent.cc in Sources */,
 				155BEF9D18CBA749000A36FC /* SimpleButton.cpp in Sources */,
 				155BEFAB18CBA749000A36FC /* TypeNode.cpp in Sources */,

@@ -3,7 +3,7 @@
 //  All rights reserved.
 //
 
-#include "puptent/KeyboardInput.h"
+#include "pockets/puptent/KeyboardInput.h"
 #include "pockets/CollectionUtilities.hpp"
 #include "cinder/app/App.h"
 

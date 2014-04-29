@@ -25,7 +25,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "puptent/RenderSystem.h"
+#include "pockets/puptent/RenderSystem.h"
 #include "pockets/CollectionUtilities.hpp"
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/Context.h"

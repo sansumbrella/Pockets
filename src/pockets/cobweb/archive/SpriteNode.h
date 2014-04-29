@@ -9,7 +9,7 @@
 #pragma once
 
 #include "Node.h"
-#include "pockets/Sprite.h"
+#include "pockets/cobweb/SpriteNode.h"
 
 namespace pockets
 {

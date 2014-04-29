@@ -25,8 +25,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "ScriptSystem.h"
+#include "pockets/puptent/ScriptSystem.h"
 #include "cinder/Utilities.h"
+
+using namespace std;
+using namespace pockets::puptent;
+
+/*
 #include "puptent/LuaExports.h"
 
 extern "C"{
@@ -35,8 +40,6 @@ extern "C"{
 #include "lualib.h"
 }
 
-using namespace std;
-using namespace pockets::puptent;
 
 // test function for scripting
 int l_cout( lua_State *L ){
@@ -96,12 +99,10 @@ void ScriptSystem::update(shared_ptr<entityx::EntityManager> es, shared_ptr<enti
   int error = lua_pcall( L, 1, 0, 0 );
   handleLuaError( error );
 
-/*
   int error = luaL_loadstring( L, "a = a + 2" ) || lua_pcall( L, 0, 0, 0 );
   handleLuaError( error );
   error = luaL_loadstring( L, "su.cout( a )" ) || lua_pcall( L, 0, 0, 0 );
   handleLuaError( error );
-  */
 }
 
 void ScriptSystem::handleLuaError( int error )
@@ -113,6 +114,7 @@ void ScriptSystem::handleLuaError( int error )
     lua_pop( L, 1 );
   }
 }
+*/
 
 //
 //  C++ Script system

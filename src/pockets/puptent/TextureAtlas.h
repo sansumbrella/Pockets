@@ -26,7 +26,7 @@
  */
 
 #pragma once
-#include "puptent/PupTent.h"
+#include "pockets/puptent/PupTent.h"
 #include "cinder/Surface.h"
 #include "cinder/gl/Texture.h"
 
