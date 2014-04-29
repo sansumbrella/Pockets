@@ -45,6 +45,15 @@ Animation Utilities
 File Utilities
 - Get next sequential filename
 
+Thinking about:
+Animation tracks - held values + curves/tweens for transitions
+	always setting held value keeps tracks predictable
+	update fn? maybe not with tracks
+	mix multiple tracks? Same target, different weights.
+		- blending with procedural animation
+		- blending two pre-created animations
+	Get familiar with animation in Maya, consider those metaphors.
+
 Todo:
 CSV parsing a la d3/R
 
