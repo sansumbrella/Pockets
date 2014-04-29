@@ -28,6 +28,7 @@
 
 #pragma once
 #include "Pockets.h"
+#include "cinder/gl/gl.h"
 
 namespace pockets
 {

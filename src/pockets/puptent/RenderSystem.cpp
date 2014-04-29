@@ -33,7 +33,8 @@
 
 using namespace std;
 using namespace cinder;
-using namespace pockets::puptent;
+using namespace pockets;
+using namespace puptent;
 
 void RenderSystem::configure( EventManagerRef event_manager )
 {
@@ -61,7 +62,7 @@ void RenderSystem::configure( EventManagerRef event_manager )
   mVbo->unbind();
 }
 
-void RenderSystem::receive(const ComponentAddedEvent<puptent::RenderData> &event)
+void RenderSystem::receive(const ComponentAddedEvent<RenderData> &event)
 {
   auto data = event.component;
   const RenderPass pass = data->pass;
@@ -106,7 +107,7 @@ void RenderSystem::checkOrdering() const
   }
 }
 
-void RenderSystem::receive(const ComponentRemovedEvent<puptent::RenderData> &event)
+void RenderSystem::receive(const ComponentRemovedEvent<RenderData> &event)
 {
   auto render_data = event.component;
   vector_remove( &mGeometry[render_data->pass], render_data );
@@ -163,7 +164,8 @@ void RenderSystem::draw() const
 {
   gl::ScopedGlslProg    shader( mRenderProg );
   gl::ScopedVao         attr( mAttributes );
-  gl::ScopedTextureBind tex( mTexture, 0 );
+  uint8_t textureUnit = 0;
+  gl::ScopedTextureBind tex( mTexture, textureUnit );
   gl::setDefaultShaderVars();
 
   // premultiplied alpha blending for normal pass

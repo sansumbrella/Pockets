@@ -28,6 +28,7 @@
 #pragma once
 
 #include "cinder/Color.h"
+#include "cinder/Surface.h"
 
 namespace pockets
 {

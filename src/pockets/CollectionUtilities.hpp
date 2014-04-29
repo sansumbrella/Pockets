@@ -32,6 +32,7 @@
 */
 
 #include "Pockets.h"
+#include <map>
 
 namespace pockets
 {

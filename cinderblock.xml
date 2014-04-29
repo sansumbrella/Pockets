@@ -9,7 +9,6 @@
 	<!-- Pockets -->
 	<headerPattern>src/pockets/*.h</headerPattern>
 	<sourcePattern>src/pockets/*.cpp</sourcePattern>
-	<header>src/pockets/Pockets.h</header>
 	<!-- cobweb -->
 	<headerPattern>src/pockets/cobweb/*.h</headerPattern>
 	<sourcePattern>src/pockets/cobweb/*.cpp</sourcePattern>
@@ -19,7 +18,6 @@
 	<!-- PupTent -->
 	<headerPattern>src/pockets/puptent/*.h</headerPattern>
 	<sourcePattern>src/pockets/puptent/*.cpp</sourcePattern>
-	<header>src/pockets/Pockets.h</header>
 	<!-- entityx for PupTent -->
 	<headerPattern>src/thirdparty/entityx/*.h</headerPattern>
 	<sourcePattern>src/thirdparty/entityx/*.cc</sourcePattern>

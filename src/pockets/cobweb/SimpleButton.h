@@ -10,6 +10,7 @@
 #include "cinder/gl/Texture.h"
 #include "Node.h"
 #include "ButtonBase.h"
+#include "cinder/Font.h"
 
 namespace pockets
 {
