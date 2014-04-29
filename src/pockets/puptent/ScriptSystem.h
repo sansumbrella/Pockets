@@ -26,17 +26,26 @@
  */
 
 #pragma once
+
+#ifndef ENABLE_LUA
+#define ENABLE_LUA 0
+#endif
+
 #include "pockets/puptent/PupTent.h"
 #include "cinder/app/TouchEvent.h"
 #include "cinder/app/KeyEvent.h"
 #include "cinder/Filesystem.h"
-//#include "selene.h"
+
+#if ENABLE_LUA
+#include "selene.h"
 
 struct lua_State;
+#endif
 
 namespace pockets
 { namespace puptent
   {
+#if ENABLE_LUA
     //
     //  Dynamic Script Behaviors
     //
@@ -77,7 +86,7 @@ namespace pockets
       void  handleLuaError( int error );
       lua_State *L;
     };
-
+#endif // ENABLE_LUA
     //
     //  C++ driven behaviors
     //

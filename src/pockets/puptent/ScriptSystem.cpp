@@ -31,6 +31,8 @@
 using namespace std;
 using namespace pockets::puptent;
 
+#if ENABLE_LUA
+
 #include "puptent/LuaExports.h"
 
 extern "C"{
@@ -38,7 +40,6 @@ extern "C"{
 #include "lauxlib.h"
 #include "lualib.h"
 }
-
 
 // test function for scripting
 int l_cout( lua_State *L ){
@@ -114,6 +115,7 @@ void ScriptSystem::handleLuaError( int error )
   }
 }
 
+#endif // ENABLE_LUA
 
 //
 //  C++ Script system
