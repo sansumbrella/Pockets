@@ -19,9 +19,6 @@
 #include "puptent/ParticleBehaviorSystems.h"
 #include "KeyboardInput.h"
 
-//#define CATCH_CONFIG_MAIN // let catch define our main method
-//#include "catch.hpp"
-
 /**
  Sample app used to develop features of PupTent.
  Learning about component systems and building my own components.
