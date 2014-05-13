@@ -103,6 +103,8 @@
 		1563A51D18FCE1F600D1FF54 /* SpriteSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A50518FCE1F600D1FF54 /* SpriteSystem.cpp */; };
 		1563A51E18FCE1F600D1FF54 /* TextureAtlas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A50718FCE1F600D1FF54 /* TextureAtlas.cpp */; };
 		1563A51F18FCE1F600D1FF54 /* TextureAtlas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A50718FCE1F600D1FF54 /* TextureAtlas.cpp */; };
+		158EA62F192266EC0059074D /* Profiling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 158EA62E192266EC0059074D /* Profiling.cpp */; };
+		158EA630192266EC0059074D /* Profiling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 158EA62E192266EC0059074D /* Profiling.cpp */; };
 		159385D917E5FF670025D5DD /* ConnectionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159385D717E5FF670025D5DD /* ConnectionManager.cpp */; };
 		159FADC6190494F30085C5F2 /* LuaExports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159FADC4190494F30085C5F2 /* LuaExports.cpp */; };
 		15AD5DC518C6270400B86D3C /* PupTent_Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15AD5DC418C6270400B86D3C /* PupTent_Tests.cpp */; };
@@ -283,6 +285,7 @@
 		1563A50618FCE1F600D1FF54 /* SpriteSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteSystem.h; sourceTree = "<group>"; };
 		1563A50718FCE1F600D1FF54 /* TextureAtlas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureAtlas.cpp; sourceTree = "<group>"; };
 		1563A50818FCE1F600D1FF54 /* TextureAtlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureAtlas.h; sourceTree = "<group>"; };
+		158EA62E192266EC0059074D /* Profiling.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Profiling.cpp; path = ../../../src/pockets/Profiling.cpp; sourceTree = "<group>"; };
 		159385D717E5FF670025D5DD /* ConnectionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConnectionManager.cpp; path = ../../../../Pockets/src/pockets/ConnectionManager.cpp; sourceTree = "<group>"; };
 		159385D817E5FF670025D5DD /* ConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionManager.h; path = ../../../../Pockets/src/pockets/ConnectionManager.h; sourceTree = "<group>"; };
 		159FADC4190494F30085C5F2 /* LuaExports.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaExports.cpp; sourceTree = "<group>"; };
@@ -754,6 +757,7 @@
 		951385A6C77D4CA8B479DD48 /* pockets */ = {
 			isa = PBXGroup;
 			children = (
+				158EA62E192266EC0059074D /* Profiling.cpp */,
 				DBFCA696D9074EB491DB23ED /* AnimationUtils.cpp */,
 				1C488A17000B4EB4A41BC68E /* FileUtils.cpp */,
 				51EECC52FF46449CB328CBEE /* ImagePacker.cpp */,
@@ -859,6 +863,7 @@
 				1563A51218FCE1F600D1FF54 /* ParticleBehaviorSystems.cpp in Sources */,
 				1563A51918FCE1F600D1FF54 /* RenderSystem.cpp in Sources */,
 				1534BD51190F386800B70940 /* Event.cc in Sources */,
+				158EA630192266EC0059074D /* Profiling.cpp in Sources */,
 				1534BD4D190F386800B70940 /* Dependencies.cc in Sources */,
 				1563A50A18FCE1F600D1FF54 /* DelaySystem.cpp in Sources */,
 				1534BD53190F386800B70940 /* Timer.cc in Sources */,
@@ -933,6 +938,7 @@
 				1556C83E17D65FB900811B85 /* b2ContactManager.cpp in Sources */,
 				1534BD4E190F386800B70940 /* Entity.cc in Sources */,
 				1556C84B17D65FB900811B85 /* b2PolygonContact.cpp in Sources */,
+				158EA62F192266EC0059074D /* Profiling.cpp in Sources */,
 				1556C83917D65FB900811B85 /* b2Math.cpp in Sources */,
 				1534BD52190F386800B70940 /* Timer.cc in Sources */,
 				1556C85A17D65FB900811B85 /* Renderer.cpp in Sources */,

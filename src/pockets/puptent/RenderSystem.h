@@ -103,8 +103,9 @@ namespace pockets
      For "untextured" geometry, we leave a white pixel in the top-left corner
      of our sprite sheets and set all vertex tex coords to their default 0,0.
      */
-    struct RenderSystem : public System<RenderSystem>, Receiver<RenderSystem>
+    class RenderSystem : public System<RenderSystem>, public Receiver<RenderSystem>
     {
+    public:
       //! listen for events
       void        configure( EventManagerRef event_manager ) override;
       //! generate vertex list by transforming meshes by locii

@@ -9,6 +9,7 @@
 #include "entityx/tags/TagsComponent.h"
 
 #include "pockets/AnimationUtils.h"
+#include "pockets/Profiling.h"
 
 #include "puptent/RenderSystem.h"
 #include "puptent/TextureAtlas.h"
@@ -53,6 +54,8 @@ private:
   double                    mAverageUpdateTime = 1.0;
   double                    mAverageRenderTime = 1.0;
   Timer                     mTimer;
+  uint16_t                  mFramesSinceLastReport;
+  OpenGLTimer               mGpuTimer;
 };
 
 void PupTentApp::prepareSettings( Settings *settings )
@@ -79,12 +82,14 @@ void PupTentApp::setup()
   mSystemManager = SystemManager::make( mEntities, mEvents );
   mSystemManager->add<ExpiresSystem>();
   mSystemManager->add<ParticleSystem>();
-  mSystemManager->add<ScriptSystem>();
+//  mSystemManager->add<CppScriptSystem>();
   mSystemManager->add<CppScriptSystem>();
   mSpriteSystem = mSystemManager->add<SpriteAnimationSystem>( atlas, animations );
   auto renderer = mSystemManager->add<RenderSystem>();
   renderer->setTexture( atlas->getTexture() );
   mSystemManager->configure();
+
+  mGpuTimer.setup();
 
   createPlayer();
   for( int i = 0; i < 10000; ++i )
@@ -329,12 +334,13 @@ Entity PupTentApp::createTreasure()
 
 void PupTentApp::update()
 {
+  mGpuTimer.begin();
   double dt = mTimer.getSeconds();
   mTimer.start();
   Timer up;
   up.start();
 //  mSystemManager->update<ExpiresSystem>( dt );
-  mSystemManager->update<ScriptSystem>( dt );
+//  mSystemManager->update<ScriptSystem>( dt );
   mSystemManager->update<CppScriptSystem>( dt );
   mSystemManager->update<SpriteAnimationSystem>( dt );
   mSystemManager->update<ParticleSystem>( dt );
@@ -361,9 +367,14 @@ void PupTentApp::draw()
 
   double ms = dr.getSeconds() * 1000;
   mAverageRenderTime = (mAverageRenderTime * 59.0 + ms) / 60.0;
-  if( getElapsedFrames() % 90 == 0 )
+  mGpuTimer.end();
+
+  mFramesSinceLastReport += 1;
+  if( mGpuTimer.available() && mFramesSinceLastReport > 59 )
   {
-    cout << "Render: " << mAverageRenderTime << ", " << ms << endl;
+    console() << "Render: " << mAverageRenderTime << ", " << ms << endl;
+    console() << "Render Time (GPU): " << mGpuTimer.getMilliseconds() << "ms" << endl;
+    mFramesSinceLastReport = 0;
   }
 }
 
