@@ -28,19 +28,26 @@
 #pragma once
 
 #include "Pockets.h"
+#include "cinder/Color.h"
+#include "cinder/Quaternion.h"
 
 namespace pockets
 {
   //! returns f with precision of 1/steps (e.g. for 0.31 with 5 steps, yields 0.4, with 10 steps, yields 0.3 )
-	float quantize( float f, float steps );
+  float quantize( float f, float steps );
 
   //! lerp color through HSV space; wraps Hue from 0—1
   ci::ColorA lerpHSVA( const ci::ColorA &start, const ci::ColorA &finish, float time );
 
+  //! calculate a grid with at least \a minCells and an aspect ratio close to
+  //! \a targetAspect (columns:rows). Returns Vec2i with the number of columns
+  //! and rows that such a grid would contain
+  ci::Vec2i	calcProportionalGridToFit( size_t minCells, float targetAspect );
+
   //! Lerp from value a to value b, wrapping around a circle where
   //! a value of w is equivalent to a value of zero (e.g. 2π)
   template<typename T>
-  T wrapLerp( T a, T b, T w, float t )
+  T lerpWrapped( T a, T b, T w, float t )
   {
     if( cinder::math<T>::abs( b - a ) > w / 2.0f )
     {

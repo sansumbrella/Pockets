@@ -29,6 +29,11 @@
 
 #pragma once
 
+/**
+ Pockets contains a variety of utilities of varying utility.
+
+ Hopefully you can find some things of use to you here.
+ */
 namespace pockets
 {
 }

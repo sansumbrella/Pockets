@@ -27,11 +27,12 @@
 
 #pragma once
 
-/**
+/** \file
  Functions for easier manipulation of STL containers.
 */
 
 #include "Pockets.h"
+#include <map>
 
 namespace pockets
 {
@@ -53,7 +54,7 @@ namespace pockets
 		}
 	}
 
-  // Return a vector of all the keys in a map
+  //! Return a vector of all the keys in a map
   template<typename K, typename V>
   std::vector<K> map_keys( const std::map<K, V> &map )
   {
@@ -75,13 +76,26 @@ namespace pockets
                , vec->end() );
   }
 
-  //! Remove all copies of the element \a compare from \a vec
+  //! Remove all elements from \a container that match \a compare
+  //! This is closer to an earlier strategy I had than vector_erase_if,
+  //! but that was plagued by obscure error messages. Will see if this works
+  //! a bit better / more flexibly
+  template<class CONTAINER_TYPE, class COMPARATOR>
+  void erase_if( CONTAINER_TYPE *container, COMPARATOR compare )
+  {
+    container->erase( std::remove_if( container->begin(),
+                                      container->end(),
+                                      compare ),
+                     container->end() );
+  }
+
+  //! Remove all copies of \a element from \a vec
   template<class ELEMENT_TYPE>
-  void vector_remove( std::vector<ELEMENT_TYPE> *vec, const ELEMENT_TYPE &compare )
+  void vector_remove( std::vector<ELEMENT_TYPE> *vec, const ELEMENT_TYPE &element )
   {
     vec->erase( std::remove_if( vec->begin()
                                , vec->end()
-                               , [=](const ELEMENT_TYPE &element){ return element == compare; } )
+                               , [=](const ELEMENT_TYPE &e){ return e == element; } )
                , vec->end() );
   }
 

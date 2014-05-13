@@ -119,7 +119,7 @@
     <ClCompile Include="..\..\..\src\pockets\SimpleRenderer.cpp" />
     <ClCompile Include="..\..\..\src\pockets\Sprite.cpp" />
     <ClCompile Include="..\..\..\src\pockets\SpriteSheet.cpp" />
-    <ClCompile Include="..\..\..\src\pockets\TriangleRenderer.cpp" />
+    <ClCompile Include="..\..\..\src\pockets\Renderer2dStrip.cpp" />
     <ClCompile Include="..\..\..\src\pockets\gl\Vbo.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -137,7 +137,7 @@
     <ClInclude Include="..\..\..\src\pockets\SimpleRenderer.h" />
     <ClInclude Include="..\..\..\src\pockets\Sprite.h" />
     <ClInclude Include="..\..\..\src\pockets\SpriteSheet.h" />
-    <ClInclude Include="..\..\..\src\pockets\TriangleRenderer.h" />
+    <ClInclude Include="..\..\..\src\pockets\Renderer2dStrip.h" />
     <ClInclude Include="..\..\..\src\pockets\gl\Vbo.h" />
     <ClInclude Include="..\..\..\src\pockets\Pockets.h" />
   </ItemGroup>

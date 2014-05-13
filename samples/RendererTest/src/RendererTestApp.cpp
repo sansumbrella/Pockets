@@ -2,9 +2,9 @@
 #include "cinder/gl/gl.h"
 #include "cinder/Rand.h"
 
-#include "TriangleRenderer.h"
+#include "Renderer2d.h"
 #include "SimpleRenderer.h"
-#include "Locus2d.h"
+#include "Locus.h"
 
 #include <array>
 
@@ -16,10 +16,11 @@ using namespace pockets;
 /**
  Test for comparing performance of rendering strategies.
  Also demonstrates basic usage of the Renderer objects.
+ Press space to cycle through renderers.
 
  Performance notes from testing on various devices (Release mode, 1k boxes):
 
- (Renderer/Device)        SimpleRenderer    TriangleRenderer
+ (Renderer/Device)        SimpleRenderer    Renderer2dStrip
  iPhone 3GS               ~ 55ms             ~ 10ms
  iPhone 4S                ~ 26.3ms           ~  6.0ms
  iPad 2                   ~ 21.8ms           ~  6.6ms
@@ -30,12 +31,12 @@ using namespace pockets;
  GPU state switching is slow. This was all measured while plugged into XCode.
 
  SimpleRenderer, then, provides an easy interface for ordering custom rendering,
- while TriangleRenderer provides a high performance interface for rendering
+ while Renderer2dStrip provides a high performance interface for rendering
  triangle strips.
  */
 
 // Something we can render with either renderer for better comparison of methods
-class Box : public TriangleRenderer::IRenderable, public SimpleRenderer::IRenderable
+class Box : public BatchRenderer2d::Renderable, public SimpleRenderer::Renderable
 {
 public:
   Box()
@@ -59,13 +60,19 @@ public:
       v.color = color;
     }
   }
+
+  void update()
+  {
+    mLocus.calculateTransform();
+  }
+
   // Interface for SimpleRenderer
   void render() override
   {
     glEnableClientState( GL_VERTEX_ARRAY );
-    glVertexPointer( 2, GL_FLOAT, sizeof(Vertex), &mVertices[0].position.x );
+    glVertexPointer( 2, GL_FLOAT, sizeof(Vertex2d), &mVertices[0].position.x );
     glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-    glTexCoordPointer( 2, GL_FLOAT, sizeof(Vertex), &mVertices[0].tex_coord.x );
+    glTexCoordPointer( 2, GL_FLOAT, sizeof(Vertex2d), &mVertices[0].tex_coord.x );
 
     gl::pushModelView();
     gl::multModelView( mLocus );
@@ -76,20 +83,19 @@ public:
     glDisableClientState( GL_VERTEX_ARRAY );
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
   }
-  // Interface for TriangleRenderer
-  vector<Vertex> getVertices() override
+  // Interface for Renderer2dStrip
+  vector<Vertex2d> getVertices() const override
   {
-    auto mat = mLocus.getTransform();
-    vector<Vertex> ret;
+    vector<Vertex2d> ret;
     for( auto &v : mVertices )
     {
-      ret.emplace_back( Vertex{ mat.transformPoint( v.position ), v.color, v.tex_coord } );
+      ret.emplace_back( mLocus.transform( v ) );
     }
     return ret;
   }
 private:
   ci::ColorA                mColor;
-  std::array<Vertex, 4>     mVertices;
+  std::array<Vertex2d, 4>   mVertices;
   Locus2d                   mLocus;
 };
 
@@ -97,53 +103,69 @@ typedef function<void ()> RenderFn;
 
 class RendererTestApp : public AppNative {
 public:
+  void prepareSettings( Settings *settings );
 	void setup();
 	void swapRenderer();
 	void update();
 	void draw();
 private:
-  TriangleRenderer  mTriangleRenderer;
-  SimpleRenderer    mSimpleRenderer;
-  array<Box, 1000>  mBoxes;
+  Renderer2dStrip     mRenderer2dStrip;
+  Renderer2dStripVbo  mRenderer2dStripVbo;
+  SimpleRenderer      mSimpleRenderer;
+  array<Box, 1000>   mBoxes;
   vector<pair<string, RenderFn>>            mRenderFunctions;
   vector<pair<string, RenderFn>>::iterator  mRenderFn;
   double            mAverageRenderTime = 0;
 };
 
+void RendererTestApp::prepareSettings( Settings *settings )
+{
+//  settings->setWindowSize( 1024, 768 );
+//  settings->disableFrameRate();
+//  settings->setFullScreen();
+}
+
 void RendererTestApp::setup()
 {
   mRenderFunctions = {
-    { "Triangle Renderer", [=](){ mTriangleRenderer.render(); } },
-    { "Simple Renderer", [=](){ mSimpleRenderer.render(); } }
+    { "Batch 2d", [=](){ mRenderer2dStrip.update(); mRenderer2dStrip.render(); } },
+    { "VBO 2d", [=](){ mRenderer2dStripVbo.update(); mRenderer2dStripVbo.render(); } },
+    { "Simple", [=](){ mSimpleRenderer.render(); } },
+    { "Batch 2d (no updates)", [=](){ mRenderer2dStrip.render(); } },
+    { "VBO 2d (no updates)", [=](){ mRenderer2dStripVbo.render(); } },
   };
   mRenderFn = mRenderFunctions.begin();
+  gl::enableVerticalSync();
 
+  Rand r;
   for( auto &box : mBoxes )
   {
-    box.setColor( ColorA{ CM_HSV, Rand::randFloat(), 0.9f, 0.9f, 1.0f } );
-    box.setPos( Vec2f{ Rand::randFloat(getWindowWidth()), Rand::randFloat(getWindowHeight()) } );
-    box.setRotation( Rand::randFloat( M_PI * 2 ) );
-    mTriangleRenderer.add( &box );
+    box.setColor( ColorA{ CM_HSV, r.nextFloat( 1.0f ), 0.9f, 0.9f, 1.0f } );
+    box.setPos( Vec2f{ r.nextFloat(getWindowWidth()), r.nextFloat(getWindowHeight()) } );
+    box.setRotation( r.nextFloat( M_PI * 2 ) );
+    mRenderer2dStrip.add( &box );
     mSimpleRenderer.add( &box );
+    mRenderer2dStripVbo.add( &box );
   }
 
   // We perform the cast since we know what type of things we stored in each renderer
   // A type-safe way could be to assign y to each objects layer and then sort by layer
   Vec2f center = getWindowCenter();
-  auto vortex_simple = [center]( const SimpleRenderer::IRenderable *lhs, const SimpleRenderer::IRenderable *rhs )
+  auto vortex_simple = [center]( const SimpleRenderer::Renderable *lhs, const SimpleRenderer::Renderable *rhs )
   {
     return static_cast<const Box*>( lhs )->getPos().distance(center) <
     static_cast<const Box*>( rhs )->getPos().distance(center);
   };
-  auto vortex_triangle = [center]( const TriangleRenderer::IRenderable *lhs, const TriangleRenderer::IRenderable *rhs )
+  auto vortex_triangle = [center]( const BatchRenderer2d::Renderable *lhs, const BatchRenderer2d::Renderable *rhs )
   {
     return  static_cast<const Box*>( lhs )->getPos().distance(center) <
     static_cast<const Box*>( rhs )->getPos().distance(center);
   };
   mSimpleRenderer.sort( vortex_simple );
-  mTriangleRenderer.sort( vortex_triangle );
+  mRenderer2dStrip.sort( vortex_triangle );
+  mRenderer2dStripVbo.sort( vortex_triangle );
 
-  getWindow()->getSignalKeyUp().connect( [this](KeyEvent &event){ swapRenderer(); } );
+  getWindow()->getSignalKeyUp().connect( [this](KeyEvent &event){ if( event.getCode() == KeyEvent::KEY_SPACE ){ swapRenderer(); } } );
   getWindow()->getSignalTouchesEnded().connect( [this](TouchEvent &event){ swapRenderer(); } );
 }
 
@@ -154,7 +176,7 @@ void RendererTestApp::swapRenderer()
   {
     mRenderFn = mRenderFunctions.begin();
   }
-  cout << "Swapped to: " << mRenderFn->first << endl;
+  cout << "Renderer set to: " << mRenderFn->first << endl;
 }
 
 void RendererTestApp::update()
@@ -162,6 +184,7 @@ void RendererTestApp::update()
   for( auto &box : mBoxes )
   {
     box.setRotation( fmodf( box.getRotation() + M_PI * 0.01f, M_PI * 2 ) );
+    box.update();
   }
 }
 
@@ -175,9 +198,9 @@ void RendererTestApp::draw()
   auto ms = (t2 - t1) * 1000;
   mAverageRenderTime = (mAverageRenderTime * 59 + ms) / 60;
   if( getElapsedFrames() % 120 == 0 )
-  {
+  { // every so often, print render time
     cout << mRenderFn->first << " avg render time: " << mAverageRenderTime << "ms" << endl;
   }
 }
 
-CINDER_APP_NATIVE( RendererTestApp, RendererGl( RendererGl::AA_NONE ) )
+CINDER_APP_NATIVE( RendererTestApp, RendererGl( RendererGl::AA_MSAA_8 ) )

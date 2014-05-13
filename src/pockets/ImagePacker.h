@@ -28,6 +28,9 @@
 #pragma once
 #include "Pockets.h"
 #include "cinder/Json.h"
+#include "cinder/Surface.h"
+#include "cinder/Rect.h"
+#include "cinder/Font.h"
 
 namespace pockets
 {

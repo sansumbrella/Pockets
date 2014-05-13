@@ -32,6 +32,17 @@ using namespace ci;
 using namespace pockets;
 using namespace std;
 
+ci::Vec2i pk::calcProportionalGridToFit( size_t minCells, float targetAspect )
+{
+	float square = math<float>::sqrt( minCells );
+	float aspectSquare = math<float>::sqrt( targetAspect );
+	int rows = math<float>::ceil( square * aspectSquare );
+	// we could do square/aspectSquare here, but using minCells gets a tighter fit
+	int columns = math<float>::ceil( static_cast<float>(minCells) / rows );
+	assert( rows * columns >= minCells );
+	return Vec2i( columns, rows );
+}
+
 float pk::quantize( float f, float steps )
 {
 	return math<float>::floor(f * steps + 0.5f) / steps;
@@ -44,7 +55,7 @@ ColorA pk::lerpHSVA( const ci::ColorA &start, const ci::ColorA &finish, float ti
 	auto s_hsv = Color( start.r, start.g, start.b ).get( CM_HSV );
 	auto f_hsv = Color( finish.r, finish.g, finish.b ).get( CM_HSV );
 	return ColorA( CM_HSV
-                , wrapLerp( s_hsv.x, f_hsv.x, 1.0f, time )
+                , lerpWrapped( s_hsv.x, f_hsv.x, 1.0f, time )
                 , lerp( s_hsv.y, f_hsv.y, time )
                 , lerp( s_hsv.z, f_hsv.z, time )
                 , lerp( start.a, finish.a, time ) );

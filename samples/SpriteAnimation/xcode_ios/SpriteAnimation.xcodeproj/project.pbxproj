@@ -35,7 +35,7 @@
 		BD287A09CE864416850A8755 /* Pockets.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C1BA3DB4350494DAF6B1F69 /* Pockets.h */; };
 		185700D3ED3040B293FF00C1 /* Vbo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7302E36533F943229CFDAFDE /* Vbo.h */; };
 		714C011A8E9B46CF9DA49052 /* Vbo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19BF89F2AA84C07A72548F0 /* Vbo.cpp */; };
-		3B45917B65484DD3820479E3 /* TriangleRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1B997FD09B4F61A9CD890C /* TriangleRenderer.h */; };
+		3B45917B65484DD3820479E3 /* Renderer2dStrip.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E1B997FD09B4F61A9CD890C /* Renderer2dStrip.h */; };
 		B173607E30E04131982D84E2 /* SpriteSheet.h in Headers */ = {isa = PBXBuildFile; fileRef = E49B6F18AFAF49FEA11316DA /* SpriteSheet.h */; };
 		6A0DE0CFEDE644AFA1A47540 /* Sprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 303D928240C740DC853737D1 /* Sprite.h */; };
 		469FB0F15E564CDE98631116 /* SimpleRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AD09A000CAB4C628D7F8A1C /* SimpleRenderer.h */; };
@@ -49,7 +49,7 @@
 		6CD6BA341CAC44F4B60724F5 /* ExpandedLine2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D2E412C6E2043BF85603204 /* ExpandedLine2d.h */; };
 		CE1A540FEE834A6AA27D54FC /* ColorPalette.h in Headers */ = {isa = PBXBuildFile; fileRef = D073C750A13D4AADB3867D66 /* ColorPalette.h */; };
 		4CE82360CB814BD99BACEFB3 /* AnimationUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7FDA085AD01740CE97DB6FB0 /* AnimationUtils.h */; };
-		6F890132843741ED8D3787DB /* TriangleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3830C173275407581BC8BC6 /* TriangleRenderer.cpp */; };
+		6F890132843741ED8D3787DB /* Renderer2dStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3830C173275407581BC8BC6 /* Renderer2dStrip.cpp */; };
 		8C0FF76B44B6449083608CE0 /* SpriteSheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4591C0EDC6994C678F4CC52E /* SpriteSheet.cpp */; };
 		5203CDA1D8214929B77B16B6 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE03248EA5EA4C8288E236DF /* Sprite.cpp */; };
 		9A19048B21114659B0A615AE /* SimpleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D16FCA0EAFC4788AD46CD80 /* SimpleRenderer.cpp */; };
@@ -102,7 +102,7 @@
 		2D16FCA0EAFC4788AD46CD80 /* SimpleRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/SimpleRenderer.cpp; sourceTree = "<group>"; name = SimpleRenderer.cpp; };
 		FE03248EA5EA4C8288E236DF /* Sprite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/Sprite.cpp; sourceTree = "<group>"; name = Sprite.cpp; };
 		4591C0EDC6994C678F4CC52E /* SpriteSheet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/SpriteSheet.cpp; sourceTree = "<group>"; name = SpriteSheet.cpp; };
-		E3830C173275407581BC8BC6 /* TriangleRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/TriangleRenderer.cpp; sourceTree = "<group>"; name = TriangleRenderer.cpp; };
+		E3830C173275407581BC8BC6 /* Renderer2dStrip.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/Renderer2dStrip.cpp; sourceTree = "<group>"; name = Renderer2dStrip.cpp; };
 		7FDA085AD01740CE97DB6FB0 /* AnimationUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/AnimationUtils.h; sourceTree = "<group>"; name = AnimationUtils.h; };
 		D073C750A13D4AADB3867D66 /* ColorPalette.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/ColorPalette.h; sourceTree = "<group>"; name = ColorPalette.h; };
 		9D2E412C6E2043BF85603204 /* ExpandedLine2d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/ExpandedLine2d.h; sourceTree = "<group>"; name = ExpandedLine2d.h; };
@@ -116,7 +116,7 @@
 		0AD09A000CAB4C628D7F8A1C /* SimpleRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/SimpleRenderer.h; sourceTree = "<group>"; name = SimpleRenderer.h; };
 		303D928240C740DC853737D1 /* Sprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/Sprite.h; sourceTree = "<group>"; name = Sprite.h; };
 		E49B6F18AFAF49FEA11316DA /* SpriteSheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/SpriteSheet.h; sourceTree = "<group>"; name = SpriteSheet.h; };
-		9E1B997FD09B4F61A9CD890C /* TriangleRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/TriangleRenderer.h; sourceTree = "<group>"; name = TriangleRenderer.h; };
+		9E1B997FD09B4F61A9CD890C /* Renderer2dStrip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/Renderer2dStrip.h; sourceTree = "<group>"; name = Renderer2dStrip.h; };
 		A19BF89F2AA84C07A72548F0 /* Vbo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; path = ../../../src/pockets/gl/Vbo.cpp; sourceTree = "<group>"; name = Vbo.cpp; };
 		7302E36533F943229CFDAFDE /* Vbo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/gl/Vbo.h; sourceTree = "<group>"; name = Vbo.h; };
 		8C1BA3DB4350494DAF6B1F69 /* Pockets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../../src/pockets/Pockets.h; sourceTree = "<group>"; name = Pockets.h; };
@@ -208,7 +208,7 @@
 				2D16FCA0EAFC4788AD46CD80 /* SimpleRenderer.cpp */,
 				FE03248EA5EA4C8288E236DF /* Sprite.cpp */,
 				4591C0EDC6994C678F4CC52E /* SpriteSheet.cpp */,
-				E3830C173275407581BC8BC6 /* TriangleRenderer.cpp */,
+				E3830C173275407581BC8BC6 /* Renderer2dStrip.cpp */,
 				7FDA085AD01740CE97DB6FB0 /* AnimationUtils.h */,
 				D073C750A13D4AADB3867D66 /* ColorPalette.h */,
 				9D2E412C6E2043BF85603204 /* ExpandedLine2d.h */,
@@ -222,7 +222,7 @@
 				0AD09A000CAB4C628D7F8A1C /* SimpleRenderer.h */,
 				303D928240C740DC853737D1 /* Sprite.h */,
 				E49B6F18AFAF49FEA11316DA /* SpriteSheet.h */,
-				9E1B997FD09B4F61A9CD890C /* TriangleRenderer.h */,
+				9E1B997FD09B4F61A9CD890C /* Renderer2dStrip.h */,
 				3D8912CF6E8A4D3D9A1C69B0 /* gl */,
 				8C1BA3DB4350494DAF6B1F69 /* Pockets.h */,
 			);
@@ -354,7 +354,7 @@
 				9A19048B21114659B0A615AE /* SimpleRenderer.cpp in Sources */,
 				5203CDA1D8214929B77B16B6 /* Sprite.cpp in Sources */,
 				8C0FF76B44B6449083608CE0 /* SpriteSheet.cpp in Sources */,
-				6F890132843741ED8D3787DB /* TriangleRenderer.cpp in Sources */,
+				6F890132843741ED8D3787DB /* Renderer2dStrip.cpp in Sources */,
 				714C011A8E9B46CF9DA49052 /* Vbo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

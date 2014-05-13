@@ -13,9 +13,10 @@
 		00B784B50FF439BC000DE1D7 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B10FF439BC000DE1D7 /* AudioUnit.framework */; };
 		00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B20FF439BC000DE1D7 /* CoreAudio.framework */; };
 		1596F01C17CFE24200362BCF /* SpriteAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1596F01A17CFE24200362BCF /* SpriteAnimation.cpp */; };
+		15D4416F17D3912400A926F0 /* Renderer2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D4416E17D3912400A926F0 /* Renderer2d.cpp */; };
+		15D4417217D3938F00A926F0 /* Types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D4417017D3938F00A926F0 /* Types.cpp */; };
 		1D28F6D523F94FF98EDFD018 /* SpriteSheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94B18F9EBA3F47CC90AE4BD2 /* SpriteSheet.cpp */; };
-		1D45B0F65D4F400F8C9F69AC /* FatLine3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C91508634B4B879ADAA50F /* FatLine3d.cpp */; };
-		2259C40F99344F2B9FECE1B3 /* Locus2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3338F0B26C94EAB8C9ABE4A /* Locus2d.cpp */; };
+		2259C40F99344F2B9FECE1B3 /* Locus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3338F0B26C94EAB8C9ABE4A /* Locus.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		5323E6B60EAFCA7E003A9687 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B50EAFCA7E003A9687 /* QTKit.framework */; };
 		67DE70839C004CD2A63D9160 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 812583D91CC34A108E9E75D0 /* CinderApp.icns */; };
@@ -23,8 +24,6 @@
 		87D7670377AF4C3AA2B13BBA /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 79046D37A1C44E7B9614E1F0 /* Sprite.cpp */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		961C78232EB34EF4A7C98D01 /* ColorPalette.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9CF34C03D0D4FDFA956E230 /* ColorPalette.cpp */; };
-		A14D3F9569DC4B51B69513D7 /* TriangleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16F11A40325A4F019C340AFE /* TriangleRenderer.cpp */; };
-		A79A10C7CBBC4B8AAF9FB486 /* FatPath2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AF223FC0B524DDF94928021 /* FatPath2d.cpp */; };
 		AF167D46AD90447BB9567B3F /* FileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC925115B58449968CB22627 /* FileUtils.cpp */; };
 		C7E3CB78008B49938240AC62 /* ImagePacker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C56717C9E9BC40859B3606D7 /* ImagePacker.cpp */; };
 		C8858B7F781141B781417443 /* SimpleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AEC23A1AEAD4BF09F47B845 /* SimpleRenderer.cpp */; };
@@ -43,8 +42,10 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1596F01A17CFE24200362BCF /* SpriteAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpriteAnimation.cpp; path = ../../../src/pockets/SpriteAnimation.cpp; sourceTree = "<group>"; };
 		1596F01B17CFE24200362BCF /* SpriteAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpriteAnimation.h; path = ../../../src/pockets/SpriteAnimation.h; sourceTree = "<group>"; };
-		16F11A40325A4F019C340AFE /* TriangleRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = TriangleRenderer.cpp; path = ../../../src/pockets/TriangleRenderer.cpp; sourceTree = "<group>"; };
-		1AF223FC0B524DDF94928021 /* FatPath2d.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = FatPath2d.cpp; path = ../../../src/pockets/FatPath2d.cpp; sourceTree = "<group>"; };
+		15D4416D17D3912400A926F0 /* Renderer2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Renderer2d.h; path = ../../../src/pockets/Renderer2d.h; sourceTree = "<group>"; };
+		15D4416E17D3912400A926F0 /* Renderer2d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Renderer2d.cpp; path = ../../../src/pockets/Renderer2d.cpp; sourceTree = "<group>"; };
+		15D4417017D3938F00A926F0 /* Types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Types.cpp; path = ../../../src/pockets/Types.cpp; sourceTree = "<group>"; };
+		15D4417117D3938F00A926F0 /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Types.h; path = ../../../src/pockets/Types.h; sourceTree = "<group>"; };
 		2164ABC3F40840F9AB1DA14A /* FileUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FileUtils.h; path = ../../../src/pockets/FileUtils.h; sourceTree = "<group>"; };
 		26B122CC2A7F4AA491D966C0 /* Vbo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Vbo.cpp; path = ../../../src/pockets/gl/Vbo.cpp; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -73,16 +74,12 @@
 		9E67506EC9D94DB1A1F425B3 /* LineUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LineUtils.h; path = ../../../src/pockets/LineUtils.h; sourceTree = "<group>"; };
 		A9CF34C03D0D4FDFA956E230 /* ColorPalette.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ColorPalette.cpp; path = ../../../src/pockets/ColorPalette.cpp; sourceTree = "<group>"; };
 		AAEF563E0031454CA62A6AD2 /* SpriteSheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SpriteSheet.h; path = ../../../src/pockets/SpriteSheet.h; sourceTree = "<group>"; };
-		C3338F0B26C94EAB8C9ABE4A /* Locus2d.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Locus2d.cpp; path = ../../../src/pockets/Locus2d.cpp; sourceTree = "<group>"; };
+		C3338F0B26C94EAB8C9ABE4A /* Locus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Locus.cpp; path = ../../../src/pockets/Locus.cpp; sourceTree = "<group>"; };
 		C56717C9E9BC40859B3606D7 /* ImagePacker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ImagePacker.cpp; path = ../../../src/pockets/ImagePacker.cpp; sourceTree = "<group>"; };
-		CC1DC0F6620A45A39AE9D11A /* Locus2d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Locus2d.h; path = ../../../src/pockets/Locus2d.h; sourceTree = "<group>"; };
-		CE286FC8748A4D619DF209D1 /* TriangleRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TriangleRenderer.h; path = ../../../src/pockets/TriangleRenderer.h; sourceTree = "<group>"; };
+		CC1DC0F6620A45A39AE9D11A /* Locus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Locus.h; path = ../../../src/pockets/Locus.h; sourceTree = "<group>"; };
 		D3041DD5AE3148F99A6A75EA /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
 		DC925115B58449968CB22627 /* FileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = FileUtils.cpp; path = ../../../src/pockets/FileUtils.cpp; sourceTree = "<group>"; };
-		E69173F997054CAAB08FDC85 /* FatLine3d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FatLine3d.h; path = ../../../src/pockets/FatLine3d.h; sourceTree = "<group>"; };
-		F5C91508634B4B879ADAA50F /* FatLine3d.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = FatLine3d.cpp; path = ../../../src/pockets/FatLine3d.cpp; sourceTree = "<group>"; };
 		FA27A0C190E44995A71C14D8 /* ImagePacker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ImagePacker.h; path = ../../../src/pockets/ImagePacker.h; sourceTree = "<group>"; };
-		FDB3B41D9B9B4045A17518CF /* FatPath2d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FatPath2d.h; path = ../../../src/pockets/FatPath2d.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,37 +192,35 @@
 		6C06681F91F54BBAB7BAB859 /* pockets */ = {
 			isa = PBXGroup;
 			children = (
+				15D4416D17D3912400A926F0 /* Renderer2d.h */,
+				15D4416E17D3912400A926F0 /* Renderer2d.cpp */,
 				4920BBA968EE47EA8C74C847 /* AnimationUtils.cpp */,
 				A9CF34C03D0D4FDFA956E230 /* ColorPalette.cpp */,
 				32F455DE1CE449E0AB24E832 /* ExpandedLine2d.cpp */,
-				F5C91508634B4B879ADAA50F /* FatLine3d.cpp */,
-				1AF223FC0B524DDF94928021 /* FatPath2d.cpp */,
 				DC925115B58449968CB22627 /* FileUtils.cpp */,
 				C56717C9E9BC40859B3606D7 /* ImagePacker.cpp */,
 				3AAFA3210FA54975A0E01A09 /* LineUtils.cpp */,
-				C3338F0B26C94EAB8C9ABE4A /* Locus2d.cpp */,
+				C3338F0B26C94EAB8C9ABE4A /* Locus.cpp */,
 				2AEC23A1AEAD4BF09F47B845 /* SimpleRenderer.cpp */,
 				79046D37A1C44E7B9614E1F0 /* Sprite.cpp */,
 				94B18F9EBA3F47CC90AE4BD2 /* SpriteSheet.cpp */,
-				16F11A40325A4F019C340AFE /* TriangleRenderer.cpp */,
 				7AF79A1927094C1EA884B73D /* AnimationUtils.h */,
 				83D8F64416064363859639EE /* ColorPalette.h */,
 				385ED50DC08E494886E06A4C /* ExpandedLine2d.h */,
-				E69173F997054CAAB08FDC85 /* FatLine3d.h */,
-				FDB3B41D9B9B4045A17518CF /* FatPath2d.h */,
 				2164ABC3F40840F9AB1DA14A /* FileUtils.h */,
 				FA27A0C190E44995A71C14D8 /* ImagePacker.h */,
 				9E67506EC9D94DB1A1F425B3 /* LineUtils.h */,
-				CC1DC0F6620A45A39AE9D11A /* Locus2d.h */,
+				CC1DC0F6620A45A39AE9D11A /* Locus.h */,
 				84E51516FBD64D7598FA9B92 /* Pockets.h */,
 				7C4F6B6E232D446CAF7F57EA /* SimpleRenderer.h */,
 				461FE4993BA44EF1A3B564A7 /* Sprite.h */,
 				AAEF563E0031454CA62A6AD2 /* SpriteSheet.h */,
-				CE286FC8748A4D619DF209D1 /* TriangleRenderer.h */,
 				FA51188586734621BF47D08B /* gl */,
 				777427BEA345410CACFED30E /* Pockets.h */,
 				1596F01A17CFE24200362BCF /* SpriteAnimation.cpp */,
 				1596F01B17CFE24200362BCF /* SpriteAnimation.h */,
+				15D4417017D3938F00A926F0 /* Types.cpp */,
+				15D4417117D3938F00A926F0 /* Types.h */,
 			);
 			name = pockets;
 			sourceTree = "<group>";
@@ -281,6 +276,8 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "SpriteAnimation" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -318,18 +315,17 @@
 			files = (
 				FCE8D6F205AC470988AFA91B /* SpriteAnimationApp.cpp in Sources */,
 				D98E9D884328415591C86B80 /* AnimationUtils.cpp in Sources */,
+				15D4416F17D3912400A926F0 /* Renderer2d.cpp in Sources */,
 				961C78232EB34EF4A7C98D01 /* ColorPalette.cpp in Sources */,
 				F0713CEFC54F43EF83CCDD11 /* ExpandedLine2d.cpp in Sources */,
-				1D45B0F65D4F400F8C9F69AC /* FatLine3d.cpp in Sources */,
-				A79A10C7CBBC4B8AAF9FB486 /* FatPath2d.cpp in Sources */,
 				AF167D46AD90447BB9567B3F /* FileUtils.cpp in Sources */,
+				15D4417217D3938F00A926F0 /* Types.cpp in Sources */,
 				C7E3CB78008B49938240AC62 /* ImagePacker.cpp in Sources */,
 				69119A5869BF4849BC442779 /* LineUtils.cpp in Sources */,
-				2259C40F99344F2B9FECE1B3 /* Locus2d.cpp in Sources */,
+				2259C40F99344F2B9FECE1B3 /* Locus.cpp in Sources */,
 				C8858B7F781141B781417443 /* SimpleRenderer.cpp in Sources */,
 				87D7670377AF4C3AA2B13BBA /* Sprite.cpp in Sources */,
 				1D28F6D523F94FF98EDFD018 /* SpriteSheet.cpp in Sources */,
-				A14D3F9569DC4B51B69513D7 /* TriangleRenderer.cpp in Sources */,
 				F14EB20DC9E44F4085E6A741 /* Vbo.cpp in Sources */,
 				1596F01C17CFE24200362BCF /* SpriteAnimation.cpp in Sources */,
 			);
