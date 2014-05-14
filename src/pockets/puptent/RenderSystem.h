@@ -28,7 +28,7 @@
 #pragma once
 
 #include "pockets/puptent/PupTent.h"
-#include "pockets/puptent/Locus.h"
+#include "pockets/puptent/LocationComponent.h"
 #include "pockets/puptent/RenderMesh.h"
 #include "cinder/gl/VboMesh.h"
 #include "cinder/gl/Vbo.h"
@@ -60,14 +60,14 @@ namespace pockets
     typedef std::shared_ptr<class RenderData> RenderDataRef;
     struct RenderData : Component<RenderData>
     {
-      RenderData( RenderMeshRef mesh, LocusRef locus, int render_layer=0, RenderPass pass=PREMULTIPLIED ):
+      RenderData( RenderMeshRef mesh, Locus2DRef locus, int render_layer=0, RenderPass pass=PREMULTIPLIED ):
       mesh( mesh ),
       locus( locus ),
       render_layer( render_layer ),
       pass( pass )
       {}
       RenderMeshRef     mesh;
-      LocusRef          locus;
+      Locus2DRef        locus;
       int               render_layer;
       const RenderPass  pass;
     };

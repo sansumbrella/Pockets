@@ -25,46 +25,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "Locus.h"
+#include "pockets/puptent/LocationComponent.h"
 
 using namespace cinder;
 using namespace pockets;
 using namespace puptent;
-
-MatrixAffine2f Locus::toMatrix() const
-{
-  MatrixAffine2f mat;
-  mat.translate( position + registration_point );
-  mat.rotate( rotation );
-  mat.scale( scale );
-  mat.translate( -registration_point );
-  if( parent ){ mat = parent->toMatrix() * mat; }
-  return mat;
-}
-
-float Locus::getScale() const
-{
-  return parent ? parent->getScale() * scale : scale;
-}
-
-float Locus::getRotation() const
-{
-  return parent ? parent->getRotation() + rotation : rotation;
-}
-
-Vec2f Locus::getPosition() const
-{
-  return parent ? parent->toMatrix().transformPoint( position ) : position;
-}
-
-void Locus::detachFromParent()
-{
-  if( parent )
-  {
-    scale *= parent->getScale();
-    rotation += parent->getRotation();
-    position = parent->toMatrix().transformPoint( position );
-
-    parent.reset();
-  }
-}

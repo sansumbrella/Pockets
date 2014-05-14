@@ -129,6 +129,7 @@ namespace {
 
 void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double dt )
 { // assemble vertices for each pass
+  MatrixAffine2f identity = MatrixAffine2f::identity();
   for( const auto &pass : passes )
   {
     auto &v = mVertices[pass];
@@ -137,7 +138,8 @@ void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double d
     {
       auto mesh = pair->mesh;
       auto loc = pair->locus;
-      auto mat = loc->toMatrix();
+      loc->updateMatrix( identity );  // no parenting for now (will happen through scene graph)
+      auto mat = loc->matrix;
       if( !v.empty() ) {
         // create degenerate triangle between previous and current shape
         v.push_back( v.back() );

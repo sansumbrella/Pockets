@@ -25,37 +25,34 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "Locus.h"
+#include "pockets/Locus.h"
 
 using namespace pockets;
 using namespace cinder;
 
-MatrixAffine2f Locus2D::toMatrix() const
+void Locus2D::updateMatrix( ci::MatrixAffine2f parentTransform )
 {
-  MatrixAffine2f mat;
-  mat.translate( position + registration_point );
-  mat.rotate( rotation );
-  mat.scale( scale );
-  mat.translate( -registration_point );
-  if( parent ){ mat = parent->toMatrix() * mat; }
-  return mat;
+  parentTransform.translate( position + registration_point );
+  parentTransform.rotate( rotation );
+  parentTransform.scale( scale );
+  parentTransform.translate( -registration_point );
+  matrix = parentTransform;
 }
 
-ci::Vec2f Locus2D::getScale() const
+ci::MatrixAffine2f Locus2D::calcLocalMatrix() const
 {
-  return parent ? parent->getScale() * scale : scale;
+  ci::MatrixAffine2f matrix;
+  matrix.translate( position + registration_point );
+  matrix.rotate( rotation );
+  matrix.scale( scale );
+  matrix.translate( -registration_point );
+
+  return matrix;
 }
 
-float Locus2D::getRotation() const
-{
-  return parent ? parent->getRotation() + rotation : rotation;
-}
 
-Vec2f Locus2D::getPosition() const
-{
-  return parent ? parent->toMatrix().transformPoint( position ) : position;
-}
 
+/*
 void Locus2D::detachFromParent()
 {
   if( parent )
@@ -67,3 +64,4 @@ void Locus2D::detachFromParent()
     parent.reset();
   }
 }
+*/

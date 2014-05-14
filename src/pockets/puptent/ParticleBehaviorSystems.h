@@ -47,7 +47,7 @@ namespace pockets
     struct Seek : Component<Seek>
     {
       ci::Vec2f strength;
-      LocusRef  target;
+      Locus2DRef  target;
     };
 
   }

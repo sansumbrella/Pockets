@@ -36,24 +36,27 @@
 
 namespace pockets
 {
-  /**
-  A suite of entities and components for game development using entityx.
+typedef std::shared_ptr<class Locus2D>          Locus2DRef;
 
-  PupTent is meant for use in the development of small games with big hearts.
-  It is especially supportive of mixing procedural and hand-drawn 2d art.
-  */
-  namespace puptent
-  {
-    using namespace entityx;
-    // entityx notation niceties
-    typedef entityx::ptr<EntityManager> EntityManagerRef;
-    typedef entityx::ptr<EventManager>  EventManagerRef;
-    // forward declarations for common components
-    typedef std::shared_ptr<class Locus>            LocusRef;
-    typedef std::shared_ptr<class RenderMesh>       RenderMeshRef;
-    typedef std::shared_ptr<class SystemManager>    SystemManagerRef;
-    // forward declarations for common utilities
-    typedef std::shared_ptr<class TextureAtlas>     TextureAtlasRef;
-  } // puptent::
-  namespace pt = puptent;
+/**
+A suite of entities and components for game development using entityx.
+
+PupTent is meant for use in the development of small games with big hearts.
+It is especially supportive of mixing procedural and hand-drawn 2d art.
+*/
+namespace puptent
+{
+  using namespace entityx;
+  // entityx notation niceties
+  typedef entityx::ptr<EntityManager> EntityManagerRef;
+  typedef entityx::ptr<EventManager>  EventManagerRef;
+  // forward declarations for common components
+  typedef std::shared_ptr<class RenderMesh>       RenderMeshRef;
+  typedef std::shared_ptr<class SystemManager>    SystemManagerRef;
+  // forward declarations for common utilities
+  typedef std::shared_ptr<class TextureAtlas>     TextureAtlasRef;
+} // puptent::
+
+namespace pt = puptent;
+
 } // pockets::

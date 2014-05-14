@@ -26,17 +26,17 @@
  */
 
 #include "pockets/puptent/ParticleSystem.h"
-#include "pockets/puptent/Locus.h"
+#include "pockets/puptent/LocationComponent.h"
 #include "pockets/CollectionUtilities.hpp"
 
 using namespace pockets;
 using namespace puptent;
 using namespace cinder;
 
-Particle::Particle( LocusRef locus ):
-p_position( locus->getPosition() ),
-p_rotation( locus->getRotation() ),
-p_scale( locus->getScale() )
+Particle::Particle( Locus2DRef locus ):
+p_position( locus->position ),
+p_rotation( locus->rotation ),
+p_scale( locus->scale )
 {}
 
 
@@ -87,10 +87,10 @@ void ParticleSystem::update( EntityManagerRef es, EventManagerRef events, double
   for( auto entity : mEmitters )
   {
     auto emitter = entity.component<ParticleEmitter>();
-    auto loc = entity.component<Locus>();
+    auto loc = entity.component<Location>();
     Entity e = es->create();
     auto p = e.assign<Particle>();
-    auto l = e.assign<Locus>();
+    auto l = e.assign<Location>();
     if( emitter->build_fn )
     {
       emitter->build_fn( e );
@@ -101,9 +101,10 @@ void ParticleSystem::update( EntityManagerRef es, EventManagerRef events, double
   {
     // Perform verlet integration
     ParticleRef p = entity.component<Particle>();
-    LocusRef l = entity.component<Locus>();
-    if( l )
+    auto location = entity.component<Location>();
+    if( location )
     {
+      auto l = location->locus;
       Vec2f position = l->position;
       Vec2f velocity = position - p->p_position;
       l->position = position + velocity * p->friction;
@@ -114,8 +115,8 @@ void ParticleSystem::update( EntityManagerRef es, EventManagerRef events, double
       l->rotation = rotation + r_vel * p->rotation_friction;
       p->p_rotation = rotation;
 
-      float scale = l->scale;
-      float s_vel = scale - p->p_scale;
+      Vec2f scale = l->scale;
+      Vec2f s_vel = scale - p->p_scale;
       l->scale = scale + s_vel * p->scale_friction;
       p->p_scale = scale;
     }

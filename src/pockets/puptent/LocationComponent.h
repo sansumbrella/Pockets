@@ -27,7 +27,7 @@
 
 #pragma once
 #include "pockets/puptent/PupTent.h"
-#include "cinder/MatrixAffine2.h"
+#include "pockets/Locus.h"
 
 namespace pockets
 { namespace puptent
@@ -41,31 +41,15 @@ namespace pockets
    Updated by movement systems (Physics, Custom Motion)
    No assumption is made about the units used
   */
-  struct Locus : Component<Locus>
+  struct Location : Component<Location>
   {
-    Locus() = default;
-    Locus( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, std::shared_ptr<Locus> parent=nullptr ):
-    position( pos ),
-    registration_point( registration ),
-    rotation( rot ),
-    parent( parent )
+    Location() = default;
+    explicit Location( const Locus2DRef &loc ):
+    locus( loc )
     {}
-    ci::Vec2f         position = ci::Vec2f::zero();
-    ci::Vec2f         registration_point = ci::Vec2f::zero();
-    float             rotation = 0.0f;
-    float             scale = 1.0f;
-    //! Final rotation including any accumulated from parents.
-    float             getRotation() const;
-    //! Final scale including any accumulated from parents.
-    float             getScale() const;
-    //! Final position including any accumulated from parents.
-    ci::Vec2f         getPosition() const;
-    //! transform parent; toMatrix() is multiplied by parent->toMatrix() if present
-    std::shared_ptr<Locus> parent = nullptr;
-    //! returns a matrix that will transform points based on Locus properties
-    ci::MatrixAffine2f  toMatrix() const;
-    //! remove parent after composing its transform into our own
-    void              detachFromParent();
+
+    std::shared_ptr<Locus2D> locus = std::make_shared<Locus2D>();
   };
+
 } // puptent::
 } // pockets::
