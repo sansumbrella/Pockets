@@ -29,7 +29,7 @@
 
 #include "pockets/puptent/PupTent.h"
 #include "pockets/puptent/LocationComponent.h"
-#include "pockets/puptent/RenderMesh.h"
+#include "pockets/puptent/RenderMeshComponent.h"
 #include "cinder/gl/VboMesh.h"
 #include "cinder/gl/Vbo.h"
 

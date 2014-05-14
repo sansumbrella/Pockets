@@ -60,15 +60,16 @@ namespace pockets
     SpriteAnimationCallback   finish_fn = nullptr;
   };
 
+  typedef std::shared_ptr<class SpriteAnimationSystem> SpriteAnimationSystemRef;
   /**
    SpriteAnimationSystem:
    Plays back SpriteAnimations
    Updates a RenderMesh component with the current animation frame
    Assumes that whatever renderer will bind the correct texture for display
    */
-  typedef std::shared_ptr<class SpriteAnimationSystem> SpriteAnimationSystemRef;
-  struct SpriteAnimationSystem : public System<SpriteAnimationSystem>, Receiver<SpriteAnimationSystem>
+  class SpriteAnimationSystem : public System<SpriteAnimationSystem>, public Receiver<SpriteAnimationSystem>
   {
+  public:
     struct Drawing
     {
       Drawing( const SpriteData &drawing=SpriteData{}, float hold=1.0f ):

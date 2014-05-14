@@ -25,7 +25,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "pockets/puptent/RenderMesh.h"
+#include "pockets/puptent/RenderMeshComponent.h"
 #include "pockets/puptent/TextureAtlas.h"
 
 using namespace pockets::puptent;

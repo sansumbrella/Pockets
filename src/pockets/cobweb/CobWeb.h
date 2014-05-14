@@ -40,3 +40,4 @@ namespace pockets
 #include "pockets/cobweb/ButtonBase.h"
 #include "pockets/cobweb/SimpleButton.h"
 #include "pockets/cobweb/TypeNode.h"
+#include "pockets/cobweb/ShapeNode.h"

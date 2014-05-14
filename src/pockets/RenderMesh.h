@@ -48,6 +48,8 @@ namespace pockets
     ci::ColorA8u  color;
     ci::Vec2f     tex_coord;
   };
+
+  typedef std::shared_ptr<struct RenderMesh2D> RenderMesh2DRef;
   /**
    RenderMesh2D:
 
@@ -61,11 +63,10 @@ namespace pockets
    - Texture billboard (special case of Box)
    Additional methods ease the texturing of those shapes.
   */
-  typedef std::shared_ptr<struct RenderMesh2D> RenderMesh2DRef;
   class SpriteData;
   struct RenderMesh2D
   {
-    RenderMesh2D( int vertex_count=3 )
+    explicit RenderMesh2D( int vertex_count=3 )
     {
       vertices.assign( vertex_count, Vertex() );
     }

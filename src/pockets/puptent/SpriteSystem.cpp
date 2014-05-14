@@ -26,7 +26,7 @@
  */
 
 #include "pockets/puptent/SpriteSystem.h"
-#include "pockets/puptent/RenderMesh.h"
+#include "pockets/puptent/RenderMeshComponent.h"
 #include "cinder/Json.h"
 
 using namespace std;

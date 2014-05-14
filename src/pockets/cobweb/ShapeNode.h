@@ -20,12 +20,12 @@ namespace pockets
 	 class ShapeNode : public Node
 	 {
 	 public:
-	 	ShapeNode();
+	 	ShapeNode() = default;
 	 	ShapeNode( RenderMesh2DRef mesh );
 	 	void draw() override;
 	 	RenderMesh2DRef mesh() { return mMesh; }
 	 private:
-	 	RenderMesh2DRef	mMesh;
+	 	RenderMesh2DRef	mMesh = std::shared_ptr<RenderMesh2D>( new RenderMesh2D( 3 ) );	// make_shared doesn't compile here in VS2013
 	 };
   }
 }
