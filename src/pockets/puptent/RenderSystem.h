@@ -28,7 +28,7 @@
 #pragma once
 
 #include "pockets/puptent/PupTent.h"
-#include "pockets/puptent/Locus.h"
+#include "pockets/puptent/LocationComponent.h"
 #include "pockets/puptent/RenderMesh.h"
 #include "cinder/gl/VboMesh.h"
 #include "cinder/gl/Vbo.h"

@@ -31,6 +31,8 @@
 namespace pockets
 { namespace puptent
 {
+  typedef std::shared_ptr<class Particle> ParticleRef;
+
   struct ParticleEmitter : Component<ParticleEmitter>
   {
     ci::Vec3f   direction;  // direction in which to fire particles
@@ -48,7 +50,6 @@ namespace pockets
    The ParticleSystem will integrate based on the sum of changes.
    To set a particle and force it to stay still, also set previous positions.
    */
-  typedef std::shared_ptr<class Particle> ParticleRef;
   struct Particle : Component<Particle>
   {
     Particle( LocusRef locus );
@@ -83,5 +84,6 @@ namespace pockets
     ci::Vec3f                 mGravity;
     bool                      mHandleEvents;
   };
+
 } // puptent::
 } // pockets::

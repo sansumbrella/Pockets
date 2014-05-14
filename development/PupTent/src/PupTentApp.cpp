@@ -11,13 +11,12 @@
 #include "pockets/AnimationUtils.h"
 #include "pockets/Profiling.h"
 
-#include "puptent/RenderSystem.h"
-#include "puptent/TextureAtlas.h"
-#include "puptent/SpriteSystem.h"
-#include "puptent/ParticleSystem.h"
-#include "puptent/ExpiresSystem.h"
-#include "puptent/ScriptSystem.h"
-#include "puptent/ParticleBehaviorSystems.h"
+#include "pockets/puptent/RenderSystem.h"
+#include "pockets/puptent/TextureAtlas.h"
+#include "pockets/puptent/SpriteSystem.h"
+#include "pockets/puptent/VerletMotionSystem.h"
+#include "pockets/puptent/ExpiresSystem.h"
+#include "pockets/puptent/ScriptSystem.h"
 #include "KeyboardInput.h"
 
 /**

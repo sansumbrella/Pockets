@@ -25,8 +25,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "pockets/puptent/ParticleSystem.h"
-#include "pockets/puptent/Locus.h"
+#include "pockets/puptent/VerletMotionSystem.h"
+#include "pockets/puptent/LocationComponent.h"
 #include "pockets/CollectionUtilities.hpp"
 
 using namespace pockets;

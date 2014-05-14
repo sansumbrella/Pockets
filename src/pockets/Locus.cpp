@@ -25,7 +25,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "Locus.h"
+#include "pockets/Locus.h"
 
 using namespace pockets;
 using namespace cinder;
@@ -41,17 +41,17 @@ MatrixAffine2f Locus2D::toMatrix() const
   return mat;
 }
 
-ci::Vec2f Locus2D::getScale() const
+ci::Vec2f Locus2D::worldScale() const
 {
-  return parent ? parent->getScale() * scale : scale;
+  return parent ? parent->worldScale() * scale : scale;
 }
 
-float Locus2D::getRotation() const
+float Locus2D::worldRotation() const
 {
-  return parent ? parent->getRotation() + rotation : rotation;
+  return parent ? parent->worldRotation() + rotation : rotation;
 }
 
-Vec2f Locus2D::getPosition() const
+Vec2f Locus2D::worldPosition() const
 {
   return parent ? parent->toMatrix().transformPoint( position ) : position;
 }
@@ -60,8 +60,8 @@ void Locus2D::detachFromParent()
 {
   if( parent )
   {
-    scale *= parent->getScale();
-    rotation += parent->getRotation();
+    scale *= parent->worldScale();
+    rotation += parent->worldRotation();
     position = parent->toMatrix().transformPoint( position );
 
     parent.reset();

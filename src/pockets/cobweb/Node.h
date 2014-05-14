@@ -63,18 +63,19 @@ namespace pockets
     //! Stop whatever event-related tracking this object was doing. Considering for removal
     virtual void    cancelInteractions() {}
     void            deepCancelInteractions();
+
     //! Set top-left of element.
     void            setPosition( const ci::Vec2f &pos ){ mLocus.position = pos; }
     //! Get top-left of element.
-    ci::Vec2f       getPosition() const { return mLocus.getPosition(); }
+    ci::Vec2f       getPosition() const { return mLocus.position; }
     //! Set xy scale of element.
     void            setScale( const ci::Vec2f &scale ){ mLocus.scale = scale; }
-    ci::Vec2f       getScale() const { return mLocus.getScale(); }
+    ci::Vec2f       getScale() const { return mLocus.scale; }
     //! Set element rotation around z-axis.
     void            setRotation( float radians ){ mLocus.rotation = radians; }
     //! Set registration point for rotation and scaling.
     void            setRegistrationPoint( const ci::Vec2f &loc ){ mLocus.registration_point = loc; }
-    //! Returns this node's locus for.
+    //! Returns this node's locus.
     pk::Locus2D&    getLocus(){ return mLocus; }
     //! Returns this node's transform, as transformed by its parents.
     ci::MatrixAffine2f  getFullTransform() const;

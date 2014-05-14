@@ -32,6 +32,7 @@ namespace pockets
    A simple 2d scene graph for UI development.
   */
   namespace cobweb {}
+  namespace cw = cobweb;
 }
 
 #include "pockets/cobweb/Node.h"

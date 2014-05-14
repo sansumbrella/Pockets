@@ -143,7 +143,7 @@ bool Node::deepMouseUp( ci::app::MouseEvent &event )
 
 void Node::deepDraw()
 {
-  gl::pushModelMatrix();
+  gl::ScopedModelMatrix matrix;
   gl::multModelMatrix( Matrix44f( mLocus.toMatrix() ) );
 
   draw();
@@ -153,8 +153,6 @@ void Node::deepDraw()
     child->deepDraw();
   }
   postChildDraw();
-
-  gl::popModelMatrix();
 }
 
 void Node::deepCancelInteractions()

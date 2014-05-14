@@ -86,12 +86,10 @@
 		1563A50C18FCE1F600D1FF54 /* ExpiresSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4F318FCE1F600D1FF54 /* ExpiresSystem.cpp */; };
 		1563A50D18FCE1F600D1FF54 /* KeyboardInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4F518FCE1F600D1FF54 /* KeyboardInput.cpp */; };
 		1563A50E18FCE1F600D1FF54 /* KeyboardInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4F518FCE1F600D1FF54 /* KeyboardInput.cpp */; };
-		1563A50F18FCE1F600D1FF54 /* Locus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4F718FCE1F600D1FF54 /* Locus.cpp */; };
-		1563A51018FCE1F600D1FF54 /* Locus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4F718FCE1F600D1FF54 /* Locus.cpp */; };
-		1563A51118FCE1F600D1FF54 /* ParticleBehaviorSystems.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4F918FCE1F600D1FF54 /* ParticleBehaviorSystems.cpp */; };
-		1563A51218FCE1F600D1FF54 /* ParticleBehaviorSystems.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4F918FCE1F600D1FF54 /* ParticleBehaviorSystems.cpp */; };
-		1563A51318FCE1F600D1FF54 /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4FB18FCE1F600D1FF54 /* ParticleSystem.cpp */; };
-		1563A51418FCE1F600D1FF54 /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4FB18FCE1F600D1FF54 /* ParticleSystem.cpp */; };
+		1563A50F18FCE1F600D1FF54 /* LocationComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4F718FCE1F600D1FF54 /* LocationComponent.cpp */; };
+		1563A51018FCE1F600D1FF54 /* LocationComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4F718FCE1F600D1FF54 /* LocationComponent.cpp */; };
+		1563A51318FCE1F600D1FF54 /* VerletMotionSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4FB18FCE1F600D1FF54 /* VerletMotionSystem.cpp */; };
+		1563A51418FCE1F600D1FF54 /* VerletMotionSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4FB18FCE1F600D1FF54 /* VerletMotionSystem.cpp */; };
 		1563A51518FCE1F600D1FF54 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 1563A4FE18FCE1F600D1FF54 /* README.md */; };
 		1563A51618FCE1F600D1FF54 /* RenderMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4FF18FCE1F600D1FF54 /* RenderMesh.cpp */; };
 		1563A51718FCE1F600D1FF54 /* RenderMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4FF18FCE1F600D1FF54 /* RenderMesh.cpp */; };
@@ -267,12 +265,10 @@
 		1563A4F418FCE1F600D1FF54 /* ExpiresSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpiresSystem.h; sourceTree = "<group>"; };
 		1563A4F518FCE1F600D1FF54 /* KeyboardInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KeyboardInput.cpp; sourceTree = "<group>"; };
 		1563A4F618FCE1F600D1FF54 /* KeyboardInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardInput.h; sourceTree = "<group>"; };
-		1563A4F718FCE1F600D1FF54 /* Locus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Locus.cpp; sourceTree = "<group>"; };
-		1563A4F818FCE1F600D1FF54 /* Locus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Locus.h; sourceTree = "<group>"; };
-		1563A4F918FCE1F600D1FF54 /* ParticleBehaviorSystems.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleBehaviorSystems.cpp; sourceTree = "<group>"; };
-		1563A4FA18FCE1F600D1FF54 /* ParticleBehaviorSystems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleBehaviorSystems.h; sourceTree = "<group>"; };
-		1563A4FB18FCE1F600D1FF54 /* ParticleSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleSystem.cpp; sourceTree = "<group>"; };
-		1563A4FC18FCE1F600D1FF54 /* ParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleSystem.h; sourceTree = "<group>"; };
+		1563A4F718FCE1F600D1FF54 /* LocationComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocationComponent.cpp; sourceTree = "<group>"; };
+		1563A4F818FCE1F600D1FF54 /* LocationComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationComponent.h; sourceTree = "<group>"; };
+		1563A4FB18FCE1F600D1FF54 /* VerletMotionSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VerletMotionSystem.cpp; sourceTree = "<group>"; };
+		1563A4FC18FCE1F600D1FF54 /* VerletMotionSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerletMotionSystem.h; sourceTree = "<group>"; };
 		1563A4FD18FCE1F600D1FF54 /* PupTent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PupTent.h; sourceTree = "<group>"; };
 		1563A4FE18FCE1F600D1FF54 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		1563A4FF18FCE1F600D1FF54 /* RenderMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderMesh.cpp; sourceTree = "<group>"; };
@@ -639,12 +635,10 @@
 				1563A4F418FCE1F600D1FF54 /* ExpiresSystem.h */,
 				1563A4F518FCE1F600D1FF54 /* KeyboardInput.cpp */,
 				1563A4F618FCE1F600D1FF54 /* KeyboardInput.h */,
-				1563A4F718FCE1F600D1FF54 /* Locus.cpp */,
-				1563A4F818FCE1F600D1FF54 /* Locus.h */,
-				1563A4F918FCE1F600D1FF54 /* ParticleBehaviorSystems.cpp */,
-				1563A4FA18FCE1F600D1FF54 /* ParticleBehaviorSystems.h */,
-				1563A4FB18FCE1F600D1FF54 /* ParticleSystem.cpp */,
-				1563A4FC18FCE1F600D1FF54 /* ParticleSystem.h */,
+				1563A4F718FCE1F600D1FF54 /* LocationComponent.cpp */,
+				1563A4F818FCE1F600D1FF54 /* LocationComponent.h */,
+				1563A4FB18FCE1F600D1FF54 /* VerletMotionSystem.cpp */,
+				1563A4FC18FCE1F600D1FF54 /* VerletMotionSystem.h */,
 				1563A4FD18FCE1F600D1FF54 /* PupTent.h */,
 				1563A4FE18FCE1F600D1FF54 /* README.md */,
 				1563A4FF18FCE1F600D1FF54 /* RenderMesh.cpp */,
@@ -860,16 +854,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1563A51218FCE1F600D1FF54 /* ParticleBehaviorSystems.cpp in Sources */,
 				1563A51918FCE1F600D1FF54 /* RenderSystem.cpp in Sources */,
 				1534BD51190F386800B70940 /* Event.cc in Sources */,
 				158EA630192266EC0059074D /* Profiling.cpp in Sources */,
 				1534BD4D190F386800B70940 /* Dependencies.cc in Sources */,
 				1563A50A18FCE1F600D1FF54 /* DelaySystem.cpp in Sources */,
 				1534BD53190F386800B70940 /* Timer.cc in Sources */,
-				1563A51418FCE1F600D1FF54 /* ParticleSystem.cpp in Sources */,
+				1563A51418FCE1F600D1FF54 /* VerletMotionSystem.cpp in Sources */,
 				1563A51D18FCE1F600D1FF54 /* SpriteSystem.cpp in Sources */,
-				1563A51018FCE1F600D1FF54 /* Locus.cpp in Sources */,
+				1563A51018FCE1F600D1FF54 /* LocationComponent.cpp in Sources */,
 				1563A51718FCE1F600D1FF54 /* RenderMesh.cpp in Sources */,
 				1534BD55190F386800B70940 /* System.cc in Sources */,
 				15AD5DC518C6270400B86D3C /* PupTent_Tests.cpp in Sources */,
@@ -895,7 +888,7 @@
 				1563A51A18FCE1F600D1FF54 /* ScriptSystem.cpp in Sources */,
 				1556C83717D65FB900811B85 /* b2BlockAllocator.cpp in Sources */,
 				1556C85117D65FB900811B85 /* b2PrismaticJoint.cpp in Sources */,
-				1563A51318FCE1F600D1FF54 /* ParticleSystem.cpp in Sources */,
+				1563A51318FCE1F600D1FF54 /* VerletMotionSystem.cpp in Sources */,
 				1556C84117D65FB900811B85 /* b2World.cpp in Sources */,
 				1556C84817D65FB900811B85 /* b2EdgeAndCircleContact.cpp in Sources */,
 				1534BD56190F386800B70940 /* TagsComponent.cc in Sources */,
@@ -904,7 +897,7 @@
 				1556C84717D65FB900811B85 /* b2ContactSolver.cpp in Sources */,
 				1556C84F17D65FB900811B85 /* b2Joint.cpp in Sources */,
 				1556C85B17D65FB900811B85 /* Sandbox.cpp in Sources */,
-				1563A50F18FCE1F600D1FF54 /* Locus.cpp in Sources */,
+				1563A50F18FCE1F600D1FF54 /* LocationComponent.cpp in Sources */,
 				1556C82C17D65FB900811B85 /* b2CollideCircle.cpp in Sources */,
 				1556C84217D65FB900811B85 /* b2WorldCallbacks.cpp in Sources */,
 				1556C84A17D65FB900811B85 /* b2PolygonAndCircleContact.cpp in Sources */,
@@ -953,7 +946,6 @@
 				1563A50918FCE1F600D1FF54 /* DelaySystem.cpp in Sources */,
 				1563A51818FCE1F600D1FF54 /* RenderSystem.cpp in Sources */,
 				1556C84317D65FB900811B85 /* b2ChainAndCircleContact.cpp in Sources */,
-				1563A51118FCE1F600D1FF54 /* ParticleBehaviorSystems.cpp in Sources */,
 				1556C82D17D65FB900811B85 /* b2CollideEdge.cpp in Sources */,
 				1534BD50190F386800B70940 /* Event.cc in Sources */,
 				1563A51C18FCE1F600D1FF54 /* SpriteSystem.cpp in Sources */,
