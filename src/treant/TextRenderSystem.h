@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 David Wicks, sansumbrella.com
+ * Copyright (c) 2014 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -26,39 +26,37 @@
  */
 
 #pragma once
-#include "Treant.h"
-#include "cinder/MatrixAffine2.h"
+
+#include "treant/Treant.h"
+#include "cinder/gl/TextureFont.h"
 
 namespace treant
 {
-  typedef std::shared_ptr<struct LocationComponent> LocationComponentRef;
-  /**
-   A Component storing the basic positional information for an Entity
-   Position, Rotation, and Scale
-   Scales and rotates around the Registration Point when using toMatrix()
 
-   Used by RenderSystem to transform RenderMesh component vertices
-   Updated by movement systems (Physics, Custom Motion)
-   No assumption is made about the units used
-  */
-  struct LocationComponent : Component<LocationComponent>
-  {
-    LocationComponent() = default;
-    LocationComponent( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, std::shared_ptr<LocationComponent> parent=nullptr ):
-    position( pos ),
-    registration_point( registration ),
-    rotation( rot )
-    {}
+typedef std::vector<std::pair<uint16_t, ci::Vec2f>> GlyphPlacements;
+typedef std::shared_ptr<struct TextComponent>       TextComponentRef;
 
-    ci::Vec2f           position = ci::Vec2f::zero();
-    ci::Vec2f           registration_point = ci::Vec2f::zero();
-    float               rotation = 0.0f;
-    ci::Vec2f           scale = ci::Vec2f::one();
-    ci::MatrixAffine2f  matrix = ci::MatrixAffine2f::identity();
+struct TextComponent : Component<TextComponent>
+{
+  TextComponent() = default;
+  TextComponent( ci::gl::TextureFontRef font, const std::string &text );
 
-    void updateMatrix( ci::MatrixAffine2f parentMatrix );
-    //! returns a matrix that will transform points based on LocationComponent properties
-    ci::MatrixAffine2f  calcLocalMatrix() const;
-  };
+  //! Generates glyph placements for \a text. This is an optimization over storing the string.
+  void setText( const std::string &text );
+
+  ci::ColorA              color = ci::ColorA::white();
+  ci::gl::TextureFontRef  _font;
+  GlyphPlacements         _glyph_placements;
+};
+
+class TextRenderSystem : public System<TextRenderSystem>
+{
+public:
+  void update( EntityManagerRef entities, EventManagerRef events, double dt ) override;
+  void draw() const;
+private:
+  std::map<ci::gl::TextureFontRef, std::vector<std::pair<LocationComponentRef, TextComponentRef>>> _grouped_text;
+};
 
 } // treant::
+

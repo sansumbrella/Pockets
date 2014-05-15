@@ -47,6 +47,8 @@ namespace treant
   typedef std::shared_ptr<EntityManager>    EntityManagerRef;
   typedef std::shared_ptr<SystemManager>    SystemManagerRef;
 
+  typedef std::shared_ptr<struct LocationComponent> LocationComponentRef;
+
   struct Treant
   {
     EventManagerRef   events   = EventManagerRef( new EventManager() );

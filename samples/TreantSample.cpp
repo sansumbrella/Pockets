@@ -30,6 +30,7 @@
 #include "cinder/gl/gl.h"
 
 #include "treant/LayeredShapeRenderSystem.h"
+#include "treant/TextRenderSystem.h"
 #include "treant/ShapeComponent.h"
 #include "cinder/Rand.h"
 
@@ -55,9 +56,9 @@ class RotationSystem : public treant::System<RotationSystem>
 public:
   void update( treant::EntityManagerRef entities, treant::EventManagerRef events, double dt ) override
   {
-    for( auto entity : entities->entities_with_components<RotationComponent, treant::Location>() )
+    for( auto entity : entities->entities_with_components<RotationComponent, treant::LocationComponent>() )
     {
-      treant::LocationRef           location;
+      treant::LocationComponentRef  location;
       shared_ptr<RotationComponent> rotation;
       entity.unpack( location, rotation );
       location->rotation += rotation->rate * dt;
@@ -65,7 +66,7 @@ public:
   }
 };
 
-void addOrbiter( treant::TreantNodeRef center, bool warm, float max_distance, int depth ) {
+treant::TreantNodeRef addOrbiter( treant::TreantNodeRef center, bool warm, float max_distance, int depth ) {
 
   float size = center->getSize().length() / 5.0f;
   auto moon = center->createChild<treant::TreantNode>();
@@ -77,7 +78,7 @@ void addOrbiter( treant::TreantNodeRef center, bool warm, float max_distance, in
   auto shape = moon->assign<treant::ShapeComponent>();
   auto color = warm ? ColorA( CM_HSV, randFloat( 0.02f, 0.18f ), 1.0f, 1.0f, 1.0f ) : ColorA( CM_HSV, randFloat( 0.45f, 0.62f ), 1.0f, 0.7f, 1.0f );
 
-  shape->setAsCircle( Vec2f::one() * randFloat( size * 0.8, size * 1.2 ), 0.0f, M_PI * 2, 6 );
+  shape->setAsBox( Rectf( -size, -size, size, size ) );
   shape->setColor( color );
   moon->assign<treant::RenderData>( shape, moon->getTransform(), depth );
   moon->assign<RotationComponent>( lmap<float>( position.length(), 0.0f, getWindowSize().length(), 1.0f, 0.1f ) );
@@ -85,11 +86,14 @@ void addOrbiter( treant::TreantNodeRef center, bool warm, float max_distance, in
   if( size > 10.0f && randFloat() < 0.5f ) {
     addOrbiter( moon, !warm, max_distance / 8, depth + 1 );
   }
+
+  return moon;
 }
 
 void TreantTest::setup()
 {
   _treant.systems->add<treant::LayeredShapeRenderSystem>();
+  _treant.systems->add<treant::TextRenderSystem>();
   _treant.systems->add<RotationSystem>();
   _treant.systems->configure();
 
@@ -97,8 +101,15 @@ void TreantTest::setup()
   _treant_root->setPosition( getWindowCenter() );
   _treant_root->setSize( getWindowSize() / 4 );
 
-  for( int i = 0; i < 1000; ++i ) {
-    addOrbiter( _treant_root, true, getWindowSize().length(), 0 );
+  Font arial( "Arial Bold", 24.0f );
+  gl::TextureFontRef font = gl::TextureFont::create( arial, gl::TextureFont::Format().premultiply() );
+
+  for( int i = 0; i < 1000; ++i )
+  {
+    auto moon = addOrbiter( _treant_root, true, getWindowSize().length(), 0 );
+    if( randFloat() < 0.05f ) {
+      moon->assign<treant::TextComponent>( font, "I am planet " + to_string( i ) );
+    }
   }
 }
 
@@ -139,13 +150,18 @@ void TreantTest::update( double dt )
   _treant.systems->update<RotationSystem>( dt );
   _treant_root->updateTree( MatrixAffine2f::identity() );
   _treant.systems->update<treant::LayeredShapeRenderSystem>( dt );
+  _treant.systems->update<treant::TextRenderSystem>( dt );
 }
 
 void TreantTest::draw()
 {
   // clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) );
+
   _treant.systems->system<treant::LayeredShapeRenderSystem>()->draw();
+
+  gl::ScopedAlphaBlend premult( true );
+  _treant.systems->system<treant::TextRenderSystem>()->draw();
 
 }
 

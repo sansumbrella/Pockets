@@ -35,8 +35,8 @@
 namespace treant
 {
 
-typedef std::shared_ptr<struct ShapeComponent> ShapeComponentRef;
-typedef std::shared_ptr<struct Location>       LocationRef;
+typedef std::shared_ptr<struct ShapeComponent>      ShapeComponentRef;
+typedef std::shared_ptr<struct LocationComponent>   LocationComponentRef;
 
 typedef std::shared_ptr<struct RenderData> RenderDataRef;
 /**
@@ -47,14 +47,14 @@ typedef std::shared_ptr<struct RenderData> RenderDataRef;
  */
 struct RenderData : Component<RenderData>
 {
-  RenderData( ShapeComponentRef mesh, LocationRef locus, int render_layer=0 ):
+  RenderData( ShapeComponentRef mesh, LocationComponentRef locus, int render_layer=0 ):
   mesh( mesh ),
   locus( locus ),
   render_layer( render_layer )
   {}
-  ShapeComponentRef   mesh;
-  LocationRef         locus;
-  int                 render_layer;
+  ShapeComponentRef     mesh;
+  LocationComponentRef  locus;
+  int                   render_layer;
 };
 
 /**

@@ -108,11 +108,11 @@ public:
   void            setSize( const ci::Vec2f &size ) { _size->size = size; }
 
   //! Returns this TreantNode's transform, as transformed by its parents.
-  ci::MatrixAffine2f  getFullTransform() const { return _transform->matrix; }
+  ci::MatrixAffine2f    getFullTransform() const { return _transform->matrix; }
   //! Returns this TreantNode's transform, ignoring parent transformations.
-  ci::MatrixAffine2f  getLocalTransform() const { return _transform->calcLocalMatrix(); }
+  ci::MatrixAffine2f    getLocalTransform() const { return _transform->calcLocalMatrix(); }
 
-  LocationRef     getTransform() const { return _transform; }
+  LocationComponentRef  getTransform() const { return _transform; }
 
   //! called when a child is added to this TreantNode
   virtual void    childAdded( TreantNodeRef element ){}
@@ -134,7 +134,7 @@ protected:
   virtual bool    mouseUp( ci::app::MouseEvent &event ) { return false; }
 
   Entity                      _entity;
-  LocationRef                 _transform;
+  LocationComponentRef        _transform;
   SizeComponentRef            _size;
 private:
   TreantNode*                 _parent = nullptr;

@@ -30,7 +30,7 @@
 using namespace cinder;
 using namespace treant;
 
-MatrixAffine2f Location::calcLocalMatrix() const
+MatrixAffine2f LocationComponent::calcLocalMatrix() const
 {
   MatrixAffine2f mat;
   mat.translate( position + registration_point );
@@ -40,7 +40,7 @@ MatrixAffine2f Location::calcLocalMatrix() const
   return mat;
 }
 
-void Location::updateMatrix( ci::MatrixAffine2f parentMatrix )
+void LocationComponent::updateMatrix( ci::MatrixAffine2f parentMatrix )
 {
   parentMatrix.translate( position + registration_point );
   parentMatrix.rotate( rotation );
@@ -50,7 +50,7 @@ void Location::updateMatrix( ci::MatrixAffine2f parentMatrix )
 }
 
 /*
-void Location::detachFromParent()
+void LocationComponent::detachFromParent()
 {
   if( parent )
   {
