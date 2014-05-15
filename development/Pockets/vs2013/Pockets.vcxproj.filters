@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Blocks">
+      <UniqueIdentifier>{b2d1bab4-a086-433d-9c61-9284c05b3aec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\treant">
+      <UniqueIdentifier>{4c563ecf-cab5-4c9c-ba20-e340f76575c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\pockets">
+      <UniqueIdentifier>{7ad021fc-f004-468d-b422-58a0e9341da8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\PocketsApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PocketsApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClInclude Include="..\include\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\..\src\treant\LayeredShapeRenderSystem.cpp">
+      <Filter>Blocks\treant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\treant\LocationComponent.cpp">
+      <Filter>Blocks\treant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\treant\ShapeComponent.cpp">
+      <Filter>Blocks\treant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\treant\SizeComponent.cpp">
+      <Filter>Blocks\treant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\treant\TextRenderSystem.cpp">
+      <Filter>Blocks\treant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\treant\Treant.cpp">
+      <Filter>Blocks\treant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\treant\TreantNode.cpp">
+      <Filter>Blocks\treant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\AnimationUtils.cpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\ColorUtils.cpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\ConnectionManager.cpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\CurveUtils.cpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\FileUtils.cpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\ImagePacker.cpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\Locus.cpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\Packing.cpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\Profiling.cpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\RenderMesh.cpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\Scene.cpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\pockets\TextureAtlas.cpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samples\PhysicsScrolling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samples\SpriteAnimation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samples\TexturePackingSample.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\samples\TreantSample.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\treant\LayeredShapeRenderSystem.h">
+      <Filter>Blocks\treant</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\treant\LocationComponent.h">
+      <Filter>Blocks\treant</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\treant\ShapeComponent.h">
+      <Filter>Blocks\treant</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\treant\SizeComponent.h">
+      <Filter>Blocks\treant</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\treant\TextRenderSystem.h">
+      <Filter>Blocks\treant</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\treant\Treant.h">
+      <Filter>Blocks\treant</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\treant\TreantNode.h">
+      <Filter>Blocks\treant</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\AnimationUtils.h">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\CollectionUtilities.hpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\ColorUtils.h">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\ConnectionManager.h">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\CurveUtils.h">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\FileUtils.h">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\ImagePacker.h">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\Locus.h">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\MessageType.hpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\Messenger.hpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\Packing.h">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\Pockets.h">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\Profiling.h">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\Receiver.hpp">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\RenderMesh.h">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\Scene.h">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\pockets\TextureAtlas.h">
+      <Filter>Blocks\pockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\samples\PhysicsScrolling.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\samples\SpriteAnimation.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\samples\TexturePackingSample.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\samples\TreantSample.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
