@@ -59,7 +59,7 @@ namespace pockets
     float     scale_friction = 0.5f;
     ci::Vec2f p_position = ci::Vec2f::zero();
     float     p_rotation = 0.0f;
-    float     p_scale = 1.0f;
+    ci::Vec2f p_scale = ci::Vec2f::one();
   };
 
   /**

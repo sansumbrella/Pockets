@@ -137,7 +137,7 @@ void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double d
     {
       auto mesh = pair->mesh;
       auto loc = pair->locus;
-      auto mat = loc->toMatrix();
+      auto mat = loc->matrix;
       if( !v.empty() ) {
         // create degenerate triangle between previous and current shape
         v.push_back( v.back() );

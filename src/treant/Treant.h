@@ -40,4 +40,11 @@ namespace treant
 {
   using namespace entityx;
   typedef std::shared_ptr<class TreantNode> TreantNodeRef;
+	struct Treant
+	{
+		std::shared_ptr<EventManager>	events	 = std::shared_ptr<EventManager>( new EventManager() );
+		std::shared_ptr<EntityManager>	entities = std::shared_ptr<EntityManager>( new EntityManager( events ) );
+		std::shared_ptr<SystemManager>	systems  = std::shared_ptr<SystemManager>( new SystemManager( entities, events ) );
+		TreantNodeRef	createRoot() { return std::make_shared<TreantNode>( entities->create() ); }
+	};
 }

@@ -31,32 +31,26 @@ using namespace cinder;
 using namespace pockets;
 using namespace puptent;
 
-MatrixAffine2f Locus::toMatrix() const
+MatrixAffine2f Locus::calcLocalMatrix() const
 {
   MatrixAffine2f mat;
   mat.translate( position + registration_point );
   mat.rotate( rotation );
   mat.scale( scale );
   mat.translate( -registration_point );
-  if( parent ){ mat = parent->toMatrix() * mat; }
   return mat;
 }
 
-float Locus::getScale() const
+void Locus::updateMatrix( ci::MatrixAffine2f parentMatrix )
 {
-  return parent ? parent->getScale() * scale : scale;
+  parentMatrix.translate( position + registration_point );
+  parentMatrix.rotate( rotation );
+  parentMatrix.scale( scale );
+  parentMatrix.translate( -registration_point );
+  matrix = parentMatrix;
 }
 
-float Locus::getRotation() const
-{
-  return parent ? parent->getRotation() + rotation : rotation;
-}
-
-Vec2f Locus::getPosition() const
-{
-  return parent ? parent->toMatrix().transformPoint( position ) : position;
-}
-
+/*
 void Locus::detachFromParent()
 {
   if( parent )
@@ -68,3 +62,4 @@ void Locus::detachFromParent()
     parent.reset();
   }
 }
+*/

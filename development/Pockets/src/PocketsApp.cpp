@@ -9,7 +9,7 @@
 
 #include "PhysicsScrolling.h"
 #include "TexturePackingSample.h"
-#include "Treant.h"
+#include "TreantSample.h"
 
 using namespace ci;
 using namespace ci::app;

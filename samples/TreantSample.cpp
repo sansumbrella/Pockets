@@ -44,10 +44,10 @@ using namespace std;
 
 void TreantTest::setup()
 {
-  _entityx.systems.add<RenderSystem>();
-  _entityx.systems.configure();
+  _treant.systems->add<RenderSystem>();
+  _treant.systems->configure();
 
-  _treant_root = make_shared<treant::TreantNode>( _entityx.entities.create() );
+  _treant_root = _treant.createRoot();
 
   for( int i = 0; i < 10000; ++i ) {
     auto child = _treant_root->createChild<treant::TreantNode>();
@@ -93,7 +93,7 @@ void TreantTest::mouseUp( MouseEvent event )
 void TreantTest::update( double dt )
 {
   _treant_root->updateTree( MatrixAffine2f::identity() );
-  _entityx.systems.update<pt::RenderSystem>( dt );
+  _treant.systems->update<pt::RenderSystem>( dt );
 }
 
 void TreantTest::draw()
@@ -101,7 +101,7 @@ void TreantTest::draw()
   // clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) );
 
-  _entityx.systems.system<RenderSystem>()->draw();
+  _treant.systems->system<RenderSystem>()->draw();
 
 }
 

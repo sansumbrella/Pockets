@@ -91,7 +91,7 @@ void PhysicsScrolling::update( double dt )
   mWorld.step( 1.0 / 60.0 );
 }
 
-void PhysicsScrolling::draw() const
+void PhysicsScrolling::draw()
 {
   // clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) );

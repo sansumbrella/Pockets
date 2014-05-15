@@ -38,7 +38,7 @@ public:
   void setup() override;
   void connect( ci::app::WindowRef window ) override;
   void update( double dt ) override;
-  void draw() const override;
+  void draw() override;
 
   void mouseDown( ci::app::MouseEvent event );
   void mouseDrag( ci::app::MouseEvent event );

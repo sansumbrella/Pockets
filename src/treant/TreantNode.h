@@ -59,21 +59,16 @@ public:
 
   //! Assign a component.
   template <typename C, typename ... Args>
-  ComponentHandle<C> assign(Args && ... args) { return _entity.assign<C>( std::forward<Args>(args) ... ); }
+  std::shared_ptr<C> assign(Args && ... args) { return _entity.assign<C>( std::forward<Args>(args) ... ); }
   //! Remove a component.
   template <typename C>
   void remove() { _entity.remove<C>(); }
   //! Get a component.
   template <typename C>
-  ComponentHandle<C> component() { return _entity.component<C>(); }
-
-  //! Returns true if entity has component of type C.
-  template <typename C>
-  bool has_component() const { return _entity.has_component<C>(); }
-
+  std::shared_ptr<C> component() { return _entity.component<C>(); }
   //! Retrieve a bunch of components at once.
   template <typename A, typename ... Args>
-  void unpack(ComponentHandle<A> &a, ComponentHandle<Args> & ... args) { _entity.unpack( a, std::forward<Args>(args) ... ); }
+  void unpack(std::shared_ptr<A> &a, std::shared_ptr<Args> & ... args) { _entity.unpack( a, std::forward<Args>(args) ... ); }
 
   //
   //  Child creation (automatically creates entity)
@@ -112,7 +107,7 @@ public:
   //! Returns this TreantNode's transform, ignoring parent transformations.
   ci::MatrixAffine2f  getLocalTransform() const { return _transform->calcLocalMatrix(); }
 
-  ComponentHandle<pk::puptent::Locus> getTransform() const { return _transform; }
+  std::shared_ptr<pk::puptent::Locus> getTransform() const { return _transform; }
 
   //! called when a child is added to this TreantNode
   virtual void    childAdded( TreantNodeRef element ){}
@@ -134,7 +129,7 @@ protected:
   virtual bool    mouseUp( ci::app::MouseEvent &event ) { return false; }
 
   Entity                              _entity;
-  ComponentHandle<pk::puptent::Locus> _transform;
+  std::shared_ptr<pk::puptent::Locus> _transform;
 private:
   TreantNode*                   _parent = nullptr;
   std::vector<TreantNodeRef>    _children;
@@ -146,7 +141,8 @@ private:
 template<typename T>
 std::shared_ptr<T> TreantNode::createChild()
 {
-  auto child = std::make_shared<T>( _entity.manager_->create() );
+  auto manager = _entity.manager_.lock();
+  auto child = std::make_shared<T>( manager->create() );
   appendChild( child );
   return child;
 }

@@ -46,7 +46,7 @@ public:
   void mouseUp( ci::app::MouseEvent event );
 
 private:
-  entityx::EntityX        _entityx;
+  treant::Treant          _treant;
   treant::TreantNodeRef   _treant_root;
   ci::Vec2f               _mouse_position;
   ci::Vec2f               _mouse_start;
