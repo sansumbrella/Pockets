@@ -10,18 +10,13 @@
 #include "pockets/Locus.h"
 #include "pockets/ConnectionManager.h"
 #include "cinder/app/App.h"
+#include "pockets/puptent/LocationComponent.h"
 
-#include "entityx.h"
-
-namespace treant
-{
-  using namespace entityx;
-}
+#include "Treant.h"
 
 namespace treant
 {
 
-typedef std::shared_ptr<class TreantNode> TreantNodeRef;
 typedef std::unique_ptr<class TreantNode> TreantNodeUniqueRef;
 /**
  Base TreantNode type in a simple scene graph.
@@ -32,6 +27,11 @@ typedef std::unique_ptr<class TreantNode> TreantNodeUniqueRef;
  UI propagation happens within tree.
  Transform update happens within tree.
  Rendering happens outside of the tree, in Rendering Systems.
+ 
+ Override TreantNode and add components to your entity in your constructor.
+ All TreantNodes have a Location and a Size component.
+ Parent locations update their children's overall transform in updateTree().
+ Child sizes update their parent's overall size in updateTree()'s return loop.
 
  TreantNodes are connected in a tree, with a single root TreantNode connecting to
  window UI events and propagating them to all of its children.
@@ -50,10 +50,39 @@ public:
   bool            deepMouseDrag( ci::app::MouseEvent &event );
   bool            deepMouseUp( ci::app::MouseEvent &event );
 
-  void            updateTree();
+  //! Call to update the entire TreantNode hierarchy.
+  void            updateTree( const ci::MatrixAffine2f &matrix );
 
+  //
+  // Mirror Entity interface
+  //
+
+  //! Assign a component.
+  template <typename C, typename ... Args>
+  ComponentHandle<C> assign(Args && ... args) { return _entity.assign<C>( std::forward<Args>(args) ... ); }
+  //! Remove a component.
+  template <typename C>
+  void remove() { _entity.remove<C>(); }
+  //! Get a component.
+  template <typename C>
+  ComponentHandle<C> component() { return _entity.component<C>(); }
+
+  //! Returns true if entity has component of type C.
+  template <typename C>
+  bool has_component() const { return _entity.has_component<C>(); }
+
+  //! Retrieve a bunch of components at once.
+  template <typename A, typename ... Args>
+  void unpack(ComponentHandle<A> &a, ComponentHandle<Args> & ... args) { _entity.unpack( a, std::forward<Args>(args) ... ); }
+
+  //
+  //  Child creation (automatically creates entity)
+  //
+
+  //! Create a child and add it to our hierarchy.
   template<typename T>
   std::shared_ptr<T>  createChild();
+
   // Child Manipulation
   //! add a TreantNode as a child; will receive connect/disconnect events and have its locus parented
   void            appendChild( TreantNodeRef element );
@@ -62,41 +91,34 @@ public:
   TreantNodeRef   getChildAt( size_t index ){ return _children.at( index ); }
   void            setChildIndex( TreantNodeRef child, size_t index );
 
-  //! Call to draw the entire TreantNode hierarchy.
-  void            deepDraw();
-  //! Draw content to screen. Called after model matrix is transformed by locus.
-  virtual void    draw() {}
-  //! called in deepdraw before drawing children
-  virtual void    preChildDraw() {}
-  //! called in deepdraw after drawing children
-  virtual void    postChildDraw() {}
   //! Stop whatever event-related tracking this object was doing. Considering for removal
   virtual void    cancelInteractions() {}
   void            deepCancelInteractions();
 
   //! Set top-left of element.
-  void            setPosition( const ci::Vec2f &pos ){ _locus.position = pos; }
+  void            setPosition( const ci::Vec2f &pos ){ _transform->position = pos; }
   //! Get top-left of element.
-  ci::Vec2f       getPosition() const { return _locus.position; }
+  ci::Vec2f       getPosition() const { return _transform->position; }
   //! Set xy scale of element.
-  void            setScale( const ci::Vec2f &scale ){ _locus.scale = scale; }
-  ci::Vec2f       getScale() const { return _locus.scale; }
+  void            setScale( const ci::Vec2f &scale ){ _transform->scale = scale; }
+  ci::Vec2f       getScale() const { return _transform->scale; }
   //! Set element rotation around z-axis.
-  void            setRotation( float radians ){ _locus.rotation = radians; }
+  void            setRotation( float radians ){ _transform->rotation = radians; }
   //! Set registration point for rotation and scaling.
-  void            setRegistrationPoint( const ci::Vec2f &loc ){ _locus.registration_point = loc; }
-  //! Returns this TreantNode's locus.
-  pk::Locus2D&    getLocus(){ return _locus; }
+  void            setRegistrationPoint( const ci::Vec2f &loc ){ _transform->registration_point = loc; }
+
   //! Returns this TreantNode's transform, as transformed by its parents.
-  ci::MatrixAffine2f  getFullTransform() const;
+  ci::MatrixAffine2f  getFullTransform() const { return _transform->matrix; }
   //! Returns this TreantNode's transform, ignoring parent transformations.
-  ci::MatrixAffine2f  getLocalTransform() const { return _locus.toMatrix(); }
+  ci::MatrixAffine2f  getLocalTransform() const { return _transform->calcLocalMatrix(); }
+
+  ComponentHandle<pk::puptent::Locus> getTransform() const { return _transform; }
 
   //! called when a child is added to this TreantNode
   virtual void    childAdded( TreantNodeRef element ){}
   void            removeChild( TreantNodeRef element );
   void            removeChild( TreantNode *element );
-  TreantNode*           getParent(){ return _parent; }
+  TreantNode*     getParent(){ return _parent; }
 
   //! return child vector, allowing manipulation of each child, but not the vector
   const std::vector<TreantNodeRef>& getChildren() const { return _children; }
@@ -110,11 +132,13 @@ protected:
   virtual bool    mouseDown( ci::app::MouseEvent &event ) { return false; }
   virtual bool    mouseDrag( ci::app::MouseEvent &event ) { return false; }
   virtual bool    mouseUp( ci::app::MouseEvent &event ) { return false; }
+
+  Entity                              _entity;
+  ComponentHandle<pk::puptent::Locus> _transform;
 private:
-  Entity                  _entity;
-  pk::Locus2D             _locus;
-  TreantNode*                   _parent;
+  TreantNode*                   _parent = nullptr;
   std::vector<TreantNodeRef>    _children;
+
   //! Sets the TreantNode's parent, notifying previous parent (if any)
   void            setParent( TreantNode *parent );
 };

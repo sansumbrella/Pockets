@@ -12,7 +12,7 @@
 #include "pockets/Profiling.h"
 
 #include "pockets/puptent/RenderSystem.h"
-#include "pockets/puptent/TextureAtlas.h"
+#include "pockets/TextureAtlas.h"
 #include "pockets/puptent/SpriteSystem.h"
 #include "pockets/puptent/VerletMotionSystem.h"
 #include "pockets/puptent/ExpiresSystem.h"

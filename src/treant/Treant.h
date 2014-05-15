@@ -26,32 +26,18 @@
  */
 
 #pragma once
-#include "pockets/Scene.h"
-#include "pockets/physics/SimplePhysics.h"
-#include "TreantNode.h"
 
-class TreantTest : public pk::Scene
+#include "entityx.h"
+
+/**
+ Provides a hierachical structure for organizing spatial entities.
+ Provides implicit memory management of entities by destroying them
+ when your treant handle goes out of scope.
+ Provides an easy way to define entities and groups of entities by
+ subclassing TreantNode and adding components and/or child entities.
+ */
+namespace treant
 {
-public:
-  TreantTest() = default;
-  ~TreantTest() = default;
-
-  void setup() override;
-  void connect( ci::app::WindowRef window ) override;
-  void update( double dt ) override;
-  void draw() const override;
-
-  void mouseDown( ci::app::MouseEvent event );
-  void mouseDrag( ci::app::MouseEvent event );
-  void mouseUp( ci::app::MouseEvent event );
-
-private:
-  pk::physics::World    mWorld;
-  pk::physics::Vec      mMousePos;
-  pk::physics::Vec      mMouseStart;
-  pk::physics::Vec      mNodeStart;
-  bool                  mMouseDown = false;
-
-  pk::physics::NodeRef  mActualPosition; // connected to target by spring, draw here
-  pk::physics::NodeRef  mTargetPosition; // moves with/flung by user
-};
+  using namespace entityx;
+  typedef std::shared_ptr<class TreantNode> TreantNodeRef;
+}

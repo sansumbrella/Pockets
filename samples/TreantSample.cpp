@@ -25,23 +25,40 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "Treant.h"
+#include "TreantSample.h"
 #include "cinder/gl/gl.h"
 
+#include "pockets/puptent/PupTent.h"
+#include "pockets/puptent/RenderSystem.h"
+#include "entityx.h"
+#include "entityx/System.h"
+#include "cinder/Rand.h"
+
+#include <memory>
+
 using namespace pockets;
+using namespace puptent;
 using namespace cinder;
 using namespace cinder::app;
 using namespace std;
 
 void TreantTest::setup()
 {
-  mWorld.friction( 0.5f );
-  mActualPosition = mWorld.createNode( getWindowCenter() );
-  mTargetPosition = mWorld.createNode( getWindowCenter() );
-  mWorld.createConstraint<physics::Lashing>( mActualPosition, mTargetPosition, 0.054f );
+  _entityx.systems.add<RenderSystem>();
+  _entityx.systems.configure();
 
-  mWorld.createConstraint<physics::Range>( mTargetPosition, Vec2f( 100.0f, 0.0f ), Vec2f( 100.0f, getWindowHeight() - 200.0f ) );
-  mWorld.createConstraint<physics::Range>( mActualPosition, Vec2f( 100.0f, -100.0f ), Vec2f( 100.0f, getWindowHeight() - 100.0f ) );
+  _treant_root = make_shared<treant::TreantNode>( _entityx.entities.create() );
+
+  for( int i = 0; i < 10000; ++i ) {
+    auto child = _treant_root->createChild<treant::TreantNode>();
+    child->setPosition( randVec2f() * Vec2f( getWindowSize() ) );
+    auto mesh = child->assign<RenderMesh>();
+    mesh->setAsBox( Rectf( -10.0f, -10.0f, 10.0f, 10.0f ) );
+    mesh->setColor( ColorA( CM_HSV, randFloat( 0.02f, 0.2f ), 1.0f, 1.0f, 1.0f ) );
+    child->assign<RenderData>( mesh, child->getTransform() );
+  }
+
+  _treant_root.reset();
 }
 
 void TreantTest::connect( app::WindowRef window )
@@ -56,43 +73,35 @@ void TreantTest::connect( app::WindowRef window )
 
 void TreantTest::mouseDown( MouseEvent event )
 {
-  mMouseDown = true;
-  mMousePos = event.getPos();
-  mMouseStart = event.getPos();
-  mNodeStart = mTargetPosition->pos;
+  _mouse_down = true;
+  _mouse_position = event.getPos();
+  _mouse_start = event.getPos();
 }
 
 void TreantTest::mouseDrag( MouseEvent event )
 {
-  mMousePos = event.getPos();
+  _mouse_position = event.getPos();
+  _treant_root->setPosition( _mouse_position );
 }
 
 void TreantTest::mouseUp( MouseEvent event )
 {
-  mMouseDown = false;
-  mMousePos = event.getPos();
-  auto pos = mNodeStart + (mMousePos - mMouseStart);
-  mTargetPosition->pos = pos;
+  _mouse_down = false;
+  _mouse_position = event.getPos();
 }
 
 void TreantTest::update( double dt )
 {
-  if( mMouseDown )
-  {
-    auto pos = mNodeStart + (mMousePos - mMouseStart);
-    mTargetPosition->pos = mTargetPosition->ppos = pos;
-  }
-  mWorld.step( 1.0 / 60.0 );
+  _treant_root->updateTree( MatrixAffine2f::identity() );
+  _entityx.systems.update<pt::RenderSystem>( dt );
 }
 
-void TreantTest::draw() const
+void TreantTest::draw()
 {
   // clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) );
 
-  gl::color( Color( 1.0f, 1.0f, 0.0f ) );
-  gl::drawSolidRect( Rectf( mActualPosition->pos, mActualPosition->pos + Vec2f( 200.0f, 200.0f ) ) );
-  gl::color( Color( 1.0f, 0.0f, 1.0f ) );
-  gl::drawSolidRect( Rectf( mTargetPosition->pos, mTargetPosition->pos + Vec2f( 20.0f, 20.0f ) ) );
+  _entityx.systems.system<RenderSystem>()->draw();
+
 }
 
