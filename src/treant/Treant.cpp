@@ -25,30 +25,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#pragma once
-#include "pockets/Scene.h"
 #include "Treant.h"
+#include "TreantNode.h"
 
-class TreantTest : public pk::Scene
+namespace treant
 {
-public:
-  TreantTest() = default;
-  ~TreantTest() = default;
+  TreantNodeRef Treant::createRoot()
+  {
+    return std::make_shared<TreantNode>( entities->create() );
+  }
+} // treant::
 
-  void setup() override;
-  void connect( ci::app::WindowRef window ) override;
-  void update( double dt ) override;
-  void draw() override;
-
-  void mouseDown( ci::app::MouseEvent event );
-  void mouseDrag( ci::app::MouseEvent event );
-  void mouseUp( ci::app::MouseEvent event );
-
-private:
-  treant::Treant          _treant;
-  treant::TreantNodeRef   _treant_root;
-  ci::Vec2f               _mouse_position = ci::Vec2f::zero();
-  ci::Vec2f               _mouse_start = ci::Vec2f::zero();
-  ci::Vec2f               _node_start = ci::Vec2f::zero();
-  bool                    _mouse_down = false;
-};

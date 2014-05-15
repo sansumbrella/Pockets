@@ -20,7 +20,7 @@ namespace treant
 TreantNode::TreantNode( const Entity &entity ):
   _entity( entity )
 {
-  _transform = _entity.assign<pk::puptent::Locus>();
+  _transform = _entity.assign<Location>();
 //  _entity.assign<Size>();
 }
 

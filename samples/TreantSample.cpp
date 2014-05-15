@@ -26,25 +26,23 @@
  */
 
 #include "TreantSample.h"
+#include "TreantNode.h"
 #include "cinder/gl/gl.h"
 
-#include "pockets/puptent/PupTent.h"
-#include "pockets/puptent/RenderSystem.h"
-#include "entityx.h"
-#include "entityx/System.h"
+#include "treant/ShapeRenderSystem.h"
+#include "treant/ShapeComponent.h"
 #include "cinder/Rand.h"
 
 #include <memory>
 
 using namespace pockets;
-using namespace puptent;
 using namespace cinder;
 using namespace cinder::app;
 using namespace std;
 
 void TreantTest::setup()
 {
-  _treant.systems->add<RenderSystem>();
+  _treant.systems->add<treant::ShapeRenderSystem>();
   _treant.systems->configure();
 
   _treant_root = _treant.createRoot();
@@ -52,10 +50,10 @@ void TreantTest::setup()
   for( int i = 0; i < 10000; ++i ) {
     auto child = _treant_root->createChild<treant::TreantNode>();
     child->setPosition( Vec2f( randFloat( -0.5f, 0.5f ), randFloat( -0.5f, 0.5f ) ) * Vec2f( getWindowSize() ) );
-    auto mesh = child->assign<RenderMesh>();
+    auto mesh = child->assign<treant::ShapeComponent>();
     mesh->setAsBox( Rectf( -10.0f, -10.0f, 10.0f, 10.0f ) );
     mesh->setColor( ColorA( CM_HSV, randFloat( 0.02f, 0.2f ), 1.0f, 1.0f, 1.0f ) );
-    child->assign<RenderData>( mesh, child->getTransform() );
+    child->assign<treant::RenderData>( mesh, child->getTransform() );
   }
 }
 
@@ -74,12 +72,12 @@ void TreantTest::mouseDown( MouseEvent event )
   _mouse_down = true;
   _mouse_position = event.getPos();
   _mouse_start = event.getPos();
+  _node_start = _treant_root->getPosition();
 }
 
 void TreantTest::mouseDrag( MouseEvent event )
 {
   _mouse_position = event.getPos();
-  _treant_root->setPosition( _mouse_position );
 }
 
 void TreantTest::mouseUp( MouseEvent event )
@@ -90,8 +88,11 @@ void TreantTest::mouseUp( MouseEvent event )
 
 void TreantTest::update( double dt )
 {
+  auto delta = _mouse_position - _mouse_start;
+  _treant_root->setPosition( _node_start + delta );
+
   _treant_root->updateTree( MatrixAffine2f::identity() );
-  _treant.systems->update<pt::RenderSystem>( dt );
+  _treant.systems->update<treant::ShapeRenderSystem>( dt );
 }
 
 void TreantTest::draw()
@@ -99,7 +100,7 @@ void TreantTest::draw()
   // clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) );
 
-  _treant.systems->system<RenderSystem>()->draw();
+  _treant.systems->system<treant::ShapeRenderSystem>()->draw();
 
 }
 

@@ -10,7 +10,7 @@
 #include "pockets/Locus.h"
 #include "pockets/ConnectionManager.h"
 #include "cinder/app/App.h"
-#include "pockets/puptent/LocationComponent.h"
+#include "treant/LocationComponent.h"
 
 #include "Treant.h"
 
@@ -107,7 +107,7 @@ public:
   //! Returns this TreantNode's transform, ignoring parent transformations.
   ci::MatrixAffine2f  getLocalTransform() const { return _transform->calcLocalMatrix(); }
 
-  std::shared_ptr<pk::puptent::Locus> getTransform() const { return _transform; }
+  LocationRef     getTransform() const { return _transform; }
 
   //! called when a child is added to this TreantNode
   virtual void    childAdded( TreantNodeRef element ){}
@@ -128,11 +128,11 @@ protected:
   virtual bool    mouseDrag( ci::app::MouseEvent &event ) { return false; }
   virtual bool    mouseUp( ci::app::MouseEvent &event ) { return false; }
 
-  Entity                              _entity;
-  std::shared_ptr<pk::puptent::Locus> _transform;
+  Entity                      _entity;
+  LocationRef                 _transform;
 private:
-  TreantNode*                   _parent = nullptr;
-  std::vector<TreantNodeRef>    _children;
+  TreantNode*                 _parent = nullptr;
+  std::vector<TreantNodeRef>  _children;
 
   //! Sets the TreantNode's parent, notifying previous parent (if any)
   void            setParent( TreantNode *parent );

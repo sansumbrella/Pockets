@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 David Wicks, sansumbrella.com
+  (Ref) 2014  (om
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -30,21 +30,28 @@
 #include "entityx.h"
 
 /**
- Provides a hierachical structure for organizing spatial entities.
- Provides implicit memory management of entities by destroying them
- when your treant handle goes out of scope.
- Provides an easy way to define entities and groups of entities by
- subclassing TreantNode and adding components and/or child entities.
+  Treant marries entity system's non-hierarchical, non-homogenous
+  structure with a hierarchical, semi-homogenous structure.
+
+  It provides:
+  - a scene graph (Tree) for organizing spatial entities.
+  - entity system hooks on every node.
+  - RAII memory management of entities and components. When TreantNodes fall out of scope, their entities are destroyed.
+  - Convenient method for defining composite objects (your constructor). You can add children and/or components at runtime.
  */
 namespace treant
 {
   using namespace entityx;
   typedef std::shared_ptr<class TreantNode> TreantNodeRef;
-	struct Treant
-	{
-		std::shared_ptr<EventManager>	events	 = std::shared_ptr<EventManager>( new EventManager() );
-		std::shared_ptr<EntityManager>	entities = std::shared_ptr<EntityManager>( new EntityManager( events ) );
-		std::shared_ptr<SystemManager>	systems  = std::shared_ptr<SystemManager>( new SystemManager( entities, events ) );
-		TreantNodeRef	createRoot() { return std::make_shared<TreantNode>( entities->create() ); }
-	};
+  typedef std::shared_ptr<EventManager>     EventManagerRef;
+  typedef std::shared_ptr<EntityManager>    EntityManagerRef;
+  typedef std::shared_ptr<SystemManager>    SystemManagerRef;
+
+  struct Treant
+  {
+    EventManagerRef   events   = EventManagerRef( new EventManager() );
+    EntityManagerRef  entities = EntityManagerRef( new EntityManager( events ) );
+    SystemManagerRef  systems  = SystemManagerRef( new SystemManager( entities, events ) );
+    TreantNodeRef createRoot();
+  };
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 David Wicks, sansumbrella.com
+ * Copyright (c) 2013 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -25,30 +25,40 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#pragma once
-#include "pockets/Scene.h"
-#include "Treant.h"
+#include "treant/LocationComponent.h"
 
-class TreantTest : public pk::Scene
+using namespace cinder;
+using namespace treant;
+
+MatrixAffine2f Location::calcLocalMatrix() const
 {
-public:
-  TreantTest() = default;
-  ~TreantTest() = default;
+  MatrixAffine2f mat;
+  mat.translate( position + registration_point );
+  mat.rotate( rotation );
+  mat.scale( scale );
+  mat.translate( -registration_point );
+  return mat;
+}
 
-  void setup() override;
-  void connect( ci::app::WindowRef window ) override;
-  void update( double dt ) override;
-  void draw() override;
+void Location::updateMatrix( ci::MatrixAffine2f parentMatrix )
+{
+  parentMatrix.translate( position + registration_point );
+  parentMatrix.rotate( rotation );
+  parentMatrix.scale( scale );
+  parentMatrix.translate( -registration_point );
+  matrix = parentMatrix;
+}
 
-  void mouseDown( ci::app::MouseEvent event );
-  void mouseDrag( ci::app::MouseEvent event );
-  void mouseUp( ci::app::MouseEvent event );
+/*
+void Location::detachFromParent()
+{
+  if( parent )
+  {
+    scale *= parent->getScale();
+    rotation += parent->getRotation();
+    position = parent->toMatrix().transformPoint( position );
 
-private:
-  treant::Treant          _treant;
-  treant::TreantNodeRef   _treant_root;
-  ci::Vec2f               _mouse_position = ci::Vec2f::zero();
-  ci::Vec2f               _mouse_start = ci::Vec2f::zero();
-  ci::Vec2f               _node_start = ci::Vec2f::zero();
-  bool                    _mouse_down = false;
-};
+    parent.reset();
+  }
+}
+*/

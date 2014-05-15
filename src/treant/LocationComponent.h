@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 David Wicks, sansumbrella.com
+ * Copyright (c) 2013 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -26,29 +26,39 @@
  */
 
 #pragma once
-#include "pockets/Scene.h"
 #include "Treant.h"
+#include "cinder/MatrixAffine2.h"
 
-class TreantTest : public pk::Scene
+namespace treant
 {
-public:
-  TreantTest() = default;
-  ~TreantTest() = default;
+  typedef std::shared_ptr<struct Location> LocationRef;
+  /**
+   A Component storing the basic positional information for an Entity
+   Position, Rotation, and Scale
+   Scales and rotates around the Registration Point when using toMatrix()
 
-  void setup() override;
-  void connect( ci::app::WindowRef window ) override;
-  void update( double dt ) override;
-  void draw() override;
+   Used by RenderSystem to transform RenderMesh component vertices
+   Updated by movement systems (Physics, Custom Motion)
+   No assumption is made about the units used
+  */
+  struct Location : Component<Location>
+  {
+    Location() = default;
+    Location( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, std::shared_ptr<Location> parent=nullptr ):
+    position( pos ),
+    registration_point( registration ),
+    rotation( rot )
+    {}
 
-  void mouseDown( ci::app::MouseEvent event );
-  void mouseDrag( ci::app::MouseEvent event );
-  void mouseUp( ci::app::MouseEvent event );
+    ci::Vec2f           position = ci::Vec2f::zero();
+    ci::Vec2f           registration_point = ci::Vec2f::zero();
+    float               rotation = 0.0f;
+    ci::Vec2f           scale = ci::Vec2f::one();
+    ci::MatrixAffine2f  matrix = ci::MatrixAffine2f::identity();
 
-private:
-  treant::Treant          _treant;
-  treant::TreantNodeRef   _treant_root;
-  ci::Vec2f               _mouse_position = ci::Vec2f::zero();
-  ci::Vec2f               _mouse_start = ci::Vec2f::zero();
-  ci::Vec2f               _node_start = ci::Vec2f::zero();
-  bool                    _mouse_down = false;
-};
+    void updateMatrix( ci::MatrixAffine2f parentMatrix );
+    //! returns a matrix that will transform points based on Location properties
+    ci::MatrixAffine2f  calcLocalMatrix() const;
+  };
+
+} // treant::
