@@ -39,19 +39,16 @@ public:
   void setup() override;
   void connect( ci::app::WindowRef window ) override;
   void update( double dt ) override;
-  void draw() const override;
+  void draw() override;
 
   void mouseDown( ci::app::MouseEvent event );
   void mouseDrag( ci::app::MouseEvent event );
   void mouseUp( ci::app::MouseEvent event );
 
 private:
-  pk::physics::World    mWorld;
-  pk::physics::Vec      mMousePos;
-  pk::physics::Vec      mMouseStart;
-  pk::physics::Vec      mNodeStart;
-  bool                  mMouseDown = false;
-
-  pk::physics::NodeRef  mActualPosition; // connected to target by spring, draw here
-  pk::physics::NodeRef  mTargetPosition; // moves with/flung by user
+  entityx::EntityX        _entityx;
+  treant::TreantNodeRef   _treant_root;
+  ci::Vec2f               _mouse_position;
+  ci::Vec2f               _mouse_start;
+  bool                    _mouse_down = false;
 };

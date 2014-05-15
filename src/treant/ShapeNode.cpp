@@ -27,9 +27,18 @@
 
 #include "ShapeNode.h"
 
-ShapeNode::ShapeNode()
-{}
+namespace treant
+{
+
+ShapeNode::ShapeNode( Entity entity ):
+  TreantNode( entity )
+{
+//  _entity.assign<RenderStuff>();
+//  createChild<TreantNode>();
+//  createChild<TreantNode>();
+}
 
 ShapeNode::~ShapeNode()
 {}
 
+}

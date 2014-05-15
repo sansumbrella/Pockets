@@ -63,10 +63,26 @@ public:
   //! Remove a component.
   template <typename C>
   void remove() { _entity.remove<C>(); }
+  //! Get a component.
+  template <typename C>
+  ComponentHandle<C> component() { return _entity.component<C>(); }
+
+  //! Returns true if entity has component of type C.
+  template <typename C>
+  bool has_component() const { return _entity.has_component<C>(); }
+
+  //! Retrieve a bunch of components at once.
+  template <typename A, typename ... Args>
+  void unpack(ComponentHandle<A> &a, ComponentHandle<Args> & ... args) { _entity.unpack( a, std::forward<Args>(args) ... ); }
+
+  //
+  //  Child creation (automatically creates entity)
+  //
 
   //! Create a child and add it to our hierarchy.
   template<typename T>
   std::shared_ptr<T>  createChild();
+
   // Child Manipulation
   //! add a TreantNode as a child; will receive connect/disconnect events and have its locus parented
   void            appendChild( TreantNodeRef element );
@@ -96,6 +112,8 @@ public:
   //! Returns this TreantNode's transform, ignoring parent transformations.
   ci::MatrixAffine2f  getLocalTransform() const { return _transform->calcLocalMatrix(); }
 
+  ComponentHandle<pk::puptent::Locus> getTransform() const { return _transform; }
+
   //! called when a child is added to this TreantNode
   virtual void    childAdded( TreantNodeRef element ){}
   void            removeChild( TreantNodeRef element );
@@ -115,10 +133,10 @@ protected:
   virtual bool    mouseDrag( ci::app::MouseEvent &event ) { return false; }
   virtual bool    mouseUp( ci::app::MouseEvent &event ) { return false; }
 
-  Entity                        _entity;
+  Entity                              _entity;
   ComponentHandle<pk::puptent::Locus> _transform;
 private:
-  TreantNode*                   _parent;
+  TreantNode*                   _parent = nullptr;
   std::vector<TreantNodeRef>    _children;
 
   //! Sets the TreantNode's parent, notifying previous parent (if any)

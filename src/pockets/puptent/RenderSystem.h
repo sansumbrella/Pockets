@@ -128,7 +128,7 @@ namespace pockets
       std::array<std::vector<Vertex>, 3>        mVertices;
       ci::gl::VboRef                            mVbo;
       ci::gl::VaoRef                            mAttributes;
-      ci::gl::TextureRef                        mTexture;
+      ci::gl::TextureRef                        mTexture = nullptr;
       ci::gl::GlslProgRef                       mRenderProg;
       static bool                 layerSort( const ComponentHandle<RenderData> &lhs, const ComponentHandle<RenderData> &rhs )
       { return lhs->render_layer < rhs->render_layer; }

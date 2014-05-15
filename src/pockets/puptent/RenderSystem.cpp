@@ -107,13 +107,13 @@ void RenderSystem::checkOrdering() const
   }
 }
 
-void RenderSystem::receive(const ComponentRemovedEvent<puptent::RenderData> &event)
+void RenderSystem::receive( const ComponentRemovedEvent<puptent::RenderData> &event )
 {
   auto render_data = event.component;
   vector_remove( &mGeometry[render_data->pass], render_data );
 }
 
-void RenderSystem::receive(const EntityDestroyedEvent &event)
+void RenderSystem::receive( const EntityDestroyedEvent &event )
 {
   auto entity = event.entity;
   auto render_data = entity.component<RenderData>();
@@ -164,8 +164,10 @@ void RenderSystem::draw() const
 {
   gl::ScopedGlslProg    shader( mRenderProg );
   gl::ScopedVao         attr( mAttributes );
+
   uint8_t textureUnit = 0;
   gl::ScopedTextureBind tex( mTexture, textureUnit );
+
   gl::setDefaultShaderVars();
 
   // premultiplied alpha blending for normal pass

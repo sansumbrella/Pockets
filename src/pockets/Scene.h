@@ -60,7 +60,7 @@ namespace pockets
     //! update content
     virtual void  update( double dt ){}
     //! render content
-    virtual void  draw() const {}
+    virtual void  draw() {}
     //! adds this view to the specified window; override appear to control animation
     void          show( ci::app::WindowRef window, bool useWindowBounds=true );
     //! remove this view from render sequence; override vanish to control animation

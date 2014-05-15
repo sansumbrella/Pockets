@@ -92,7 +92,7 @@ void TexturePackingSample::addFile(const fs::path &file)
   }
 }
 
-void TexturePackingSample::draw() const
+void TexturePackingSample::draw()
 {
   gl::clear( Color::white() );
   mParams->draw();

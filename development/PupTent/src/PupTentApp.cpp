@@ -159,6 +159,9 @@ Entity PupTentApp::createShip()
     left_wing.assign<RenderData>( mesh, locus, 5 );
   }
 
+  Entity entity = mEntityX.entities.create();
+  entity.destroy();
+
   Entity right_wing = mEntityX.entities.create();
   { // right wing
     auto locus = right_wing.assign<Locus>();

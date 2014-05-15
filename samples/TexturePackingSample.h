@@ -53,7 +53,7 @@ class TexturePackingSample : public pk::Scene
   public:
 	void setup() override;
   void connect( ci::app::WindowRef window ) override;
-	void draw() const override;
+	void draw() override;
   void fileDrop( ci::app::FileDropEvent event );
   void addFile( const ci::fs::path &file );
   void saveSpriteSheet( const std::string &filename );

@@ -30,7 +30,10 @@ TreantNode::~TreantNode()
   {
     child->_parent = nullptr;
   }
-  _entity.destroy();
+  if( _entity.valid() ) {
+    app::console() << "Destroying entity." << endl;
+    _entity.destroy();
+  }
 }
 
 void TreantNode::appendChild( TreantNodeRef element )

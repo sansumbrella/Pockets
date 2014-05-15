@@ -29,6 +29,13 @@
 
 #include "entityx.h"
 
+/**
+ Provides a hierachical structure for organizing spatial entities.
+ Provides implicit memory management of entities by destroying them
+ when your treant handle goes out of scope.
+ Provides an easy way to define entities and groups of entities by
+ subclassing TreantNode and adding components and/or child entities.
+ */
 namespace treant
 {
   using namespace entityx;
