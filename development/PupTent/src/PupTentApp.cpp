@@ -12,7 +12,7 @@
 #include "pockets/Profiling.h"
 
 #include "pockets/puptent/RenderSystem.h"
-#include "pockets/puptent/TextureAtlas.h"
+#include "pockets/TextureAtlas.h"
 #include "pockets/puptent/SpriteSystem.h"
 #include "pockets/puptent/VerletMotionSystem.h"
 #include "pockets/puptent/ExpiresSystem.h"
@@ -46,9 +46,7 @@ public:
   Entity createShip();
   Entity createPlanet();
 private:
-  shared_ptr<EventManager>  mEvents;
-  shared_ptr<EntityManager> mEntities;
-  shared_ptr<SystemManager> mSystemManager;
+  puptent::EntityX          mEntityX;
   SpriteAnimationSystemRef  mSpriteSystem;
   double                    mAverageUpdateTime = 1.0;
   double                    mAverageRenderTime = 1.0;
@@ -76,17 +74,14 @@ void PupTentApp::setup()
   JsonTree animations{ loadAsset( "animations.json" ) };
 
   // Set up entity manager and systems
-  mEvents = EventManager::make();
-  mEntities = EntityManager::make(mEvents);
-  mSystemManager = SystemManager::make( mEntities, mEvents );
-  mSystemManager->add<ExpiresSystem>();
-  mSystemManager->add<ParticleSystem>();
-//  mSystemManager->add<CppScriptSystem>();
-  mSystemManager->add<CppScriptSystem>();
-  mSpriteSystem = mSystemManager->add<SpriteAnimationSystem>( atlas, animations );
-  auto renderer = mSystemManager->add<RenderSystem>();
+  mEntityX.systems.add<ExpiresSystem>();
+  mEntityX.systems.add<ParticleSystem>();
+//  mEntityX.systems.add<ScriptSystem>();
+  mEntityX.systems.add<CppScriptSystem>();
+  mSpriteSystem = mEntityX.systems.add<SpriteAnimationSystem>( atlas, animations );
+  auto renderer = mEntityX.systems.add<RenderSystem>();
   renderer->setTexture( atlas->getTexture() );
-  mSystemManager->configure();
+  mEntityX.systems.configure();
 
   mGpuTimer.setup();
 
@@ -106,7 +101,7 @@ void PupTentApp::setup()
 
 Entity PupTentApp::createPlanet()
 {
-  Entity planet = mEntities->create();
+  Entity planet = mEntityX.entities.create();
 
   // TODO: create a planet rendering system
   // For now: draw stuff with the existing system
@@ -122,7 +117,7 @@ Entity PupTentApp::createPlanet()
   {
     // compound shape setup to avoid entity explosion?
     // entities are cheap, though, so it's not a real problem
-    Entity e = mEntities->create();
+    Entity e = mEntityX.entities.create();
     auto mesh = e.assign<RenderMesh>( 3 );
     mesh->vertices[0].position = Vec2f{ 0.0f, 0.0f };
     mesh->vertices[1].position = Vec2f{ 30.0f, 45.0f };
@@ -143,7 +138,7 @@ Entity PupTentApp::createPlanet()
 
 Entity PupTentApp::createShip()
 {
-  Entity ship = mEntities->create();
+  Entity ship = mEntityX.entities.create();
   auto loc = ship.assign<Locus>();
   loc->rotation = M_PI * 0.33f;
   loc->scale = 1.0f;
@@ -152,7 +147,7 @@ Entity PupTentApp::createShip()
   verlet->friction = 0.9f;
   verlet->rotation_friction = 0.0f;
 
-  Entity left_wing = mEntities->create();
+  Entity left_wing = mEntityX.entities.create();
   { // left wing
     auto locus = left_wing.assign<Locus>();
     auto mesh = left_wing.assign<RenderMesh>( 3 );
@@ -164,7 +159,7 @@ Entity PupTentApp::createShip()
     left_wing.assign<RenderData>( mesh, locus, 5 );
   }
 
-  Entity right_wing = mEntities->create();
+  Entity right_wing = mEntityX.entities.create();
   { // right wing
     auto locus = right_wing.assign<Locus>();
     auto mesh = right_wing.assign<RenderMesh>( 3 );
@@ -176,9 +171,10 @@ Entity PupTentApp::createShip()
     right_wing.assign<RenderData>( mesh, locus, 5 );
   }
 
-  Entity trailing_ribbon = mEntities->create();
+  Entity trailing_ribbon = mEntityX.entities.create();
   { // smoke trail or something (use ship locus directly to plot path)
     auto locus = trailing_ribbon.assign<Locus>();
+//    locus->parent = loc;
     std::deque<Vec2f> ribbon_vertices;
     ribbon_vertices.assign( 11, loc->toMatrix().transformPoint( { 0.0f, 40.0f } ) );
     auto mesh = trailing_ribbon.assign<RenderMesh>( 20 );
@@ -186,6 +182,7 @@ Entity PupTentApp::createShip()
 
     trailing_ribbon.assign<CppScriptComponent>([=]( Entity self, double dt ) mutable
                                             { // use the ship locus to update out vertices
+//                                              auto locus = self.component<Locus>();
                                               auto front = loc->toMatrix().transformPoint( { 0.0f, 40.0f } );
                                               ribbon_vertices.emplace_front( front );
                                               ribbon_vertices.pop_back();
@@ -235,7 +232,7 @@ Entity PupTentApp::createShip()
 
 Entity PupTentApp::createRibbon()
 {
-  Entity e = mEntities->create();
+  Entity e = mEntityX.entities.create();
   auto loc = e.assign<Locus>();
   auto mesh = e.assign<RenderMesh>( 100 );
   e.assign<RenderData>( mesh, loc );
@@ -254,11 +251,11 @@ Entity PupTentApp::createRibbon()
 
 Entity PupTentApp::createLine()
 {
-  Entity e = mEntities->create();
+  Entity e = mEntityX.entities.create();
   auto loc = e.assign<Locus>();
   auto mesh = e.assign<RenderMesh>();
   e.assign<RenderData>( mesh, loc, 20 );
-  e.assign<CppScriptComponent>( [=](Entity self, double dt){
+  e.assign<CppScriptComponent>( [=](Entity self, double dt) mutable {
     mesh->setAsLine( { 0, 0 }, getMousePos(), 8.0f );
   } );
   return e;
@@ -267,21 +264,20 @@ Entity PupTentApp::createLine()
 Entity PupTentApp::createPlayer()
 {
   Rand r;
-  auto player = mEntities->create();
-  auto loc = shared_ptr<Locus>{ new Locus };
+  auto player = mEntityX.entities.create();
   // get an animation out of the sprite system
-  auto anim = mSpriteSystem->createSpriteAnimation( "jellyfish" );
+//  auto anim = mSpriteSystem->createSpriteAnimation( "jellyfish" );
   // ping-pong animation
   //  anim->looping = false;
   //  anim->finish_fn = []( SpriteAnimationRef animation ){
   //    animation->rate *= -1.0f;
   //  };
+  auto mesh = player.assign<RenderMesh>( 4 );
+  player.assign<SpriteAnimation>( mSpriteSystem->getAnimationId( "jellyfish" ) );
+  auto loc = player.assign<Locus>();
   loc->position = getWindowCenter();
   loc->rotation = r.nextFloat( M_PI * 2 );
   loc->registration_point = { 20.0f, 10.0f }; // center of the mesh created below
-  auto mesh = player.assign<RenderMesh>( 4 );
-  player.assign( anim );
-  player.assign( loc );
   player.assign<RenderData>( mesh, loc, 1 );
   auto verlet = player.assign<Particle>( loc );
   verlet->friction = 0.9f;
@@ -289,7 +285,7 @@ Entity PupTentApp::createPlayer()
   auto input = KeyboardInput::create();
   input->connect( getWindow() );
   // give custom behavior to the player
-  auto view = tags::TagsComponent::view( mEntities->entities_with_components<Locus>(), "treasure" );
+  auto view = tags::TagsComponent::view( mEntityX.entities.entities_with_components<Locus>(), "treasure" );
 
   player.assign<CppScriptComponent>( [=](Entity self, double dt){
     auto locus = self.component<Locus>();
@@ -310,19 +306,17 @@ Entity PupTentApp::createPlayer()
 
 Entity PupTentApp::createTreasure()
 {
-  auto entity = mEntities->create();
-  auto loc = shared_ptr<Locus>{ new Locus };
+  auto entity = mEntityX.entities.create();
   // get an animation out of the sprite system
-  auto anim = mSpriteSystem->createSpriteAnimation( "dot" );
-  anim->current_index = Rand::randInt( 0, 10 );
-  loc->position = { Rand::randFloat( getWindowWidth() ), Rand::randFloat( getWindowHeight() ) };
-  loc->rotation = Rand::randFloat( M_PI * 2 );
-  loc->registration_point = { 20.0f, 10.0f }; // center of the mesh created below
   auto color = Color::gray( Rand::randFloat( 0.4f, 1.0f ) );
   auto mesh = entity.assign<RenderMesh>( 4 );
   mesh->setColor( color );
-  entity.assign( anim );
-  entity.assign( loc );
+  auto anim = entity.assign<SpriteAnimation>( mSpriteSystem->getAnimationId( "dot" ) );
+  anim->current_index = Rand::randInt( 0, 10 );
+  auto loc = entity.assign<Locus>();
+  loc->position = { Rand::randFloat( getWindowWidth() ), Rand::randFloat( getWindowHeight() ) };
+  loc->rotation = Rand::randFloat( M_PI * 2 );
+  loc->registration_point = { 20.0f, 10.0f }; // center of the mesh created below
   entity.assign<RenderData>( mesh, loc, Rand::randInt( 50 ), RenderPass::PREMULTIPLIED );
   // randomized expire time, weighted toward end
   entity.assign<Expires>( easeOutQuad( Rand::randFloat() ) * 5.0f + 1.0f );
@@ -338,12 +332,12 @@ void PupTentApp::update()
   mTimer.start();
   Timer up;
   up.start();
-//  mSystemManager->update<ExpiresSystem>( dt );
-//  mSystemManager->update<ScriptSystem>( dt );
-  mSystemManager->update<CppScriptSystem>( dt );
-  mSystemManager->update<SpriteAnimationSystem>( dt );
-  mSystemManager->update<ParticleSystem>( dt );
-  mSystemManager->update<RenderSystem>( dt );
+//  mEntityX.systems.update<ExpiresSystem>( dt );
+//  mEntityX.systems.update<ScriptSystem>( dt );
+  mEntityX.systems.update<CppScriptSystem>( dt );
+  mEntityX.systems.update<SpriteAnimationSystem>( dt );
+  mEntityX.systems.update<ParticleSystem>( dt );
+  mEntityX.systems.update<RenderSystem>( dt );
   double ms = up.getSeconds() * 1000;
   mAverageUpdateTime = (mAverageUpdateTime * 59.0 + ms) / 60.0;
   if( getElapsedFrames() % 90 == 0 )
@@ -361,7 +355,7 @@ void PupTentApp::draw()
   gl::setMatricesWindow( getWindowSize() );
   gl::setDefaultShaderVars();
   //  mSystemManager->system<PhysicsSystem>()->debugDraw();
-  mSystemManager->system<RenderSystem>()->draw();
+  mEntityX.systems.system<RenderSystem>()->draw();
 
 
   double ms = dr.getSeconds() * 1000;

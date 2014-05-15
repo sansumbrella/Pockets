@@ -74,10 +74,10 @@ ScriptSystem::~ScriptSystem()
   lua_close( L );
 }
 
-void ScriptSystem::configure( EventManagerRef event_manager )
+void ScriptSystem::configure( EventManager &event_manager )
 {
-  event_manager->subscribe<ComponentAddedEvent<ScriptComponent>>( *this );
-  event_manager->subscribe<ComponentRemovedEvent<ScriptComponent>>( *this );
+  event_manager.subscribe<ComponentAddedEvent<ScriptComponent>>( *this );
+  event_manager.subscribe<ComponentRemovedEvent<ScriptComponent>>( *this );
 
   auto script = ci::loadString( ci::app::loadAsset( "test.lua" ) );
   handleLuaError( luaL_dostring( L, script.c_str() ) );
@@ -85,9 +85,9 @@ void ScriptSystem::configure( EventManagerRef event_manager )
   handleLuaError( lua_pcall( L, 0, 0, 0 ) );
 }
 
-void ScriptSystem::update(shared_ptr<entityx::EntityManager> es, shared_ptr<entityx::EventManager> events, double dt)
+void ScriptSystem::update( EntityManager &es, EventManager &events, double dt)
 {
-  for( auto entity : es->entities_with_components<ScriptComponent>() )
+  for( auto entity : es.entities_with_components<ScriptComponent>() )
   {
     auto script = entity.component<ScriptComponent>();
     lua_getglobal( L, script->table );
@@ -121,9 +121,9 @@ void ScriptSystem::handleLuaError( int error )
 //  C++ Script system
 //
 
-void CppScriptSystem::update( EntityManagerRef es, EventManagerRef events, double dt )
+void CppScriptSystem::update( EntityManager &es, EventManager &events, double dt )
 {
-  for( auto entity : es->entities_with_components<CppScriptComponent>() )
+  for( auto entity : es.entities_with_components<CppScriptComponent>() )
   {
     auto behavior = entity.component<CppScriptComponent>();
     behavior->update_fn( entity, dt );

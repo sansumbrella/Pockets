@@ -26,7 +26,7 @@
  */
 
 #include "pockets/puptent/RenderMeshComponent.h"
-#include "pockets/puptent/TextureAtlas.h"
+#include "pockets/TextureAtlas.h"
 
 using namespace pockets::puptent;
 using namespace cinder;

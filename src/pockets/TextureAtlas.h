@@ -53,12 +53,13 @@ namespace pockets
     ci::Vec2i       size;
     ci::Vec2f       registration_point;
   };
+
+  typedef std::unique_ptr<class TextureAtlas> TextureAtlasUniqueRef;
   /**
    TextureAtlas:
    A texture and lookup information for named sprites on that texture.
    Not a component, but used by the SpriteAnimationSystem
   */
-  typedef std::unique_ptr<class TextureAtlas> TextureAtlasUniqueRef;
   class TextureAtlas
   {
   public:

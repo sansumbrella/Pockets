@@ -76,9 +76,9 @@ namespace pockets
     {
       ScriptSystem();
       ~ScriptSystem();
-      void  configure( EventManagerRef event_manager ) override;
+      void  configure( EventManager &event_manager ) override;
       //! gather scripts and execute them
-      void  update( EntityManagerRef es, EventManagerRef events, double dt ) override;
+      void  update( EntityManager &es, EventManager &events, double dt ) override;
       //! TODO: load the specified script when component is added
       void  receive( const ComponentAddedEvent<ScriptComponent> &event ) {}
       void  receive( const ComponentRemovedEvent<ScriptComponent> &event ) {}
@@ -102,7 +102,7 @@ namespace pockets
 
     struct CppScriptSystem : public System<CppScriptSystem>
     {
-      void  update( EntityManagerRef es, EventManagerRef events, double dt ) override;
+      void  update( EntityManager &es, EventManager &events, double dt ) override;
     };
   } // puptent::
 } // pockets::

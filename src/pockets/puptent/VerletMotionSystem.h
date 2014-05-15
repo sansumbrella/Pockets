@@ -71,8 +71,8 @@ namespace pockets
    */
   struct ParticleSystem : public System<ParticleSystem>, Receiver<ParticleSystem>
   {
-    void configure( EventManagerRef events ) override;
-    void update( EntityManagerRef es, EventManagerRef events, double dt ) override;
+    void configure( EventManager &events ) override;
+    void update( EntityManager &es, EventManager &events, double dt ) override;
     void receive( const ComponentAddedEvent<Particle> &event );
     void receive( const ComponentRemovedEvent<Particle> &event );
     void receive( const ComponentAddedEvent<ParticleEmitter> &event );

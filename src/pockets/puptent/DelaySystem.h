@@ -71,7 +71,7 @@ namespace pockets
    */
   struct DelaySystem : public System<DelaySystem>
   {
-    void update( EntityManagerRef es, EventManagerRef events, double dt ) override;
+    void update( EntityManager &es, EventManager &events, double dt ) override;
   private:
   };
 } // puptent::

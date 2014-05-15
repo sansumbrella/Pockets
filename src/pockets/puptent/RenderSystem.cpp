@@ -36,11 +36,11 @@ using namespace cinder;
 using namespace pockets;
 using namespace puptent;
 
-void RenderSystem::configure( EventManagerRef event_manager )
+void RenderSystem::configure( EventManager &event_manager )
 {
-  event_manager->subscribe<EntityDestroyedEvent>( *this );
-  event_manager->subscribe<ComponentAddedEvent<RenderData>>( *this );
-  event_manager->subscribe<ComponentRemovedEvent<RenderData>>( *this );
+  event_manager.subscribe<EntityDestroyedEvent>( *this );
+  event_manager.subscribe<ComponentAddedEvent<RenderData>>( *this );
+  event_manager.subscribe<ComponentRemovedEvent<RenderData>>( *this );
 
   // make buffer large enough to hold all the vertices you will ever need
   mVbo = gl::Vbo::create( GL_ARRAY_BUFFER, 1.0e5 * sizeof( Vertex ), nullptr, GL_STREAM_DRAW );
@@ -62,7 +62,7 @@ void RenderSystem::configure( EventManagerRef event_manager )
   mVbo->unbind();
 }
 
-void RenderSystem::receive(const ComponentAddedEvent<RenderData> &event)
+void RenderSystem::receive( const ComponentAddedEvent<puptent::RenderData> &event )
 {
   auto data = event.component;
   const RenderPass pass = data->pass;
@@ -76,7 +76,7 @@ void RenderSystem::receive(const ComponentAddedEvent<RenderData> &event)
     else
     {
       auto iter = mGeometry[pass].begin();
-      while( iter != mGeometry[pass].end() && (**iter).render_layer < target_layer )
+      while( iter != mGeometry[pass].end() && (*iter)->render_layer < target_layer )
       { // place the component in the first position on its layer
         ++iter;
       }
@@ -107,7 +107,7 @@ void RenderSystem::checkOrdering() const
   }
 }
 
-void RenderSystem::receive(const ComponentRemovedEvent<RenderData> &event)
+void RenderSystem::receive(const ComponentRemovedEvent<puptent::RenderData> &event)
 {
   auto render_data = event.component;
   vector_remove( &mGeometry[render_data->pass], render_data );
@@ -127,7 +127,7 @@ namespace {
   const array<RenderPass, NUM_RENDER_PASSES> passes = { PREMULTIPLIED, ADD, MULTIPLY };
 } // anon::
 
-void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double dt )
+void RenderSystem::update( EntityManager &es, EventManager &events, double dt )
 { // assemble vertices for each pass
   for( const auto &pass : passes )
   {

@@ -107,9 +107,9 @@ namespace pockets
     {
     public:
       //! listen for events
-      void        configure( EventManagerRef event_manager ) override;
+      void        configure( EventManager &event_manager ) override;
       //! generate vertex list by transforming meshes by locii
-      void        update( EntityManagerRef es, EventManagerRef events, double dt ) override;
+      void        update( EntityManager &es, EventManager &events, double dt ) override;
       //! batch render scene to screen
       void        draw() const;
       //! set a texture to be bound for all rendering
@@ -124,13 +124,13 @@ namespace pockets
       inline void sort()
       { stable_sort( mGeometry[PREMULTIPLIED].begin(), mGeometry[PREMULTIPLIED].end(), &RenderSystem::layerSort ); }
     private:
-      std::array<std::vector<RenderDataRef>, NUM_RENDER_PASSES> mGeometry;
-      std::array<std::vector<Vertex>, NUM_RENDER_PASSES>        mVertices;
+      std::array<std::vector< ComponentHandle<RenderData> >, NUM_RENDER_PASSES> mGeometry;
+      std::array<std::vector<Vertex>, 3>        mVertices;
       ci::gl::VboRef                            mVbo;
       ci::gl::VaoRef                            mAttributes;
       ci::gl::TextureRef                        mTexture;
       ci::gl::GlslProgRef                       mRenderProg;
-      static bool                 layerSort( const RenderDataRef &lhs, const RenderDataRef &rhs )
+      static bool                 layerSort( const ComponentHandle<RenderData> &lhs, const ComponentHandle<RenderData> &rhs )
       { return lhs->render_layer < rhs->render_layer; }
       // maybe add a CameraRef for positioning the scene
       // use a POV and Locus component as camera, allowing dynamic switching

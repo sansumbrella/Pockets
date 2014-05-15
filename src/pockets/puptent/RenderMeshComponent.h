@@ -62,7 +62,6 @@ namespace puptent
      - Texture billboard (special case of Box)
      Additional methods ease the texturing of those shapes.
      */
-    typedef std::shared_ptr<struct RenderMesh> RenderMeshRef;
     struct RenderMesh : Component<RenderMesh>
     {
       RenderMesh( int vertex_count=3 )
