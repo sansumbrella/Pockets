@@ -60,16 +60,16 @@ public:
 
   //! Assign a component.
   template <typename C, typename ... Args>
-  std::shared_ptr<C> assign(Args && ... args) { return _entity.assign<C>( std::forward<Args>(args) ... ); }
+  std::shared_ptr<C> assign(Args && ... args) { return mEntity.assign<C>( std::forward<Args>(args) ... ); }
   //! Remove a component.
   template <typename C>
-  void remove() { _entity.remove<C>(); }
+  void remove() { mEntity.remove<C>(); }
   //! Get a component.
   template <typename C>
-  std::shared_ptr<C> component() { return _entity.component<C>(); }
+  std::shared_ptr<C> component() { return mEntity.component<C>(); }
   //! Retrieve a bunch of components at once.
   template <typename A, typename ... Args>
-  void unpack(std::shared_ptr<A> &a, std::shared_ptr<Args> & ... args) { _entity.unpack( a, std::forward<Args>(args) ... ); }
+  void unpack(std::shared_ptr<A> &a, std::shared_ptr<Args> & ... args) { mEntity.unpack( a, std::forward<Args>(args) ... ); }
 
   //
   //  Child creation (automatically creates entity)
@@ -88,8 +88,8 @@ public:
   //! add a TreantNode as a child; will receive connect/disconnect events and have its locus parented
   void            appendChild( TreantNodeRef element );
   void            insertChildAt( TreantNodeRef element, size_t pos );
-  size_t          numChildren() const { return _children.size(); }
-  TreantNodeRef   getChildAt( size_t index ){ return _children.at( index ); }
+  size_t          numChildren() const { return mChildren.size(); }
+  TreantNodeRef   getChildAt( size_t index ){ return mChildren.at( index ); }
   void            setChildIndex( TreantNodeRef child, size_t index );
 
   //! Stop whatever event-related tracking this object was doing. Considering for removal
@@ -97,36 +97,36 @@ public:
   void            deepCancelInteractions();
 
   //! Set top-left of element.
-  void            setPosition( const ci::Vec2f &pos ){ _transform->position = pos; }
+  void            setPosition( const ci::Vec2f &pos ){ mTransform->position = pos; }
   //! Get top-left of element.
-  ci::Vec2f       getPosition() const { return _transform->position; }
+  ci::Vec2f       getPosition() const { return mTransform->position; }
   //! Set xy scale of element.
-  void            setScale( const ci::Vec2f &scale ){ _transform->scale = scale; }
-  ci::Vec2f       getScale() const { return _transform->scale; }
+  void            setScale( const ci::Vec2f &scale ){ mTransform->scale = scale; }
+  ci::Vec2f       getScale() const { return mTransform->scale; }
   //! Set element rotation around z-axis.
-  void            setRotation( float radians ){ _transform->rotation = radians; }
+  void            setRotation( float radians ){ mTransform->rotation = radians; }
   //! Set registration point for rotation and scaling.
-  void            setRegistrationPoint( const ci::Vec2f &loc ){ _transform->registration_point = loc; }
+  void            setRegistrationPoint( const ci::Vec2f &loc ){ mTransform->registration_point = loc; }
 
   //! Returns nominal width and height. Up to users to set correctly at this point.
-  ci::Vec2f       getSize() const { return _size->size; }
-  void            setSize( const ci::Vec2f &size ) { _size->size = size; }
+  ci::Vec2f       getSize() const { return mSize->size; }
+  void            setSize( const ci::Vec2f &size ) { mSize->size = size; }
 
   //! Returns this TreantNode's transform, as transformed by its parents.
-  ci::MatrixAffine2f    getFullTransform() const { return _transform->matrix; }
+  ci::MatrixAffine2f    getFullTransform() const { return mTransform->matrix; }
   //! Returns this TreantNode's transform, ignoring parent transformations.
-  ci::MatrixAffine2f    getLocalTransform() const { return _transform->calcLocalMatrix(); }
+  ci::MatrixAffine2f    getLocalTransform() const { return mTransform->calcLocalMatrix(); }
 
-  LocationComponentRef  getTransform() const { return _transform; }
+  LocationComponentRef  getTransform() const { return mTransform; }
 
   //! called when a child is added to this TreantNode
   virtual void    childAdded( TreantNodeRef element ){}
   void            removeChild( TreantNodeRef element );
   void            removeChild( TreantNode *element );
-  TreantNode*     getParent(){ return _parent; }
+  TreantNode*     getParent(){ return mParent; }
 
   //! return child vector, allowing manipulation of each child, but not the vector
-  const std::vector<TreantNodeRef>& getChildren() const { return _children; }
+  const std::vector<TreantNodeRef>& getChildren() const { return mChildren; }
 protected:
   // noop default implementations of interaction events
   // return true to indicate you handled the event and stop propagation
@@ -138,12 +138,12 @@ protected:
   virtual bool    mouseDrag( ci::app::MouseEvent &event ) { return false; }
   virtual bool    mouseUp( ci::app::MouseEvent &event ) { return false; }
 
-  Entity                      _entity;
-  LocationComponentRef        _transform;
-  SizeComponentRef            _size;
+  Entity                      mEntity;
+  LocationComponentRef        mTransform;
+  SizeComponentRef            mSize;
 private:
-  TreantNode*                 _parent = nullptr;
-  std::vector<TreantNodeRef>  _children;
+  TreantNode*                 mParent = nullptr;
+  std::vector<TreantNodeRef>  mChildren;
 
   //! Sets the TreantNode's parent, notifying previous parent (if any)
   void            setParent( TreantNode *parent );
@@ -153,7 +153,7 @@ private:
 template<typename T, typename ...Args>
 std::shared_ptr<T>  TreantNode::createChild( Args & ... args )
 {
-	auto manager = _entity.manager_.lock( );
+	auto manager = mEntity.manager_.lock( );
 	auto child = std::make_shared<T>( manager->create( ), std::forward<Args>( args ) ... );
 	appendChild( child );
 	return child;
@@ -163,7 +163,7 @@ std::shared_ptr<T>  TreantNode::createChild( Args & ... args )
 template<typename T, typename Arg, typename ... Args>
 std::shared_ptr<T>  TreantNode::createChild( Arg && arg, Args && ... args )
 {
-	auto manager = _entity.manager_.lock( );
+	auto manager = mEntity.manager_.lock( );
 	auto child = std::make_shared<T>( manager->create(), arg, std::forward<Args>( args ) ... );
 	appendChild( child );
 	return child;
