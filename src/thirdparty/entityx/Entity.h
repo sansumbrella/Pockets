@@ -31,6 +31,10 @@
 #include "entityx/Event.h"
 #include "entityx/help/NonCopyable.h"
 
+namespace treant {
+  class TreantNode;
+}
+
 namespace entityx {
 
 
@@ -147,6 +151,7 @@ public:
  private:
   EntityManager *manager_ = nullptr;
   Entity::Id id_ = INVALID;
+  friend treant::TreantNode;  // for child node creation using manager_
 };
 
 
