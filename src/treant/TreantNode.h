@@ -81,12 +81,8 @@ public:
   template<typename T, typename ...Args>
   std::shared_ptr<T>  createChild( Args & ... args );
 
-  /*
-  //! Create a child and add it to our hierarchy. Move edition.
-  template<typename T, typename B, typename ... Args>
-  std::shared_ptr<T>  createChild( B && arg, Args && ... args );
-  */
-
+  template<typename T, typename Arg, typename ...Args>
+  std::shared_ptr<T>  createChild( Arg &&arg, Args && ... args );
 
   // Child Manipulation
   //! add a TreantNode as a child; will receive connect/disconnect events and have its locus parented
@@ -155,24 +151,22 @@ private:
 
 
 template<typename T, typename ...Args>
-std::shared_ptr<T>  createChild( Args & ... args )
+std::shared_ptr<T>  TreantNode::createChild( Args & ... args )
 {
-	app::console() << "Creating child with reference passing" << endl;
-  auto manager = _entity.manager_.lock();
-  auto child = std::make_shared<T>( manager->create(), std::forward<Args>( args ) ... );
-  appendChild( child );
-  return child;
+	auto manager = _entity.manager_.lock( );
+	auto child = std::make_shared<T>( manager->create( ), std::forward<Args>( args ) ... );
+	appendChild( child );
+	return child;
 }
-/*
-template<typename T, typename B, typename ... Args>
-std::shared_ptr<T>  createChild( B && arg, Args && ... args )
+
+
+template<typename T, typename Arg, typename ... Args>
+std::shared_ptr<T>  TreantNode::createChild( Arg && arg, Args && ... args )
 {
-	app::console( ) << "Creating child with argument forwarding" << endl;
 	auto manager = _entity.manager_.lock( );
 	auto child = std::make_shared<T>( manager->create(), arg, std::forward<Args>( args ) ... );
 	appendChild( child );
 	return child;
 }
-*/
 
 } // treant::
