@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 David Wicks
+ * Copyright (c) 2013 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -25,45 +25,36 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "pockets/Scene.h"
-
-#include "cinder/app/AppNative.h"
-#include "cinder/gl/Texture.h"
-#include "cinder/Surface.h"
-#include "cinder/ip/Blend.h"
-#include "cinder/ip/Resize.h"
+#include "pockets/TextureAtlas.h"
 #include "cinder/Json.h"
-#include "cinder/params/Params.h"
+#include "cinder/gl/Texture.h"
 
-#include "ImagePacker.h"
-#include <set>
+using namespace std;
+using namespace cinder;
+using namespace pockets;
 
-/**
-Generates a single-texture spritesheet and json descriptor file.
-
-Ids are derived from filenames without extension.
-
-Usage:
-1. Drop image files into running app
-2. Pick a directory for sheets to be saved in
-
-*/
-class TexturePackingSample : public pk::Scene
+TextureAtlas::TextureAtlas( const Surface &images, const ci::JsonTree &description )
 {
-  public:
-	void setup() override;
-  void connect( ci::app::WindowRef window ) override;
-	void draw() override;
-  void fileDrop( ci::app::FileDropEvent event );
-  void addFile( const ci::fs::path &file );
-  void saveSpriteSheet( const std::string &filename );
-private:
-  ci::params::InterfaceGlRef mParams;
-  const int                  cOutputSize = 1024;
-  float                   mWindowScaling = 1.0f;
-  ci::Vec2f               mPreviewOffset;
-  int                     mHeight = 1;
-  pk::ImagePacker         mImagePacker;
-  int                     mWidestImage = 0;
-  ci::Vec2i               mMargin = { 20, 20 };
-};
+  gl::Texture::Format format;
+  
+  mTexture = gl::Texture::create( images, format );
+
+  JsonTree sprites = description["sprites"];
+  JsonTree meta = description["meta"];
+  Vec2i bitmap_size( meta["width"].getValue<int>(), meta["height"].getValue<int>() );
+  for( const auto &child : sprites )
+  {
+    Rectf bounds( child["x1"].getValue<int>(), child["y1"].getValue<int>()
+                 , child["x2"].getValue<int>(), child["y2"].getValue<int>() );
+    Vec2i registration_point( child["rx"].getValue<float>(), child["ry"].getValue<float>() );
+    string id = child["id"].getValue();
+    mData[ id ] = SpriteData{ { bounds.getUpperLeft() / bitmap_size, bounds.getLowerRight() / bitmap_size },
+                              bounds.getSize(),
+                              registration_point };
+  }
+}
+
+TextureAtlasUniqueRef TextureAtlas::create(const ci::Surface &images, const ci::JsonTree &description)
+{
+  return TextureAtlasUniqueRef{ new TextureAtlas{ images, description } };
+}

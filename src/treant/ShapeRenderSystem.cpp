@@ -25,8 +25,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "pockets/puptent/RenderSystem.h"
+#include "treant/ShapeRenderSystem.h"
 #include "pockets/CollectionUtilities.hpp"
+#include "treant/LocationComponent.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/Context.h"
 #include "cinder/app/App.h"
@@ -34,21 +35,62 @@
 using namespace std;
 using namespace cinder;
 using namespace pockets;
-using namespace puptent;
 
-void RenderSystem::configure( EventManagerRef event_manager )
+namespace treant
+{
+
+std::string defaultFragment()
+{
+return R"(
+#version 150 core
+
+in vec4 Color;
+
+out vec4 oColor;
+
+void main()
+{
+  oColor = Color;
+}
+)";
+}
+
+std::string defaultVertex()
+{
+return R"(
+#version 150 core
+
+uniform mat4 ciModelViewProjection;
+
+in vec2 iPosition;
+in vec4 iColor;
+in vec2 iTexCoord;
+
+out vec4 Color;
+out vec2 TexCoord;
+
+void main()
+{
+  Color = iColor;
+  TexCoord = iTexCoord;
+  gl_Position = ciModelViewProjection * vec4( iPosition, 0.0, 1.0 );
+}
+)";
+}
+
+void ShapeRenderSystem::configure( EventManagerRef event_manager )
 {
   event_manager->subscribe<EntityDestroyedEvent>( *this );
   event_manager->subscribe<ComponentAddedEvent<RenderData>>( *this );
   event_manager->subscribe<ComponentRemovedEvent<RenderData>>( *this );
 
   // make buffer large enough to hold all the vertices you will ever need
-  mVbo = gl::Vbo::create( GL_ARRAY_BUFFER, 1.0e5 * sizeof( Vertex ), nullptr, GL_STREAM_DRAW );
+  mVbo = gl::Vbo::create( GL_ARRAY_BUFFER, 1.0e6 * sizeof( Vertex2D ), nullptr, GL_STREAM_DRAW );
   mAttributes = gl::Vao::create();
   gl::ScopedVao attr( mAttributes );
   mVbo->bind();
-  mRenderProg = gl::GlslProg::create( gl::GlslProg::Format().vertex( app::loadAsset( "renderer.vs" ) )
-                                     .fragment( app::loadAsset( "renderer.fs" ) )
+  mRenderProg = gl::GlslProg::create( gl::GlslProg::Format().vertex( defaultVertex().c_str() )
+                                     .fragment( defaultFragment().c_str() )
                                      .attribLocation( "iPosition", 0 )
                                      .attribLocation( "iColor", 1 )
                                      .attribLocation( "iTexCoord", 2 ) );
@@ -56,13 +98,13 @@ void RenderSystem::configure( EventManagerRef event_manager )
   gl::enableVertexAttribArray( 1 );
   gl::enableVertexAttribArray( 2 );
 
-  gl::vertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, position) );
-  gl::vertexAttribPointer( 1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex, color));
-  gl::vertexAttribPointer( 2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)offsetof(Vertex,tex_coord) );
+  gl::vertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex2D), (const GLvoid*)offsetof(Vertex2D, position) );
+  gl::vertexAttribPointer( 1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex2D), (const GLvoid*)offsetof(Vertex2D, color));
+  gl::vertexAttribPointer( 2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex2D), (const GLvoid*)offsetof(Vertex2D,tex_coord) );
   mVbo->unbind();
 }
 
-void RenderSystem::receive(const ComponentAddedEvent<RenderData> &event)
+void ShapeRenderSystem::receive(const ComponentAddedEvent<RenderData> &event)
 {
   auto data = event.component;
   const RenderPass pass = data->pass;
@@ -90,7 +132,7 @@ void RenderSystem::receive(const ComponentAddedEvent<RenderData> &event)
   }
 }
 
-void RenderSystem::checkOrdering() const
+void ShapeRenderSystem::checkOrdering() const
 {
   if( mGeometry[PREMULTIPLIED].size() > 1 )
   {
@@ -107,13 +149,13 @@ void RenderSystem::checkOrdering() const
   }
 }
 
-void RenderSystem::receive(const ComponentRemovedEvent<RenderData> &event)
+void ShapeRenderSystem::receive(const ComponentRemovedEvent<RenderData> &event)
 {
   auto render_data = event.component;
   vector_remove( &mGeometry[render_data->pass], render_data );
 }
 
-void RenderSystem::receive(const EntityDestroyedEvent &event)
+void ShapeRenderSystem::receive(const EntityDestroyedEvent &event)
 {
   auto entity = event.entity;
   auto render_data = entity.component<RenderData>();
@@ -127,7 +169,7 @@ namespace {
   const array<RenderPass, NUM_RENDER_PASSES> passes = { PREMULTIPLIED, ADD, MULTIPLY };
 } // anon::
 
-void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double dt )
+void ShapeRenderSystem::update( EntityManagerRef es, EventManagerRef events, double dt )
 { // assemble vertices for each pass
   for( const auto &pass : passes )
   {
@@ -142,10 +184,10 @@ void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double d
         // create degenerate triangle between previous and current shape
         v.push_back( v.back() );
         auto vert = mesh->vertices.front();
-        v.emplace_back( Vertex{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
+        v.emplace_back( Vertex2D{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
       }
       for( auto &vert : mesh->vertices ) {
-        v.emplace_back( Vertex{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
+        v.emplace_back( Vertex2D{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
       }
     }
   }
@@ -154,21 +196,17 @@ void RenderSystem::update( EntityManagerRef es, EventManagerRef events, double d
   for( const auto &pass : passes )
   {
     if( !mVertices[pass].empty() ) {
-      mVbo->bufferSubData( offset, mVertices[pass].size() * sizeof( Vertex ), mVertices[pass].data() );
-      offset += mVertices[pass].size() * sizeof( Vertex );
+      mVbo->bufferSubData( offset, mVertices[pass].size() * sizeof( Vertex2D ), mVertices[pass].data() );
+      offset += mVertices[pass].size() * sizeof( Vertex2D );
     }
   }
 }
 
-void RenderSystem::draw() const
+void ShapeRenderSystem::draw() const
 {
   gl::ScopedGlslProg    shader( mRenderProg );
   gl::ScopedVao         attr( mAttributes );
 
-  if( mTexture ) {
-    uint8_t textureUnit = 0;
-    mTexture->bind( textureUnit );
-  }
   gl::setDefaultShaderVars();
 
   // premultiplied alpha blending for normal pass
@@ -191,8 +229,6 @@ void RenderSystem::draw() const
   gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
   gl::disableAlphaBlending();
 
-  if( mTexture ) {
-    mTexture->unbind();
-  }
+}
 
 }

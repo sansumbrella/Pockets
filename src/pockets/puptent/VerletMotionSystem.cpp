@@ -34,9 +34,9 @@ using namespace puptent;
 using namespace cinder;
 
 Particle::Particle( LocusRef locus ):
-p_position( locus->getPosition() ),
-p_rotation( locus->getRotation() ),
-p_scale( locus->getScale() )
+p_position( locus->position ),
+p_rotation( locus->rotation ),
+p_scale( locus->scale )
 {}
 
 
@@ -114,8 +114,8 @@ void ParticleSystem::update( EntityManagerRef es, EventManagerRef events, double
       l->rotation = rotation + r_vel * p->rotation_friction;
       p->p_rotation = rotation;
 
-      float scale = l->scale;
-      float s_vel = scale - p->p_scale;
+      Vec2f scale = l->scale;
+      Vec2f s_vel = scale - p->p_scale;
       l->scale = scale + s_vel * p->scale_friction;
       p->p_scale = scale;
     }

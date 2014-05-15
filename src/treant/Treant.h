@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 David Wicks
+  (Ref) 2014  (om
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -25,45 +25,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "pockets/Scene.h"
+#pragma once
 
-#include "cinder/app/AppNative.h"
-#include "cinder/gl/Texture.h"
-#include "cinder/Surface.h"
-#include "cinder/ip/Blend.h"
-#include "cinder/ip/Resize.h"
-#include "cinder/Json.h"
-#include "cinder/params/Params.h"
-
-#include "ImagePacker.h"
-#include <set>
+#include "entityx.h"
 
 /**
-Generates a single-texture spritesheet and json descriptor file.
+  Treant marries entity system's non-hierarchical, non-homogenous
+  structure with a hierarchical, semi-homogenous structure.
 
-Ids are derived from filenames without extension.
-
-Usage:
-1. Drop image files into running app
-2. Pick a directory for sheets to be saved in
-
-*/
-class TexturePackingSample : public pk::Scene
+  It provides:
+  - a scene graph (Tree) for organizing spatial entities.
+  - entity system hooks on every node.
+  - RAII memory management of entities and components. When TreantNodes fall out of scope, their entities are destroyed.
+  - Convenient method for defining composite objects (your constructor). You can add children and/or components at runtime.
+ */
+namespace treant
 {
-  public:
-	void setup() override;
-  void connect( ci::app::WindowRef window ) override;
-	void draw() override;
-  void fileDrop( ci::app::FileDropEvent event );
-  void addFile( const ci::fs::path &file );
-  void saveSpriteSheet( const std::string &filename );
-private:
-  ci::params::InterfaceGlRef mParams;
-  const int                  cOutputSize = 1024;
-  float                   mWindowScaling = 1.0f;
-  ci::Vec2f               mPreviewOffset;
-  int                     mHeight = 1;
-  pk::ImagePacker         mImagePacker;
-  int                     mWidestImage = 0;
-  ci::Vec2i               mMargin = { 20, 20 };
-};
+  using namespace entityx;
+  typedef std::shared_ptr<class TreantNode> TreantNodeRef;
+  typedef std::shared_ptr<EventManager>     EventManagerRef;
+  typedef std::shared_ptr<EntityManager>    EntityManagerRef;
+  typedef std::shared_ptr<SystemManager>    SystemManagerRef;
+
+  struct Treant
+  {
+    EventManagerRef   events   = EventManagerRef( new EventManager() );
+    EntityManagerRef  entities = EntityManagerRef( new EntityManager( events ) );
+    SystemManagerRef  systems  = SystemManagerRef( new SystemManager( entities, events ) );
+    TreantNodeRef createRoot();
+  };
+}

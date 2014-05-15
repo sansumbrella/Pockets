@@ -36,7 +36,6 @@ namespace cinder
 }
 
 namespace pockets
-{ namespace puptent
 {
   /**
    Sprite location within a TextureAtlas
@@ -90,5 +89,4 @@ namespace pockets
     SpriteData                          mErrorData;
   };
 
-} // puptent::
 } // pockets::

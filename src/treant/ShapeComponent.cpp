@@ -25,21 +25,24 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "pockets/puptent/RenderMeshComponent.h"
+#include "treant/ShapeComponent.h"
 #include "pockets/TextureAtlas.h"
 
-using namespace pockets::puptent;
+using namespace pockets;
 using namespace cinder;
 
-void RenderMesh::transform(const ci::MatrixAffine2f &mat)
+namespace treant
 {
-  for( Vertex &v : vertices )
+
+void ShapeComponent::transform(const ci::MatrixAffine2f &mat)
+{
+  for( Vertex2D &v : vertices )
   {
     v.position = mat.transformVec( v.position );
   }
 }
 
-void RenderMesh::setAsCircle(const ci::Vec2f &radius, float start_radians, float end_radians, size_t segments )
+void ShapeComponent::setAsCircle(const ci::Vec2f &radius, float start_radians, float end_radians, size_t segments )
 {
   if( segments < 2 ) { // based off of cinder, though we're less generous with the vertices
     segments = math<float>::floor( math<float>::max( radius.x, radius.y ) * abs(end_radians - start_radians) / 3 );
@@ -49,7 +52,7 @@ void RenderMesh::setAsCircle(const ci::Vec2f &radius, float start_radians, float
   }
   if( vertices.size() != segments * 5 )
   {
-    vertices.assign( segments * 5, Vertex{} );
+    vertices.assign( segments * 5, Vertex2D{} );
   }
   Vec2f a{ 0.0f, 0.0f };
   for( int i = 0; i < segments; ++i )
@@ -66,16 +69,16 @@ void RenderMesh::setAsCircle(const ci::Vec2f &radius, float start_radians, float
   }
 }
 
-void RenderMesh::setAsBox( const Rectf &bounds )
+void ShapeComponent::setAsBox( const Rectf &bounds )
 {
-  if( vertices.size() != 4 ){ vertices.assign( 4, Vertex{} ); }
+  if( vertices.size() != 4 ){ vertices.assign( 4, Vertex2D{} ); }
   vertices[0].position = bounds.getUpperRight();
   vertices[1].position = bounds.getUpperLeft();
   vertices[2].position = bounds.getLowerRight();
   vertices[3].position = bounds.getLowerLeft();
 }
 
-void RenderMesh::setBoxTextureCoords( const SpriteData &sprite_data )
+void ShapeComponent::setBoxTextureCoords( const SpriteData &sprite_data )
 {
   vertices[0].tex_coord = sprite_data.texture_bounds.getUpperRight();
   vertices[1].tex_coord = sprite_data.texture_bounds.getUpperLeft();
@@ -83,9 +86,9 @@ void RenderMesh::setBoxTextureCoords( const SpriteData &sprite_data )
   vertices[3].tex_coord = sprite_data.texture_bounds.getLowerLeft();
 }
 
-void RenderMesh::matchTexture(const SpriteData &sprite_data)
+void ShapeComponent::matchTexture(const SpriteData &sprite_data)
 {
-  if( vertices.size() != 4 ){ vertices.assign( 4, Vertex{} ); }
+  if( vertices.size() != 4 ){ vertices.assign( 4, Vertex2D{} ); }
   Rectf screen_bounds{ { 0.0f, 0.0f }, sprite_data.size };
   screen_bounds -= sprite_data.registration_point;
   vertices[0].position = screen_bounds.getUpperRight();
@@ -98,15 +101,15 @@ void RenderMesh::matchTexture(const SpriteData &sprite_data)
   vertices[3].tex_coord = sprite_data.texture_bounds.getLowerLeft();
 }
 
-void RenderMesh::setAsTriangle(const ci::Vec2f &a, const ci::Vec2f &b, const ci::Vec2f &c)
+void ShapeComponent::setAsTriangle(const ci::Vec2f &a, const ci::Vec2f &b, const ci::Vec2f &c)
 {
-  if( vertices.size() != 3 ){ vertices.assign( 3, Vertex{} ); }
+  if( vertices.size() != 3 ){ vertices.assign( 3, Vertex2D{} ); }
   vertices[0].position = a;
   vertices[1].position = b;
   vertices[2].position = c;
 }
 
-void RenderMesh::setAsLine( const Vec2f &begin, const Vec2f &end, float width )
+void ShapeComponent::setAsLine( const Vec2f &begin, const Vec2f &end, float width )
 {
   Vec2f ray = end - begin;
   Vec2f side = ray.normalized() * width;
@@ -114,14 +117,14 @@ void RenderMesh::setAsLine( const Vec2f &begin, const Vec2f &end, float width )
   Vec2f S = -N;
 
   if( vertices.size() != 4 )
-  { vertices.assign( 4, Vertex{} ); }
+  { vertices.assign( 4, Vertex2D{} ); }
   vertices.at(0).position = begin + S;
   vertices.at(1).position = begin + N;
   vertices.at(2).position = end + S;
   vertices.at(3).position = end + N;
 }
 
-void RenderMesh::setAsCappedLine( const ci::Vec2f &begin, const ci::Vec2f &end, float width )
+void ShapeComponent::setAsCappedLine( const ci::Vec2f &begin, const ci::Vec2f &end, float width )
 {
   Vec2f ray = end - begin;
   Vec2f cap = ray.normalized() * width;
@@ -133,7 +136,7 @@ void RenderMesh::setAsCappedLine( const ci::Vec2f &begin, const ci::Vec2f &end, 
   Vec2f SW = -NE;
 
   if( vertices.size() != 8 )
-  { vertices.assign( 8, Vertex{} ); }
+  { vertices.assign( 8, Vertex2D{} ); }
   vertices.at(0).position = begin + SW;
   vertices.at(1).position = begin + NW;
   vertices.at(2).position = begin + S;
@@ -144,10 +147,12 @@ void RenderMesh::setAsCappedLine( const ci::Vec2f &begin, const ci::Vec2f &end, 
   vertices.at(7).position = end + NE;
 }
 
-void RenderMesh::setColor( const ColorA8u &color )
+void ShapeComponent::setColor( const ColorA8u &color )
 {
   for( auto &vert : vertices )
   {
     vert.color = color;
   }
 }
+
+} // treant::

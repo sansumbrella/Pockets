@@ -25,36 +25,40 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "TextureAtlas.h"
-#include "cinder/Json.h"
-#include "cinder/gl/Texture.h"
+#include "treant/LocationComponent.h"
 
-using namespace std;
 using namespace cinder;
-using namespace pockets::puptent;
+using namespace treant;
 
-TextureAtlas::TextureAtlas( const Surface &images, const ci::JsonTree &description )
+MatrixAffine2f Location::calcLocalMatrix() const
 {
-  gl::Texture::Format format;
-  
-  mTexture = gl::Texture::create( images, format );
+  MatrixAffine2f mat;
+  mat.translate( position + registration_point );
+  mat.rotate( rotation );
+  mat.scale( scale );
+  mat.translate( -registration_point );
+  return mat;
+}
 
-  JsonTree sprites = description["sprites"];
-  JsonTree meta = description["meta"];
-  Vec2i bitmap_size( meta["width"].getValue<int>(), meta["height"].getValue<int>() );
-  for( const auto &child : sprites )
+void Location::updateMatrix( ci::MatrixAffine2f parentMatrix )
+{
+  parentMatrix.translate( position + registration_point );
+  parentMatrix.rotate( rotation );
+  parentMatrix.scale( scale );
+  parentMatrix.translate( -registration_point );
+  matrix = parentMatrix;
+}
+
+/*
+void Location::detachFromParent()
+{
+  if( parent )
   {
-    Rectf bounds( child["x1"].getValue<int>(), child["y1"].getValue<int>()
-                 , child["x2"].getValue<int>(), child["y2"].getValue<int>() );
-    Vec2i registration_point( child["rx"].getValue<float>(), child["ry"].getValue<float>() );
-    string id = child["id"].getValue();
-    mData[ id ] = SpriteData{ { bounds.getUpperLeft() / bitmap_size, bounds.getLowerRight() / bitmap_size },
-                              bounds.getSize(),
-                              registration_point };
+    scale *= parent->getScale();
+    rotation += parent->getRotation();
+    position = parent->toMatrix().transformPoint( position );
+
+    parent.reset();
   }
 }
-
-TextureAtlasUniqueRef TextureAtlas::create(const ci::Surface &images, const ci::JsonTree &description)
-{
-  return TextureAtlasUniqueRef{ new TextureAtlas{ images, description } };
-}
+*/

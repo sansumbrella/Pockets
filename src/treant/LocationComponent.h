@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 David Wicks
+ * Copyright (c) 2013 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -25,45 +25,40 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "pockets/Scene.h"
+#pragma once
+#include "Treant.h"
+#include "cinder/MatrixAffine2.h"
 
-#include "cinder/app/AppNative.h"
-#include "cinder/gl/Texture.h"
-#include "cinder/Surface.h"
-#include "cinder/ip/Blend.h"
-#include "cinder/ip/Resize.h"
-#include "cinder/Json.h"
-#include "cinder/params/Params.h"
-
-#include "ImagePacker.h"
-#include <set>
-
-/**
-Generates a single-texture spritesheet and json descriptor file.
-
-Ids are derived from filenames without extension.
-
-Usage:
-1. Drop image files into running app
-2. Pick a directory for sheets to be saved in
-
-*/
-class TexturePackingSample : public pk::Scene
+namespace treant
 {
-  public:
-	void setup() override;
-  void connect( ci::app::WindowRef window ) override;
-	void draw() override;
-  void fileDrop( ci::app::FileDropEvent event );
-  void addFile( const ci::fs::path &file );
-  void saveSpriteSheet( const std::string &filename );
-private:
-  ci::params::InterfaceGlRef mParams;
-  const int                  cOutputSize = 1024;
-  float                   mWindowScaling = 1.0f;
-  ci::Vec2f               mPreviewOffset;
-  int                     mHeight = 1;
-  pk::ImagePacker         mImagePacker;
-  int                     mWidestImage = 0;
-  ci::Vec2i               mMargin = { 20, 20 };
-};
+  typedef std::shared_ptr<struct Location> LocationRef;
+  /**
+   A Component storing the basic positional information for an Entity
+   Position, Rotation, and Scale
+   Scales and rotates around the Registration Point when using toMatrix()
+
+   Used by RenderSystem to transform RenderMesh component vertices
+   Updated by movement systems (Physics, Custom Motion)
+   No assumption is made about the units used
+  */
+  struct Location : Component<Location>
+  {
+    Location() = default;
+    Location( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, std::shared_ptr<Location> parent=nullptr ):
+    position( pos ),
+    registration_point( registration ),
+    rotation( rot )
+    {}
+
+    ci::Vec2f           position = ci::Vec2f::zero();
+    ci::Vec2f           registration_point = ci::Vec2f::zero();
+    float               rotation = 0.0f;
+    ci::Vec2f           scale = ci::Vec2f::one();
+    ci::MatrixAffine2f  matrix = ci::MatrixAffine2f::identity();
+
+    void updateMatrix( ci::MatrixAffine2f parentMatrix );
+    //! returns a matrix that will transform points based on Location properties
+    ci::MatrixAffine2f  calcLocalMatrix() const;
+  };
+
+} // treant::

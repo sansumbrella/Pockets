@@ -27,6 +27,11 @@
 #include "entityx/Event.h"
 #include "entityx/help/NonCopyable.h"
 
+
+namespace treant {
+  class TreantNode;
+}
+
 namespace entityx {
 
 
@@ -140,6 +145,7 @@ public:
  private:
   weak_ptr<EntityManager> manager_;
   Entity::Id id_ = INVALID;
+  friend treant::TreantNode;
 };
 
 

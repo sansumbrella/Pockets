@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 David Wicks
+ * Copyright (c) 2014 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -25,45 +25,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#pragma once
 #include "pockets/Scene.h"
+#include "Treant.h"
 
-#include "cinder/app/AppNative.h"
-#include "cinder/gl/Texture.h"
-#include "cinder/Surface.h"
-#include "cinder/ip/Blend.h"
-#include "cinder/ip/Resize.h"
-#include "cinder/Json.h"
-#include "cinder/params/Params.h"
-
-#include "ImagePacker.h"
-#include <set>
-
-/**
-Generates a single-texture spritesheet and json descriptor file.
-
-Ids are derived from filenames without extension.
-
-Usage:
-1. Drop image files into running app
-2. Pick a directory for sheets to be saved in
-
-*/
-class TexturePackingSample : public pk::Scene
+class TreantTest : public pk::Scene
 {
-  public:
-	void setup() override;
+public:
+  TreantTest() = default;
+  ~TreantTest() = default;
+
+  void setup() override;
   void connect( ci::app::WindowRef window ) override;
-	void draw() override;
-  void fileDrop( ci::app::FileDropEvent event );
-  void addFile( const ci::fs::path &file );
-  void saveSpriteSheet( const std::string &filename );
+  void update( double dt ) override;
+  void draw() override;
+
+  void mouseDown( ci::app::MouseEvent event );
+  void mouseDrag( ci::app::MouseEvent event );
+  void mouseUp( ci::app::MouseEvent event );
+
 private:
-  ci::params::InterfaceGlRef mParams;
-  const int                  cOutputSize = 1024;
-  float                   mWindowScaling = 1.0f;
-  ci::Vec2f               mPreviewOffset;
-  int                     mHeight = 1;
-  pk::ImagePacker         mImagePacker;
-  int                     mWidestImage = 0;
-  ci::Vec2i               mMargin = { 20, 20 };
+  treant::Treant          _treant;
+  treant::TreantNodeRef   _treant_root;
+  ci::Vec2f               _mouse_position = ci::Vec2f::zero();
+  ci::Vec2f               _mouse_start = ci::Vec2f::zero();
+  ci::Vec2f               _node_start = ci::Vec2f::zero();
+  bool                    _mouse_down = false;
 };

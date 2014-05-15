@@ -32,7 +32,9 @@
 #include "cinder/Matrix.h"
 
 namespace pockets
-{ namespace puptent
+{
+    struct SpriteData;
+namespace puptent
   {
     struct Vertex
     {
@@ -61,7 +63,6 @@ namespace pockets
      Additional methods ease the texturing of those shapes.
      */
     typedef std::shared_ptr<struct RenderMesh> RenderMeshRef;
-    struct SpriteData;
     struct RenderMesh : Component<RenderMesh>
     {
       RenderMesh( int vertex_count=3 )
