@@ -67,8 +67,8 @@
 		15B531B319246F540082ED7B /* LocationComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531AD19246F540082ED7B /* LocationComponent.cpp */; };
 		15B531B419246F540082ED7B /* ShapeComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531AE19246F540082ED7B /* ShapeComponent.cpp */; };
 		15B531B519246F540082ED7B /* ShapeComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531AE19246F540082ED7B /* ShapeComponent.cpp */; };
-		15B531B619246F540082ED7B /* ShapeRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531AF19246F540082ED7B /* ShapeRenderSystem.cpp */; };
-		15B531B719246F540082ED7B /* ShapeRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531AF19246F540082ED7B /* ShapeRenderSystem.cpp */; };
+		15B531B619246F540082ED7B /* LayeredShapeRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531AF19246F540082ED7B /* LayeredShapeRenderSystem.cpp */; };
+		15B531B719246F540082ED7B /* LayeredShapeRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531AF19246F540082ED7B /* LayeredShapeRenderSystem.cpp */; };
 		15B531B819246F540082ED7B /* Treant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531B019246F540082ED7B /* Treant.cpp */; };
 		15B531B919246F540082ED7B /* Treant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531B019246F540082ED7B /* Treant.cpp */; };
 		15B531BE19247BF20082ED7B /* SizeComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531BC19247BF20082ED7B /* SizeComponent.cpp */; };
@@ -166,11 +166,11 @@
 		15B5319E192465C70082ED7B /* TreantSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TreantSample.cpp; sourceTree = "<group>"; };
 		15B531A819246F540082ED7B /* LocationComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationComponent.h; sourceTree = "<group>"; };
 		15B531A919246F540082ED7B /* ShapeComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShapeComponent.h; sourceTree = "<group>"; };
-		15B531AA19246F540082ED7B /* ShapeRenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShapeRenderSystem.h; sourceTree = "<group>"; };
+		15B531AA19246F540082ED7B /* LayeredShapeRenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayeredShapeRenderSystem.h; sourceTree = "<group>"; };
 		15B531AB19246F540082ED7B /* Treant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Treant.h; sourceTree = "<group>"; };
 		15B531AD19246F540082ED7B /* LocationComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocationComponent.cpp; sourceTree = "<group>"; };
 		15B531AE19246F540082ED7B /* ShapeComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeComponent.cpp; sourceTree = "<group>"; };
-		15B531AF19246F540082ED7B /* ShapeRenderSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeRenderSystem.cpp; sourceTree = "<group>"; };
+		15B531AF19246F540082ED7B /* LayeredShapeRenderSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayeredShapeRenderSystem.cpp; sourceTree = "<group>"; };
 		15B531B019246F540082ED7B /* Treant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Treant.cpp; sourceTree = "<group>"; };
 		15B531BC19247BF20082ED7B /* SizeComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SizeComponent.cpp; sourceTree = "<group>"; };
 		15B531BD19247BF20082ED7B /* SizeComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SizeComponent.h; sourceTree = "<group>"; };
@@ -401,8 +401,8 @@
 				15B531AD19246F540082ED7B /* LocationComponent.cpp */,
 				15B531A919246F540082ED7B /* ShapeComponent.h */,
 				15B531AE19246F540082ED7B /* ShapeComponent.cpp */,
-				15B531AA19246F540082ED7B /* ShapeRenderSystem.h */,
-				15B531AF19246F540082ED7B /* ShapeRenderSystem.cpp */,
+				15B531AA19246F540082ED7B /* LayeredShapeRenderSystem.h */,
+				15B531AF19246F540082ED7B /* LayeredShapeRenderSystem.cpp */,
 				15B531AB19246F540082ED7B /* Treant.h */,
 				15B531B019246F540082ED7B /* Treant.cpp */,
 				15B530BE19243CAE0082ED7B /* TreantNode.h */,
@@ -554,6 +554,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0510;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Pockets" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -611,7 +612,7 @@
 				155BEF9E18CBA749000A36FC /* SimpleButton.cpp in Sources */,
 				15027ABF18CB67FF005473FB /* Scene.cpp in Sources */,
 				15B531B319246F540082ED7B /* LocationComponent.cpp in Sources */,
-				15B531B719246F540082ED7B /* ShapeRenderSystem.cpp in Sources */,
+				15B531B719246F540082ED7B /* LayeredShapeRenderSystem.cpp in Sources */,
 				155BEFAF18CBA7BD000A36FC /* Locus.cpp in Sources */,
 				1563A4E718FCE00200D1FF54 /* Dependencies.cc in Sources */,
 				155BEF9518CBA749000A36FC /* Node.cpp in Sources */,
@@ -624,7 +625,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15F72B6718C8150A000DE2EB /* CurveUtils.cpp in Sources */,
-				15B531B619246F540082ED7B /* ShapeRenderSystem.cpp in Sources */,
+				15B531B619246F540082ED7B /* LayeredShapeRenderSystem.cpp in Sources */,
 				15F72B6D18C8150A000DE2EB /* Packing.cpp in Sources */,
 				15B5319F192465C70082ED7B /* TreantSample.cpp in Sources */,
 				155BEFB418CBAA3E000A36FC /* RenderMesh.cpp in Sources */,
@@ -792,7 +793,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = i386;
 				CINDER_PATH = ../../../../..;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -800,6 +800,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/boost\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" \"$(CINDER_PATH)/blocks/Pockets/src/pockets\" ../include";
 			};
@@ -809,7 +810,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = i386;
 				CINDER_PATH = ../../../../..;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";

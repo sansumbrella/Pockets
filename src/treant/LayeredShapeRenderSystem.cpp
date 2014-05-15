@@ -25,7 +25,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "treant/ShapeRenderSystem.h"
+#include "treant/LayeredShapeRenderSystem.h"
 #include "pockets/CollectionUtilities.hpp"
 #include "treant/LocationComponent.h"
 #include "cinder/gl/Texture.h"
@@ -78,7 +78,7 @@ void main()
 )";
 }
 
-void ShapeRenderSystem::configure( EventManagerRef event_manager )
+void LayeredShapeRenderSystem::configure( EventManagerRef event_manager )
 {
   event_manager->subscribe<EntityDestroyedEvent>( *this );
   event_manager->subscribe<ComponentAddedEvent<RenderData>>( *this );
@@ -104,42 +104,36 @@ void ShapeRenderSystem::configure( EventManagerRef event_manager )
   mVbo->unbind();
 }
 
-void ShapeRenderSystem::receive(const ComponentAddedEvent<RenderData> &event)
+void LayeredShapeRenderSystem::receive(const ComponentAddedEvent<RenderData> &event)
 {
   auto data = event.component;
-  const RenderPass pass = data->pass;
-  if( pass == PREMULTIPLIED )
+
   { // put element in correct sorted position
     int target_layer = data->render_layer;
-    if( mGeometry[pass].empty() )
+    if( mGeometry.empty() )
     {
-      mGeometry[pass].push_back( event.component );
+      mGeometry.push_back( event.component );
     }
     else
     {
-      auto iter = mGeometry[pass].begin();
-      while( iter != mGeometry[pass].end() && (**iter).render_layer < target_layer )
+      auto iter = mGeometry.begin();
+      while( iter != mGeometry.end() && (**iter).render_layer < target_layer )
       { // place the component in the first position on its layer
         ++iter;
       }
-      mGeometry[pass].insert( iter, data );
+      mGeometry.insert( iter, data );
     }
-  }
-  else
-  { // just place element at end of list
-    // for add and multiply, order doesn't matter
-    mGeometry[pass].push_back( event.component );
   }
 }
 
-void ShapeRenderSystem::checkOrdering() const
+void LayeredShapeRenderSystem::checkOrdering() const
 {
-  if( mGeometry[PREMULTIPLIED].size() > 1 )
+  if( mGeometry.size() > 1 )
   {
-    for( int i = 0; i < mGeometry[PREMULTIPLIED].size() - 2; ++i )
+    for( int i = 0; i < mGeometry.size() - 2; ++i )
     {
-      int lhs = mGeometry[PREMULTIPLIED].at( i )->render_layer;
-      int rhs = mGeometry[PREMULTIPLIED].at( i + 1 )->render_layer;
+      int lhs = mGeometry.at( i )->render_layer;
+      int rhs = mGeometry.at( i + 1 )->render_layer;
       if( rhs < lhs )
       {
         std::cout << "ERROR: Render order incorrect: " << rhs << " after " << lhs << std::endl;
@@ -149,60 +143,46 @@ void ShapeRenderSystem::checkOrdering() const
   }
 }
 
-void ShapeRenderSystem::receive(const ComponentRemovedEvent<RenderData> &event)
+void LayeredShapeRenderSystem::receive(const ComponentRemovedEvent<RenderData> &event)
 {
   auto render_data = event.component;
-  vector_remove( &mGeometry[render_data->pass], render_data );
+  vector_remove( &mGeometry, render_data );
 }
 
-void ShapeRenderSystem::receive(const EntityDestroyedEvent &event)
+void LayeredShapeRenderSystem::receive(const EntityDestroyedEvent &event)
 {
   auto entity = event.entity;
   auto render_data = entity.component<RenderData>();
   if( render_data )
   { // remove render component from our list
-    vector_remove( &mGeometry[render_data->pass], render_data );
+    vector_remove( &mGeometry, render_data );
   }
 }
 
-namespace {
-  const array<RenderPass, NUM_RENDER_PASSES> passes = { PREMULTIPLIED, ADD, MULTIPLY };
-} // anon::
-
-void ShapeRenderSystem::update( EntityManagerRef es, EventManagerRef events, double dt )
+void LayeredShapeRenderSystem::update( EntityManagerRef es, EventManagerRef events, double dt )
 { // assemble vertices for each pass
-  for( const auto &pass : passes )
+  auto &v = mVertices;
+  v.clear();
+  for( const auto &pair : mGeometry )
   {
-    auto &v = mVertices[pass];
-    v.clear();
-    for( const auto &pair : mGeometry[pass] )
-    {
-      auto mesh = pair->mesh;
-      auto loc = pair->locus;
-      auto mat = loc->matrix;
-      if( !v.empty() ) {
-        // create degenerate triangle between previous and current shape
-        v.push_back( v.back() );
-        auto vert = mesh->vertices.front();
-        v.emplace_back( Vertex2D{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
-      }
-      for( auto &vert : mesh->vertices ) {
-        v.emplace_back( Vertex2D{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
-      }
+    auto mesh = pair->mesh;
+    auto loc = pair->locus;
+    auto mat = loc->matrix;
+    if( !v.empty() ) {
+      // create degenerate triangle between previous and current shape
+      v.push_back( v.back() );
+      auto vert = mesh->vertices.front();
+      v.emplace_back( Vertex2D{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
+    }
+    for( auto &vert : mesh->vertices ) {
+      v.emplace_back( Vertex2D{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
     }
   }
 
-  GLintptr  offset = 0;
-  for( const auto &pass : passes )
-  {
-    if( !mVertices[pass].empty() ) {
-      mVbo->bufferSubData( offset, mVertices[pass].size() * sizeof( Vertex2D ), mVertices[pass].data() );
-      offset += mVertices[pass].size() * sizeof( Vertex2D );
-    }
-  }
+  mVbo->bufferSubData( 0, mVertices.size() * sizeof( Vertex2D ), mVertices.data() );
 }
 
-void ShapeRenderSystem::draw() const
+void LayeredShapeRenderSystem::draw() const
 {
   gl::ScopedGlslProg    shader( mRenderProg );
   gl::ScopedVao         attr( mAttributes );
@@ -212,22 +192,7 @@ void ShapeRenderSystem::draw() const
   // premultiplied alpha blending for normal pass
   gl::ScopedBlend premultBlend( GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
 
-  size_t begin = 0;
-  size_t count = mVertices[PREMULTIPLIED].size();
-  gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
-
-  // additive blending
-  begin += count;
-  count = mVertices[ADD].size();
-  gl::ScopedBlend addBlend( GL_SRC_ALPHA, GL_ONE );
-  gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
-
-  // multiply blending
-  begin += count;
-  count = mVertices[MULTIPLY].size();
-  gl::ScopedBlend multBlend( GL_DST_COLOR,  GL_ONE_MINUS_SRC_ALPHA );
-  gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
-  gl::disableAlphaBlending();
+  gl::drawArrays( GL_TRIANGLE_STRIP, 0, mVertices.size() );
 
 }
 

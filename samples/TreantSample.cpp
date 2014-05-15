@@ -29,7 +29,7 @@
 #include "TreantNode.h"
 #include "cinder/gl/gl.h"
 
-#include "treant/ShapeRenderSystem.h"
+#include "treant/LayeredShapeRenderSystem.h"
 #include "treant/ShapeComponent.h"
 #include "cinder/Rand.h"
 
@@ -75,13 +75,12 @@ void addOrbiter( treant::TreantNodeRef center, bool warm, float max_distance, in
   moon->setPosition( position );
   moon->setRegistrationPoint( -position );
   auto shape = moon->assign<treant::ShapeComponent>();
-  auto color = warm ? ColorA( CM_HSV, randFloat( 0.02f, 0.2f ), 1.0f, 1.0f, 1.0f ) : ColorA( CM_HSV, randFloat( 0.4f, 0.57f ), 1.0f, 0.7f, 1.0f );
+  auto color = warm ? ColorA( CM_HSV, randFloat( 0.02f, 0.18f ), 1.0f, 1.0f, 1.0f ) : ColorA( CM_HSV, randFloat( 0.45f, 0.62f ), 1.0f, 0.7f, 1.0f );
 
-//  shape->setAsCircle( Vec2f::one() * randFloat( size * 0.8, size * 1.2 ) );
-  shape->setAsBox( Rectf( -size, -size, size, size ) );
+  shape->setAsCircle( Vec2f::one() * randFloat( size * 0.8, size * 1.2 ), 0.0f, M_PI * 2, 6 );
   shape->setColor( color );
   moon->assign<treant::RenderData>( shape, moon->getTransform(), depth );
-  moon->assign<RotationComponent>( lmap<float>( position.length(), 0.0f, getWindowWidth(), 1.0f, 0.1f ) );
+  moon->assign<RotationComponent>( lmap<float>( position.length(), 0.0f, getWindowSize().length(), 1.0f, 0.1f ) );
 
   if( size > 10.0f && randFloat() < 0.5f ) {
     addOrbiter( moon, !warm, max_distance / 8, depth + 1 );
@@ -90,7 +89,7 @@ void addOrbiter( treant::TreantNodeRef center, bool warm, float max_distance, in
 
 void TreantTest::setup()
 {
-  _treant.systems->add<treant::ShapeRenderSystem>();
+  _treant.systems->add<treant::LayeredShapeRenderSystem>();
   _treant.systems->add<RotationSystem>();
   _treant.systems->configure();
 
@@ -139,14 +138,14 @@ void TreantTest::update( double dt )
 
   _treant.systems->update<RotationSystem>( dt );
   _treant_root->updateTree( MatrixAffine2f::identity() );
-  _treant.systems->update<treant::ShapeRenderSystem>( dt );
+  _treant.systems->update<treant::LayeredShapeRenderSystem>( dt );
 }
 
 void TreantTest::draw()
 {
   // clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) );
-  _treant.systems->system<treant::ShapeRenderSystem>()->draw();
+  _treant.systems->system<treant::LayeredShapeRenderSystem>()->draw();
 
 }
 

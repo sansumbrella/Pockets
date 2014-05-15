@@ -38,56 +38,38 @@ namespace treant
 typedef std::shared_ptr<struct ShapeComponent> ShapeComponentRef;
 typedef std::shared_ptr<struct Location>       LocationRef;
 
-/**
- RenderPass:
- Flag to tell ShapeRenderSystem when to draw the given geometry.
- First, the normal pass is drawn in layer-sorted order.
- Second, an additive pass is made (unsorted, since it doesn't affect output).
- Finally, a multiplicative pass is made (also unsorted).
- */
-enum RenderPass
-{
-  PREMULTIPLIED,
-  ADD,
-  MULTIPLY,
-  NUM_RENDER_PASSES
-};
-
 typedef std::shared_ptr<struct RenderData> RenderDataRef;
 /**
  RenderData:
  Composite component.
- Lets us store information needed for ShapeRenderSystem in one fast-to-access place.
+ Lets us store information needed for LayeredShapeRenderSystem in one fast-to-access place.
  Requires an extra step when defining element components
  */
 struct RenderData : Component<RenderData>
 {
-  RenderData( ShapeComponentRef mesh, LocationRef locus, int render_layer=0, RenderPass pass=PREMULTIPLIED ):
+  RenderData( ShapeComponentRef mesh, LocationRef locus, int render_layer=0 ):
   mesh( mesh ),
   locus( locus ),
-  render_layer( render_layer ),
-  pass( pass )
+  render_layer( render_layer )
   {}
   ShapeComponentRef   mesh;
   LocationRef         locus;
   int                 render_layer;
-  const RenderPass    pass;
 };
 
 /**
- ShapeRenderSystem:
+ LayeredShapeRenderSystem:
  Multi-pass, layer-sorted rendering system.
 
  TODO:
- New ShapeRenderSystem type (combined 2d and 3d)
- Separate passes for blend mode only.
- Determine layer-order by using OpenGL depth buffer; should enable more seamless 2d + 3d combinations.
+ New RenderSystem type (combined 2d and 3d)
+ Determine layer-order by using OpenGL depth buffer for non-sprited content; should enable more seamless 2d + 3d combinations.
  Provide convenience method for 1:1 scaling when pushing content back in Z.
  Use render pass like tag predicate for iteration.
  Skip the initial render pass generation.
  For sprites, we can't draw to depth buffer (because of masking in zero-alpha regions)
 
- The ShapeRenderSystem is designed to quickly display active entities. It can
+ The LayeredShapeRenderSystem is designed to quickly display active entities. It can
  handle all of your sprites, particles, and generative 2d meshes.
 
  For rendering large background and foreground elements, use a different system.
@@ -96,16 +78,12 @@ struct RenderData : Component<RenderData>
  triangle strip. The render passes are:
  1. Normal Pass
  - Geometry is drawn in layer order with premultiplied alpha blending
- 2. Additive Pass
- - Geometry is drawn with additive blending (color += color.rgb)
- 3. Multiply Pass
- - Geometry is drawn with multiply blending (color *= color.rgb)
  If a texture is assigned, it will be bound before rendering begins.
  The same texture will remain bound through all render passes.
  For "untextured" geometry, we leave a white pixel in the top-left corner
  of our sprite sheets and set all vertex tex coords to their default 0,0.
  */
-class ShapeRenderSystem : public System<ShapeRenderSystem>, public Receiver<ShapeRenderSystem>
+class LayeredShapeRenderSystem : public System<LayeredShapeRenderSystem>, public Receiver<LayeredShapeRenderSystem>
 {
 public:
   //! listen for events
@@ -124,14 +102,14 @@ public:
   //! sort the render data in the normal pass by render layer
   //! needed iff you are dynamically changing Locus render_layers
   inline void sort()
-  { stable_sort( mGeometry[PREMULTIPLIED].begin(), mGeometry[PREMULTIPLIED].end(), &ShapeRenderSystem::layerSort ); }
+  { stable_sort( mGeometry.begin(), mGeometry.end(), &LayeredShapeRenderSystem::layerSort ); }
 private:
-  std::array<std::vector<RenderDataRef>, NUM_RENDER_PASSES> mGeometry;
-  std::array<std::vector<Vertex2D>, NUM_RENDER_PASSES>        mVertices;
-  ci::gl::VboRef                            mVbo;
-  ci::gl::VaoRef                            mAttributes;
-  ci::gl::TextureRef                        mTexture;
-  ci::gl::GlslProgRef                       mRenderProg;
+  std::vector<RenderDataRef>    mGeometry;
+  std::vector<Vertex2D>         mVertices;
+  ci::gl::VboRef                mVbo;
+  ci::gl::VaoRef                mAttributes;
+  ci::gl::TextureRef            mTexture;
+  ci::gl::GlslProgRef           mRenderProg;
   static bool                 layerSort( const RenderDataRef &lhs, const RenderDataRef &rhs )
   { return lhs->render_layer < rhs->render_layer; }
   // maybe add a CameraRef for positioning the scene
