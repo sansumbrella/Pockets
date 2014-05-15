@@ -31,7 +31,8 @@
 
 using namespace std;
 using namespace cinder;
-using namespace pockets::puptent;
+using namespace pockets;
+using namespace puptent;
 
 SpriteAnimationSystemRef SpriteAnimationSystem::create( TextureAtlasRef atlas, const ci::JsonTree &animations )
 {

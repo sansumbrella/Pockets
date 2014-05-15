@@ -25,13 +25,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "TextureAtlas.h"
+#include "pockets/TextureAtlas.h"
 #include "cinder/Json.h"
 #include "cinder/gl/Texture.h"
 
 using namespace std;
 using namespace cinder;
-using namespace pockets::puptent;
+using namespace pockets;
 
 TextureAtlas::TextureAtlas( const Surface &images, const ci::JsonTree &description )
 {

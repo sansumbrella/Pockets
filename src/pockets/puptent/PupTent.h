@@ -46,14 +46,15 @@ namespace pockets
   {
     using namespace entityx;
     // entityx notation niceties
-    typedef std::shared_ptr<EntityManager>			EntityManagerRef;
-    typedef std::shared_ptr<EventManager>			EventManagerRef;
+    typedef std::shared_ptr<EntityManager>          EntityManagerRef;
+    typedef std::shared_ptr<EventManager>           EventManagerRef;
     typedef std::shared_ptr<class SystemManager>    SystemManagerRef;
     // forward declarations for common components
     typedef std::shared_ptr<struct Locus>           LocusRef;
     typedef std::shared_ptr<struct RenderMesh>      RenderMeshRef;
-    // forward declarations for common utilities
-    typedef std::shared_ptr<class TextureAtlas>     TextureAtlasRef;
   } // puptent::
   namespace pt = puptent;
+
+  // forward declarations for common utilities
+  typedef std::shared_ptr<class TextureAtlas>     TextureAtlasRef;
 } // pockets::
