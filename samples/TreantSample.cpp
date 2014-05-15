@@ -36,6 +36,8 @@
 
 #include <memory>
 
+#define USE_SMOOTHED_ROTATION 1
+
 using namespace pockets;
 using namespace cinder;
 using namespace cinder::app;
@@ -61,7 +63,14 @@ public:
       treant::LocationComponentRef  location;
       shared_ptr<RotationComponent> rotation;
       entity.unpack( location, rotation );
+#if USE_SMOOTHED_ROTATION
+      // lerp(curr, target, 1.0-pow(1.0-rate, targetFPS*dt)
+      // smoothed step
+      float target = location->rotation + rotation->rate / 60.0;
+      location->rotation = lerp( location->rotation, target, 1.0 - pow(0.01, 60.0 * dt) );
+#else
       location->rotation += rotation->rate * dt;
+#endif
     }
   }
 };

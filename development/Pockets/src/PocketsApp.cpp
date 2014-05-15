@@ -37,10 +37,12 @@ void PocketsApp::prepareSettings( Settings *settings )
 {
   settings->setWindowSize( 1280, 720 );
   settings->enableMultiTouch();
+  settings->disableFrameRate();
 }
 
 void PocketsApp::setup()
 {
+  gl::enableVerticalSync();
   mScenes.push_back( make_pair( "Physics Scrolling Thing", &make_shared<PhysicsScrolling> ) );
   mScenes.push_back( make_pair( "Treant Test", &make_shared<TreantTest> ) );
   // Pack a stack of textures into a sprite sheet
