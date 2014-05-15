@@ -89,7 +89,7 @@ treant::TreantNodeRef addOrbiter( treant::TreantNodeRef center, bool warm, float
 
   shape->setAsBox( Rectf( -size, -size, size, size ) );
   shape->setColor( color );
-  moon->assign<treant::RenderData>( shape, moon->getTransform(), depth );
+  moon->assign<treant::LayeredShapeRenderData>( shape, moon->getTransform(), depth );
   moon->assign<RotationComponent>( lmap<float>( position.length(), 0.0f, getWindowSize().length(), 1.0f, 0.1f ) );
 
   if( size > 10.0f && randFloat() < 0.5f ) {
