@@ -11,9 +11,10 @@
 #pragma once
 
 #include <stdint.h>
+#include <vector>
 #include <list>
+#include <memory>
 #include <utility>
-#include <unordered_map>
 #include "entityx/config.h"
 #include "entityx/3rdparty/simplesignal.h"
 #include "entityx/help/NonCopyable.h"
@@ -37,8 +38,8 @@ class BaseEvent {
 
 
 typedef Simple::Signal<void (const BaseEvent*)> EventSignal;
-typedef ptr<EventSignal> EventSignalPtr;
-typedef weak_ptr<EventSignal> EventSignalWeakPtr;
+typedef std::shared_ptr<EventSignal> EventSignalPtr;
+typedef std::weak_ptr<EventSignal> EventSignalWeakPtr;
 
 
 /**
@@ -107,10 +108,6 @@ class EventManager : entityx::help::NonCopyable {
   EventManager();
   virtual ~EventManager();
 
-  static ptr<EventManager> make() {
-    return ptr<EventManager>(new EventManager());
-  }
-
   /**
    * Subscribe an object to receive events of type E.
    *
@@ -127,13 +124,13 @@ class EventManager : entityx::help::NonCopyable {
    *     em.subscribe<Explosion>(receiver);
    */
   template <typename E, typename Receiver>
-  void subscribe(Receiver &receiver) {  //NOLINT
+  void subscribe(Receiver &receiver) {
     void (Receiver::*receive)(const E &) = &Receiver::receive;
     auto sig = signal_for(E::family());
     auto wrapper = EventCallbackWrapper<E>(std::bind(receive, &receiver, std::placeholders::_1));
     auto connection = sig->connect(wrapper);
-    static_cast<BaseReceiver&>(receiver).connections_.push_back(
-      std::make_pair(EventSignalWeakPtr(sig), connection));
+    BaseReceiver &base = receiver;
+    base.connections_.push_back(std::make_pair(EventSignalWeakPtr(sig), connection));
   }
 
   void emit(const BaseEvent &event);
@@ -142,9 +139,10 @@ class EventManager : entityx::help::NonCopyable {
    * Emit an already constructed event.
    */
   template <typename E>
-  void emit(ptr<E> event) {
+  void emit(std::unique_ptr<E> event) {
     auto sig = signal_for(E::family());
-    sig->emit(static_cast<BaseEvent*>(event.get()));
+    BaseEvent *base = event.get();
+    sig->emit(base);
   }
 
   /**
@@ -154,34 +152,33 @@ class EventManager : entityx::help::NonCopyable {
    *
    * eg.
    *
-   * ptr<EventManager> em = new EventManager();
+   * std::shared_ptr<EventManager> em = new EventManager();
    * em->emit<Explosion>(10);
    *
    */
   template <typename E, typename ... Args>
   void emit(Args && ... args) {
-    E event = E(std::forward<Args>(args) ...);
+    E event(std::forward<Args>(args) ...);
     auto sig = signal_for(E::family());
-    sig->emit(static_cast<BaseEvent*>(&event));
+    BaseEvent *base = &event;
+    sig->emit(base);
   }
 
   int connected_receivers() const {
     int size = 0;
-    for (auto pair : handlers_) {
-      size += pair.second->size();
+    for (EventSignalPtr handler : handlers_) {
+      if (handler) size += handler->size();
     }
     return size;
   }
 
  private:
-  EventSignalPtr signal_for(int id) {
-    auto it = handlers_.find(id);
-    if (it == handlers_.end()) {
-      EventSignalPtr sig(new EventSignal());
-      handlers_.insert(std::make_pair(id, sig));
-      return sig;
-    }
-    return it->second;
+  EventSignalPtr &signal_for(size_t id) {
+    if (id >= handlers_.size())
+      handlers_.resize(id + 1);
+    if (!handlers_[id])
+      handlers_[id] = std::make_shared<EventSignal>();
+    return handlers_[id];
   }
 
   // Functor used as an event signal callback that casts to E.
@@ -192,7 +189,7 @@ class EventManager : entityx::help::NonCopyable {
     std::function<void(const E &)> callback;
   };
 
-  std::unordered_map<int, EventSignalPtr> handlers_;
+  std::vector<EventSignalPtr> handlers_;
 };
 
 }  // namespace entityx
