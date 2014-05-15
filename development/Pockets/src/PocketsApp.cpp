@@ -9,6 +9,7 @@
 
 #include "PhysicsScrolling.h"
 #include "TexturePackingSample.h"
+#include "Treant.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -41,6 +42,7 @@ void PocketsApp::prepareSettings( Settings *settings )
 void PocketsApp::setup()
 {
   mScenes.push_back( make_pair( "Physics Scrolling Thing", &make_shared<PhysicsScrolling> ) );
+  mScenes.push_back( make_pair( "Treant Test", &make_shared<TreantTest> ) );
   // Pack a stack of textures into a sprite sheet
   mScenes.push_back( make_pair( "Texture Packer", &make_shared<TexturePackingSample> ) );
   // Load an SVG file and turn layers into sprites
