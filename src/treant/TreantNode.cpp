@@ -19,7 +19,10 @@ namespace treant
 
 TreantNode::TreantNode( const Entity &entity ):
   _entity( entity )
-{}
+{
+  _transform = _entity.assign<pk::puptent::Locus>();
+//  _entity.assign<Size>();
+}
 
 TreantNode::~TreantNode()
 {
@@ -140,18 +143,12 @@ bool TreantNode::deepMouseUp( ci::app::MouseEvent &event )
   return captured;
 }
 
-void TreantNode::deepDraw()
+void TreantNode::updateTree( const ci::MatrixAffine2f &matrix )
 {
-  gl::ScopedModelMatrix matrix;
-  gl::multModelMatrix( Matrix44f( _locus.toMatrix() ) );
-
-  draw();
-
-  preChildDraw();
+  _transform->updateMatrix( matrix );
   for( TreantNodeRef &child : _children ) {
-    child->deepDraw();
+    child->updateTree( _transform->matrix );
   }
-  postChildDraw();
 }
 
 void TreantNode::deepCancelInteractions()
@@ -160,14 +157,6 @@ void TreantNode::deepCancelInteractions()
   for( TreantNodeRef &child : _children ) {
     child->deepCancelInteractions();
   }
-}
-
-MatrixAffine2f TreantNode::getFullTransform() const
-{
-  MatrixAffine2f mat = _locus.toMatrix();
-  if( _parent )
-  { mat = _parent->getFullTransform() * mat; }
-  return mat;
 }
 
 } // treant::

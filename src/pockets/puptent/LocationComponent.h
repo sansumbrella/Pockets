@@ -44,28 +44,20 @@ namespace pockets
   struct Locus : Component<Locus>
   {
     Locus() = default;
-    Locus( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, ComponentHandle<Locus> parent=ComponentHandle<Locus>() ):
+    Locus( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot ):
     position( pos ),
     registration_point( registration ),
-    rotation( rot ),
-    parent( parent )
+    rotation( rot )
     {}
-    ci::Vec2f         position = ci::Vec2f::zero();
-    ci::Vec2f         registration_point = ci::Vec2f::zero();
-    float             rotation = 0.0f;
-    float             scale = 1.0f;
-    //! Final rotation including any accumulated from parents.
-    float             getRotation() const;
-    //! Final scale including any accumulated from parents.
-    float             getScale() const;
-    //! Final position including any accumulated from parents.
-    ci::Vec2f         getPosition() const;
-    //! Transform parent. toMatrix() is multiplied by parent->toMatrix() if present
-    ComponentHandle<Locus> parent;
-    //! returns a matrix that will transform points based on Locus properties
-    ci::MatrixAffine2f  toMatrix() const;
-    //! remove parent after composing its transform into our own
-    void              detachFromParent();
+    ci::Vec2f           position = ci::Vec2f::zero();
+    ci::Vec2f           registration_point = ci::Vec2f::zero();
+    float               rotation = 0.0f;
+    ci::Vec2f           scale = ci::Vec2f::one();
+    ci::MatrixAffine2f  matrix = ci::MatrixAffine2f::identity();
+
+    //! Updates matrix on top of \a parentTransform.
+    void updateMatrix( ci::MatrixAffine2f parentTransform );
+    ci::MatrixAffine2f calcLocalMatrix() const;
   };
 } // puptent::
 } // pockets::

@@ -125,11 +125,11 @@ Entity PupTentApp::createPlanet()
     mesh->setColor( Color( CM_HSV, 0.25f, 1.0f, 1.0f ) );
 
     auto locus = e.assign<Locus>();
-    locus->parent = loc;
+//    locus->parent = loc;
     locus->position = Vec2f{ Rand::randFloat( -1.0f, 1.0f ), Rand::randFloat( -1.0f, 1.0f ) } * planet_size * 0.5f;
     locus->registration_point = Vec2f{ 0.0f, 20.0f };
     locus->rotation = Rand::randFloat( M_PI );
-    locus->scale = Rand::randFloat( 0.5f, 4.0f );
+    locus->scale = Vec2f::one() * Rand::randFloat( 0.5f, 4.0f );
     e.assign<RenderData>( mesh, locus, 1, RenderPass::MULTIPLY );
   }
 
@@ -141,7 +141,7 @@ Entity PupTentApp::createShip()
   Entity ship = mEntityX.entities.create();
   auto loc = ship.assign<Locus>();
   loc->rotation = M_PI * 0.33f;
-  loc->scale = 1.0f;
+  loc->scale = ci::Vec2f::one();
   loc->position = getWindowCenter() - Vec2f{ 0.0f, 100.0f };
   auto verlet = ship.assign<Particle>( loc );
   verlet->friction = 0.9f;
@@ -153,7 +153,7 @@ Entity PupTentApp::createShip()
     auto mesh = left_wing.assign<RenderMesh>( 3 );
     mesh->setAsTriangle( Vec2f{ 0.0f, 0.0f }, Vec2f{ -20.0f, 40.0f }, Vec2f{ 0.0f, 40.0f } );
     mesh->setColor( Color( CM_HSV, 0.55f, 1.0f, 1.0f ) );
-    locus->parent = loc;
+//    locus->parent = loc;
     locus->rotation = M_PI * 0.05f;
     locus->position = Vec2f{ -1.0f, 0.0f };
     left_wing.assign<RenderData>( mesh, locus, 5 );
@@ -165,7 +165,7 @@ Entity PupTentApp::createShip()
     auto mesh = right_wing.assign<RenderMesh>( 3 );
     mesh->setAsTriangle( Vec2f{ 0.0f, 0.0f }, Vec2f{ 20.0f, 40.0f }, Vec2f{ 0.0f, 40.0f } );
     mesh->setColor( Color( CM_HSV, 0.65f, 1.0f, 1.0f ) );
-    locus->parent = loc;
+//    locus->parent = loc;
     locus->rotation = -M_PI * 0.05f;
     locus->position = Vec2f{ 1.0f, 0.0f };
     right_wing.assign<RenderData>( mesh, locus, 5 );
@@ -176,14 +176,14 @@ Entity PupTentApp::createShip()
     auto locus = trailing_ribbon.assign<Locus>();
 //    locus->parent = loc;
     std::deque<Vec2f> ribbon_vertices;
-    ribbon_vertices.assign( 11, loc->toMatrix().transformPoint( { 0.0f, 40.0f } ) );
+    ribbon_vertices.assign( 11, loc->calcLocalMatrix().transformPoint( { 0.0f, 40.0f } ) );
     auto mesh = trailing_ribbon.assign<RenderMesh>( 20 );
     trailing_ribbon.assign<RenderData>( mesh, locus, 4 );
 
     trailing_ribbon.assign<CppScriptComponent>([=]( Entity self, double dt ) mutable
                                             { // use the ship locus to update out vertices
 //                                              auto locus = self.component<Locus>();
-                                              auto front = loc->toMatrix().transformPoint( { 0.0f, 40.0f } );
+                                              auto front = loc->calcLocalMatrix().transformPoint( { 0.0f, 40.0f } );
                                               ribbon_vertices.emplace_front( front );
                                               ribbon_vertices.pop_back();
                                               auto mesh = self.component<RenderMesh>();
@@ -217,8 +217,8 @@ Entity PupTentApp::createShip()
                                    p->rotation_friction = 0.99f;
                                    p->friction = 0.99f;
 
-                                   l_loc->detachFromParent();
-                                   r_loc->detachFromParent();
+//                                   l_loc->detachFromParent();
+//                                   r_loc->detachFromParent();
                                    l_loc->position += input->direction() * dt * 100.0f;
                                    r_loc->position += input->direction() * dt * 100.0f;
                                    l_loc->position += Rand::randVec2f() * 10.0f;
@@ -334,6 +334,12 @@ void PupTentApp::update()
   up.start();
 //  mEntityX.systems.update<ExpiresSystem>( dt );
 //  mEntityX.systems.update<ScriptSystem>( dt );
+  // until we switch to treant, this will have to suffice for updating matrices.
+  MatrixAffine2f identityMatrix = MatrixAffine2f::identity();
+  for( auto entity : mEntityX.entities.entities_with_components<Locus>() ) {
+    entity.component<Locus>()->updateMatrix( identityMatrix );
+  }
+
   mEntityX.systems.update<CppScriptSystem>( dt );
   mEntityX.systems.update<SpriteAnimationSystem>( dt );
   mEntityX.systems.update<ParticleSystem>( dt );

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 David Wicks, sansumbrella.com
+ * Copyright (c) 2014 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -25,39 +25,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "pockets/puptent/LocationComponent.h"
+#pragma once
+#include "TreantNode.h"
 
-using namespace cinder;
-using namespace pockets;
-using namespace puptent;
-
-MatrixAffine2f Locus::calcLocalMatrix() const
+namespace treant
 {
-  MatrixAffine2f mat;
-  mat.translate( position + registration_point );
-  mat.rotate( rotation );
-  mat.scale( scale );
-  mat.translate( -registration_point );
-  return mat;
-}
 
-void Locus::updateMatrix( MatrixAffine2f parentTransform )
+class ShapeNode : public TreantNode
 {
-  parentTransform.translate( position + registration_point );
-  parentTransform.rotate( rotation );
-  parentTransform.scale( scale );
-  parentTransform.translate( -registration_point );
-  matrix = parentTransform;
-}
+public:
+  ShapeNode( Entity entity );
+  ~ShapeNode();
+private:
+};
 
-// void Locus::detachFromParent()
-// {
-//   if( parent.valid() )
-//   {
-//     scale *= parent->getScale();
-//     rotation += parent->getRotation();
-//     position = parent->toMatrix().transformPoint( position );
-
-// //    parent.reset();
-//   }
-// }
+} // treant::
