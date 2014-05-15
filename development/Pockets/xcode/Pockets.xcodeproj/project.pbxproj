@@ -73,6 +73,8 @@
 		15B530D819243CED0082ED7B /* TextureAtlas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B530D619243CED0082ED7B /* TextureAtlas.cpp */; };
 		15B5319F192465C70082ED7B /* TreantSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B5319E192465C70082ED7B /* TreantSample.cpp */; };
 		15B531A0192465C70082ED7B /* TreantSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B5319E192465C70082ED7B /* TreantSample.cpp */; };
+		15B531A3192469EF0082ED7B /* RenderMeshComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531A2192469EF0082ED7B /* RenderMeshComponent.cpp */; };
+		15B531A4192469EF0082ED7B /* RenderMeshComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531A2192469EF0082ED7B /* RenderMeshComponent.cpp */; };
 		15F72B6118C8150A000DE2EB /* AnimationUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F72B4C18C8150A000DE2EB /* AnimationUtils.cpp */; };
 		15F72B6318C8150A000DE2EB /* ColorUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F72B4F18C8150A000DE2EB /* ColorUtils.cpp */; };
 		15F72B6518C8150A000DE2EB /* ConnectionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F72B5118C8150A000DE2EB /* ConnectionManager.cpp */; };
@@ -178,6 +180,8 @@
 		15B530D619243CED0082ED7B /* TextureAtlas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureAtlas.cpp; sourceTree = "<group>"; };
 		15B5319D192465C70082ED7B /* TreantSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreantSample.h; sourceTree = "<group>"; };
 		15B5319E192465C70082ED7B /* TreantSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TreantSample.cpp; sourceTree = "<group>"; };
+		15B531A1192469EF0082ED7B /* RenderMeshComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderMeshComponent.h; sourceTree = "<group>"; };
+		15B531A2192469EF0082ED7B /* RenderMeshComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderMeshComponent.cpp; sourceTree = "<group>"; };
 		15F72B4C18C8150A000DE2EB /* AnimationUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationUtils.cpp; sourceTree = "<group>"; };
 		15F72B4D18C8150A000DE2EB /* AnimationUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationUtils.h; sourceTree = "<group>"; };
 		15F72B4E18C8150A000DE2EB /* CollectionUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CollectionUtilities.hpp; sourceTree = "<group>"; };
@@ -349,6 +353,8 @@
 		1563A48C18FCD53300D1FF54 /* puptent */ = {
 			isa = PBXGroup;
 			children = (
+				15B531A1192469EF0082ED7B /* RenderMeshComponent.h */,
+				15B531A2192469EF0082ED7B /* RenderMeshComponent.cpp */,
 				15FCD4231923C93A0099ADA2 /* LocationComponent.h */,
 				15FCD4241923C93A0099ADA2 /* LocationComponent.cpp */,
 				1563A48D18FCD53300D1FF54 /* DelaySystem.cpp */,
@@ -613,6 +619,7 @@
 				15FCD4261923C93A0099ADA2 /* LocationComponent.cpp in Sources */,
 				155BEFB218CBA807000A36FC /* TextureNode.cpp in Sources */,
 				1563A4A718FCD53300D1FF54 /* DelaySystem.cpp in Sources */,
+				15B531A4192469EF0082ED7B /* RenderMeshComponent.cpp in Sources */,
 				1563A4AB18FCD53300D1FF54 /* KeyboardInput.cpp in Sources */,
 				155BEFAC18CBA749000A36FC /* TypeNode.cpp in Sources */,
 				150EE01418CA259F000AFD9E /* Constraints.cpp in Sources */,
@@ -662,6 +669,7 @@
 				15F72B6F18C8150A000DE2EB /* Profiling.cpp in Sources */,
 				15B530D719243CED0082ED7B /* TextureAtlas.cpp in Sources */,
 				155BEF9418CBA749000A36FC /* Node.cpp in Sources */,
+				15B531A3192469EF0082ED7B /* RenderMeshComponent.cpp in Sources */,
 				155BEFAE18CBA7BD000A36FC /* Locus.cpp in Sources */,
 				15027AC218CB9844005473FB /* TexturePackingSample.cpp in Sources */,
 				566255008148472EBC9849A1 /* PocketsApp.cpp in Sources */,

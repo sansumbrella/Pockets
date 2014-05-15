@@ -164,8 +164,11 @@ void RenderSystem::draw() const
 {
   gl::ScopedGlslProg    shader( mRenderProg );
   gl::ScopedVao         attr( mAttributes );
-  uint8_t textureUnit = 0;
-  gl::ScopedTextureBind tex( mTexture, textureUnit );
+
+  if( mTexture ) {
+    uint8_t textureUnit = 0;
+    mTexture->bind( textureUnit );
+  }
   gl::setDefaultShaderVars();
 
   // premultiplied alpha blending for normal pass
@@ -187,5 +190,9 @@ void RenderSystem::draw() const
   gl::ScopedBlend multBlend( GL_DST_COLOR,  GL_ONE_MINUS_SRC_ALPHA );
   gl::drawArrays( GL_TRIANGLE_STRIP, begin, count );
   gl::disableAlphaBlending();
+
+  if( mTexture ) {
+    mTexture->unbind();
+  }
 
 }

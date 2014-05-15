@@ -51,14 +51,12 @@ void TreantTest::setup()
 
   for( int i = 0; i < 10000; ++i ) {
     auto child = _treant_root->createChild<treant::TreantNode>();
-    child->setPosition( randVec2f() * Vec2f( getWindowSize() ) );
+    child->setPosition( Vec2f( randFloat( -0.5f, 0.5f ), randFloat( -0.5f, 0.5f ) ) * Vec2f( getWindowSize() ) );
     auto mesh = child->assign<RenderMesh>();
     mesh->setAsBox( Rectf( -10.0f, -10.0f, 10.0f, 10.0f ) );
     mesh->setColor( ColorA( CM_HSV, randFloat( 0.02f, 0.2f ), 1.0f, 1.0f, 1.0f ) );
     child->assign<RenderData>( mesh, child->getTransform() );
   }
-
-  _treant_root.reset();
 }
 
 void TreantTest::connect( app::WindowRef window )
