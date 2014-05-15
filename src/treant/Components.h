@@ -1,5 +1,5 @@
 /*
-  (Ref) 2014  (om
+ * Copyright (c) 2014 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -27,33 +27,13 @@
 
 #pragma once
 
-#include "entityx/entityx.h"
+/*
+ Single include for all treant components.
+*/
 
-/**
-  Treant marries entity system's non-hierarchical, non-homogenous
-  structure with a hierarchical, semi-homogenous structure.
-
-  It provides:
-  - a scene graph (Tree) for organizing spatial entities.
-  - entity system hooks on every node.
-  - RAII memory management of entities and components. When TreantNodes fall out of scope, their entities are destroyed.
-  - Convenient method for defining composite objects (your constructor). You can add children and/or components at runtime.
- */
-namespace treant
-{
-  using namespace entityx;
-  typedef std::shared_ptr<class TreantNode> TreantNodeRef;
-  typedef std::shared_ptr<EventManager>     EventManagerRef;
-  typedef std::shared_ptr<EntityManager>    EntityManagerRef;
-  typedef std::shared_ptr<SystemManager>    SystemManagerRef;
-
-  typedef std::shared_ptr<struct LocationComponent> LocationComponentRef;
-
-  struct Treant
-  {
-    EventManagerRef   events   = EventManagerRef( new EventManager() );
-    EntityManagerRef  entities = EntityManagerRef( new EntityManager( events ) );
-    SystemManagerRef  systems  = SystemManagerRef( new SystemManager( entities, events ) );
-    TreantNodeRef createRoot();
-  };
-}
+#include "treant/LayeredShapeRenderSystem.h"
+#include "treant/TextRenderSystem.h"
+#include "treant/ShapeComponent.h"
+#include "treant/SizeComponent.h"
+#include "treant/LocationComponent.h"
+#include "treant/ImageRenderSystem.h"

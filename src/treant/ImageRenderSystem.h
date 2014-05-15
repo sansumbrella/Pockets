@@ -1,5 +1,5 @@
 /*
-  (Ref) 2014  (om
+ * Copyright (c) 2014 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -27,33 +27,30 @@
 
 #pragma once
 
-#include "entityx/entityx.h"
+#include "treant/Treant.h"
+#include "cinder/gl/TextureFont.h"
 
-/**
-  Treant marries entity system's non-hierarchical, non-homogenous
-  structure with a hierarchical, semi-homogenous structure.
-
-  It provides:
-  - a scene graph (Tree) for organizing spatial entities.
-  - entity system hooks on every node.
-  - RAII memory management of entities and components. When TreantNodes fall out of scope, their entities are destroyed.
-  - Convenient method for defining composite objects (your constructor). You can add children and/or components at runtime.
- */
 namespace treant
 {
-  using namespace entityx;
-  typedef std::shared_ptr<class TreantNode> TreantNodeRef;
-  typedef std::shared_ptr<EventManager>     EventManagerRef;
-  typedef std::shared_ptr<EntityManager>    EntityManagerRef;
-  typedef std::shared_ptr<SystemManager>    SystemManagerRef;
 
-  typedef std::shared_ptr<struct LocationComponent> LocationComponentRef;
+typedef std::shared_ptr<struct ImageComponent>       ImageComponentRef;
 
-  struct Treant
-  {
-    EventManagerRef   events   = EventManagerRef( new EventManager() );
-    EntityManagerRef  entities = EntityManagerRef( new EntityManager( events ) );
-    SystemManagerRef  systems  = SystemManagerRef( new SystemManager( entities, events ) );
-    TreantNodeRef createRoot();
-  };
-}
+struct ImageComponent : Component<ImageComponent>
+{
+  ImageComponent() = default;
+  ImageComponent( ci::gl::TextureRef texture ):
+    texture( texture )
+  {}
+
+  ci::gl::TextureRef  texture = nullptr;
+  bool                flipped  = false;
+};
+
+class ImageRenderSystem : public System<ImageRenderSystem>
+{
+public:
+  void draw( EntityManagerRef entities ) const;
+};
+
+} // treant::
+
