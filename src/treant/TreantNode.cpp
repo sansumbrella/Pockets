@@ -64,6 +64,14 @@ void TreantNode::removeChild( TreantNode *element )
   element->mParent = nullptr;
 }
 
+void TreantNode::clearChildren()
+{
+	for( auto &child : mChildren ) {
+		child->mParent = nullptr;
+	}
+	mChildren.clear();
+}
+
 void TreantNode::setParent( TreantNode *parent )
 {
   if( mParent && mParent != parent )

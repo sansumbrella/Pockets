@@ -92,6 +92,12 @@ public:
   TreantNodeRef   getChildAt( size_t index ){ return mChildren.at( index ); }
   void            setChildIndex( TreantNodeRef child, size_t index );
 
+  void            removeChild( TreantNodeRef element );
+  void            removeChild( TreantNode *element );
+
+  //! Removes all children.
+  void            clearChildren();
+
   //! Stop whatever event-related tracking this object was doing. Considering for removal
   virtual void    cancelInteractions() {}
   void            deepCancelInteractions();
@@ -121,8 +127,6 @@ public:
 
   //! called when a child is added to this TreantNode
   virtual void    childAdded( TreantNodeRef element ){}
-  void            removeChild( TreantNodeRef element );
-  void            removeChild( TreantNode *element );
   TreantNode*     getParent(){ return mParent; }
 
   //! return child vector, allowing manipulation of each child, but not the vector
