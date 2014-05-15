@@ -71,6 +71,8 @@
 		15B531B719246F540082ED7B /* ShapeRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531AF19246F540082ED7B /* ShapeRenderSystem.cpp */; };
 		15B531B819246F540082ED7B /* Treant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531B019246F540082ED7B /* Treant.cpp */; };
 		15B531B919246F540082ED7B /* Treant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531B019246F540082ED7B /* Treant.cpp */; };
+		15B531BE19247BF20082ED7B /* SizeComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531BC19247BF20082ED7B /* SizeComponent.cpp */; };
+		15B531BF19247BF20082ED7B /* SizeComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531BC19247BF20082ED7B /* SizeComponent.cpp */; };
 		15F72B6118C8150A000DE2EB /* AnimationUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F72B4C18C8150A000DE2EB /* AnimationUtils.cpp */; };
 		15F72B6318C8150A000DE2EB /* ColorUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F72B4F18C8150A000DE2EB /* ColorUtils.cpp */; };
 		15F72B6518C8150A000DE2EB /* ConnectionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F72B5118C8150A000DE2EB /* ConnectionManager.cpp */; };
@@ -170,6 +172,8 @@
 		15B531AE19246F540082ED7B /* ShapeComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeComponent.cpp; sourceTree = "<group>"; };
 		15B531AF19246F540082ED7B /* ShapeRenderSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeRenderSystem.cpp; sourceTree = "<group>"; };
 		15B531B019246F540082ED7B /* Treant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Treant.cpp; sourceTree = "<group>"; };
+		15B531BC19247BF20082ED7B /* SizeComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SizeComponent.cpp; sourceTree = "<group>"; };
+		15B531BD19247BF20082ED7B /* SizeComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SizeComponent.h; sourceTree = "<group>"; };
 		15F72B4C18C8150A000DE2EB /* AnimationUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationUtils.cpp; sourceTree = "<group>"; };
 		15F72B4D18C8150A000DE2EB /* AnimationUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationUtils.h; sourceTree = "<group>"; };
 		15F72B4E18C8150A000DE2EB /* CollectionUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CollectionUtilities.hpp; sourceTree = "<group>"; };
@@ -403,6 +407,8 @@
 				15B531B019246F540082ED7B /* Treant.cpp */,
 				15B530BE19243CAE0082ED7B /* TreantNode.h */,
 				15B530BD19243CAE0082ED7B /* TreantNode.cpp */,
+				15B531BC19247BF20082ED7B /* SizeComponent.cpp */,
+				15B531BD19247BF20082ED7B /* SizeComponent.h */,
 			);
 			name = treant;
 			path = ../../../src/treant;
@@ -590,6 +596,7 @@
 				155BEFAC18CBA749000A36FC /* TypeNode.cpp in Sources */,
 				150EE01418CA259F000AFD9E /* Constraints.cpp in Sources */,
 				1563A4EF18FCE00200D1FF54 /* TagsComponent.cc in Sources */,
+				15B531BF19247BF20082ED7B /* SizeComponent.cpp in Sources */,
 				15B531B919246F540082ED7B /* Treant.cpp in Sources */,
 				15B530D219243CAE0082ED7B /* TreantNode.cpp in Sources */,
 				1563A4ED18FCE00200D1FF54 /* System.cc in Sources */,
@@ -640,6 +647,7 @@
 				15027ABE18CB67FF005473FB /* Scene.cpp in Sources */,
 				150EE01518CA259F000AFD9E /* Effectors.cpp in Sources */,
 				15F72B6318C8150A000DE2EB /* ColorUtils.cpp in Sources */,
+				15B531BE19247BF20082ED7B /* SizeComponent.cpp in Sources */,
 				1507D30E190D91380087B630 /* RootNode.cpp in Sources */,
 				15B531B819246F540082ED7B /* Treant.cpp in Sources */,
 				15F72B6B18C8150A000DE2EB /* ImagePacker.cpp in Sources */,

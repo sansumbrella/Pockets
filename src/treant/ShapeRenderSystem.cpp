@@ -85,7 +85,7 @@ void ShapeRenderSystem::configure( EventManagerRef event_manager )
   event_manager->subscribe<ComponentRemovedEvent<RenderData>>( *this );
 
   // make buffer large enough to hold all the vertices you will ever need
-  mVbo = gl::Vbo::create( GL_ARRAY_BUFFER, 1.0e5 * sizeof( Vertex2D ), nullptr, GL_STREAM_DRAW );
+  mVbo = gl::Vbo::create( GL_ARRAY_BUFFER, 1.0e6 * sizeof( Vertex2D ), nullptr, GL_STREAM_DRAW );
   mAttributes = gl::Vao::create();
   gl::ScopedVao attr( mAttributes );
   mVbo->bind();

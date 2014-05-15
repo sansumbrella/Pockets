@@ -21,7 +21,7 @@ TreantNode::TreantNode( const Entity &entity ):
   _entity( entity )
 {
   _transform = _entity.assign<Location>();
-//  _entity.assign<Size>();
+  _size = _entity.assign<SizeComponent>();
 }
 
 TreantNode::~TreantNode()

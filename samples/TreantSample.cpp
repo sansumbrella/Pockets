@@ -40,20 +40,66 @@ using namespace cinder;
 using namespace cinder::app;
 using namespace std;
 
+struct RotationComponent : treant::Component<RotationComponent>
+{
+  RotationComponent() = default;
+  RotationComponent( float rate ):
+    rate( rate )
+  {}
+
+  float  rate = 1.0f;
+};
+
+class RotationSystem : public treant::System<RotationSystem>
+{
+public:
+  void update( treant::EntityManagerRef entities, treant::EventManagerRef events, double dt ) override
+  {
+    for( auto entity : entities->entities_with_components<RotationComponent, treant::Location>() )
+    {
+      treant::LocationRef           location;
+      shared_ptr<RotationComponent> rotation;
+      entity.unpack( location, rotation );
+      location->rotation += rotation->rate * dt;
+    }
+  }
+};
+
+void addOrbiter( treant::TreantNodeRef center, bool warm, float max_distance, int depth ) {
+
+  float size = center->getSize().length() / 5.0f;
+  auto moon = center->createChild<treant::TreantNode>();
+  moon->setSize( Vec2f::one() * size );
+
+  Vec2f position = randVec2f() * randFloat( max_distance / 4, max_distance );
+  moon->setPosition( position );
+  moon->setRegistrationPoint( -position );
+  auto shape = moon->assign<treant::ShapeComponent>();
+  auto color = warm ? ColorA( CM_HSV, randFloat( 0.02f, 0.2f ), 1.0f, 1.0f, 1.0f ) : ColorA( CM_HSV, randFloat( 0.4f, 0.57f ), 1.0f, 0.7f, 1.0f );
+
+//  shape->setAsCircle( Vec2f::one() * randFloat( size * 0.8, size * 1.2 ) );
+  shape->setAsBox( Rectf( -size, -size, size, size ) );
+  shape->setColor( color );
+  moon->assign<treant::RenderData>( shape, moon->getTransform(), depth );
+  moon->assign<RotationComponent>( lmap<float>( position.length(), 0.0f, getWindowWidth(), 1.0f, 0.1f ) );
+
+  if( size > 10.0f && randFloat() < 0.5f ) {
+    addOrbiter( moon, !warm, max_distance / 8, depth + 1 );
+  }
+}
+
 void TreantTest::setup()
 {
   _treant.systems->add<treant::ShapeRenderSystem>();
+  _treant.systems->add<RotationSystem>();
   _treant.systems->configure();
 
   _treant_root = _treant.createRoot();
+  _treant_root->setPosition( getWindowCenter() );
+  _treant_root->setSize( getWindowSize() / 4 );
 
-  for( int i = 0; i < 10000; ++i ) {
-    auto child = _treant_root->createChild<treant::TreantNode>();
-    child->setPosition( Vec2f( randFloat( -0.5f, 0.5f ), randFloat( -0.5f, 0.5f ) ) * Vec2f( getWindowSize() ) );
-    auto mesh = child->assign<treant::ShapeComponent>();
-    mesh->setAsBox( Rectf( -10.0f, -10.0f, 10.0f, 10.0f ) );
-    mesh->setColor( ColorA( CM_HSV, randFloat( 0.02f, 0.2f ), 1.0f, 1.0f, 1.0f ) );
-    child->assign<treant::RenderData>( mesh, child->getTransform() );
+  for( int i = 0; i < 1000; ++i ) {
+    addOrbiter( _treant_root, true, getWindowSize().length(), 0 );
   }
 }
 
@@ -91,6 +137,7 @@ void TreantTest::update( double dt )
   auto delta = _mouse_position - _mouse_start;
   _treant_root->setPosition( _node_start + delta );
 
+  _treant.systems->update<RotationSystem>( dt );
   _treant_root->updateTree( MatrixAffine2f::identity() );
   _treant.systems->update<treant::ShapeRenderSystem>( dt );
 }
@@ -99,7 +146,6 @@ void TreantTest::draw()
 {
   // clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) );
-
   _treant.systems->system<treant::ShapeRenderSystem>()->draw();
 
 }

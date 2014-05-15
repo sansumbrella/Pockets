@@ -11,6 +11,7 @@
 #include "pockets/ConnectionManager.h"
 #include "cinder/app/App.h"
 #include "treant/LocationComponent.h"
+#include "treant/SizeComponent.h"
 
 #include "Treant.h"
 
@@ -102,6 +103,10 @@ public:
   //! Set registration point for rotation and scaling.
   void            setRegistrationPoint( const ci::Vec2f &loc ){ _transform->registration_point = loc; }
 
+  //! Returns nominal width and height. Up to users to set correctly at this point.
+  ci::Vec2f       getSize() const { return _size->size; }
+  void            setSize( const ci::Vec2f &size ) { _size->size = size; }
+
   //! Returns this TreantNode's transform, as transformed by its parents.
   ci::MatrixAffine2f  getFullTransform() const { return _transform->matrix; }
   //! Returns this TreantNode's transform, ignoring parent transformations.
@@ -130,6 +135,7 @@ protected:
 
   Entity                      _entity;
   LocationRef                 _transform;
+  SizeComponentRef            _size;
 private:
   TreantNode*                 _parent = nullptr;
   std::vector<TreantNodeRef>  _children;
