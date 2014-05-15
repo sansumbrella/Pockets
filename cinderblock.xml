@@ -9,18 +9,13 @@
 	<!-- Pockets -->
 	<headerPattern>src/pockets/*.h</headerPattern>
 	<sourcePattern>src/pockets/*.cpp</sourcePattern>
-	<!-- cobweb -->
-	<headerPattern>src/pockets/cobweb/*.h</headerPattern>
-	<sourcePattern>src/pockets/cobweb/*.cpp</sourcePattern>
-	<!-- physics (needs a cute name; maybe make part of cobweb) -->
-	<headerPattern>src/pockets/physics/*.h</headerPattern>
-	<sourcePattern>src/pockets/physics/*.cpp</sourcePattern>
-	<!-- PupTent -->
-	<headerPattern>src/pockets/puptent/*.h</headerPattern>
-	<sourcePattern>src/pockets/puptent/*.cpp</sourcePattern>
-	<!-- entityx for PupTent -->
+	<!-- treant -->
+	<headerPattern>src/treant/*.h</headerPattern>
+	<sourcePattern>src/treant/*.cpp</sourcePattern>
+	<!-- entityx for treant -->
 	<headerPattern>src/thirdparty/entityx/*.h</headerPattern>
 	<sourcePattern>src/thirdparty/entityx/*.cc</sourcePattern>
+
 	<includePath system="false">src</includePath>
 	<includePath system="false">src/thirdparty</includePath>
 </block>
