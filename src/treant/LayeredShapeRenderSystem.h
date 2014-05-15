@@ -38,16 +38,16 @@ namespace treant
 typedef std::shared_ptr<struct ShapeComponent>      ShapeComponentRef;
 typedef std::shared_ptr<struct LocationComponent>   LocationComponentRef;
 
-typedef std::shared_ptr<struct RenderData> RenderDataRef;
+typedef std::shared_ptr<struct LayeredShapeRenderData> LayeredShapeRenderDataRef;
 /**
- RenderData:
+ LayeredShapeRenderData:
  Composite component.
  Lets us store information needed for LayeredShapeRenderSystem in one fast-to-access place.
  Requires an extra step when defining element components
  */
-struct RenderData : Component<RenderData>
+struct LayeredShapeRenderData : Component<LayeredShapeRenderData>
 {
-  RenderData( ShapeComponentRef mesh, LocationComponentRef locus, int render_layer=0 ):
+  LayeredShapeRenderData( ShapeComponentRef mesh, LocationComponentRef locus, int render_layer=0 ):
   mesh( mesh ),
   locus( locus ),
   render_layer( render_layer )
@@ -74,7 +74,7 @@ struct RenderData : Component<RenderData>
 
  For rendering large background and foreground elements, use a different system.
 
- Each pass is a batch of RenderData components combined into a single
+ Each pass is a batch of LayeredShapeRenderData components combined into a single
  triangle strip. The render passes are:
  1. Normal Pass
  - Geometry is drawn in layer order with premultiplied alpha blending
@@ -96,21 +96,21 @@ public:
   inline void setTexture( ci::gl::TextureRef texture )
   { mTexture = texture; }
   void        receive( const EntityDestroyedEvent &event );
-  void        receive( const ComponentAddedEvent<RenderData> &event );
-  void        receive( const ComponentRemovedEvent<RenderData> &event );
+  void        receive( const ComponentAddedEvent<LayeredShapeRenderData> &event );
+  void        receive( const ComponentRemovedEvent<LayeredShapeRenderData> &event );
   void        checkOrdering() const;
   //! sort the render data in the normal pass by render layer
   //! needed iff you are dynamically changing Locus render_layers
   inline void sort()
   { stable_sort( mGeometry.begin(), mGeometry.end(), &LayeredShapeRenderSystem::layerSort ); }
 private:
-  std::vector<RenderDataRef>    mGeometry;
+  std::vector<LayeredShapeRenderDataRef>    mGeometry;
   std::vector<Vertex2D>         mVertices;
   ci::gl::VboRef                mVbo;
   ci::gl::VaoRef                mAttributes;
   ci::gl::TextureRef            mTexture;
   ci::gl::GlslProgRef           mRenderProg;
-  static bool                 layerSort( const RenderDataRef &lhs, const RenderDataRef &rhs )
+  static bool                 layerSort( const LayeredShapeRenderDataRef &lhs, const LayeredShapeRenderDataRef &rhs )
   { return lhs->render_layer < rhs->render_layer; }
   // maybe add a CameraRef for positioning the scene
   // use a POV and Locus component as camera, allowing dynamic switching

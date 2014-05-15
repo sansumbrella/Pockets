@@ -36,16 +36,19 @@ namespace treant
 
 void ImageRenderSystem::draw( EntityManagerRef entities ) const
 {
-  for( auto entity : entities->entities_with_components<LocationComponent, TextureComponent>() )
+  for( auto entity : entities->entities_with_components<LocationComponent, ImageComponent>() )
   {
     LocationComponentRef  location;
-    TextureComponentRef   texture;
+    ImageComponentRef   texture;
     entity.unpack( location, texture );
 
     gl::ScopedModelMatrix matrix;
     gl::multModelMatrix( Matrix44f( location->matrix ) );
+	if( texture->flipped ) {
+		gl::scale( 1.0f, -1.0f );
+	}
 
-    gl::draw( texture );
+    gl::draw( texture->texture );
   }
 }
 

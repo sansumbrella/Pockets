@@ -27,6 +27,7 @@
 
 #pragma once
 #include "treant/Treant.h"
+#include "cinder/Vector.h"
 
 namespace treant
 {

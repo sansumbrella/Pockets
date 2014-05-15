@@ -50,6 +50,7 @@ class ImageRenderSystem : public System<ImageRenderSystem>
 {
 public:
   void draw( EntityManagerRef entities ) const;
+  void update( EntityManagerRef entities, EventManagerRef events, double dt ) override {}
 };
 
 } // treant::

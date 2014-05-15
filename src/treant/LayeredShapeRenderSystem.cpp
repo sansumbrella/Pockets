@@ -81,8 +81,8 @@ void main()
 void LayeredShapeRenderSystem::configure( EventManagerRef event_manager )
 {
   event_manager->subscribe<EntityDestroyedEvent>( *this );
-  event_manager->subscribe<ComponentAddedEvent<RenderData>>( *this );
-  event_manager->subscribe<ComponentRemovedEvent<RenderData>>( *this );
+  event_manager->subscribe<ComponentAddedEvent<LayeredShapeRenderData>>( *this );
+  event_manager->subscribe<ComponentRemovedEvent<LayeredShapeRenderData>>( *this );
 
   // make buffer large enough to hold all the vertices you will ever need
   mVbo = gl::Vbo::create( GL_ARRAY_BUFFER, 1.0e6 * sizeof( Vertex2D ), nullptr, GL_STREAM_DRAW );
@@ -104,7 +104,7 @@ void LayeredShapeRenderSystem::configure( EventManagerRef event_manager )
   mVbo->unbind();
 }
 
-void LayeredShapeRenderSystem::receive(const ComponentAddedEvent<RenderData> &event)
+void LayeredShapeRenderSystem::receive(const ComponentAddedEvent<LayeredShapeRenderData> &event)
 {
   auto data = event.component;
 
@@ -143,7 +143,7 @@ void LayeredShapeRenderSystem::checkOrdering() const
   }
 }
 
-void LayeredShapeRenderSystem::receive(const ComponentRemovedEvent<RenderData> &event)
+void LayeredShapeRenderSystem::receive(const ComponentRemovedEvent<LayeredShapeRenderData> &event)
 {
   auto render_data = event.component;
   vector_remove( &mGeometry, render_data );
@@ -152,7 +152,7 @@ void LayeredShapeRenderSystem::receive(const ComponentRemovedEvent<RenderData> &
 void LayeredShapeRenderSystem::receive(const EntityDestroyedEvent &event)
 {
   auto entity = event.entity;
-  auto render_data = entity.component<RenderData>();
+  auto render_data = entity.component<LayeredShapeRenderData>();
   if( render_data )
   { // remove render component from our list
     vector_remove( &mGeometry, render_data );

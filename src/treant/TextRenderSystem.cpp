@@ -28,6 +28,8 @@
 #include "treant/TextRenderSystem.h"
 #include "treant/LocationComponent.h"
 
+#include "cinder/app/App.h"
+
 using namespace std;
 using namespace cinder;
 
