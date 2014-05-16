@@ -42,7 +42,7 @@ namespace treent
 std::string defaultFragment()
 {
 return R"(
-#version 150 core
+#version 330 core
 
 in vec4 Color;
 
@@ -58,7 +58,7 @@ void main()
 std::string defaultVertex()
 {
 return R"(
-#version 150 core
+#version 330 core
 
 uniform mat4 ciModelViewProjection;
 
