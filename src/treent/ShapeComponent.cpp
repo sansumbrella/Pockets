@@ -25,13 +25,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "treant/ShapeComponent.h"
+#include "treent/ShapeComponent.h"
 #include "pockets/TextureAtlas.h"
 
 using namespace pockets;
 using namespace cinder;
 
-namespace treant
+namespace treent
 {
 
 void ShapeComponent::transform(const ci::MatrixAffine2f &mat)
@@ -155,4 +155,4 @@ void ShapeComponent::setColor( const ColorA8u &color )
   }
 }
 
-} // treant::
+} // treent::

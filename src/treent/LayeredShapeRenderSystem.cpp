@@ -25,9 +25,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "treant/LayeredShapeRenderSystem.h"
+#include "treent/LayeredShapeRenderSystem.h"
 #include "pockets/CollectionUtilities.hpp"
-#include "treant/LocationComponent.h"
+#include "treent/LocationComponent.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/Context.h"
 #include "cinder/app/App.h"
@@ -36,7 +36,7 @@ using namespace std;
 using namespace cinder;
 using namespace pockets;
 
-namespace treant
+namespace treent
 {
 
 std::string defaultFragment()

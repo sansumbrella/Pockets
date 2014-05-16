@@ -25,40 +25,40 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#pragma once
-#include "Treant.h"
-#include "cinder/MatrixAffine2.h"
+#include "treent/LocationComponent.h"
 
-namespace treant
+using namespace cinder;
+using namespace treent;
+
+MatrixAffine2f LocationComponent::calcLocalMatrix() const
 {
-  typedef std::shared_ptr<struct LocationComponent> LocationComponentRef;
-  /**
-   A Component storing the basic positional information for an Entity
-   Position, Rotation, and Scale
-   Scales and rotates around the Registration Point when using toMatrix()
+  MatrixAffine2f mat;
+  mat.translate( position + registration_point );
+  mat.rotate( rotation );
+  mat.scale( scale );
+  mat.translate( -registration_point );
+  return mat;
+}
 
-   Used by RenderSystem to transform RenderMesh component vertices
-   Updated by movement systems (Physics, Custom Motion)
-   No assumption is made about the units used
-  */
-  struct LocationComponent : Component<LocationComponent>
+void LocationComponent::updateMatrix( ci::MatrixAffine2f parentMatrix )
+{
+  parentMatrix.translate( position + registration_point );
+  parentMatrix.rotate( rotation );
+  parentMatrix.scale( scale );
+  parentMatrix.translate( -registration_point );
+  matrix = parentMatrix;
+}
+
+/*
+void LocationComponent::detachFromParent()
+{
+  if( parent )
   {
-    LocationComponent() = default;
-    LocationComponent( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, std::shared_ptr<LocationComponent> parent=nullptr ):
-    position( pos ),
-    registration_point( registration ),
-    rotation( rot )
-    {}
+    scale *= parent->getScale();
+    rotation += parent->getRotation();
+    position = parent->toMatrix().transformPoint( position );
 
-    ci::Vec2f           position = ci::Vec2f::zero();
-    ci::Vec2f           registration_point = ci::Vec2f::zero();
-    float               rotation = 0.0f;
-    ci::Vec2f           scale = ci::Vec2f::one();
-    ci::MatrixAffine2f  matrix = ci::MatrixAffine2f::identity();
-
-    void updateMatrix( ci::MatrixAffine2f parentMatrix );
-    //! returns a matrix that will transform points based on LocationComponent properties
-    ci::MatrixAffine2f  calcLocalMatrix() const;
-  };
-
-} // treant::
+    parent.reset();
+  }
+}
+*/

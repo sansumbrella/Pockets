@@ -28,12 +28,12 @@
 #pragma once
 
 /*
- Single include for all treant components.
+ Single include for all treent components.
 */
 
-#include "treant/LayeredShapeRenderSystem.h"
-#include "treant/TextRenderSystem.h"
-#include "treant/ShapeComponent.h"
-#include "treant/SizeComponent.h"
-#include "treant/LocationComponent.h"
-#include "treant/ImageRenderSystem.h"
+#include "treent/LayeredShapeRenderSystem.h"
+#include "treent/TextRenderSystem.h"
+#include "treent/ShapeComponent.h"
+#include "treent/SizeComponent.h"
+#include "treent/LocationComponent.h"
+#include "treent/ImageRenderSystem.h"

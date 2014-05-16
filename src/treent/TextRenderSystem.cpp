@@ -25,15 +25,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "treant/TextRenderSystem.h"
-#include "treant/LocationComponent.h"
+#include "treent/TextRenderSystem.h"
+#include "treent/LocationComponent.h"
 
 #include "cinder/app/App.h"
 
 using namespace std;
 using namespace cinder;
 
-namespace treant
+namespace treent
 {
 
 TextComponent::TextComponent( gl::TextureFontRef font, const string &text ):
@@ -84,6 +84,6 @@ void TextRenderSystem::draw() const
   }
 }
 
-} // treant::
+} // treent::
 
 

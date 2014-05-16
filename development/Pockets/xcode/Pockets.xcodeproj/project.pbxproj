@@ -57,23 +57,27 @@
 		1563A4ED18FCE00200D1FF54 /* System.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4DE18FCE00200D1FF54 /* System.cc */; };
 		1563A4EE18FCE00200D1FF54 /* TagsComponent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4E118FCE00200D1FF54 /* TagsComponent.cc */; };
 		1563A4EF18FCE00200D1FF54 /* TagsComponent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4E118FCE00200D1FF54 /* TagsComponent.cc */; };
-		15B530D119243CAE0082ED7B /* TreantNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B530BD19243CAE0082ED7B /* TreantNode.cpp */; };
-		15B530D219243CAE0082ED7B /* TreantNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B530BD19243CAE0082ED7B /* TreantNode.cpp */; };
 		15B530D719243CED0082ED7B /* TextureAtlas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B530D619243CED0082ED7B /* TextureAtlas.cpp */; };
 		15B530D819243CED0082ED7B /* TextureAtlas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B530D619243CED0082ED7B /* TextureAtlas.cpp */; };
-		15B5319F192465C70082ED7B /* TreantSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B5319E192465C70082ED7B /* TreantSample.cpp */; };
-		15B531A0192465C70082ED7B /* TreantSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B5319E192465C70082ED7B /* TreantSample.cpp */; };
-		15B531B219246F540082ED7B /* LocationComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531AD19246F540082ED7B /* LocationComponent.cpp */; };
-		15B531B319246F540082ED7B /* LocationComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531AD19246F540082ED7B /* LocationComponent.cpp */; };
-		15B531B419246F540082ED7B /* ShapeComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531AE19246F540082ED7B /* ShapeComponent.cpp */; };
-		15B531B519246F540082ED7B /* ShapeComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531AE19246F540082ED7B /* ShapeComponent.cpp */; };
-		15B531B619246F540082ED7B /* LayeredShapeRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531AF19246F540082ED7B /* LayeredShapeRenderSystem.cpp */; };
-		15B531B719246F540082ED7B /* LayeredShapeRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531AF19246F540082ED7B /* LayeredShapeRenderSystem.cpp */; };
-		15B531B819246F540082ED7B /* Treant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531B019246F540082ED7B /* Treant.cpp */; };
-		15B531B919246F540082ED7B /* Treant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531B019246F540082ED7B /* Treant.cpp */; };
-		15B531BE19247BF20082ED7B /* SizeComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531BC19247BF20082ED7B /* SizeComponent.cpp */; };
-		15B531BF19247BF20082ED7B /* SizeComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B531BC19247BF20082ED7B /* SizeComponent.cpp */; };
-		15D7CAD31924FB7600C3C3C3 /* TextRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D7CAD11924FB7600C3C3C3 /* TextRenderSystem.cpp */; };
+		15C4254F19258B9A004ACEEF /* ImageRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4253E19258B9A004ACEEF /* ImageRenderSystem.cpp */; };
+		15C4255019258B9A004ACEEF /* ImageRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4253E19258B9A004ACEEF /* ImageRenderSystem.cpp */; };
+		15C4255119258B9A004ACEEF /* LayeredShapeRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254019258B9A004ACEEF /* LayeredShapeRenderSystem.cpp */; };
+		15C4255219258B9A004ACEEF /* LayeredShapeRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254019258B9A004ACEEF /* LayeredShapeRenderSystem.cpp */; };
+		15C4255319258B9A004ACEEF /* LocationComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254219258B9A004ACEEF /* LocationComponent.cpp */; };
+		15C4255419258B9A004ACEEF /* LocationComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254219258B9A004ACEEF /* LocationComponent.cpp */; };
+		15C4255519258B9A004ACEEF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 15C4254419258B9A004ACEEF /* README.md */; };
+		15C4255619258B9A004ACEEF /* ShapeComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254519258B9A004ACEEF /* ShapeComponent.cpp */; };
+		15C4255719258B9A004ACEEF /* ShapeComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254519258B9A004ACEEF /* ShapeComponent.cpp */; };
+		15C4255819258B9A004ACEEF /* SizeComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254719258B9A004ACEEF /* SizeComponent.cpp */; };
+		15C4255919258B9A004ACEEF /* SizeComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254719258B9A004ACEEF /* SizeComponent.cpp */; };
+		15C4255A19258B9A004ACEEF /* TextRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254919258B9A004ACEEF /* TextRenderSystem.cpp */; };
+		15C4255B19258B9A004ACEEF /* TextRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254919258B9A004ACEEF /* TextRenderSystem.cpp */; };
+		15C4255C19258B9A004ACEEF /* Treent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254B19258B9A004ACEEF /* Treent.cpp */; };
+		15C4255D19258B9A004ACEEF /* Treent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254B19258B9A004ACEEF /* Treent.cpp */; };
+		15C4255E19258B9A004ACEEF /* TreentNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254D19258B9A004ACEEF /* TreentNode.cpp */; };
+		15C4255F19258B9A004ACEEF /* TreentNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254D19258B9A004ACEEF /* TreentNode.cpp */; };
+		15C4256219258BFE004ACEEF /* TreentSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4256119258BFE004ACEEF /* TreentSample.cpp */; };
+		15C4256319258BFE004ACEEF /* TreentSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4256119258BFE004ACEEF /* TreentSample.cpp */; };
 		15F72B6118C8150A000DE2EB /* AnimationUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F72B4C18C8150A000DE2EB /* AnimationUtils.cpp */; };
 		15F72B6318C8150A000DE2EB /* ColorUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F72B4F18C8150A000DE2EB /* ColorUtils.cpp */; };
 		15F72B6518C8150A000DE2EB /* ConnectionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F72B5118C8150A000DE2EB /* ConnectionManager.cpp */; };
@@ -159,24 +163,28 @@
 		1563A4DF18FCE00200D1FF54 /* System.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
 		1563A4E118FCE00200D1FF54 /* TagsComponent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TagsComponent.cc; sourceTree = "<group>"; };
 		1563A4E218FCE00200D1FF54 /* TagsComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsComponent.h; sourceTree = "<group>"; };
-		15B530BD19243CAE0082ED7B /* TreantNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TreantNode.cpp; sourceTree = "<group>"; };
-		15B530BE19243CAE0082ED7B /* TreantNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreantNode.h; sourceTree = "<group>"; };
 		15B530D519243CED0082ED7B /* TextureAtlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureAtlas.h; sourceTree = "<group>"; };
 		15B530D619243CED0082ED7B /* TextureAtlas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureAtlas.cpp; sourceTree = "<group>"; };
-		15B5319D192465C70082ED7B /* TreantSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreantSample.h; sourceTree = "<group>"; };
-		15B5319E192465C70082ED7B /* TreantSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TreantSample.cpp; sourceTree = "<group>"; };
-		15B531A819246F540082ED7B /* LocationComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationComponent.h; sourceTree = "<group>"; };
-		15B531A919246F540082ED7B /* ShapeComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShapeComponent.h; sourceTree = "<group>"; };
-		15B531AA19246F540082ED7B /* LayeredShapeRenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayeredShapeRenderSystem.h; sourceTree = "<group>"; };
-		15B531AB19246F540082ED7B /* Treant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Treant.h; sourceTree = "<group>"; };
-		15B531AD19246F540082ED7B /* LocationComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocationComponent.cpp; sourceTree = "<group>"; };
-		15B531AE19246F540082ED7B /* ShapeComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeComponent.cpp; sourceTree = "<group>"; };
-		15B531AF19246F540082ED7B /* LayeredShapeRenderSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayeredShapeRenderSystem.cpp; sourceTree = "<group>"; };
-		15B531B019246F540082ED7B /* Treant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Treant.cpp; sourceTree = "<group>"; };
-		15B531BC19247BF20082ED7B /* SizeComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SizeComponent.cpp; sourceTree = "<group>"; };
-		15B531BD19247BF20082ED7B /* SizeComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SizeComponent.h; sourceTree = "<group>"; };
-		15D7CAD11924FB7600C3C3C3 /* TextRenderSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextRenderSystem.cpp; sourceTree = "<group>"; };
-		15D7CAD21924FB7600C3C3C3 /* TextRenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextRenderSystem.h; sourceTree = "<group>"; };
+		15C4253D19258B9A004ACEEF /* Components.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Components.h; sourceTree = "<group>"; };
+		15C4253E19258B9A004ACEEF /* ImageRenderSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageRenderSystem.cpp; sourceTree = "<group>"; };
+		15C4253F19258B9A004ACEEF /* ImageRenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageRenderSystem.h; sourceTree = "<group>"; };
+		15C4254019258B9A004ACEEF /* LayeredShapeRenderSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayeredShapeRenderSystem.cpp; sourceTree = "<group>"; };
+		15C4254119258B9A004ACEEF /* LayeredShapeRenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayeredShapeRenderSystem.h; sourceTree = "<group>"; };
+		15C4254219258B9A004ACEEF /* LocationComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocationComponent.cpp; sourceTree = "<group>"; };
+		15C4254319258B9A004ACEEF /* LocationComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationComponent.h; sourceTree = "<group>"; };
+		15C4254419258B9A004ACEEF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		15C4254519258B9A004ACEEF /* ShapeComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeComponent.cpp; sourceTree = "<group>"; };
+		15C4254619258B9A004ACEEF /* ShapeComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShapeComponent.h; sourceTree = "<group>"; };
+		15C4254719258B9A004ACEEF /* SizeComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SizeComponent.cpp; sourceTree = "<group>"; };
+		15C4254819258B9A004ACEEF /* SizeComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SizeComponent.h; sourceTree = "<group>"; };
+		15C4254919258B9A004ACEEF /* TextRenderSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextRenderSystem.cpp; sourceTree = "<group>"; };
+		15C4254A19258B9A004ACEEF /* TextRenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextRenderSystem.h; sourceTree = "<group>"; };
+		15C4254B19258B9A004ACEEF /* Treent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Treent.cpp; sourceTree = "<group>"; };
+		15C4254C19258B9A004ACEEF /* Treent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Treent.h; sourceTree = "<group>"; };
+		15C4254D19258B9A004ACEEF /* TreentNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TreentNode.cpp; sourceTree = "<group>"; };
+		15C4254E19258B9A004ACEEF /* TreentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreentNode.h; sourceTree = "<group>"; };
+		15C4256019258BFE004ACEEF /* TreentSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreentSample.h; sourceTree = "<group>"; };
+		15C4256119258BFE004ACEEF /* TreentSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TreentSample.cpp; sourceTree = "<group>"; };
 		15F72B4C18C8150A000DE2EB /* AnimationUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationUtils.cpp; sourceTree = "<group>"; };
 		15F72B4D18C8150A000DE2EB /* AnimationUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationUtils.h; sourceTree = "<group>"; };
 		15F72B4E18C8150A000DE2EB /* CollectionUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CollectionUtilities.hpp; sourceTree = "<group>"; };
@@ -247,7 +255,7 @@
 		01B97315FEAEA392516A2CEA /* Blocks */ = {
 			isa = PBXGroup;
 			children = (
-				15B530AB19243CAE0082ED7B /* treant */,
+				15C4253C19258B9A004ACEEF /* treent */,
 				15F72B4B18C8150A000DE2EB /* pockets */,
 			);
 			name = Blocks;
@@ -288,8 +296,8 @@
 		1502794118CB6676005473FB /* Samples */ = {
 			isa = PBXGroup;
 			children = (
-				15B5319D192465C70082ED7B /* TreantSample.h */,
-				15B5319E192465C70082ED7B /* TreantSample.cpp */,
+				15C4256019258BFE004ACEEF /* TreentSample.h */,
+				15C4256119258BFE004ACEEF /* TreentSample.cpp */,
 				15027AC018CB9844005473FB /* TexturePackingSample.h */,
 				15027AC118CB9844005473FB /* TexturePackingSample.cpp */,
 				15027AB918CB66AE005473FB /* PhysicsScrolling.cpp */,
@@ -397,26 +405,30 @@
 			path = tags;
 			sourceTree = "<group>";
 		};
-		15B530AB19243CAE0082ED7B /* treant */ = {
+		15C4253C19258B9A004ACEEF /* treent */ = {
 			isa = PBXGroup;
 			children = (
-				15B531A819246F540082ED7B /* LocationComponent.h */,
-				15B531AD19246F540082ED7B /* LocationComponent.cpp */,
-				15B531A919246F540082ED7B /* ShapeComponent.h */,
-				15B531AE19246F540082ED7B /* ShapeComponent.cpp */,
-				15B531AA19246F540082ED7B /* LayeredShapeRenderSystem.h */,
-				15B531AF19246F540082ED7B /* LayeredShapeRenderSystem.cpp */,
-				15B531AB19246F540082ED7B /* Treant.h */,
-				15B531B019246F540082ED7B /* Treant.cpp */,
-				15B530BE19243CAE0082ED7B /* TreantNode.h */,
-				15B530BD19243CAE0082ED7B /* TreantNode.cpp */,
-				15B531BC19247BF20082ED7B /* SizeComponent.cpp */,
-				15B531BD19247BF20082ED7B /* SizeComponent.h */,
-				15D7CAD11924FB7600C3C3C3 /* TextRenderSystem.cpp */,
-				15D7CAD21924FB7600C3C3C3 /* TextRenderSystem.h */,
+				15C4253D19258B9A004ACEEF /* Components.h */,
+				15C4253E19258B9A004ACEEF /* ImageRenderSystem.cpp */,
+				15C4253F19258B9A004ACEEF /* ImageRenderSystem.h */,
+				15C4254019258B9A004ACEEF /* LayeredShapeRenderSystem.cpp */,
+				15C4254119258B9A004ACEEF /* LayeredShapeRenderSystem.h */,
+				15C4254219258B9A004ACEEF /* LocationComponent.cpp */,
+				15C4254319258B9A004ACEEF /* LocationComponent.h */,
+				15C4254419258B9A004ACEEF /* README.md */,
+				15C4254519258B9A004ACEEF /* ShapeComponent.cpp */,
+				15C4254619258B9A004ACEEF /* ShapeComponent.h */,
+				15C4254719258B9A004ACEEF /* SizeComponent.cpp */,
+				15C4254819258B9A004ACEEF /* SizeComponent.h */,
+				15C4254919258B9A004ACEEF /* TextRenderSystem.cpp */,
+				15C4254A19258B9A004ACEEF /* TextRenderSystem.h */,
+				15C4254B19258B9A004ACEEF /* Treent.cpp */,
+				15C4254C19258B9A004ACEEF /* Treent.h */,
+				15C4254D19258B9A004ACEEF /* TreentNode.cpp */,
+				15C4254E19258B9A004ACEEF /* TreentNode.h */,
 			);
-			name = treant;
-			path = ../../../src/treant;
+			name = treent;
+			path = ../../../src/treent;
 			sourceTree = "<group>";
 		};
 		15F72B4B18C8150A000DE2EB /* pockets */ = {
@@ -586,6 +598,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15C4255519258B9A004ACEEF /* README.md in Resources */,
 				70CD6A9A959B45E3A5D75EF5 /* CinderApp.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -597,27 +610,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15C4255919258B9A004ACEEF /* SizeComponent.cpp in Sources */,
+				15C4255719258B9A004ACEEF /* ShapeComponent.cpp in Sources */,
 				155BEF9118CBA749000A36FC /* ButtonBase.cpp in Sources */,
+				15C4255B19258B9A004ACEEF /* TextRenderSystem.cpp in Sources */,
 				155BEFB218CBA807000A36FC /* TextureNode.cpp in Sources */,
+				15C4255419258B9A004ACEEF /* LocationComponent.cpp in Sources */,
 				155BEFAC18CBA749000A36FC /* TypeNode.cpp in Sources */,
 				150EE01418CA259F000AFD9E /* Constraints.cpp in Sources */,
+				15C4256319258BFE004ACEEF /* TreentSample.cpp in Sources */,
+				15C4255F19258B9A004ACEEF /* TreentNode.cpp in Sources */,
 				1563A4EF18FCE00200D1FF54 /* TagsComponent.cc in Sources */,
-				15B531BF19247BF20082ED7B /* SizeComponent.cpp in Sources */,
-				15B531B919246F540082ED7B /* Treant.cpp in Sources */,
-				15B530D219243CAE0082ED7B /* TreantNode.cpp in Sources */,
 				1563A4ED18FCE00200D1FF54 /* System.cc in Sources */,
-				15B531A0192465C70082ED7B /* TreantSample.cpp in Sources */,
+				15C4255019258B9A004ACEEF /* ImageRenderSystem.cpp in Sources */,
 				1563A4E918FCE00200D1FF54 /* Entity.cc in Sources */,
 				150EE01618CA259F000AFD9E /* Effectors.cpp in Sources */,
 				155BEFB518CBAA3E000A36FC /* RenderMesh.cpp in Sources */,
 				1563A4BF18FCDDB200D1FF54 /* Pockets_Tests.cpp in Sources */,
 				1563A4EB18FCE00200D1FF54 /* Event.cc in Sources */,
+				15C4255D19258B9A004ACEEF /* Treent.cpp in Sources */,
 				150EE01818CA259F000AFD9E /* World.cpp in Sources */,
-				15B531B519246F540082ED7B /* ShapeComponent.cpp in Sources */,
+				15C4255219258B9A004ACEEF /* LayeredShapeRenderSystem.cpp in Sources */,
 				155BEF9E18CBA749000A36FC /* SimpleButton.cpp in Sources */,
 				15027ABF18CB67FF005473FB /* Scene.cpp in Sources */,
-				15B531B319246F540082ED7B /* LocationComponent.cpp in Sources */,
-				15B531B719246F540082ED7B /* LayeredShapeRenderSystem.cpp in Sources */,
 				155BEFAF18CBA7BD000A36FC /* Locus.cpp in Sources */,
 				1563A4E718FCE00200D1FF54 /* Dependencies.cc in Sources */,
 				155BEF9518CBA749000A36FC /* Node.cpp in Sources */,
@@ -629,23 +644,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15C4255C19258B9A004ACEEF /* Treent.cpp in Sources */,
 				15F72B6718C8150A000DE2EB /* CurveUtils.cpp in Sources */,
-				15B531B619246F540082ED7B /* LayeredShapeRenderSystem.cpp in Sources */,
 				15F72B6D18C8150A000DE2EB /* Packing.cpp in Sources */,
-				15B5319F192465C70082ED7B /* TreantSample.cpp in Sources */,
 				155BEFB418CBAA3E000A36FC /* RenderMesh.cpp in Sources */,
 				150EE01718CA259F000AFD9E /* World.cpp in Sources */,
 				1563A4E618FCE00200D1FF54 /* Dependencies.cc in Sources */,
 				15F72B6118C8150A000DE2EB /* AnimationUtils.cpp in Sources */,
+				15C4255A19258B9A004ACEEF /* TextRenderSystem.cpp in Sources */,
+				15C4254F19258B9A004ACEEF /* ImageRenderSystem.cpp in Sources */,
+				15C4256219258BFE004ACEEF /* TreentSample.cpp in Sources */,
 				155BEFB118CBA807000A36FC /* TextureNode.cpp in Sources */,
-				15B531B419246F540082ED7B /* ShapeComponent.cpp in Sources */,
+				15C4255119258B9A004ACEEF /* LayeredShapeRenderSystem.cpp in Sources */,
 				15F72B6518C8150A000DE2EB /* ConnectionManager.cpp in Sources */,
 				1563A4EC18FCE00200D1FF54 /* System.cc in Sources */,
 				150EE01318CA259F000AFD9E /* Constraints.cpp in Sources */,
-				15B530D119243CAE0082ED7B /* TreantNode.cpp in Sources */,
 				155BEF9018CBA749000A36FC /* ButtonBase.cpp in Sources */,
-				15D7CAD31924FB7600C3C3C3 /* TextRenderSystem.cpp in Sources */,
 				15F72B6F18C8150A000DE2EB /* Profiling.cpp in Sources */,
+				15C4255E19258B9A004ACEEF /* TreentNode.cpp in Sources */,
 				15B530D719243CED0082ED7B /* TextureAtlas.cpp in Sources */,
 				155BEF9418CBA749000A36FC /* Node.cpp in Sources */,
 				155BEFAE18CBA7BD000A36FC /* Locus.cpp in Sources */,
@@ -654,14 +670,14 @@
 				15027ABE18CB67FF005473FB /* Scene.cpp in Sources */,
 				150EE01518CA259F000AFD9E /* Effectors.cpp in Sources */,
 				15F72B6318C8150A000DE2EB /* ColorUtils.cpp in Sources */,
-				15B531BE19247BF20082ED7B /* SizeComponent.cpp in Sources */,
 				1507D30E190D91380087B630 /* RootNode.cpp in Sources */,
-				15B531B819246F540082ED7B /* Treant.cpp in Sources */,
+				15C4255319258B9A004ACEEF /* LocationComponent.cpp in Sources */,
 				15F72B6B18C8150A000DE2EB /* ImagePacker.cpp in Sources */,
 				15027ABB18CB66AE005473FB /* PhysicsScrolling.cpp in Sources */,
+				15C4255619258B9A004ACEEF /* ShapeComponent.cpp in Sources */,
 				1563A4E818FCE00200D1FF54 /* Entity.cc in Sources */,
-				15B531B219246F540082ED7B /* LocationComponent.cpp in Sources */,
 				15F72B6918C8150A000DE2EB /* FileUtils.cpp in Sources */,
+				15C4255819258B9A004ACEEF /* SizeComponent.cpp in Sources */,
 				1563A4EA18FCE00200D1FF54 /* Event.cc in Sources */,
 				1563A4EE18FCE00200D1FF54 /* TagsComponent.cc in Sources */,
 				155BEF9D18CBA749000A36FC /* SimpleButton.cpp in Sources */,

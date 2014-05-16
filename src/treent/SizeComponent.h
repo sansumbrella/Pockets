@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 David Wicks, sansumbrella.com
+ * Copyright (c) 2014 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -25,40 +25,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "treant/LocationComponent.h"
+#pragma once
+#include "treent/Treent.h"
+#include "cinder/Vector.h"
 
-using namespace cinder;
-using namespace treant;
-
-MatrixAffine2f LocationComponent::calcLocalMatrix() const
+namespace treent
 {
-  MatrixAffine2f mat;
-  mat.translate( position + registration_point );
-  mat.rotate( rotation );
-  mat.scale( scale );
-  mat.translate( -registration_point );
-  return mat;
+
+typedef std::shared_ptr<struct SizeComponent> SizeComponentRef;
+
+/**
+
+ */
+struct SizeComponent : Component<SizeComponent>
+{
+  SizeComponent() = default;
+  SizeComponent( const ci::Vec2f &size ):
+    size( size )
+  {}
+
+  float width() const { return size.x; }
+  float height() const { return size.y; }
+  ci::Vec2f size = ci::Vec2f::zero();
+};
+
 }
 
-void LocationComponent::updateMatrix( ci::MatrixAffine2f parentMatrix )
-{
-  parentMatrix.translate( position + registration_point );
-  parentMatrix.rotate( rotation );
-  parentMatrix.scale( scale );
-  parentMatrix.translate( -registration_point );
-  matrix = parentMatrix;
-}
-
-/*
-void LocationComponent::detachFromParent()
-{
-  if( parent )
-  {
-    scale *= parent->getScale();
-    rotation += parent->getRotation();
-    position = parent->toMatrix().transformPoint( position );
-
-    parent.reset();
-  }
-}
-*/

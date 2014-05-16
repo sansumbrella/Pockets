@@ -26,7 +26,7 @@
  */
 
 #pragma once
-#include "treant/Treant.h"
+#include "treent/Treent.h"
 #include "cinder/Color.h"
 #include "cinder/Rect.h"
 #include "cinder/Matrix.h"
@@ -36,7 +36,7 @@ namespace pockets
   struct SpriteData;
 }
 
-namespace treant
+namespace treent
 {
 struct Vertex2D
 {
@@ -133,4 +133,4 @@ void ShapeComponent::setAsRibbon( const T &skeleton, float width, bool closed )
   vertices.at( end * 2 ).position = c + north;
   vertices.at( end * 2 + 1 ).position = c - north;
 }
-} // treant::
+} // treent::

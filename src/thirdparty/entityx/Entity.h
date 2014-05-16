@@ -28,8 +28,8 @@
 #include "entityx/help/NonCopyable.h"
 
 
-namespace treant {
-  class TreantNode;
+namespace treent {
+  class TreentNode;
 }
 
 namespace entityx {
@@ -145,7 +145,7 @@ public:
  private:
   weak_ptr<EntityManager> manager_;
   Entity::Id id_ = INVALID;
-  friend treant::TreantNode;
+  friend treent::TreentNode;
 };
 
 

@@ -1,5 +1,5 @@
 /*
-  (Ref) 2014  (om
+ * Copyright (c) 2013 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -26,34 +26,39 @@
  */
 
 #pragma once
+#include "Treent.h"
+#include "cinder/MatrixAffine2.h"
 
-#include "entityx/entityx.h"
-
-/**
-  Treant marries entity system's non-hierarchical, non-homogenous
-  structure with a hierarchical, semi-homogenous structure.
-
-  It provides:
-  - a scene graph (Tree) for organizing spatial entities.
-  - entity system hooks on every node.
-  - RAII memory management of entities and components. When TreantNodes fall out of scope, their entities are destroyed.
-  - Convenient method for defining composite objects (your constructor). You can add children and/or components at runtime.
- */
-namespace treant
+namespace treent
 {
-  using namespace entityx;
-  typedef std::shared_ptr<class TreantNode> TreantNodeRef;
-  typedef std::shared_ptr<EventManager>     EventManagerRef;
-  typedef std::shared_ptr<EntityManager>    EntityManagerRef;
-  typedef std::shared_ptr<SystemManager>    SystemManagerRef;
-
   typedef std::shared_ptr<struct LocationComponent> LocationComponentRef;
+  /**
+   A Component storing the basic positional information for an Entity
+   Position, Rotation, and Scale
+   Scales and rotates around the Registration Point when using toMatrix()
 
-  struct Treant
+   Used by RenderSystem to transform RenderMesh component vertices
+   Updated by movement systems (Physics, Custom Motion)
+   No assumption is made about the units used
+  */
+  struct LocationComponent : Component<LocationComponent>
   {
-    EventManagerRef   events   = EventManagerRef( new EventManager() );
-    EntityManagerRef  entities = EntityManagerRef( new EntityManager( events ) );
-    SystemManagerRef  systems  = SystemManagerRef( new SystemManager( entities, events ) );
-    TreantNodeRef createRoot();
+    LocationComponent() = default;
+    LocationComponent( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, std::shared_ptr<LocationComponent> parent=nullptr ):
+    position( pos ),
+    registration_point( registration ),
+    rotation( rot )
+    {}
+
+    ci::Vec2f           position = ci::Vec2f::zero();
+    ci::Vec2f           registration_point = ci::Vec2f::zero();
+    float               rotation = 0.0f;
+    ci::Vec2f           scale = ci::Vec2f::one();
+    ci::MatrixAffine2f  matrix = ci::MatrixAffine2f::identity();
+
+    void updateMatrix( ci::MatrixAffine2f parentMatrix );
+    //! returns a matrix that will transform points based on LocationComponent properties
+    ci::MatrixAffine2f  calcLocalMatrix() const;
   };
-}
+
+} // treent::

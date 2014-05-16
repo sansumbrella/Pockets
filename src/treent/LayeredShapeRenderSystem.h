@@ -27,12 +27,12 @@
 
 #pragma once
 
-#include "treant/Treant.h"
-#include "treant/ShapeComponent.h"
+#include "treent/Treent.h"
+#include "treent/ShapeComponent.h"
 #include "cinder/gl/VboMesh.h"
 #include "cinder/gl/Vbo.h"
 
-namespace treant
+namespace treent
 {
 
 typedef std::shared_ptr<struct ShapeComponent>      ShapeComponentRef;
@@ -116,4 +116,4 @@ private:
   // use a POV and Locus component as camera, allowing dynamic switching
 };
 
-} // treant::
+} // treent::

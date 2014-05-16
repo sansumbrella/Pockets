@@ -25,14 +25,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "Treant.h"
-#include "TreantNode.h"
+#include "Treent.h"
+#include "TreentNode.h"
 
-namespace treant
+namespace treent
 {
-  TreantNodeRef Treant::createRoot()
+  TreentNodeRef Treent::createRoot()
   {
-    return std::make_shared<TreantNode>( entities->create() );
+    return std::make_shared<TreentNode>( entities->create() );
   }
-} // treant::
+} // treent::
 

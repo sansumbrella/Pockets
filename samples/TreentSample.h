@@ -25,32 +25,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "treant/ImageRenderSystem.h"
-#include "treant/LocationComponent.h"
+#pragma once
+#include "pockets/Scene.h"
+#include "Treent.h"
 
-using namespace std;
-using namespace cinder;
-
-namespace treant
+class TreentTest : public pk::Scene
 {
+public:
+  TreentTest() = default;
+  ~TreentTest() = default;
 
-void ImageRenderSystem::draw( EntityManagerRef entities ) const
-{
-  for( auto entity : entities->entities_with_components<LocationComponent, ImageComponent>() )
-  {
-    LocationComponentRef  location;
-    ImageComponentRef   texture;
-    entity.unpack( location, texture );
+  void setup() override;
+  void connect( ci::app::WindowRef window ) override;
+  void update( double dt ) override;
+  void draw() override;
 
-    gl::ScopedModelMatrix matrix;
-    gl::multModelMatrix( Matrix44f( location->matrix ) );
-	if( texture->flipped ) {
-		gl::scale( 1.0f, -1.0f );
-	}
+  void mouseDown( ci::app::MouseEvent event );
+  void mouseDrag( ci::app::MouseEvent event );
+  void mouseUp( ci::app::MouseEvent event );
 
-    gl::draw( texture->texture );
-  }
-}
-
-} // treant::
-
+private:
+  treent::Treent          _treent;
+  treent::TreentNodeRef   _treent_root;
+  ci::Vec2f               _mouse_position = ci::Vec2f::zero();
+  ci::Vec2f               _mouse_start = ci::Vec2f::zero();
+  ci::Vec2f               _node_start = ci::Vec2f::zero();
+  bool                    _mouse_down = false;
+};

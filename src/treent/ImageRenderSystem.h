@@ -26,29 +26,32 @@
  */
 
 #pragma once
-#include "pockets/Scene.h"
-#include "Treant.h"
 
-class TreantTest : public pk::Scene
+#include "treent/Treent.h"
+#include "cinder/gl/TextureFont.h"
+
+namespace treent
+{
+
+typedef std::shared_ptr<struct ImageComponent>       ImageComponentRef;
+
+struct ImageComponent : Component<ImageComponent>
+{
+  ImageComponent() = default;
+  ImageComponent( ci::gl::TextureRef texture ):
+    texture( texture )
+  {}
+
+  ci::gl::TextureRef  texture = nullptr;
+  bool                flipped  = false;
+};
+
+class ImageRenderSystem : public System<ImageRenderSystem>
 {
 public:
-  TreantTest() = default;
-  ~TreantTest() = default;
-
-  void setup() override;
-  void connect( ci::app::WindowRef window ) override;
-  void update( double dt ) override;
-  void draw() override;
-
-  void mouseDown( ci::app::MouseEvent event );
-  void mouseDrag( ci::app::MouseEvent event );
-  void mouseUp( ci::app::MouseEvent event );
-
-private:
-  treant::Treant          _treant;
-  treant::TreantNodeRef   _treant_root;
-  ci::Vec2f               _mouse_position = ci::Vec2f::zero();
-  ci::Vec2f               _mouse_start = ci::Vec2f::zero();
-  ci::Vec2f               _node_start = ci::Vec2f::zero();
-  bool                    _mouse_down = false;
+  void draw( EntityManagerRef entities ) const;
+  void update( EntityManagerRef entities, EventManagerRef events, double dt ) override {}
 };
+
+} // treent::
+

@@ -1,5 +1,5 @@
 //
-//  TreantNode.h
+//  TreentNode.h
 //  WordShift
 //
 //  Created by David Wicks on 3/23/13.
@@ -10,39 +10,39 @@
 #include "pockets/Locus.h"
 #include "pockets/ConnectionManager.h"
 #include "cinder/app/App.h"
-#include "treant/LocationComponent.h"
-#include "treant/SizeComponent.h"
+#include "treent/LocationComponent.h"
+#include "treent/SizeComponent.h"
 
-#include "Treant.h"
+#include "Treent.h"
 
-namespace treant
+namespace treent
 {
 
-typedef std::unique_ptr<class TreantNode> TreantNodeUniqueRef;
+typedef std::unique_ptr<class TreentNode> TreentNodeUniqueRef;
 /**
- Base TreantNode type in a simple scene graph.
- 
+ Base TreentNode type in a simple scene graph.
+
  Allows you to compose entities hierarchically.
  Entities allow you to compose components non-hierarchically.
- 
+
  UI propagation happens within tree.
  Transform update happens within tree.
  Rendering happens outside of the tree, in Rendering Systems.
- 
- Override TreantNode and add components to your entity in your constructor.
- All TreantNodes have a Location and a Size component.
+
+ Override TreentNode and add components to your entity in your constructor.
+ All TreentNodes have a Location and a Size component.
  Parent locations update their children's overall transform in updateTree().
  Child sizes update their parent's overall size in updateTree()'s return loop.
 
- TreantNodes are connected in a tree, with a single root TreantNode connecting to
+ TreentNodes are connected in a tree, with a single root TreentNode connecting to
  window UI events and propagating them to all of its children.
  */
-class TreantNode
+class TreentNode
 {
 public:
-  //! construct an empty TreantNode
-  explicit TreantNode( const Entity &entity );
-  virtual ~TreantNode();
+  //! construct an empty TreentNode
+  explicit TreentNode( const Entity &entity );
+  virtual ~TreentNode();
   // Mouse and touch interaction
   bool            deepTouchesBegan( ci::app::TouchEvent &event );
   bool            deepTouchesMoved( ci::app::TouchEvent &event );
@@ -51,7 +51,7 @@ public:
   bool            deepMouseDrag( ci::app::MouseEvent &event );
   bool            deepMouseUp( ci::app::MouseEvent &event );
 
-  //! Call to update the entire TreantNode hierarchy.
+  //! Call to update the entire TreentNode hierarchy.
   void            updateTree( const ci::MatrixAffine2f &matrix );
 
   //
@@ -85,15 +85,15 @@ public:
   std::shared_ptr<T>  createChild( Arg &&arg, Args && ... args );
 
   // Child Manipulation
-  //! add a TreantNode as a child; will receive connect/disconnect events and have its locus parented
-  void            appendChild( TreantNodeRef element );
-  void            insertChildAt( TreantNodeRef element, size_t pos );
+  //! add a TreentNode as a child; will receive connect/disconnect events and have its locus parented
+  void            appendChild( TreentNodeRef element );
+  void            insertChildAt( TreentNodeRef element, size_t pos );
   size_t          numChildren() const { return mChildren.size(); }
-  TreantNodeRef   getChildAt( size_t index ){ return mChildren.at( index ); }
-  void            setChildIndex( TreantNodeRef child, size_t index );
+  TreentNodeRef   getChildAt( size_t index ){ return mChildren.at( index ); }
+  void            setChildIndex( TreentNodeRef child, size_t index );
 
-  void            removeChild( TreantNodeRef element );
-  void            removeChild( TreantNode *element );
+  void            removeChild( TreentNodeRef element );
+  void            removeChild( TreentNode *element );
 
   //! Removes all children.
   void            clearChildren();
@@ -118,19 +118,19 @@ public:
   ci::Vec2f       getSize() const { return mSize->size; }
   void            setSize( const ci::Vec2f &size ) { mSize->size = size; }
 
-  //! Returns this TreantNode's transform, as transformed by its parents.
+  //! Returns this TreentNode's transform, as transformed by its parents.
   ci::MatrixAffine2f    getFullTransform() const { return mTransform->matrix; }
-  //! Returns this TreantNode's transform, ignoring parent transformations.
+  //! Returns this TreentNode's transform, ignoring parent transformations.
   ci::MatrixAffine2f    getLocalTransform() const { return mTransform->calcLocalMatrix(); }
 
   LocationComponentRef  getTransform() const { return mTransform; }
 
-  //! called when a child is added to this TreantNode
-  virtual void    childAdded( TreantNodeRef element ){}
-  TreantNode*     getParent(){ return mParent; }
+  //! called when a child is added to this TreentNode
+  virtual void    childAdded( TreentNodeRef element ){}
+  TreentNode*     getParent(){ return mParent; }
 
   //! return child vector, allowing manipulation of each child, but not the vector
-  const std::vector<TreantNodeRef>& getChildren() const { return mChildren; }
+  const std::vector<TreentNodeRef>& getChildren() const { return mChildren; }
 protected:
   // noop default implementations of interaction events
   // return true to indicate you handled the event and stop propagation
@@ -146,16 +146,16 @@ protected:
   LocationComponentRef        mTransform;
   SizeComponentRef            mSize;
 private:
-  TreantNode*                 mParent = nullptr;
-  std::vector<TreantNodeRef>  mChildren;
+  TreentNode*                 mParent = nullptr;
+  std::vector<TreentNodeRef>  mChildren;
 
-  //! Sets the TreantNode's parent, notifying previous parent (if any)
-  void            setParent( TreantNode *parent );
+  //! Sets the TreentNode's parent, notifying previous parent (if any)
+  void            setParent( TreentNode *parent );
 };
 
 
 template<typename T, typename ...Args>
-std::shared_ptr<T>  TreantNode::createChild( Args & ... args )
+std::shared_ptr<T>  TreentNode::createChild( Args & ... args )
 {
 	auto manager = mEntity.manager_.lock( );
 	auto child = std::make_shared<T>( manager->create( ), std::forward<Args>( args ) ... );
@@ -165,7 +165,7 @@ std::shared_ptr<T>  TreantNode::createChild( Args & ... args )
 
 
 template<typename T, typename Arg, typename ... Args>
-std::shared_ptr<T>  TreantNode::createChild( Arg && arg, Args && ... args )
+std::shared_ptr<T>  TreentNode::createChild( Arg && arg, Args && ... args )
 {
 	auto manager = mEntity.manager_.lock( );
 	auto child = std::make_shared<T>( manager->create(), arg, std::forward<Args>( args ) ... );
@@ -173,4 +173,4 @@ std::shared_ptr<T>  TreantNode::createChild( Arg && arg, Args && ... args )
 	return child;
 }
 
-} // treant::
+} // treent::

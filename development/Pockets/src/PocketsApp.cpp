@@ -9,7 +9,7 @@
 
 #include "PhysicsScrolling.h"
 #include "TexturePackingSample.h"
-#include "TreantSample.h"
+#include "TreentSample.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -44,7 +44,7 @@ void PocketsApp::setup()
 {
   gl::enableVerticalSync();
   mScenes.push_back( make_pair( "Physics Scrolling Thing", &make_shared<PhysicsScrolling> ) );
-  mScenes.push_back( make_pair( "Treant Test", &make_shared<TreantTest> ) );
+  mScenes.push_back( make_pair( "Treant Test", &make_shared<TreentTest> ) );
   // Pack a stack of textures into a sprite sheet
   mScenes.push_back( make_pair( "Texture Packer", &make_shared<TexturePackingSample> ) );
   // Load an SVG file and turn layers into sprites

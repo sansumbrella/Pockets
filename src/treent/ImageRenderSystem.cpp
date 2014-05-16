@@ -25,29 +25,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#pragma once
-#include "treant/Treant.h"
-#include "cinder/Vector.h"
+#include "treent/ImageRenderSystem.h"
+#include "treent/LocationComponent.h"
 
-namespace treant
+using namespace std;
+using namespace cinder;
+
+namespace treent
 {
 
-typedef std::shared_ptr<struct SizeComponent> SizeComponentRef;
-
-/**
-
- */
-struct SizeComponent : Component<SizeComponent>
+void ImageRenderSystem::draw( EntityManagerRef entities ) const
 {
-  SizeComponent() = default;
-  SizeComponent( const ci::Vec2f &size ):
-    size( size )
-  {}
+  for( auto entity : entities->entities_with_components<LocationComponent, ImageComponent>() )
+  {
+    LocationComponentRef  location;
+    ImageComponentRef   texture;
+    entity.unpack( location, texture );
 
-  float width() const { return size.x; }
-  float height() const { return size.y; }
-  ci::Vec2f size = ci::Vec2f::zero();
-};
+    gl::ScopedModelMatrix matrix;
+    gl::multModelMatrix( Matrix44f( location->matrix ) );
+	if( texture->flipped ) {
+		gl::scale( 1.0f, -1.0f );
+	}
 
+    gl::draw( texture->texture );
+  }
 }
+
+} // treent::
 

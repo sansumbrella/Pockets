@@ -25,13 +25,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "TreantSample.h"
-#include "TreantNode.h"
+#include "TreentSample.h"
+#include "TreentNode.h"
 #include "cinder/gl/gl.h"
 
-#include "treant/LayeredShapeRenderSystem.h"
-#include "treant/TextRenderSystem.h"
-#include "treant/ShapeComponent.h"
+#include "treent/LayeredShapeRenderSystem.h"
+#include "treent/TextRenderSystem.h"
+#include "treent/ShapeComponent.h"
 #include "cinder/Rand.h"
 
 #include <memory>
@@ -43,7 +43,7 @@ using namespace cinder;
 using namespace cinder::app;
 using namespace std;
 
-struct RotationComponent : treant::Component<RotationComponent>
+struct RotationComponent : treent::Component<RotationComponent>
 {
   RotationComponent() = default;
   RotationComponent( float rate ):
@@ -53,14 +53,14 @@ struct RotationComponent : treant::Component<RotationComponent>
   float  rate = 1.0f;
 };
 
-class RotationSystem : public treant::System<RotationSystem>
+class RotationSystem : public treent::System<RotationSystem>
 {
 public:
-  void update( treant::EntityManagerRef entities, treant::EventManagerRef events, double dt ) override
+  void update( treent::EntityManagerRef entities, treent::EventManagerRef events, double dt ) override
   {
-    for( auto entity : entities->entities_with_components<RotationComponent, treant::LocationComponent>() )
+    for( auto entity : entities->entities_with_components<RotationComponent, treent::LocationComponent>() )
     {
-      treant::LocationComponentRef  location;
+      treent::LocationComponentRef  location;
       shared_ptr<RotationComponent> rotation;
       entity.unpack( location, rotation );
 #if USE_SMOOTHED_ROTATION
@@ -75,21 +75,21 @@ public:
   }
 };
 
-treant::TreantNodeRef addOrbiter( treant::TreantNodeRef center, bool warm, float max_distance, int depth ) {
+treent::TreentNodeRef addOrbiter( treent::TreentNodeRef center, bool warm, float max_distance, int depth ) {
 
   float size = center->getSize().length() / 5.0f;
-  auto moon = center->createChild<treant::TreantNode>();
+  auto moon = center->createChild<treent::TreentNode>();
   moon->setSize( Vec2f::one() * size );
 
   Vec2f position = randVec2f() * randFloat( max_distance / 4, max_distance );
   moon->setPosition( position );
   moon->setRegistrationPoint( -position );
-  auto shape = moon->assign<treant::ShapeComponent>();
+  auto shape = moon->assign<treent::ShapeComponent>();
   auto color = warm ? ColorA( CM_HSV, randFloat( 0.02f, 0.18f ), 1.0f, 1.0f, 1.0f ) : ColorA( CM_HSV, randFloat( 0.45f, 0.62f ), 1.0f, 0.7f, 1.0f );
 
   shape->setAsBox( Rectf( -size, -size, size, size ) );
   shape->setColor( color );
-  moon->assign<treant::LayeredShapeRenderData>( shape, moon->getTransform(), depth );
+  moon->assign<treent::LayeredShapeRenderData>( shape, moon->getTransform(), depth );
   moon->assign<RotationComponent>( lmap<float>( position.length(), 0.0f, getWindowSize().length(), 1.0f, 0.1f ) );
 
   if( size > 10.0f && randFloat() < 0.5f ) {
@@ -99,30 +99,33 @@ treant::TreantNodeRef addOrbiter( treant::TreantNodeRef center, bool warm, float
   return moon;
 }
 
-void TreantTest::setup()
+void TreentTest::setup()
 {
-  _treant.systems->add<treant::LayeredShapeRenderSystem>();
-  _treant.systems->add<treant::TextRenderSystem>();
-  _treant.systems->add<RotationSystem>();
-  _treant.systems->configure();
+  _treent.systems->add<treent::LayeredShapeRenderSystem>();
+  _treent.systems->add<treent::TextRenderSystem>();
+  _treent.systems->add<RotationSystem>();
+  _treent.systems->configure();
 
-  _treant_root = _treant.createRoot();
-  _treant_root->setPosition( getWindowCenter() );
-  _treant_root->setSize( getWindowSize() / 4 );
+  _treent_root = _treent.createRoot();
+  _treent_root->setPosition( getWindowCenter() );
+  _treent_root->setSize( getWindowSize() / 4 );
+  auto shape = _treent_root->assign<treent::ShapeComponent>();
+  shape->setAsCircle( Vec2f::one() * getWindowWidth() / 6, 0, M_PI * 2, 6 );  // hexagon
+  _treent_root->assign<treent::LayeredShapeRenderData>( shape, _treent_root->getTransform(), 0 );
 
   Font arial( "Arial Bold", 24.0f );
   gl::TextureFontRef font = gl::TextureFont::create( arial, gl::TextureFont::Format().premultiply() );
 
   for( int i = 0; i < 1000; ++i )
   {
-    auto moon = addOrbiter( _treant_root, true, getWindowSize().length(), 0 );
+    auto moon = addOrbiter( _treent_root, true, getWindowSize().length(), 0 );
     if( randFloat() < 0.05f ) {
-      moon->assign<treant::TextComponent>( font, "I am planet " + to_string( i ) );
+      moon->assign<treent::TextComponent>( font, "I am planet " + to_string( i ) );
     }
   }
 }
 
-void TreantTest::connect( app::WindowRef window )
+void TreentTest::connect( app::WindowRef window )
 {
   storeConnection( window->getSignalMouseDown().connect( [this]( const MouseEvent &e )
     { mouseDown( e ); } ) );
@@ -132,45 +135,45 @@ void TreantTest::connect( app::WindowRef window )
                                                         { mouseUp( e ); } ) );
 }
 
-void TreantTest::mouseDown( MouseEvent event )
+void TreentTest::mouseDown( MouseEvent event )
 {
   _mouse_down = true;
   _mouse_position = event.getPos();
   _mouse_start = event.getPos();
-  _node_start = _treant_root->getPosition();
+  _node_start = _treent_root->getPosition();
 }
 
-void TreantTest::mouseDrag( MouseEvent event )
+void TreentTest::mouseDrag( MouseEvent event )
 {
   _mouse_position = event.getPos();
 }
 
-void TreantTest::mouseUp( MouseEvent event )
+void TreentTest::mouseUp( MouseEvent event )
 {
   _mouse_down = false;
   _mouse_position = event.getPos();
 }
 
-void TreantTest::update( double dt )
+void TreentTest::update( double dt )
 {
   auto delta = _mouse_position - _mouse_start;
-  _treant_root->setPosition( _node_start + delta );
+  _treent_root->setPosition( _node_start + delta );
 
-  _treant.systems->update<RotationSystem>( dt );
-  _treant_root->updateTree( MatrixAffine2f::identity() );
-  _treant.systems->update<treant::LayeredShapeRenderSystem>( dt );
-  _treant.systems->update<treant::TextRenderSystem>( dt );
+  _treent.systems->update<RotationSystem>( dt );
+  _treent_root->updateTree( MatrixAffine2f::identity() );
+  _treent.systems->update<treent::LayeredShapeRenderSystem>( dt );
+  _treent.systems->update<treent::TextRenderSystem>( dt );
 }
 
-void TreantTest::draw()
+void TreentTest::draw()
 {
   // clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) );
 
-  _treant.systems->system<treant::LayeredShapeRenderSystem>()->draw();
+  _treent.systems->system<treent::LayeredShapeRenderSystem>()->draw();
 
   gl::ScopedAlphaBlend premult( true );
-  _treant.systems->system<treant::TextRenderSystem>()->draw();
+  _treent.systems->system<treent::TextRenderSystem>()->draw();
 
 }
 

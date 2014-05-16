@@ -1,12 +1,12 @@
 //
-//  TreantNode.cpp
+//  TreentNode.cpp
 //  WordShift
 //
 //  Created by David Wicks on 3/23/13.
 //  Copyright (c) 2013 __MyCompanyName__. All rights reserved.
 //
 
-#include "TreantNode.h"
+#include "TreentNode.h"
 #include "pockets/CollectionUtilities.hpp"
 #include "cinder/gl/gl.h"
 
@@ -14,17 +14,17 @@ using namespace std;
 using namespace cinder;
 using namespace pockets;
 
-namespace treant
+namespace treent
 {
 
-TreantNode::TreantNode( const Entity &entity ):
+TreentNode::TreentNode( const Entity &entity ):
   mEntity( entity )
 {
   mTransform = mEntity.assign<LocationComponent>();
   mSize = mEntity.assign<SizeComponent>();
 }
 
-TreantNode::~TreantNode()
+TreentNode::~TreentNode()
 {
   for( auto &child : mChildren )
   {
@@ -33,38 +33,38 @@ TreantNode::~TreantNode()
   mEntity.destroy();
 }
 
-void TreantNode::appendChild( TreantNodeRef element )
+void TreentNode::appendChild( TreentNodeRef element )
 {
   insertChildAt( element, mChildren.size() );
 }
 
-void TreantNode::insertChildAt( TreantNodeRef child, size_t index )
+void TreentNode::insertChildAt( TreentNodeRef child, size_t index )
 {
   child->setParent( this );
   mChildren.insert( mChildren.begin() + index, child );
   childAdded( child );
 }
 
-void TreantNode::setChildIndex( TreantNodeRef child, size_t index )
+void TreentNode::setChildIndex( TreentNodeRef child, size_t index )
 {
   vector_remove( &mChildren, child );
   index = math<int32_t>::min( index, mChildren.size() );
   mChildren.insert( mChildren.begin() + index, child );
 }
 
-void TreantNode::removeChild( TreantNodeRef element )
+void TreentNode::removeChild( TreentNodeRef element )
 {
   vector_remove( &mChildren, element );
   element->mParent = nullptr;
 }
 
-void TreantNode::removeChild( TreantNode *element )
+void TreentNode::removeChild( TreentNode *element )
 {
-  vector_erase_if( &mChildren, [element]( TreantNodeRef &n ){ return n.get() == element; } );
+  vector_erase_if( &mChildren, [element]( TreentNodeRef &n ){ return n.get() == element; } );
   element->mParent = nullptr;
 }
 
-void TreantNode::clearChildren()
+void TreentNode::clearChildren()
 {
 	for( auto &child : mChildren ) {
 		child->mParent = nullptr;
@@ -72,17 +72,17 @@ void TreantNode::clearChildren()
 	mChildren.clear();
 }
 
-void TreantNode::setParent( TreantNode *parent )
+void TreentNode::setParent( TreentNode *parent )
 {
   if( mParent && mParent != parent )
   { mParent->removeChild( this ); }
   mParent = parent;
 }
 
-bool TreantNode::deepTouchesBegan( ci::app::TouchEvent &event )
+bool TreentNode::deepTouchesBegan( ci::app::TouchEvent &event )
 {
   bool captured = touchesBegan( event );
-  for( TreantNodeRef &child : mChildren )
+  for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
     { break; }
@@ -91,10 +91,10 @@ bool TreantNode::deepTouchesBegan( ci::app::TouchEvent &event )
   return captured;
 }
 
-bool TreantNode::deepTouchesMoved( ci::app::TouchEvent &event )
+bool TreentNode::deepTouchesMoved( ci::app::TouchEvent &event )
 {
   bool captured = touchesMoved( event );
-  for( TreantNodeRef &child : mChildren )
+  for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
     { break; }
@@ -103,10 +103,10 @@ bool TreantNode::deepTouchesMoved( ci::app::TouchEvent &event )
   return captured;
 }
 
-bool TreantNode::deepTouchesEnded( ci::app::TouchEvent &event )
+bool TreentNode::deepTouchesEnded( ci::app::TouchEvent &event )
 {
   bool captured = touchesEnded( event );
-  for( TreantNodeRef &child : mChildren )
+  for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
     { break; }
@@ -115,10 +115,10 @@ bool TreantNode::deepTouchesEnded( ci::app::TouchEvent &event )
   return captured;
 }
 
-bool TreantNode::deepMouseDown( ci::app::MouseEvent &event )
+bool TreentNode::deepMouseDown( ci::app::MouseEvent &event )
 {
   bool captured = mouseDown( event );
-  for( TreantNodeRef &child : mChildren )
+  for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
     { break; }
@@ -127,10 +127,10 @@ bool TreantNode::deepMouseDown( ci::app::MouseEvent &event )
   return captured;
 }
 
-bool TreantNode::deepMouseDrag( ci::app::MouseEvent &event )
+bool TreentNode::deepMouseDrag( ci::app::MouseEvent &event )
 {
   bool captured = mouseDrag( event );
-  for( TreantNodeRef &child : mChildren )
+  for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
     { break; }
@@ -139,10 +139,10 @@ bool TreantNode::deepMouseDrag( ci::app::MouseEvent &event )
   return captured;
 }
 
-bool TreantNode::deepMouseUp( ci::app::MouseEvent &event )
+bool TreentNode::deepMouseUp( ci::app::MouseEvent &event )
 {
   bool captured = mouseUp( event );
-  for( TreantNodeRef &child : mChildren )
+  for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
     { break; }
@@ -151,20 +151,20 @@ bool TreantNode::deepMouseUp( ci::app::MouseEvent &event )
   return captured;
 }
 
-void TreantNode::updateTree( const ci::MatrixAffine2f &matrix )
+void TreentNode::updateTree( const ci::MatrixAffine2f &matrix )
 {
   mTransform->updateMatrix( matrix );
-  for( TreantNodeRef &child : mChildren ) {
+  for( TreentNodeRef &child : mChildren ) {
     child->updateTree( mTransform->matrix );
   }
 }
 
-void TreantNode::deepCancelInteractions()
+void TreentNode::deepCancelInteractions()
 {
   cancelInteractions();
-  for( TreantNodeRef &child : mChildren ) {
+  for( TreentNodeRef &child : mChildren ) {
     child->deepCancelInteractions();
   }
 }
 
-} // treant::
+} // treent::

@@ -27,10 +27,10 @@
 
 #pragma once
 
-#include "treant/Treant.h"
+#include "treent/Treent.h"
 #include "cinder/gl/TextureFont.h"
 
-namespace treant
+namespace treent
 {
 
 typedef std::vector<std::pair<uint16_t, ci::Vec2f>> GlyphPlacements;
@@ -58,5 +58,5 @@ private:
   std::map<ci::gl::TextureFontRef, std::vector<std::pair<LocationComponentRef, TextComponentRef>>> _grouped_text;
 };
 
-} // treant::
+} // treent::
 
