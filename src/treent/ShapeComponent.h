@@ -41,13 +41,13 @@ namespace treent
 struct Vertex2D
 {
   Vertex2D() = default;
-  Vertex2D( const ci::Vec2f &position, const ci::ColorA &color, const ci::Vec2f &uv ):
+  Vertex2D( const ci::Vec2f &position, const ci::ColorA8u &color, const ci::Vec2f &uv ):
     position( position ),
     color( color ),
     tex_coord( uv )
   {}
   ci::Vec2f     position    = ci::Vec2f::zero();
-  ci::ColorA    color       = ci::ColorA::white();
+  ci::ColorA8u  color       = ci::ColorA8u::white();
   ci::Vec2f     tex_coord   = ci::Vec2f::zero();
 };
 /**
