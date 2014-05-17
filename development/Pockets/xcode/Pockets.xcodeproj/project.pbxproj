@@ -58,6 +58,8 @@
 		1563A4EE18FCE00200D1FF54 /* TagsComponent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4E118FCE00200D1FF54 /* TagsComponent.cc */; };
 		1563A4EF18FCE00200D1FF54 /* TagsComponent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4E118FCE00200D1FF54 /* TagsComponent.cc */; };
 		159A3E401927E12800935D8F /* TreentGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159A3E3F1927E12800935D8F /* TreentGui.cpp */; };
+		159A3E431927E86700935D8F /* GuiSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159A3E411927E86700935D8F /* GuiSystem.cpp */; };
+		159A3E441927E86700935D8F /* GuiSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159A3E411927E86700935D8F /* GuiSystem.cpp */; };
 		15B530D719243CED0082ED7B /* TextureAtlas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B530D619243CED0082ED7B /* TextureAtlas.cpp */; };
 		15B530D819243CED0082ED7B /* TextureAtlas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B530D619243CED0082ED7B /* TextureAtlas.cpp */; };
 		15C4254F19258B9A004ACEEF /* ImageRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4253E19258B9A004ACEEF /* ImageRenderSystem.cpp */; };
@@ -165,6 +167,8 @@
 		1563A4E218FCE00200D1FF54 /* TagsComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsComponent.h; sourceTree = "<group>"; };
 		159A3E3E1927E12800935D8F /* TreentGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreentGui.h; sourceTree = "<group>"; };
 		159A3E3F1927E12800935D8F /* TreentGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TreentGui.cpp; sourceTree = "<group>"; };
+		159A3E411927E86700935D8F /* GuiSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiSystem.cpp; sourceTree = "<group>"; };
+		159A3E421927E86700935D8F /* GuiSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiSystem.h; sourceTree = "<group>"; };
 		15B530D519243CED0082ED7B /* TextureAtlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureAtlas.h; sourceTree = "<group>"; };
 		15B530D619243CED0082ED7B /* TextureAtlas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureAtlas.cpp; sourceTree = "<group>"; };
 		15C4253D19258B9A004ACEEF /* Components.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Components.h; sourceTree = "<group>"; };
@@ -430,6 +434,8 @@
 				15C4254C19258B9A004ACEEF /* Treent.h */,
 				15C4254D19258B9A004ACEEF /* TreentNode.cpp */,
 				15C4254E19258B9A004ACEEF /* TreentNode.h */,
+				159A3E411927E86700935D8F /* GuiSystem.cpp */,
+				159A3E421927E86700935D8F /* GuiSystem.h */,
 			);
 			name = treent;
 			path = ../../../src/treent;
@@ -637,6 +643,7 @@
 				155BEF9E18CBA749000A36FC /* SimpleButton.cpp in Sources */,
 				15027ABF18CB67FF005473FB /* Scene.cpp in Sources */,
 				155BEFAF18CBA7BD000A36FC /* Locus.cpp in Sources */,
+				159A3E441927E86700935D8F /* GuiSystem.cpp in Sources */,
 				1563A4E718FCE00200D1FF54 /* Dependencies.cc in Sources */,
 				155BEF9518CBA749000A36FC /* Node.cpp in Sources */,
 				15B530D819243CED0082ED7B /* TextureAtlas.cpp in Sources */,
@@ -679,6 +686,7 @@
 				15F72B6B18C8150A000DE2EB /* ImagePacker.cpp in Sources */,
 				15027ABB18CB66AE005473FB /* PhysicsScrolling.cpp in Sources */,
 				15C4255619258B9A004ACEEF /* ShapeComponent.cpp in Sources */,
+				159A3E431927E86700935D8F /* GuiSystem.cpp in Sources */,
 				1563A4E818FCE00200D1FF54 /* Entity.cc in Sources */,
 				15F72B6918C8150A000DE2EB /* FileUtils.cpp in Sources */,
 				15C4255819258B9A004ACEEF /* SizeComponent.cpp in Sources */,

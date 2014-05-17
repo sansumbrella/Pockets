@@ -6,7 +6,8 @@
 //  Copyright (c) 2013 __MyCompanyName__. All rights reserved.
 //
 
-#include "TreentNode.h"
+#include "treent/TreentNode.h"
+#include "treent/GuiSystem.h"
 #include "pockets/CollectionUtilities.hpp"
 #include "cinder/gl/gl.h"
 
@@ -81,11 +82,16 @@ void TreentNode::setParent( TreentNode *parent )
 
 bool TreentNode::deepTouchesBegan( ci::app::TouchEvent &event )
 {
-  bool captured = touchesBegan( event );
+  bool captured = false;
+  auto gui_component = component<GuiComponent>();
+  if( gui_component )
+    captured = gui_component->touchesBegan( event );
+
   for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
-    { break; }
+      break;
+
     captured = child->deepTouchesBegan( event );
   }
   return captured;
@@ -93,11 +99,16 @@ bool TreentNode::deepTouchesBegan( ci::app::TouchEvent &event )
 
 bool TreentNode::deepTouchesMoved( ci::app::TouchEvent &event )
 {
-  bool captured = touchesMoved( event );
+  bool captured = false;
+  auto gui_component = component<GuiComponent>();
+  if( gui_component )
+    captured = gui_component->touchesMoved( event );
+
   for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
-    { break; }
+      break;
+
     captured = child->deepTouchesMoved( event );
   }
   return captured;
@@ -105,11 +116,16 @@ bool TreentNode::deepTouchesMoved( ci::app::TouchEvent &event )
 
 bool TreentNode::deepTouchesEnded( ci::app::TouchEvent &event )
 {
-  bool captured = touchesEnded( event );
+  bool captured = false;
+  auto gui_component = component<GuiComponent>();
+  if( gui_component )
+    captured = gui_component->touchesEnded( event );
+
   for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
-    { break; }
+      break;
+
     captured = child->deepTouchesEnded( event );
   }
   return captured;
@@ -117,11 +133,16 @@ bool TreentNode::deepTouchesEnded( ci::app::TouchEvent &event )
 
 bool TreentNode::deepMouseDown( ci::app::MouseEvent &event )
 {
-  bool captured = mouseDown( event );
+  bool captured = false;
+  auto gui_component = component<GuiComponent>();
+  if( gui_component )
+    captured = gui_component->mouseDown( event );
+
   for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
-    { break; }
+      break;
+
     captured = child->deepMouseDown( event );
   }
   return captured;
@@ -129,11 +150,16 @@ bool TreentNode::deepMouseDown( ci::app::MouseEvent &event )
 
 bool TreentNode::deepMouseDrag( ci::app::MouseEvent &event )
 {
-  bool captured = mouseDrag( event );
+  bool captured = false;
+  auto gui_component = component<GuiComponent>();
+  if( gui_component )
+    captured = gui_component->mouseDrag( event );
+
   for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
-    { break; }
+      break;
+
     captured = child->deepMouseDrag( event );
   }
   return captured;
@@ -141,11 +167,16 @@ bool TreentNode::deepMouseDrag( ci::app::MouseEvent &event )
 
 bool TreentNode::deepMouseUp( ci::app::MouseEvent &event )
 {
-  bool captured = mouseUp( event );
+  bool captured = false;
+  auto gui_component = component<GuiComponent>();
+  if( gui_component )
+    captured = gui_component->mouseUp( event );
+
   for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
-    { break; }
+      break;
+
     captured = child->deepMouseUp( event );
   }
   return captured;

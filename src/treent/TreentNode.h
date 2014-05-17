@@ -20,6 +20,7 @@ namespace treent
 {
 
 typedef std::unique_ptr<class TreentNode> TreentNodeUniqueRef;
+
 /**
  Base TreentNode type in a simple scene graph.
 
@@ -133,15 +134,6 @@ public:
   //! return child vector, allowing manipulation of each child, but not the vector
   const std::vector<TreentNodeRef>& getChildren() const { return mChildren; }
 protected:
-  // noop default implementations of interaction events
-  // return true to indicate you handled the event and stop propagation
-  // in general, only begin/end events will be captured by a single object
-  virtual bool    touchesBegan( ci::app::TouchEvent &event ) { return false; }
-  virtual bool    touchesMoved( ci::app::TouchEvent &event ) { return false; }
-  virtual bool    touchesEnded( ci::app::TouchEvent &event ) { return false; }
-  virtual bool    mouseDown( ci::app::MouseEvent &event ) { return false; }
-  virtual bool    mouseDrag( ci::app::MouseEvent &event ) { return false; }
-  virtual bool    mouseUp( ci::app::MouseEvent &event ) { return false; }
 
   Entity                      mEntity;
   LocationComponentRef        mTransform;
