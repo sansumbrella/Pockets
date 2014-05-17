@@ -29,6 +29,24 @@
 
 #include "entityx/entityx.h"
 
+// Lift most of entityx into the treent namespace.
+namespace treent
+{
+  using entityx::Entity;
+  using entityx::Receiver;
+  using entityx::Component;
+  using entityx::System;
+  using entityx::EventManager;
+  using entityx::EntityManager;
+  using entityx::SystemManager;
+
+  using entityx::Event;
+  using entityx::EntityCreatedEvent;
+  using entityx::EntityDestroyedEvent;
+  using entityx::ComponentAddedEvent;
+  using entityx::ComponentRemovedEvent;
+}
+
 /**
   Treent marries entity system's non-hierarchical, non-homogenous
   structure with a hierarchical, semi-homogenous structure.
@@ -41,7 +59,6 @@
  */
 namespace treent
 {
-  using namespace entityx;
   typedef std::shared_ptr<class TreentNode> TreentNodeRef;
   typedef std::shared_ptr<EventManager>     EventManagerRef;
   typedef std::shared_ptr<EntityManager>    EntityManagerRef;

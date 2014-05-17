@@ -7,6 +7,7 @@
 //
 
 #pragma once
+
 #include "pockets/Locus.h"
 #include "pockets/ConnectionManager.h"
 #include "cinder/app/App.h"
