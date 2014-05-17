@@ -45,8 +45,10 @@ public:
   void mouseUp( ci::app::MouseEvent event );
 
 private:
+
   treent::Treent          _treent;
   treent::TreentNodeRef   _treent_root;
+
   ci::Vec2f               _mouse_position = ci::Vec2f::zero();
   ci::Vec2f               _mouse_start = ci::Vec2f::zero();
   ci::Vec2f               _node_start = ci::Vec2f::zero();

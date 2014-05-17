@@ -25,7 +25,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "TreentSample.h"
+#include "TreentGui.h"
 #include "TreentNode.h"
 #include "cinder/gl/gl.h"
 
@@ -42,6 +42,9 @@ using namespace pockets;
 using namespace cinder;
 using namespace cinder::app;
 using namespace std;
+
+namespace
+{
 
 struct RotationComponent : treent::Component<RotationComponent>
 {
@@ -99,7 +102,9 @@ treent::TreentNodeRef addOrbiter( treent::TreentNodeRef center, bool warm, float
   return moon;
 }
 
-void TreentTest::setup()
+} // anon::
+
+void TreentGui::setup()
 {
   _treent.systems->add<treent::LayeredShapeRenderSystem>();
   _treent.systems->add<treent::TextRenderSystem>();
@@ -125,7 +130,7 @@ void TreentTest::setup()
   }
 }
 
-void TreentTest::connect( app::WindowRef window )
+void TreentGui::connect( app::WindowRef window )
 {
   storeConnection( window->getSignalMouseDown().connect( [this]( const MouseEvent &e )
     { mouseDown( e ); } ) );
@@ -135,7 +140,7 @@ void TreentTest::connect( app::WindowRef window )
                                                         { mouseUp( e ); } ) );
 }
 
-void TreentTest::mouseDown( MouseEvent event )
+void TreentGui::mouseDown( MouseEvent event )
 {
   _mouse_down = true;
   _mouse_position = event.getPos();
@@ -143,18 +148,18 @@ void TreentTest::mouseDown( MouseEvent event )
   _node_start = _treent_root->getPosition();
 }
 
-void TreentTest::mouseDrag( MouseEvent event )
+void TreentGui::mouseDrag( MouseEvent event )
 {
   _mouse_position = event.getPos();
 }
 
-void TreentTest::mouseUp( MouseEvent event )
+void TreentGui::mouseUp( MouseEvent event )
 {
   _mouse_down = false;
   _mouse_position = event.getPos();
 }
 
-void TreentTest::update( double dt )
+void TreentGui::update( double dt )
 {
   auto delta = _mouse_position - _mouse_start;
   _treent_root->setPosition( _node_start + delta );
@@ -165,7 +170,7 @@ void TreentTest::update( double dt )
   _treent.systems->update<treent::TextRenderSystem>( dt );
 }
 
-void TreentTest::draw()
+void TreentGui::draw()
 {
   // clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) );

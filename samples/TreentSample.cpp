@@ -43,11 +43,14 @@ using namespace cinder;
 using namespace cinder::app;
 using namespace std;
 
+namespace
+{
+
 struct RotationComponent : treent::Component<RotationComponent>
 {
   RotationComponent() = default;
   RotationComponent( float rate ):
-    rate( rate )
+  rate( rate )
   {}
 
   float  rate = 1.0f;
@@ -95,9 +98,11 @@ treent::TreentNodeRef addOrbiter( treent::TreentNodeRef center, bool warm, float
   if( size > 10.0f && randFloat() < 0.5f ) {
     addOrbiter( moon, !warm, max_distance / 8, depth + 1 );
   }
-
+  
   return moon;
 }
+  
+} // anon::
 
 void TreentTest::setup()
 {

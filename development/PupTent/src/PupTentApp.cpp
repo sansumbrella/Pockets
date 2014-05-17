@@ -352,7 +352,7 @@ void PupTentApp::update()
   mSystemManager->update<RenderSystem>( dt );
   double ms = up.getSeconds() * 1000;
   mAverageUpdateTime = (mAverageUpdateTime * 59.0 + ms) / 60.0;
-  if( getElapsedFrames() % 90 == 0 )
+  if( getElapsedFrames() % 60 == 0 )
   {
     cout << "Update: " << mAverageUpdateTime << ", " << ms << endl;
   }

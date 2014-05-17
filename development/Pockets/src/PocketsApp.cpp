@@ -10,6 +10,7 @@
 #include "PhysicsScrolling.h"
 #include "TexturePackingSample.h"
 #include "TreentSample.h"
+#include "TreentGui.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -44,13 +45,15 @@ void PocketsApp::setup()
 {
   gl::enableVerticalSync();
   mScenes.push_back( make_pair( "Physics Scrolling Thing", &make_shared<PhysicsScrolling> ) );
+  // Rotating things.
   mScenes.push_back( make_pair( "Treant Test", &make_shared<TreentTest> ) );
+  // In progress: buttons, a scroll panel, a slider.
+  mScenes.push_back( make_pair( "Treent GUI", &make_shared<TreentGui> ) );
   // Pack a stack of textures into a sprite sheet
   mScenes.push_back( make_pair( "Texture Packer", &make_shared<TexturePackingSample> ) );
   // Load an SVG file and turn layers into sprites
   mScenes.push_back( make_pair( "SVG Spritifier", &make_shared<TexturePackingSample> ) );
   mScenes.push_back( make_pair( "Sprite Animation", &make_shared<Scene> ) );
-  mScenes.push_back( make_pair( "Simple GUI", &make_shared<Scene> ) );
 
   buildMenu();
 }

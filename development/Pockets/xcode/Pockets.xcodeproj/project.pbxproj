@@ -57,6 +57,7 @@
 		1563A4ED18FCE00200D1FF54 /* System.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4DE18FCE00200D1FF54 /* System.cc */; };
 		1563A4EE18FCE00200D1FF54 /* TagsComponent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4E118FCE00200D1FF54 /* TagsComponent.cc */; };
 		1563A4EF18FCE00200D1FF54 /* TagsComponent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4E118FCE00200D1FF54 /* TagsComponent.cc */; };
+		159A3E401927E12800935D8F /* TreentGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159A3E3F1927E12800935D8F /* TreentGui.cpp */; };
 		15B530D719243CED0082ED7B /* TextureAtlas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B530D619243CED0082ED7B /* TextureAtlas.cpp */; };
 		15B530D819243CED0082ED7B /* TextureAtlas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B530D619243CED0082ED7B /* TextureAtlas.cpp */; };
 		15C4254F19258B9A004ACEEF /* ImageRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4253E19258B9A004ACEEF /* ImageRenderSystem.cpp */; };
@@ -77,7 +78,6 @@
 		15C4255E19258B9A004ACEEF /* TreentNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254D19258B9A004ACEEF /* TreentNode.cpp */; };
 		15C4255F19258B9A004ACEEF /* TreentNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4254D19258B9A004ACEEF /* TreentNode.cpp */; };
 		15C4256219258BFE004ACEEF /* TreentSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4256119258BFE004ACEEF /* TreentSample.cpp */; };
-		15C4256319258BFE004ACEEF /* TreentSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15C4256119258BFE004ACEEF /* TreentSample.cpp */; };
 		15F72B6118C8150A000DE2EB /* AnimationUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F72B4C18C8150A000DE2EB /* AnimationUtils.cpp */; };
 		15F72B6318C8150A000DE2EB /* ColorUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F72B4F18C8150A000DE2EB /* ColorUtils.cpp */; };
 		15F72B6518C8150A000DE2EB /* ConnectionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F72B5118C8150A000DE2EB /* ConnectionManager.cpp */; };
@@ -163,6 +163,8 @@
 		1563A4DF18FCE00200D1FF54 /* System.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
 		1563A4E118FCE00200D1FF54 /* TagsComponent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TagsComponent.cc; sourceTree = "<group>"; };
 		1563A4E218FCE00200D1FF54 /* TagsComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsComponent.h; sourceTree = "<group>"; };
+		159A3E3E1927E12800935D8F /* TreentGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreentGui.h; sourceTree = "<group>"; };
+		159A3E3F1927E12800935D8F /* TreentGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TreentGui.cpp; sourceTree = "<group>"; };
 		15B530D519243CED0082ED7B /* TextureAtlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureAtlas.h; sourceTree = "<group>"; };
 		15B530D619243CED0082ED7B /* TextureAtlas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureAtlas.cpp; sourceTree = "<group>"; };
 		15C4253D19258B9A004ACEEF /* Components.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Components.h; sourceTree = "<group>"; };
@@ -296,6 +298,8 @@
 		1502794118CB6676005473FB /* Samples */ = {
 			isa = PBXGroup;
 			children = (
+				159A3E3E1927E12800935D8F /* TreentGui.h */,
+				159A3E3F1927E12800935D8F /* TreentGui.cpp */,
 				15C4256019258BFE004ACEEF /* TreentSample.h */,
 				15C4256119258BFE004ACEEF /* TreentSample.cpp */,
 				15027AC018CB9844005473FB /* TexturePackingSample.h */,
@@ -618,7 +622,6 @@
 				15C4255419258B9A004ACEEF /* LocationComponent.cpp in Sources */,
 				155BEFAC18CBA749000A36FC /* TypeNode.cpp in Sources */,
 				150EE01418CA259F000AFD9E /* Constraints.cpp in Sources */,
-				15C4256319258BFE004ACEEF /* TreentSample.cpp in Sources */,
 				15C4255F19258B9A004ACEEF /* TreentNode.cpp in Sources */,
 				1563A4EF18FCE00200D1FF54 /* TagsComponent.cc in Sources */,
 				1563A4ED18FCE00200D1FF54 /* System.cc in Sources */,
@@ -648,6 +651,7 @@
 				15F72B6718C8150A000DE2EB /* CurveUtils.cpp in Sources */,
 				15F72B6D18C8150A000DE2EB /* Packing.cpp in Sources */,
 				155BEFB418CBAA3E000A36FC /* RenderMesh.cpp in Sources */,
+				159A3E401927E12800935D8F /* TreentGui.cpp in Sources */,
 				150EE01718CA259F000AFD9E /* World.cpp in Sources */,
 				1563A4E618FCE00200D1FF54 /* Dependencies.cc in Sources */,
 				15F72B6118C8150A000DE2EB /* AnimationUtils.cpp in Sources */,

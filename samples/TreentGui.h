@@ -26,14 +26,15 @@
  */
 
 #pragma once
+
 #include "pockets/Scene.h"
 #include "Treent.h"
 
-class TreentTest : public pk::Scene
+class TreentGui : public pk::Scene
 {
 public:
-  TreentTest() = default;
-  ~TreentTest() = default;
+  TreentGui() = default;
+  ~TreentGui() = default;
 
   void setup() override;
   void connect( ci::app::WindowRef window ) override;
