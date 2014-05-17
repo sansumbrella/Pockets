@@ -39,7 +39,9 @@ static const uint32_t MOUSE_ID = std::numeric_limits<uint32_t>::max();
  GuiComponents handle user interaction events as they pass through the tree.
  They have an interaction bounds area.
 
- They are unlike other components in that they have their own methods.
+ They are unlike other components in that they are updated during event propagation,
+ which moves through the tree. Since they don't know anything about the other components
+ attached to
 
  Provides no-op default implementations of interaction events.
  Handlers should return true to indicate they handled the event and should stop propagation.
@@ -48,17 +50,18 @@ static const uint32_t MOUSE_ID = std::numeric_limits<uint32_t>::max();
 struct GuiComponent : treent::Component<GuiComponent>
 {
   virtual ~GuiComponent() = default;
-  virtual bool    touchesBegan( ci::app::TouchEvent &event ) { return false; }
-  virtual bool    touchesMoved( ci::app::TouchEvent &event ) { return false; }
-  virtual bool    touchesEnded( ci::app::TouchEvent &event ) { return false; }
-  virtual bool    mouseDown( ci::app::MouseEvent &event ) { return false; }
-  virtual bool    mouseDrag( ci::app::MouseEvent &event ) { return false; }
-  virtual bool    mouseUp( ci::app::MouseEvent &event ) { return false; }
+  virtual bool    touchesBegan( ci::app::TouchEvent &event, const ci::MatrixAffine2f &world_transform ) { return false; }
+  virtual bool    touchesMoved( ci::app::TouchEvent &event, const ci::MatrixAffine2f &world_transform ) { return false; }
+  virtual bool    touchesEnded( ci::app::TouchEvent &event, const ci::MatrixAffine2f &world_transform ) { return false; }
+  virtual bool    mouseDown( ci::app::MouseEvent &event, const ci::MatrixAffine2f &world_transform ) { return false; }
+  virtual bool    mouseDrag( ci::app::MouseEvent &event, const ci::MatrixAffine2f &world_transform ) { return false; }
+  virtual bool    mouseUp( ci::app::MouseEvent &event, const ci::MatrixAffine2f &world_transform ) { return false; }
 
-  //! Returns true if \a point fits within our interaction_bounds
-  bool  contains( const ci::Vec2f &point );
-  ci::Vec2f           bounds_padding;
-  ci::Rectf           interaction_bounds;
+  //! Returns true if \a point lies within our interaction_bounds
+  bool            contains( const ci::Vec2f &point, const ci::MatrixAffine2f &world_transform );
+
+  ci::Vec2f       bounds_padding;
+  ci::Rectf       interaction_bounds;
 };
 
 /**
@@ -68,25 +71,31 @@ struct GuiComponent : treent::Component<GuiComponent>
  */
 struct ButtonComponent : public GuiComponent
 {
-  enum State {
-    NORMAL,
-    TOUCHED
-  };
+  virtual bool    touchesBegan( ci::app::TouchEvent &event, const ci::MatrixAffine2f &world_transform );
+  virtual bool    touchesMoved( ci::app::TouchEvent &event, const ci::MatrixAffine2f &world_transform );
+  virtual bool    touchesEnded( ci::app::TouchEvent &event, const ci::MatrixAffine2f &world_transform );
+  virtual bool    mouseDown( ci::app::MouseEvent &event, const ci::MatrixAffine2f &world_transform );
+  virtual bool    mouseDrag( ci::app::MouseEvent &event, const ci::MatrixAffine2f &world_transform );
+  virtual bool    mouseUp( ci::app::MouseEvent &event, const ci::MatrixAffine2f &world_transform );
 
-  virtual bool    touchesBegan( ci::app::TouchEvent &event );
-  virtual bool    touchesMoved( ci::app::TouchEvent &event );
-  virtual bool    touchesEnded( ci::app::TouchEvent &event );
-  virtual bool    mouseDown( ci::app::MouseEvent &event );
-  virtual bool    mouseDrag( ci::app::MouseEvent &event );
-  virtual bool    mouseUp( ci::app::MouseEvent &event );
+  //! Returns true if a tracked touch is inside component's bounds.
+  bool isHovering() const { return _is_hovering; }
 
-  State state() const { return _state; }
-
+  std::function<void ()>  select_fn;
 private:
-  State     _state;
+  bool      _is_hovering;
+  uint32_t  _tracked_touch;
 };
 
 struct ScrollComponent : public GuiComponent
+{
+
+};
+
+/**
+
+ */
+struct SliderComponent : public GuiComponent
 {
 
 };
@@ -95,6 +104,8 @@ struct ScrollComponent : public GuiComponent
 /**
   Gui needs to know about size, transformation, and a gui action.
   This is definitely a special case relative to other component pieces.
+
+  Maybe make this a gui renderer that handles sliders properly...
  */
 class GuiSystem : public treent::System<GuiSystem>, public treent::Receiver<GuiSystem>
 {

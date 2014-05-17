@@ -32,6 +32,7 @@
 #include "treent/LayeredShapeRenderSystem.h"
 #include "treent/TextRenderSystem.h"
 #include "treent/ShapeComponent.h"
+#include "treent/GuiSystem.h"
 #include "cinder/Rand.h"
 
 #include <memory>
@@ -90,10 +91,16 @@ treent::TreentNodeRef addOrbiter( treent::TreentNodeRef center, bool warm, float
   auto shape = moon->assign<treent::ShapeComponent>();
   auto color = warm ? ColorA( CM_HSV, randFloat( 0.02f, 0.18f ), 1.0f, 1.0f, 1.0f ) : ColorA( CM_HSV, randFloat( 0.45f, 0.62f ), 1.0f, 0.7f, 1.0f );
 
-  shape->setAsBox( Rectf( -size, -size, size, size ) );
+  Rectf box( -size, -size, size, size );
+  shape->setAsBox( box );
   shape->setColor( color );
   moon->assign<treent::LayeredShapeRenderData>( shape, moon->getTransform(), depth );
   moon->assign<RotationComponent>( lmap<float>( position.length(), 0.0f, getWindowSize().length(), 1.0f, 0.1f ) );
+  auto button = moon->assign<treent::ButtonComponent>();
+  button->interaction_bounds = box;
+  button->select_fn = [shape]() {
+    shape->setColor( ColorA( CM_HSV, randFloat(), 1.0f, 0.8f, 1.0f ) );
+  };
 
   if( size > 10.0f && randFloat() < 0.5f ) {
     addOrbiter( moon, !warm, max_distance / 8, depth + 1 );
@@ -112,6 +119,7 @@ void TreentGui::setup()
   _treent.systems->configure();
 
   _treent_root = _treent.createRoot();
+  _treent_root->connect( getWindow() );
   _treent_root->setPosition( getWindowCenter() );
   _treent_root->setSize( getWindowSize() / 4 );
   auto shape = _treent_root->assign<treent::ShapeComponent>();

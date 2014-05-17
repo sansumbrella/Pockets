@@ -27,49 +27,107 @@
 
 #include "GuiSystem.h"
 
-#if 0
+using namespace cinder;
+
+#if 1
 
 namespace treent
 {
 
-bool GuiComponent::contains( const ci::Vec2f &point )
+//
+//  MARK: - GuiComponent
+//
+
+bool GuiComponent::contains( const ci::Vec2f &point, const MatrixAffine2f &world_transform )
 {
-//	auto transform = // no way to get other components from here...
+  return interaction_bounds.contains( world_transform.invertCopy().transformPoint( point ) );
+}
+
+//
+//  MARK: - ButtonComponent
+//
+
+bool ButtonComponent::touchesBegan( ci::app::TouchEvent &event, const MatrixAffine2f &world_transform )
+{
+  for( auto &touch : event.getTouches() )
+  {
+    if( contains( touch.getPos(), world_transform ) )
+    {
+      _tracked_touch = touch.getId();
+      _is_hovering = true;
+      return true;
+    }
+  }
   return false;
 }
-
-virtual bool    ButtonComponent::touchesBegan( ci::app::TouchEvent &event )
+bool ButtonComponent::touchesMoved( ci::app::TouchEvent &event, const MatrixAffine2f &world_transform )
 {
-
-	return false;
+  for( auto &touch : event.getTouches() )
+  {
+    if( touch.getId() == _tracked_touch )
+    {
+      if( contains( touch.getPos(), world_transform ) )
+        _is_hovering = true;
+      else
+        _is_hovering = false;
+    }
+  }
+  // don't capture moving touches
+  return false;
 }
-virtual bool    ButtonComponent::touchesMoved( ci::app::TouchEvent &event )
+bool ButtonComponent::touchesEnded( ci::app::TouchEvent &event, const MatrixAffine2f &world_transform )
 {
+  bool selected = false;
+  for( auto &touch : event.getTouches() )
+  {
+    if( touch.getId() == _tracked_touch )
+    {
+      _tracked_touch = 0; // reset tracked touch
+      _is_hovering = false;
+      if( contains( touch.getPos(), world_transform ) )
+      {
+        selected = true;
+        break;
+      }
+    }
+  }
 
-	return false;
+  if( selected && select_fn )
+  { // call function last, as it may destroy this object
+    select_fn();
+  }
+  return false;
 }
-virtual bool    ButtonComponent::touchesEnded( ci::app::TouchEvent &event )
+bool ButtonComponent::mouseDown( ci::app::MouseEvent &event, const MatrixAffine2f &world_transform )
 {
+  if( contains( event.getPos(), world_transform ) )
+  {
+    _tracked_touch = MOUSE_ID;
+    _is_hovering = true;
+    return true;
+  }
+  return false;
+}
+bool ButtonComponent::mouseDrag( ci::app::MouseEvent &event, const MatrixAffine2f &world_transform )
+{
+  _is_hovering = contains( event.getPos(), world_transform );
 
-	return false;
+  return false;
 }
-virtual bool    ButtonComponent::mouseDown( ci::app::MouseEvent &event )
+bool ButtonComponent::mouseUp( ci::app::MouseEvent &event, const MatrixAffine2f &world_transform )
 {
-	if( contains( event.getPos() ) )
-	{
-		_tracked_touch = MOUSE_ID;
-	}
-	return false;
-}
-virtual bool    ButtonComponent::mouseDrag( ci::app::MouseEvent &event )
-{
+  bool selected = false;
+  _tracked_touch = 0;
+  if( contains( event.getPos(), world_transform ) )
+    selected = true;
 
-	return false;
-}
-virtual bool    ButtonComponent::mouseUp( ci::app::MouseEvent &event )
-{
+  _is_hovering = false;
+  if( selected && select_fn )
+  {
+    select_fn();
+  }
 
-	return false;
+  return false;
 }
 
 }

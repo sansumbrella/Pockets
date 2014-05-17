@@ -8,9 +8,8 @@
 
 #pragma once
 
-#include "pockets/Locus.h"
-#include "pockets/ConnectionManager.h"
 #include "cinder/app/App.h"
+#include "pockets/ConnectionManager.h"
 #include "treent/LocationComponent.h"
 #include "treent/SizeComponent.h"
 
@@ -120,8 +119,8 @@ public:
   ci::Vec2f       getSize() const { return mSize->size; }
   void            setSize( const ci::Vec2f &size ) { mSize->size = size; }
 
-  //! Returns this TreentNode's transform, as transformed by its parents.
-  ci::MatrixAffine2f    getFullTransform() const { return mTransform->matrix; }
+  //! Returns this TreentNode's world transform, as transformed by its parents.
+  ci::MatrixAffine2f    getWorldTransform() const { return mTransform->matrix; }
   //! Returns this TreentNode's transform, ignoring parent transformations.
   ci::MatrixAffine2f    getLocalTransform() const { return mTransform->calcLocalMatrix(); }
 
@@ -146,6 +145,28 @@ private:
   void            setParent( TreentNode *parent );
 };
 
+class RootNode : public TreentNode
+{
+public:
+  RootNode( Entity entity ) : TreentNode( entity ) {}
+
+  //! Connects tree to mouse and touch events.
+  void            connect( ci::app::WindowRef window );
+  //! Disconnects tree from mouse and touch events.
+  void            disconnect() { _connection_manager.disconnect(); }
+  //! Temporarily block UI signals.
+  void            block() { _connection_manager.block(); }
+  //! Resume receiving UI signals.
+  void            unblock() { _connection_manager.resume(); }
+private:
+  //! store a connection so it can be blocked/unblocked/disconnected later
+  void            storeConnection( const ci::signals::connection &connection ){ _connection_manager.store( connection ); }
+  pockets::ConnectionManager   _connection_manager;
+};
+
+//
+//  MARK: - Child creation implementations.
+//
 
 template<typename T, typename ...Args>
 std::shared_ptr<T>  TreentNode::createChild( Args & ... args )

@@ -30,9 +30,9 @@
 
 namespace treent
 {
-  TreentNodeRef Treent::createRoot()
+  RootNodeRef Treent::createRoot()
   {
-    return std::make_shared<TreentNode>( entities->create() );
+    return std::make_shared<RootNode>( entities->create() );
   }
 } // treent::
 

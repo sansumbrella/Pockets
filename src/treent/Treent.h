@@ -60,6 +60,7 @@ namespace treent
 namespace treent
 {
   typedef std::shared_ptr<class TreentNode> TreentNodeRef;
+  typedef std::shared_ptr<class RootNode>   RootNodeRef;
   typedef std::shared_ptr<EventManager>     EventManagerRef;
   typedef std::shared_ptr<EntityManager>    EntityManagerRef;
   typedef std::shared_ptr<SystemManager>    SystemManagerRef;
@@ -71,6 +72,6 @@ namespace treent
     EventManagerRef   events   = EventManagerRef( new EventManager() );
     EntityManagerRef  entities = EntityManagerRef( new EntityManager( events ) );
     SystemManagerRef  systems  = SystemManagerRef( new SystemManager( entities, events ) );
-    TreentNodeRef createRoot();
+    RootNodeRef createRoot();
   };
 }

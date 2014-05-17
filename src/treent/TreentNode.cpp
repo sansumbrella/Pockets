@@ -85,7 +85,7 @@ bool TreentNode::deepTouchesBegan( ci::app::TouchEvent &event )
   bool captured = false;
   auto gui_component = component<GuiComponent>();
   if( gui_component )
-    captured = gui_component->touchesBegan( event );
+    captured = gui_component->touchesBegan( event, getWorldTransform() );
 
   for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
@@ -102,7 +102,7 @@ bool TreentNode::deepTouchesMoved( ci::app::TouchEvent &event )
   bool captured = false;
   auto gui_component = component<GuiComponent>();
   if( gui_component )
-    captured = gui_component->touchesMoved( event );
+    captured = gui_component->touchesMoved( event, getWorldTransform() );
 
   for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
@@ -119,7 +119,7 @@ bool TreentNode::deepTouchesEnded( ci::app::TouchEvent &event )
   bool captured = false;
   auto gui_component = component<GuiComponent>();
   if( gui_component )
-    captured = gui_component->touchesEnded( event );
+    captured = gui_component->touchesEnded( event, getWorldTransform() );
 
   for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
@@ -136,7 +136,7 @@ bool TreentNode::deepMouseDown( ci::app::MouseEvent &event )
   bool captured = false;
   auto gui_component = component<GuiComponent>();
   if( gui_component )
-    captured = gui_component->mouseDown( event );
+    captured = gui_component->mouseDown( event, getWorldTransform() );
 
   for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
@@ -153,7 +153,7 @@ bool TreentNode::deepMouseDrag( ci::app::MouseEvent &event )
   bool captured = false;
   auto gui_component = component<GuiComponent>();
   if( gui_component )
-    captured = gui_component->mouseDrag( event );
+    captured = gui_component->mouseDrag( event, getWorldTransform() );
 
   for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
@@ -170,7 +170,7 @@ bool TreentNode::deepMouseUp( ci::app::MouseEvent &event )
   bool captured = false;
   auto gui_component = component<GuiComponent>();
   if( gui_component )
-    captured = gui_component->mouseUp( event );
+    captured = gui_component->mouseUp( event, getWorldTransform() );
 
   for( TreentNodeRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
@@ -196,6 +196,38 @@ void TreentNode::deepCancelInteractions()
   for( TreentNodeRef &child : mChildren ) {
     child->deepCancelInteractions();
   }
+}
+
+//
+//  MARK: - RootNode
+//
+void RootNode::connect( ci::app::WindowRef window )
+{
+  storeConnection( window->getSignalTouchesBegan().connect( [this]( app::TouchEvent &event )
+                                                           {
+                                                             deepTouchesBegan( event );
+                                                           } ) );
+  storeConnection( window->getSignalTouchesMoved().connect( [this]( app::TouchEvent &event )
+                                                           {
+                                                             deepTouchesMoved( event );
+                                                           } ) );
+  storeConnection( window->getSignalTouchesEnded().connect( [this]( app::TouchEvent &event )
+                                                           {
+                                                             deepTouchesEnded( event );
+                                                           } ) );
+
+  storeConnection( window->getSignalMouseDown().connect( [this]( app::MouseEvent &event )
+                                                        {
+                                                          deepMouseDown( event );
+                                                        } ) );
+  storeConnection( window->getSignalMouseDrag().connect( [this]( app::MouseEvent &event )
+                                                        {
+                                                          deepMouseDrag( event );
+                                                        } ) );
+  storeConnection( window->getSignalMouseUp().connect( [this]( app::MouseEvent &event )
+                                                      {
+                                                        deepMouseUp( event );
+                                                      } ) );
 }
 
 } // treent::
