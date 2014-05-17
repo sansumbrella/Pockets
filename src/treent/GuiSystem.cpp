@@ -27,7 +27,51 @@
 
 #include "GuiSystem.h"
 
+#if 0
+
 namespace treent
 {
 
+bool GuiComponent::contains( const ci::Vec2f &point )
+{
+//	auto transform = // no way to get other components from here...
+  return false;
 }
+
+virtual bool    ButtonComponent::touchesBegan( ci::app::TouchEvent &event )
+{
+
+	return false;
+}
+virtual bool    ButtonComponent::touchesMoved( ci::app::TouchEvent &event )
+{
+
+	return false;
+}
+virtual bool    ButtonComponent::touchesEnded( ci::app::TouchEvent &event )
+{
+
+	return false;
+}
+virtual bool    ButtonComponent::mouseDown( ci::app::MouseEvent &event )
+{
+	if( contains( event.getPos() ) )
+	{
+		_tracked_touch = MOUSE_ID;
+	}
+	return false;
+}
+virtual bool    ButtonComponent::mouseDrag( ci::app::MouseEvent &event )
+{
+
+	return false;
+}
+virtual bool    ButtonComponent::mouseUp( ci::app::MouseEvent &event )
+{
+
+	return false;
+}
+
+}
+
+#endif
