@@ -28,6 +28,7 @@
 #pragma once
 #include "Treent.h"
 #include "cinder/MatrixAffine2.h"
+#include "cinder/Tween.h"
 
 namespace treent
 {
@@ -44,16 +45,16 @@ namespace treent
   struct LocationComponent : Component<LocationComponent>
   {
     LocationComponent() = default;
-    LocationComponent( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, std::shared_ptr<LocationComponent> parent=nullptr ):
+    LocationComponent( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot ):
     position( pos ),
     registration_point( registration ),
     rotation( rot )
     {}
 
-    ci::Vec2f           position = ci::Vec2f::zero();
-    ci::Vec2f           registration_point = ci::Vec2f::zero();
-    float               rotation = 0.0f;
-    ci::Vec2f           scale = ci::Vec2f::one();
+    ci::Anim<ci::Vec2f>           position = ci::Vec2f::zero();
+    ci::Anim<ci::Vec2f>           registration_point = ci::Vec2f::zero();
+    ci::Anim<float>               rotation = 0.0f;
+    ci::Anim<ci::Vec2f>           scale = ci::Vec2f::one();
     ci::MatrixAffine2f  matrix = ci::MatrixAffine2f::identity();
 
     void updateMatrix( ci::MatrixAffine2f parentMatrix );
