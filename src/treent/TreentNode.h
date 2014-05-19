@@ -85,6 +85,8 @@ public:
   template<typename T, typename Arg, typename ...Args>
   std::shared_ptr<T>  createChild( Arg &&arg, Args && ... args );
 
+  TreentNodeRef       createChild() { return createChild<TreentNode>(); }
+
   // Child Manipulation
   //! add a TreentNode as a child; will receive connect/disconnect events and have its locus parented
   void            appendChild( TreentNodeRef element );
