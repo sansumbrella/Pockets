@@ -33,6 +33,7 @@
 
 #include "treent/LayeredShapeRenderSystem.h"
 #include "treent/TextRenderSystem.h"
+#include "treent/ResponsiveTextRenderSystem.h"
 #include "treent/ShapeComponent.h"
 #include "treent/SizeComponent.h"
 #include "treent/LocationComponent.h"
