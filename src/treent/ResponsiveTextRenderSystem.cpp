@@ -27,7 +27,7 @@
 
 #include "treent/ResponsiveTextRenderSystem.h"
 #include "treent/LocationComponent.h"
-
+#include <boost/algorithm/string.hpp>
 #include "cinder/app/App.h"
 
 using namespace std;
@@ -37,25 +37,171 @@ namespace treent
 {
 
 	RespTextComponent::RespTextComponent( ci::gl::TextureFontRef font, const string &text, const float rank, const ci::ColorA col ) :
-  _font( font )
+  _font( font ),
+  _color( col ),
+  _value( rank )
 {
-//  setText( text );
-  _layout.setFont( font );
-  _layout.setColor( col );
-  _layout.addLine( text );
+	// dimensions of text box, increased based on rank
+	_rect_width = 50.0f;
+	_rect_height = 100.0f;
+
+	// default dimensions of text box and font
+	_base_rect_width = _rect_width;
+	_base_rect_height = _rect_height;
+	_base_font_size = _font->getFont().getSize();
+
+	// ideal max number of characters in a line = length of largest word in headline
+	_max_chars = 15; // setMaxChars( text );
+  _line_aspect_ratio = _max_chars * 0.0919; // using a default font aspect ratio value for now
+  reflowLayout( rank, text );
+
+
 }
 
 void RespTextComponent::setText( const std::string &text )
 {
-  gl::TextureFont::DrawOptions opt;
-  opt.scale( 1.0f / app::getWindow()->getContentScale() ).pixelSnap( false );
-  _glyph_placements = _font->getGlyphPlacements( text, opt );
+	gl::TextureFont::DrawOptions opt;
+	opt.scale( 1.0f / app::getWindow()->getContentScale() ).pixelSnap( false );
+	auto gp = _font->getGlyphPlacements( text, opt );
+}
+
+int RespTextComponent::setMaxChars( const std::string &text )
+{
+	string workingWord = "";  //working string
+	string maxWord = "";  //biggest word 
+
+	// find longest word in string
+	for (int i = 0; i < text.size( ); i++)
+	{
+		//If it's not a space, semicolon, colon, or comma, add it to the word, if it is, reset workingWord
+		if (text[i] != ' ' && text[i] != ';' && text[i] != ':' && text[i] != ',')   
+		{	workingWord += text[i]; }
+		else 
+		{	workingWord = ""; }
+
+		// If workingword > maxWord, we have a new maxWord
+		if (workingWord.size( ) > maxWord.size( ))
+		{	maxWord = workingWord; }
+	}
+
+	return maxWord.size();
+}
+
+// problem here!
+void RespTextComponent::splitLines( const std::string &text, int charLimit, int lineNum )
+{
+	// split text into vector of words
+	vector<std::string> words;
+	boost::split( words, text, boost::is_any_of( " " ) );
+
+	std::string line = ""; // line to be added, filled with default text 
+
+	std::string currWord = ""; // current word
+	std::string remainder = ""; // remainder of original text
+	std::string nextTwoWords = ""; // next two words
+	int wordIndex = 0;
+	
+	if ( wordIndex < words.size( ) )
+	{
+		// currWord is always one word behind nextTwoWords
+		// add words to both until the length of one string is less than charLimit
+        // per line, while the length of the other is greater than charLimit
+		while (nextTwoWords.length() < charLimit)
+		{
+			currWord = nextTwoWords;
+			nextTwoWords += words[wordIndex] + " ";
+			wordIndex++;
+			if (wordIndex >= words.size())
+				break;
+		}
+		
+		// add a line for whichever string is closer to the character limit
+		if ((math<int>::abs( currWord.length() - charLimit ) < math<int>::abs( nextTwoWords.length() - charLimit )) && nextTwoWords.length() > 2)
+		{
+			line = currWord;
+			wordIndex--;
+		}
+		else
+		{
+			line = nextTwoWords;
+		}
+
+		gl::TextureFont::DrawOptions opt;
+
+		float lineSize = line.size( );
+		float lineScale = lmap( lineSize, 1.0f, (float) charLimit, 0.1f, 1.0f );
+		opt.scale( lineScale ).pixelSnap( true );;
+		auto gp = _font->getGlyphPlacements( line, Rectf( 0, 0, _rect_width, _line_height*2 ),opt );
+		lineNum++;
+		_glyph_placements.push_back( gp );
+		_opts.push_back( opt );
+
+		// repeat with the remainder of the original string
+		for (int i = wordIndex; i < words.size(); i++)
+		{
+			remainder += words[i] + " ";
+		}
+
+		if (remainder.size() > charLimit)
+		{
+			splitLines( remainder, charLimit, lineNum );
+		}
+
+		// if the length of the text is less than charLimit, add 
+		// this as the last line.
+		else
+		{
+			app::console( ) << "last time!" << endl;
+			float lineSize = remainder.size();
+			float lineScale = lmap( lineSize, 1.0f, (float) charLimit, 0.1f, 1.0f );
+
+			opt.scale( lineScale ).pixelSnap( true );
+			app::console() << "scale: " << opt.getScale() << endl;
+			auto gp = _font->getGlyphPlacements( remainder, Rectf( 0, 0, _rect_width, _line_height * 2 ),opt );
+			lineNum++;
+			_glyph_placements.push_back( gp );
+			_opts.push_back( opt );
+		}
+	}
+}
+
+void RespTextComponent::reflowLayout( float val, const std::string &text )
+{
+	// change rect dimensions & font size based on rank
+	float scaler = lmap( val, 1.0f, 20.0f, 0.5f, 2.0f );
+	
+	// with the assumption that val > 0, scale text box width and height by scaler
+	_rect_height = _base_rect_height * scaler;
+	_rect_width = _base_rect_width * scaler;
+
+	// scale font size with text box
+	auto currfont = _font->getFont();
+	_font = gl::TextureFont::create( Font( currfont.getName(), _base_font_size * scaler ) );
+
+
+	auto ideal_line_height = _rect_width / (_line_aspect_ratio*scaler);
+	int line_count = ceil( _rect_height / ideal_line_height );
+
+	_line_height = _rect_height / line_count;
+
+	app::console( ) << "line count: " << line_count << endl;
+	app::console( ) << "text length: " << text.length() << endl;
+
+	// target character count per line is length of total string divided by number of lines
+	int char_ct_per_line = ceil( text.length() / line_count );
+
+	app::console( ) << "charct: " << char_ct_per_line << endl;
+
+	int line_num = 0; // current line number
+
+	_opts.clear();
+	_glyph_placements.clear();
+	splitLines( text, char_ct_per_line, line_num );
 }
 
 //
-//  MARK: - TextRenderSystem
+//  MARK: - ResponsiveTextRenderSystem
 //
-
 void ResponsiveTextRenderSystem::update( EntityManagerRef entities, EventManagerRef events, double dt )
 {
   _grouped_text.clear();
@@ -82,7 +228,13 @@ void ResponsiveTextRenderSystem::draw( ) const
 
       gl::ScopedModelMatrix matrix;
       gl::multModelMatrix( Matrix44f( location->matrix ) );
-      text->_font->drawGlyphs( text->_glyph_placements, Vec2f::zero() );
+	  
+	  for (int i = 0; i < text->_glyph_placements.size(); i++)
+	  {
+		  auto gp = text->_glyph_placements[i];
+		  // need a good way to calculate line separation value
+		  text->_font->drawGlyphs( gp, Vec2f( 0, text->_line_height * 1.5f * i ), text->_opts[i] );
+	  }
     }
   }
 }
