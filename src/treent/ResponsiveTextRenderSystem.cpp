@@ -50,9 +50,9 @@ namespace treent
 	_base_rect_height = _rect_height;
 	_base_font_size = _font->getFont().getSize();
 
-	// ideal max number of characters in a line = length of largest word in headline
-	_max_chars = 15; // setMaxChars( text );
-  _line_aspect_ratio = _max_chars * 0.0919; // using a default font aspect ratio value for now
+	// ideal max number of characters is a default value for now
+	_max_chars = 12; // setMaxChars( text );
+  _line_aspect_ratio = _max_chars * 0.519; // using a default font aspect ratio value for now
   reflowLayout( rank, text );
 
 
@@ -130,7 +130,7 @@ void RespTextComponent::splitLines( const std::string &text, int charLimit, int 
 
 		float lineSize = line.size( );
 		float lineScale = lmap( lineSize, 1.0f, (float) charLimit, 0.1f, 1.0f );
-		opt.scale( lineScale ).pixelSnap( true );;
+		opt.scale( lineScale ).pixelSnap( true );
 		auto gp = _font->getGlyphPlacements( line, Rectf( 0, 0, _rect_width, _line_height*2 ),opt );
 		lineNum++;
 		_glyph_placements.push_back( gp );
@@ -168,7 +168,7 @@ void RespTextComponent::splitLines( const std::string &text, int charLimit, int 
 void RespTextComponent::reflowLayout( float val, const std::string &text )
 {
 	// change rect dimensions & font size based on rank
-	float scaler = lmap( val, 1.0f, 20.0f, 0.5f, 2.0f );
+	float scaler = lmap( val, 1.0f, 10.0f, 0.5f, 2.0f );
 	
 	// with the assumption that val > 0, scale text box width and height by scaler
 	_rect_height = _base_rect_height * scaler;
@@ -179,7 +179,7 @@ void RespTextComponent::reflowLayout( float val, const std::string &text )
 	_font = gl::TextureFont::create( Font( currfont.getName(), _base_font_size * scaler ) );
 
 
-	auto ideal_line_height = _rect_width / (_line_aspect_ratio*scaler);
+	auto ideal_line_height = _rect_width /( _line_aspect_ratio*scaler);
 	int line_count = ceil( _rect_height / ideal_line_height );
 
 	_line_height = _rect_height / line_count;
@@ -233,7 +233,7 @@ void ResponsiveTextRenderSystem::draw( ) const
 	  {
 		  auto gp = text->_glyph_placements[i];
 		  // need a good way to calculate line separation value
-		  text->_font->drawGlyphs( gp, Vec2f( 0, text->_line_height * 1.5f * i ), text->_opts[i] );
+		  text->_font->drawGlyphs( gp, Vec2f( 0, (text->_font->getFont().getSize()) * i ), text->_opts[i] );
 	  }
     }
   }
