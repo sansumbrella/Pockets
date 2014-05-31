@@ -38,8 +38,11 @@ struct RespTextComponent : Component<RespTextComponent>
   ci::gl::TextureRef	_texture;
   ci::gl::TextureFontRef	_font;
   float					_value;
-  float					_rect_width; // width of text box rectangle
-  float					_rect_height; // height of text box rectangle
+  float					_rect_width; // width of current text box rectangle
+  float					_rect_height; // height of current text box rectangle
+  float					_base_rect_width; // width of base text box rectangle
+  float					_base_rect_height; // height of base text box rectangle
+  float					_base_font_size;	// base font size of text
   float					_line_aspect_ratio; // ideal line aspect ratio
   int					_max_chars;	// maximum number of characters in a line
 };
