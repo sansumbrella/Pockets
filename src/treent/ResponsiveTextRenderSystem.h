@@ -26,7 +26,7 @@ struct RespTextComponent : Component<RespTextComponent>
   void reflowLayout( float val, const std::string &text );
 
   //! Splits lines in a block of text based on a per-line character limit
-  void splitLines( const std::string &text, int charLimit, int lineNum );
+  void splitLines( const std::string &text, int charLimit );
 
   //! Find longest word in the input string and use that to set max number of characters in a line
   int setMaxChars( const std::string &text );

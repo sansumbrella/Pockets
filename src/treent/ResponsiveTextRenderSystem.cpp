@@ -88,7 +88,7 @@ int RespTextComponent::setMaxChars( const std::string &text )
 }
 
 // problem here!
-void RespTextComponent::splitLines( const std::string &text, int charLimit, int lineNum )
+void RespTextComponent::splitLines( const std::string &text, int charLimit )
 {
 	// split text into vector of words
 	vector<std::string> words;
@@ -128,11 +128,12 @@ void RespTextComponent::splitLines( const std::string &text, int charLimit, int 
 
 		gl::TextureFont::DrawOptions opt;
 
+		app::console() << "mergle" << endl;
+
 		float lineSize = line.size( );
 		float lineScale = lmap( lineSize, 1.0f, (float) charLimit, 0.1f, 1.0f );
 		opt.scale( lineScale ).pixelSnap( true );
 		auto gp = _font->getGlyphPlacements( line, Rectf( 0, 0, _rect_width, _line_height*2 ),opt );
-		lineNum++;
 		_glyph_placements.push_back( gp );
 		_opts.push_back( opt );
 
@@ -144,7 +145,7 @@ void RespTextComponent::splitLines( const std::string &text, int charLimit, int 
 
 		if (remainder.size() > charLimit)
 		{
-			splitLines( remainder, charLimit, lineNum );
+			splitLines( remainder, charLimit );
 		}
 
 		// if the length of the text is less than charLimit, add 
@@ -158,7 +159,6 @@ void RespTextComponent::splitLines( const std::string &text, int charLimit, int 
 			opt.scale( lineScale ).pixelSnap( true );
 			app::console() << "scale: " << opt.getScale() << endl;
 			auto gp = _font->getGlyphPlacements( remainder, Rectf( 0, 0, _rect_width, _line_height * 2 ),opt );
-			lineNum++;
 			_glyph_placements.push_back( gp );
 			_opts.push_back( opt );
 		}
@@ -190,13 +190,17 @@ void RespTextComponent::reflowLayout( float val, const std::string &text )
 	// target character count per line is length of total string divided by number of lines
 	int char_ct_per_line = ceil( text.length() / line_count );
 
+	if (char_ct_per_line < setMaxChars( text ))
+	{
+		// make sure the longest word in the headline is not longer than the 
+		// per-line character count
+		char_ct_per_line = setMaxChars( text );
+	}
 	app::console( ) << "charct: " << char_ct_per_line << endl;
-
-	int line_num = 0; // current line number
 
 	_opts.clear();
 	_glyph_placements.clear();
-	splitLines( text, char_ct_per_line, line_num );
+	splitLines( text, char_ct_per_line);
 }
 
 //
