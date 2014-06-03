@@ -54,8 +54,6 @@ namespace treent
 	_max_chars = 12; // setMaxChars( text );
   _line_aspect_ratio = _max_chars * 0.519; // using a default font aspect ratio value for now
   reflowLayout( rank, text );
-
-
 }
 
 void RespTextComponent::setText( const std::string &text )
@@ -128,8 +126,6 @@ void RespTextComponent::splitLines( const std::string &text, int charLimit )
 
 		gl::TextureFont::DrawOptions opt;
 
-		app::console() << "mergle" << endl;
-
 		float lineSize = line.size( );
 		float lineScale = lmap( lineSize, 1.0f, (float) charLimit, 0.1f, 1.0f );
 		opt.scale( lineScale ).pixelSnap( true );
@@ -152,7 +148,6 @@ void RespTextComponent::splitLines( const std::string &text, int charLimit )
 		// this as the last line.
 		else
 		{
-			app::console( ) << "last time!" << endl;
 			float lineSize = remainder.size();
 			float lineScale = lmap( lineSize, 1.0f, (float) charLimit, 0.1f, 1.0f );
 
