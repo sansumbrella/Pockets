@@ -7,6 +7,8 @@
 
 #include "treent/Treent.h"
 #include "cinder/gl/TextureFont.h"
+#include "cinder/MatrixAffine2.h"
+#include "cinder/Tween.h"
 
 namespace treent
 {
@@ -17,7 +19,7 @@ typedef std::shared_ptr<struct RespTextComponent>       RespTextComponentRef;
 struct RespTextComponent : Component<RespTextComponent>
 {
 	RespTextComponent( ) = default;
-	RespTextComponent( ci::gl::TextureFontRef font, const std::string &text, const float rank, const ci::ColorA col );
+	RespTextComponent( ci::gl::TextureFontRef font, const std::string &text, const float &rank, const ci::ColorA &col, const ci::Vec2f &vel );
 
   //! Generates glyph placements for \a text. This is an optimization over storing the string.
   void setText( const std::string &text );
@@ -37,7 +39,9 @@ struct RespTextComponent : Component<RespTextComponent>
   ci::ColorA			_color;
   ci::gl::TextureRef	_texture;
   ci::gl::TextureFontRef	_font;
-  float					_value;
+  ci::Vec2f				_velocity;
+  float					_curr_value;
+  float					_prev_value;
   float					_rect_width; // width of current text box rectangle
   float					_rect_height; // height of current text box rectangle
   float					_base_rect_width; // width of base text box rectangle

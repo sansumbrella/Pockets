@@ -29,6 +29,7 @@
 #include "treent/LocationComponent.h"
 #include <boost/algorithm/string.hpp>
 #include "cinder/app/App.h"
+#include "cinder/Rand.h"
 
 using namespace std;
 using namespace cinder;
@@ -36,10 +37,12 @@ using namespace cinder;
 namespace treent
 {
 
-	RespTextComponent::RespTextComponent( ci::gl::TextureFontRef font, const string &text, const float rank, const ci::ColorA col ) :
+	RespTextComponent::RespTextComponent( ci::gl::TextureFontRef font, const string &text, const float &rank, const ci::ColorA &col, const ci::Vec2f &vel ) :
   _font( font ),
   _color( col ),
-  _value( rank )
+  _curr_value( rank ),
+  _prev_value( rank ),
+  _velocity( vel )
 {
 	// dimensions of text box, increased based on rank
 	_rect_width = 50.0f;
@@ -85,7 +88,7 @@ int RespTextComponent::setMaxChars( const std::string &text )
 	return maxWord.size();
 }
 
-// problem here!
+// split the headline into lines based on character count and word length
 void RespTextComponent::splitLines( const std::string &text, int charLimit )
 {
 	// split text into vector of words
@@ -191,7 +194,7 @@ void RespTextComponent::reflowLayout( float val, const std::string &text )
 		// per-line character count
 		char_ct_per_line = setMaxChars( text );
 	}
-	app::console( ) << "charct: " << char_ct_per_line << endl;
+	app::console( ) << "char count: " << char_ct_per_line << endl;
 
 	_opts.clear();
 	_glyph_placements.clear();
@@ -231,6 +234,8 @@ void ResponsiveTextRenderSystem::draw( ) const
 	  for (int i = 0; i < text->_glyph_placements.size(); i++)
 	  {
 		  auto gp = text->_glyph_placements[i];
+		  gl::color( text->_color );
+		
 		  // need a good way to calculate line separation value
 		  text->_font->drawGlyphs( gp, Vec2f( 0, (text->_font->getFont().getSize()) * i ), text->_opts[i] );
 	  }
