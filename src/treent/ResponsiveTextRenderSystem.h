@@ -40,6 +40,7 @@ struct RespTextComponent : Component<RespTextComponent>
   ci::gl::TextureRef	_texture;
   ci::gl::TextureFontRef	_font;
   ci::Vec2f				_velocity;
+  std::string			_content;
   float					_curr_value;
   float					_prev_value;
   float					_rect_width; // width of current text box rectangle

@@ -42,7 +42,8 @@ namespace treent
   _color( col ),
   _curr_value( rank ),
   _prev_value( rank ),
-  _velocity( vel )
+  _velocity( vel ),
+  _content( text )
 {
 	// dimensions of text box, increased based on rank
 	_rect_width = 50.0f;
