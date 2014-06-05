@@ -183,9 +183,6 @@ void RespTextComponent::reflowLayout( float val, const std::string &text )
 
 	_line_height = _rect_height / line_count;
 
-	app::console( ) << "line count: " << line_count << endl;
-	app::console( ) << "text length: " << text.length() << endl;
-
 	// target character count per line is length of total string divided by number of lines
 	int char_ct_per_line = ceil( text.length() / line_count );
 
@@ -195,7 +192,6 @@ void RespTextComponent::reflowLayout( float val, const std::string &text )
 		// per-line character count
 		char_ct_per_line = setMaxChars( text );
 	}
-	app::console( ) << "char count: " << char_ct_per_line << endl;
 
 	_opts.clear();
 	_glyph_placements.clear();
@@ -235,8 +231,13 @@ void ResponsiveTextRenderSystem::draw( ) const
 	  for (int i = 0; i < text->_glyph_placements.size(); i++)
 	  {
 		  auto gp = text->_glyph_placements[i];
-		  gl::color( text->_color );
-		
+
+		  // if above a certain rank, display the headline in color
+		  if (text->_curr_value >= 7)
+			  gl::color( text->_color );
+		  else
+			  gl::color( ColorA::white() );
+
 		  // need a good way to calculate line separation value
 		  text->_font->drawGlyphs( gp, Vec2f( 0, (text->_font->getFont().getSize()) * i ), text->_opts[i] );
 	  }
