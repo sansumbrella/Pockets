@@ -39,19 +39,6 @@ namespace pockets
 namespace treent
 {
 
-struct Vertex2D
-{
-  Vertex2D() = default;
-  Vertex2D( const ci::Vec2f &position, const ci::ColorA8u &color, const ci::Vec2f &uv ):
-    position( position ),
-    color( color ),
-    tex_coord( uv )
-  {}
-  ci::Vec2f     position    = ci::Vec2f::zero();
-  ci::ColorA8u  color       = ci::ColorA8u::white();
-  ci::Vec2f     tex_coord   = ci::Vec2f::zero();
-};
-
 struct Vertex3D
 {
   Vertex3D() = default;
@@ -66,7 +53,7 @@ struct Vertex3D
 };
 
 /**
- ShapeComponent:
+ Shape3D:
  Collection of vertices suitable for rendering as a triangle strip.
  Drawn by the RenderSystem
  Updated by SpriteAnimationSystem or user Scripts
@@ -78,15 +65,15 @@ struct Vertex3D
  - Texture billboard (special case of Box)
  Additional methods ease the texturing of those shapes.
  */
-typedef std::shared_ptr<struct ShapeComponent> ShapeComponentRef;
-struct ShapeComponent : Component<ShapeComponent>
+typedef std::shared_ptr<struct Shape3D> Shape3DRef;
+struct Shape3D : Component<Shape3D>
 {
-  ShapeComponent( int vertex2D_count=3 )
+  Shape3D( int vertex2D_count=3 )
   {
-    vertices.assign( vertex2D_count, Vertex2D{} );
+    vertices.assign( vertex2D_count, Vertex3D{} );
   }
   //! vertices in triangle_strip order
-  std::vector<Vertex2D> vertices;
+  std::vector<Vertex3D> vertices;
   //! Convenience method for making circular shapes
   //! If you aren't dynamically changing the circle, consider using a Sprite
   void setAsCircle( const ci::Vec2f &radius, float start_radians=0, float end_radians=M_PI * 2, size_t segments=0 );
@@ -113,11 +100,11 @@ struct ShapeComponent : Component<ShapeComponent>
 
 
 template<typename T>
-void ShapeComponent::setAsRibbon( const T &skeleton, float width, bool closed )
+void Shape3D::setAsRibbon( const T &skeleton, float width, bool closed )
 {
   using ci::Vec2f;
   if( vertices.size() != skeleton.size() * 2 )
-  { vertices.assign( skeleton.size() * 2, Vertex2D{} ); }
+  { vertices.assign( skeleton.size() * 2, Vertex3D{} ); }
   Vec2f a, b, c;
   // first vertex2D
   a = skeleton.at( 0 );
