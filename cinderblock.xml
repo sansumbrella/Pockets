@@ -9,10 +9,10 @@
 	<!-- Pockets -->
 	<headerPattern>src/pockets/*.h</headerPattern>
 	<sourcePattern>src/pockets/*.cpp</sourcePattern>
-	<!-- treant -->
-	<headerPattern>src/treant/*.h</headerPattern>
-	<sourcePattern>src/treant/*.cpp</sourcePattern>
-	<!-- entityx for treant -->
+	<!-- treent -->
+	<headerPattern>src/treent/*.h</headerPattern>
+	<sourcePattern>src/treent/*.cpp</sourcePattern>
+	<!-- entityx for treent -->
 	<headerPattern>src/thirdparty/entityx/*.h</headerPattern>
 	<sourcePattern>src/thirdparty/entityx/*.cc</sourcePattern>
 

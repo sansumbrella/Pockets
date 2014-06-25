@@ -25,4 +25,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "treent/LocationComponent.h"
 
+using namespace cinder;
+using namespace treent;
+
+MatrixAffine2f LocationComponent::calcLocalMatrix() const
+{
+  MatrixAffine2f mat;
+  mat.translate( position() + registration_point() );
+  mat.rotate( rotation );
+  mat.scale( scale );
+  mat.translate( -registration_point() );
+  return mat;
+}
+
+void LocationComponent::updateMatrix( ci::MatrixAffine2f parentMatrix )
+{
+  parentMatrix.translate( position() + registration_point() );
+  parentMatrix.rotate( rotation );
+  parentMatrix.scale( scale );
+  parentMatrix.translate( -registration_point() );
+  matrix = parentMatrix;
+}

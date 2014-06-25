@@ -25,7 +25,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "treent/TreentNode.h"
+#include "treent/Node3D.h"
 #include "treent/GuiSystem.h"
 #include "pockets/CollectionUtilities.hpp"
 #include "cinder/gl/gl.h"
@@ -37,14 +37,13 @@ using namespace pockets;
 namespace treent
 {
 
-TreentNode::TreentNode( const Entity &entity ):
+Node3D::Node3D( const Entity &entity ):
   mEntity( entity )
 {
-  mTransform = mEntity.assign<LocationComponent>();
-  mSize = mEntity.assign<SizeComponent>();
+  mTransform = mEntity.assign<Transform3D>();
 }
 
-TreentNode::~TreentNode()
+Node3D::~Node3D()
 {
   for( auto &child : mChildren )
   {
@@ -53,38 +52,38 @@ TreentNode::~TreentNode()
   mEntity.destroy();
 }
 
-void TreentNode::appendChild( TreentNodeRef element )
+void Node3D::appendChild( Node3DRef element )
 {
   insertChildAt( element, mChildren.size() );
 }
 
-void TreentNode::insertChildAt( TreentNodeRef child, size_t index )
+void Node3D::insertChildAt( Node3DRef child, size_t index )
 {
   child->setParent( this );
   mChildren.insert( mChildren.begin() + index, child );
   childAdded( child );
 }
 
-void TreentNode::setChildIndex( TreentNodeRef child, size_t index )
+void Node3D::setChildIndex( Node3DRef child, size_t index )
 {
   vector_remove( &mChildren, child );
   index = math<int32_t>::min( index, mChildren.size() );
   mChildren.insert( mChildren.begin() + index, child );
 }
 
-void TreentNode::removeChild( TreentNodeRef element )
+void Node3D::removeChild( Node3DRef element )
 {
   vector_remove( &mChildren, element );
   element->mParent = nullptr;
 }
 
-void TreentNode::removeChild( TreentNode *element )
+void Node3D::removeChild( Node3D *element )
 {
-  vector_erase_if( &mChildren, [element]( TreentNodeRef &n ){ return n.get() == element; } );
+  vector_erase_if( &mChildren, [element]( Node3DRef &n ){ return n.get() == element; } );
   element->mParent = nullptr;
 }
 
-void TreentNode::clearChildren()
+void Node3D::clearChildren()
 {
 	for( auto &child : mChildren ) {
 		child->mParent = nullptr;
@@ -92,21 +91,21 @@ void TreentNode::clearChildren()
 	mChildren.clear();
 }
 
-void TreentNode::setParent( TreentNode *parent )
+void Node3D::setParent( Node3D *parent )
 {
   if( mParent && mParent != parent )
   { mParent->removeChild( this ); }
   mParent = parent;
 }
 
-bool TreentNode::deepTouchesBegan( ci::app::TouchEvent &event )
+bool Node3D::deepTouchesBegan( ci::app::TouchEvent &event )
 {
   bool captured = false;
   auto gui_component = component<GuiComponent>();
   if( gui_component )
     captured = gui_component->touchesBegan( event, getWorldTransform() );
 
-  for( TreentNodeRef &child : mChildren )
+  for( Node3DRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
       break;
@@ -116,14 +115,14 @@ bool TreentNode::deepTouchesBegan( ci::app::TouchEvent &event )
   return captured;
 }
 
-bool TreentNode::deepTouchesMoved( ci::app::TouchEvent &event )
+bool Node3D::deepTouchesMoved( ci::app::TouchEvent &event )
 {
   bool captured = false;
   auto gui_component = component<GuiComponent>();
   if( gui_component )
     captured = gui_component->touchesMoved( event, getWorldTransform() );
 
-  for( TreentNodeRef &child : mChildren )
+  for( Node3DRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
       break;
@@ -133,14 +132,14 @@ bool TreentNode::deepTouchesMoved( ci::app::TouchEvent &event )
   return captured;
 }
 
-bool TreentNode::deepTouchesEnded( ci::app::TouchEvent &event )
+bool Node3D::deepTouchesEnded( ci::app::TouchEvent &event )
 {
   bool captured = false;
   auto gui_component = component<GuiComponent>();
   if( gui_component )
     captured = gui_component->touchesEnded( event, getWorldTransform() );
 
-  for( TreentNodeRef &child : mChildren )
+  for( Node3DRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
       break;
@@ -150,14 +149,14 @@ bool TreentNode::deepTouchesEnded( ci::app::TouchEvent &event )
   return captured;
 }
 
-bool TreentNode::deepMouseDown( ci::app::MouseEvent &event )
+bool Node3D::deepMouseDown( ci::app::MouseEvent &event )
 {
   bool captured = false;
   auto gui_component = component<GuiComponent>();
   if( gui_component )
     captured = gui_component->mouseDown( event, getWorldTransform() );
 
-  for( TreentNodeRef &child : mChildren )
+  for( Node3DRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
       break;
@@ -167,14 +166,14 @@ bool TreentNode::deepMouseDown( ci::app::MouseEvent &event )
   return captured;
 }
 
-bool TreentNode::deepMouseDrag( ci::app::MouseEvent &event )
+bool Node3D::deepMouseDrag( ci::app::MouseEvent &event )
 {
   bool captured = false;
   auto gui_component = component<GuiComponent>();
   if( gui_component )
     captured = gui_component->mouseDrag( event, getWorldTransform() );
 
-  for( TreentNodeRef &child : mChildren )
+  for( Node3DRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
       break;
@@ -184,14 +183,14 @@ bool TreentNode::deepMouseDrag( ci::app::MouseEvent &event )
   return captured;
 }
 
-bool TreentNode::deepMouseUp( ci::app::MouseEvent &event )
+bool Node3D::deepMouseUp( ci::app::MouseEvent &event )
 {
   bool captured = false;
   auto gui_component = component<GuiComponent>();
   if( gui_component )
     captured = gui_component->mouseUp( event, getWorldTransform() );
 
-  for( TreentNodeRef &child : mChildren )
+  for( Node3DRef &child : mChildren )
   { // stop evaluation if event was captured by self or a child
     if( captured )
       break;
@@ -201,18 +200,18 @@ bool TreentNode::deepMouseUp( ci::app::MouseEvent &event )
   return captured;
 }
 
-void TreentNode::updateTree( const ci::MatrixAffine2f &matrix )
+void Node3D::updateTree( const ci::MatrixAffine2f &matrix )
 {
   mTransform->updateMatrix( matrix );
-  for( TreentNodeRef &child : mChildren ) {
+  for( Node3DRef &child : mChildren ) {
     child->updateTree( mTransform->matrix );
   }
 }
 
-void TreentNode::deepCancelInteractions()
+void Node3D::deepCancelInteractions()
 {
   cancelInteractions();
-  for( TreentNodeRef &child : mChildren ) {
+  for( Node3DRef &child : mChildren ) {
     child->deepCancelInteractions();
   }
 }
