@@ -30,6 +30,7 @@
 
 namespace treent {
   class TreentNode;
+  class Node3D;
 }
 
 namespace entityx {
@@ -146,6 +147,7 @@ public:
   weak_ptr<EntityManager> manager_;
   Entity::Id id_ = INVALID;
   friend treent::TreentNode;
+  friend treent::Node3D;
 };
 
 

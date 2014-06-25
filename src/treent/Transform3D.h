@@ -47,7 +47,7 @@ namespace treent
     Transform3D() = default;
     Transform3D( const ci::Vec3f &pos, const ci::Vec3f &pivot, float rot ):
     position( pos ),
-    pivot( registration ),
+    pivot( pivot ),
     rotation( rot )
     {}
 

@@ -29,8 +29,7 @@
 
 #include "cinder/app/App.h"
 #include "pockets/ConnectionManager.h"
-#include "treent/LocationComponent.h"
-#include "treent/SizeComponent.h"
+#include "treent/Transform3D.h"
 
 #include "Treent.h"
 
@@ -65,7 +64,7 @@ public:
   virtual ~Node3D();
 
   //! Call to update the entire Node3D hierarchy.
-  void            updateTree( const ci::MatrixAffine2f &matrix );
+  void    updateTree( const ci::Matrix33f &matrix );
 
   //
   // Mirror Entity interface
@@ -74,13 +73,16 @@ public:
   //! Assign a component.
   template <typename C, typename ... Args>
   std::shared_ptr<C> assign(Args && ... args) { return mEntity.assign<C>( std::forward<Args>(args) ... ); }
+
   //! Remove a component.
   template <typename C>
   void remove() { mEntity.remove<C>(); }
-  //! Get a component.
+
+  //! Retrieve a component.
   template <typename C>
   std::shared_ptr<C> component() { return mEntity.component<C>(); }
-  //! Retrieve a bunch of components at once.
+
+  //! Retrieve multiple components at once.
   template <typename A, typename ... Args>
   void unpack(std::shared_ptr<A> &a, std::shared_ptr<Args> & ... args) { mEntity.unpack( a, std::forward<Args>(args) ... ); }
 
@@ -99,12 +101,19 @@ public:
 
   Node3DRef           createChild() { return createChild<Node3D>(); }
 
+  //
   // Child Manipulation
+  //
+
   //! add a Node3D as a child; will receive connect/disconnect events and have its locus parented
   void            appendChild( Node3DRef element );
+
   void            insertChildAt( Node3DRef element, size_t pos );
+
   size_t          numChildren() const { return mChildren.size(); }
+
   Node3DRef       getChildAt( size_t index ){ return mChildren.at( index ); }
+
   void            setChildIndex( Node3DRef child, size_t index );
 
   void            removeChild( Node3DRef element );
@@ -113,36 +122,33 @@ public:
   //! Removes all children.
   void            clearChildren();
 
-  //! Stop whatever event-related tracking this object was doing. Considering for removal
-  virtual void    cancelInteractions() {}
-  void            deepCancelInteractions();
-
   //! Set top-left of element.
-  void            setPosition( const ci::Vec2f &pos ){ mTransform->position = pos; }
+  void            setPosition( const ci::Vec3f &pos ){ mTransform->position = pos; }
+
   //! Get top-left of element.
-  ci::Vec2f       getPosition() const { return mTransform->position; }
+  ci::Vec3f       getPosition() const { return mTransform->position; }
+
   //! Set xy scale of element.
-  void            setScale( const ci::Vec2f &scale ){ mTransform->scale = scale; }
-  ci::Vec2f       getScale() const { return mTransform->scale; }
+  void            setScale( const ci::Vec3f &scale ){ mTransform->scale = scale; }
+  ci::Vec3f       getScale() const { return mTransform->scale; }
+
   //! Set element rotation around z-axis.
   void            setRotation( float radians ){ mTransform->rotation = radians; }
-  //! Set registration point for rotation and scaling.
-  void            setRegistrationPoint( const ci::Vec2f &loc ){ mTransform->registration_point = loc; }
 
-  //! Returns nominal width and height. Up to users to set correctly at this point.
-  ci::Vec2f       getSize() const { return mSize->size; }
-  void            setSize( const ci::Vec2f &size ) { mSize->size = size; }
+  //! Set pivot point for rotation and scaling.
+  void            setPivot( const ci::Vec3f &pivot ){ mTransform->pivot = pivot; }
 
   //! Returns this Node3D's world transform, as transformed by its parents.
-  ci::MatrixAffine2f    getWorldTransform() const { return mTransform->matrix; }
+  ci::Matrix33f   getWorldTransform() const { return mTransform->matrix; }
   //! Returns this Node3D's transform, ignoring parent transformations.
-  ci::MatrixAffine2f    getLocalTransform() const { return mTransform->calcLocalMatrix(); }
+  ci::Matrix33f   getLocalTransform() const { return mTransform->calcLocalMatrix(); }
 
-  LocationComponentRef  getTransform() const { return mTransform; }
+  //
+  Transform3DRef  getTransform() const { return mTransform; }
 
   //! called when a child is added to this Node3D
   virtual void    childAdded( Node3DRef element ){}
-  Node3D*     getParent(){ return mParent; }
+  Node3D*         getParent(){ return mParent; }
 
   //! return child vector, allowing manipulation of each child, but not the vector
   const std::vector<Node3DRef>& getChildren() const { return mChildren; }
