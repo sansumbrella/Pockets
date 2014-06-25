@@ -38,6 +38,7 @@ namespace treent
 {
 
 typedef std::unique_ptr<class Node3D> Node3DUniqueRef;
+typedef std::shared_ptr<class Node3D> Node3DRef;
 
 /**
  Base Node3D type in a simple scene graph.

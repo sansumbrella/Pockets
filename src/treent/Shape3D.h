@@ -89,7 +89,7 @@ struct Shape3D : Component<Shape3D>
   //! Make an expanded ribbon from a ci::Vec2f skeleton
   //! the skeleton is a collection of points describing the path of the ribbon
   template<typename T>
-  void setAsRibbon( const T &skeleton, float width, bool closed=false );
+  void setAsRibbon( const T &skeleton, float width, const ci::Vec3f &eyeDir = ci::Vec3f::zAxis(), bool closed=false );
   //! Make a fat line between two points
   void setAsLine( const ci::Vec2f &point_a, const ci::Vec2f &point_b, float width=10.0f );
   void setAsCappedLine( const ci::Vec2f &point_a, const ci::Vec2f &point_b, float width=10.0f );
@@ -100,18 +100,18 @@ struct Shape3D : Component<Shape3D>
 
 
 template<typename T>
-void Shape3D::setAsRibbon( const T &skeleton, float width, bool closed )
+void Shape3D::setAsRibbon( const T &skeleton, float width, const ci::Vec3f &eyeDir, bool closed )
 {
-  using ci::Vec2f;
+  using ci::Vec3f;
   if( vertices.size() != skeleton.size() * 2 )
   { vertices.assign( skeleton.size() * 2, Vertex3D{} ); }
-  Vec2f a, b, c;
+  Vec3f a, b, c;
   // first vertex2D
   a = skeleton.at( 0 );
   b = skeleton.at( 1 );
-  Vec2f edge = (b - a);
-  Vec2f tangent = Vec2f( -edge.y, edge.x );
-  Vec2f north = tangent.normalized() * width;
+  auto edge = (b - a);
+  auto tangent = edge.cross( eyeDir );
+  auto north = tangent.normalized() * width;
   vertices.at( 0 ).position = a + north;
   vertices.at( 0 + 1 ).position = a - north;
   // remaining vertices
@@ -121,7 +121,7 @@ void Shape3D::setAsRibbon( const T &skeleton, float width, bool closed )
     b = skeleton.at(i);
     c = skeleton.at(i + 1);
     edge = ((b - a).normalized() + (c - b).normalized()) * 0.5;
-    tangent = Vec2f( -edge.y, edge.x );
+    tangent = edge.cross( eyeDir );
     north = tangent.normalized() * width;
     vertices.at( i * 2 ).position = b + north;
     vertices.at( i * 2 + 1 ).position = b - north;
@@ -129,7 +129,7 @@ void Shape3D::setAsRibbon( const T &skeleton, float width, bool closed )
   // final vertex2D
   c = skeleton.back();
   edge = closed ? (skeleton.at( 1 ) - c) : (c - b);
-  tangent = Vec2f( -edge.y, edge.x );
+  tangent = edge.cross( eyeDir );
   north = tangent.normalized() * width;
   size_t end = skeleton.size() - 1;
   vertices.at( end * 2 ).position = c + north;
