@@ -34,7 +34,7 @@ using namespace cinder;
 namespace treent
 {
 
-void Shape3D::transform(const ci::MatrixAffine2f &mat)
+void Shape3D::transform(const ci::Matrix33f &mat)
 {
   for( Vertex3D &v : vertices )
   {
@@ -42,40 +42,13 @@ void Shape3D::transform(const ci::MatrixAffine2f &mat)
   }
 }
 
-void Shape3D::setAsCircle(const ci::Vec2f &radius, float start_radians, float end_radians, size_t segments )
-{
-  if( segments < 2 ) { // based off of cinder, though we're less generous with the vertices
-    segments = math<float>::floor( math<float>::max( radius.x, radius.y ) * abs(end_radians - start_radians) / 3 );
-  }
-  if( segments < 3 ){
-    segments = 3;
-  }
-  if( vertices.size() != segments * 5 )
-  {
-    vertices.assign( segments * 5, Vertex3D{} );
-  }
-  Vec2f a{ 0.0f, 0.0f };
-  for( int i = 0; i < segments; ++i )
-  {
-    float t1 = lmap<float>( i, 0, segments, start_radians, end_radians );
-    float t2 = lmap<float>( i + 1, 0, segments, start_radians, end_radians );
-    Vec2f b = Vec2f{ math<float>::cos( t1 ), math<float>::sin( t1 ) } * radius;
-    Vec2f c = Vec2f{ math<float>::cos( t2 ), math<float>::sin( t2 ) } * radius;
-    vertices.at(i * 5 + 0).position = a;
-    vertices.at(i * 5 + 1).position = b;
-    vertices.at(i * 5 + 2).position = c;
-    vertices.at(i * 5 + 3).position = c;
-    vertices.at(i * 5 + 4).position = a;
-  }
-}
-
 void Shape3D::setAsBox( const Rectf &bounds )
 {
   if( vertices.size() != 4 ){ vertices.assign( 4, Vertex3D{} ); }
-  vertices[0].position = bounds.getUpperRight();
-  vertices[1].position = bounds.getUpperLeft();
-  vertices[2].position = bounds.getLowerRight();
-  vertices[3].position = bounds.getLowerLeft();
+  vertices[0].position = Vec3f( bounds.getUpperRight(), 0.0f );
+  vertices[1].position = Vec3f( bounds.getUpperLeft() );
+  vertices[2].position = Vec3f( bounds.getLowerRight() );
+  vertices[3].position = Vec3f( bounds.getLowerLeft() );
 }
 
 void Shape3D::setBoxTextureCoords( const SpriteData &sprite_data )
@@ -91,17 +64,17 @@ void Shape3D::matchTexture(const SpriteData &sprite_data)
   if( vertices.size() != 4 ){ vertices.assign( 4, Vertex3D{} ); }
   Rectf screen_bounds{ { 0.0f, 0.0f }, sprite_data.size };
   screen_bounds -= sprite_data.registration_point;
-  vertices[0].position = screen_bounds.getUpperRight();
-  vertices[1].position = screen_bounds.getUpperLeft();
-  vertices[2].position = screen_bounds.getLowerRight();
-  vertices[3].position = screen_bounds.getLowerLeft();
+  vertices[0].position = Vec3f( screen_bounds.getUpperRight() );
+  vertices[1].position = Vec3f( screen_bounds.getUpperLeft() );
+  vertices[2].position = Vec3f( screen_bounds.getLowerRight() );
+  vertices[3].position = Vec3f( screen_bounds.getLowerLeft() );
   vertices[0].tex_coord = sprite_data.texture_bounds.getUpperRight();
   vertices[1].tex_coord = sprite_data.texture_bounds.getUpperLeft();
   vertices[2].tex_coord = sprite_data.texture_bounds.getLowerRight();
   vertices[3].tex_coord = sprite_data.texture_bounds.getLowerLeft();
 }
 
-void Shape3D::setAsTriangle(const ci::Vec2f &a, const ci::Vec2f &b, const ci::Vec2f &c)
+void Shape3D::setAsTriangle(const ci::Vec3f &a, const ci::Vec3f &b, const ci::Vec3f &c)
 {
   if( vertices.size() != 3 ){ vertices.assign( 3, Vertex3D{} ); }
   vertices[0].position = a;
@@ -118,10 +91,10 @@ void Shape3D::setAsLine( const Vec2f &begin, const Vec2f &end, float width )
 
   if( vertices.size() != 4 )
   { vertices.assign( 4, Vertex3D{} ); }
-  vertices.at(0).position = begin + S;
-  vertices.at(1).position = begin + N;
-  vertices.at(2).position = end + S;
-  vertices.at(3).position = end + N;
+  vertices.at(0).position = Vec3f( begin + S, 0.0f );
+  vertices.at(1).position = Vec3f( begin + N, 0.0f );
+  vertices.at(2).position = Vec3f( end + S, 0.0f );
+  vertices.at(3).position = Vec3f( end + N, 0.0f );
 }
 
 void Shape3D::setAsCappedLine( const ci::Vec2f &begin, const ci::Vec2f &end, float width )
@@ -137,14 +110,14 @@ void Shape3D::setAsCappedLine( const ci::Vec2f &begin, const ci::Vec2f &end, flo
 
   if( vertices.size() != 8 )
   { vertices.assign( 8, Vertex3D{} ); }
-  vertices.at(0).position = begin + SW;
-  vertices.at(1).position = begin + NW;
-  vertices.at(2).position = begin + S;
-  vertices.at(3).position = begin + N;
-  vertices.at(4).position = end + S;
-  vertices.at(5).position = end + N;
-  vertices.at(6).position = end + SE;
-  vertices.at(7).position = end + NE;
+  vertices.at(0).position = Vec3f( begin + SW, 0.0f );
+  vertices.at(1).position = Vec3f( begin + NW, 0.0f );
+  vertices.at(2).position = Vec3f( begin + S, 0.0f );
+  vertices.at(3).position = Vec3f( begin + N, 0.0f );
+  vertices.at(4).position = Vec3f( end + S, 0.0f );
+  vertices.at(5).position = Vec3f( end + N, 0.0f );
+  vertices.at(6).position = Vec3f( end + SE, 0.0f );
+  vertices.at(7).position = Vec3f( end + NE, 0.0f );
 }
 
 void Shape3D::setColor( const ColorA8u &color )

@@ -72,28 +72,33 @@ struct Shape3D : Component<Shape3D>
   {
     vertices.assign( vertex2D_count, Vertex3D{} );
   }
+
   //! vertices in triangle_strip order
   std::vector<Vertex3D> vertices;
-  //! Convenience method for making circular shapes
-  //! If you aren't dynamically changing the circle, consider using a Sprite
-  void setAsCircle( const ci::Vec2f &radius, float start_radians=0, float end_radians=M_PI * 2, size_t segments=0 );
+
   //! Set the mesh bounds to a box shape
   void setAsBox( const ci::Rectf &bounds );
+
   //! Set the texture coords to those specified by the sprite data
   //! Does not affect shape of mesh
   void setBoxTextureCoords( const pockets::SpriteData &sprite_data );
+
   //! Set the mesh as a box of sprite's size with correct texture coordinates
   void matchTexture( const pockets::SpriteData &sprite_data );
+
   //! Transform all vertices by \a mat
-  void transform( const ci::MatrixAffine2f &mat );
+  void transform( const ci::Matrix33f &mat );
+
   //! Make an expanded ribbon from a ci::Vec2f skeleton
   //! the skeleton is a collection of points describing the path of the ribbon
   template<typename T>
   void setAsRibbon( const T &skeleton, float width, const ci::Vec3f &eyeDir = ci::Vec3f::zAxis(), bool closed=false );
+
   //! Make a fat line between two points
   void setAsLine( const ci::Vec2f &point_a, const ci::Vec2f &point_b, float width=10.0f );
   void setAsCappedLine( const ci::Vec2f &point_a, const ci::Vec2f &point_b, float width=10.0f );
-  void setAsTriangle( const ci::Vec2f &a, const ci::Vec2f &b, const ci::Vec2f &c );
+  void setAsTriangle( const ci::Vec3f &a, const ci::Vec3f &b, const ci::Vec3f &c );
+
   //! Set the color of all vertices in one go
   void setColor( const ci::ColorA8u &color );
 };
