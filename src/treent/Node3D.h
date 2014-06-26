@@ -64,7 +64,7 @@ public:
   virtual ~Node3D();
 
   //! Call to update the entire Node3D hierarchy.
-  void    updateTree( const ci::Matrix33f &matrix );
+  void    updateTree( const ci::Matrix44f &matrix );
 
   //
   // Mirror Entity interface
@@ -133,15 +133,15 @@ public:
   ci::Vec3f       getScale() const { return mTransform->scale; }
 
   //! Set element rotation around z-axis.
-  void            setRotation( float radians ){ mTransform->rotation = radians; }
+//  void            setRotation( float radians ){ mTransform->rotation = radians; }
 
   //! Set pivot point for rotation and scaling.
   void            setPivot( const ci::Vec3f &pivot ){ mTransform->pivot = pivot; }
 
   //! Returns this Node3D's world transform, as transformed by its parents.
-  ci::Matrix33f   getWorldTransform() const { return mTransform->matrix; }
+  ci::Matrix44f   getWorldTransform() const { return mTransform->matrix; }
   //! Returns this Node3D's transform, ignoring parent transformations.
-  ci::Matrix33f   getLocalTransform() const { return mTransform->calcLocalMatrix(); }
+  ci::Matrix44f   getLocalTransform() const { return mTransform->calcLocalMatrix(); }
 
   //
   Transform3DRef  getTransform() const { return mTransform; }

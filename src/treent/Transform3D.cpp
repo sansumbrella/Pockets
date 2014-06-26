@@ -25,26 +25,40 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "treent/LocationComponent.h"
+#include "treent/Transform3D.h"
 
 using namespace cinder;
 using namespace treent;
 
-MatrixAffine2f LocationComponent::calcLocalMatrix() const
+Matrix44f Transform3D::calcLocalMatrix() const
 {
-  MatrixAffine2f mat;
-  mat.translate( position() + registration_point() );
-  mat.rotate( rotation );
+  const auto axis = orientation.getAxis();
+  const auto angle = orientation.getAngle();
+
+  Matrix44f mat;
+  mat.setTranslate( position + pivot );
+
+  if( ci::math<float>::abs( angle ) > 0.0 ) {
+    mat.rotate( axis, angle );
+  }
+
   mat.scale( scale );
-  mat.translate( -registration_point() );
+  mat.translate( - pivot );
   return mat;
 }
 
-void LocationComponent::updateMatrix( ci::MatrixAffine2f parentMatrix )
+void Transform3D::updateMatrix( ci::Matrix44f parentMatrix )
 {
-  parentMatrix.translate( position() + registration_point() );
-  parentMatrix.rotate( rotation );
+  const auto axis = orientation.getAxis();
+  const auto angle = orientation.getAngle();
+
+  parentMatrix.translate( position + pivot );
+
+  if( ci::math<float>::abs( angle ) > 0.0 ) {
+    parentMatrix.rotate( axis, angle );
+  }
+
   parentMatrix.scale( scale );
-  parentMatrix.translate( -registration_point() );
+  parentMatrix.translate( - pivot );
   matrix = parentMatrix;
 }

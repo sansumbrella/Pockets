@@ -45,21 +45,20 @@ namespace treent
   struct Transform3D : Component<Transform3D>
   {
     Transform3D() = default;
-    Transform3D( const ci::Vec3f &pos, const ci::Vec3f &pivot, float rot ):
+    Transform3D( const ci::Vec3f &pos, const ci::Vec3f &pivot ):
     position( pos ),
-    pivot( pivot ),
-    rotation( rot )
+    pivot( pivot )
     {}
 
-    ci::Anim<ci::Vec3f>   position  = ci::Vec3f::zero();
-    ci::Anim<ci::Vec3f>   pivot     = ci::Vec3f::zero();
-    ci::Anim<float>       rotation  = 0.0f;
-    ci::Anim<ci::Vec3f>   scale     = ci::Vec3f::one();
-    ci::Matrix33f         matrix    = ci::Matrix33f::identity();
+    ci::Vec3f       position  = ci::Vec3f::zero();
+    ci::Vec3f       pivot     = ci::Vec3f::zero();
+    ci::Quatf       orientation  = ci::Quatf::identity();
+    ci::Vec3f       scale     = ci::Vec3f::one();
+    ci::Matrix44f   matrix    = ci::Matrix44f::identity();
 
-    void updateMatrix( ci::Matrix33f parentMatrix );
+    void updateMatrix( ci::Matrix44f parentMatrix );
     //! returns a matrix that will transform points based on Transform3D properties
-    ci::Matrix33f  calcLocalMatrix() const;
+    ci::Matrix44f  calcLocalMatrix() const;
   };
 
 } // treent::

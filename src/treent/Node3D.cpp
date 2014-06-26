@@ -98,7 +98,7 @@ void Node3D::setParent( Node3D *parent )
   mParent = parent;
 }
 
-void Node3D::updateTree( const ci::Matrix33f &matrix )
+void Node3D::updateTree( const ci::Matrix44f &matrix )
 {
   mTransform->updateMatrix( matrix );
   for( Node3DRef &child : mChildren ) {

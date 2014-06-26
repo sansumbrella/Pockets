@@ -27,12 +27,18 @@
 
 #include "Treent.h"
 #include "TreentNode.h"
+#include "Node3D.h"
 
 namespace treent
 {
-  RootNodeRef Treent::createRoot()
+  RootNodeRef Treent::createRoot2D()
   {
     return std::make_shared<RootNode>( entities->create() );
+  }
+
+  Node3DRef Treent::createRoot3D()
+  {
+    return std::make_shared<Node3D>( entities->create() );
   }
 } // treent::
 
