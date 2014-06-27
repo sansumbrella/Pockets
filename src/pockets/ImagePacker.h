@@ -37,7 +37,7 @@ namespace pockets
 
 /**
  Simple image packing
- Place all elements, largest-first, into a single Surface
+ Places all elements, largest-first, into a single Surface
  Height expands to fit
 
  Though spritesheet generation is generally an offline task, it
@@ -91,23 +91,33 @@ class ImagePacker
   typedef std::shared_ptr<ImageData> ImageDataRef;
 	ImagePacker();
 	~ImagePacker();
+
   //! add an image to the sheet. If trim_alpha, trims image bounds to non-alpha area
   ImageDataRef              addImage( const std::string &id, ci::Surface surface, bool trim_alpha=false );
+
   //! add the specified glyphs from a font; id is equal to the character, e.g. "a"
   std::vector<ImageDataRef> addGlyphs( const ci::Font &font, const std::string &glyphs, const std::string &id_prefix="", bool trim_alpha=false );
+
   //! add the specified string set in a font
   ImageDataRef              addString( const std::string &id, const ci::Font &font, const std::string &str, bool trim_alpha=false );
+
   //! assign positions to images
   void                      calculatePositions( const ci::Vec2i &padding, const int width=1024 );
+
   //! use a scanline algorithm to calculate positions (slower to run, more compact)
   void                      calculatePositionsScanline( const ci::Vec2i &padding, const int width=1024 );
+
   //! generates a surface containing all added images in their packed locations
   //! premultiply unless you are using this spritesheet on iOS, in which case XCode will do that later
   ci::Surface               packedSurface( bool premultiply=false );
+
   //! returns a JSON-formatted description of all images and their packed locations
   ci::JsonTree              surfaceDescription();
+
   //! remove all images from packer
   void                      clear() { mImages.clear(); }
+
+  // Collection traversal.
   std::vector<ImageDataRef>::iterator begin(){ return mImages.begin(); }
   std::vector<ImageDataRef>::iterator end(){ return mImages.end(); }
 private:

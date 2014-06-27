@@ -26,7 +26,8 @@
  */
 
 #pragma once
-#include "pockets/puptent/PupTent.h"
+
+#include "pockets/Pockets.h"
 #include "cinder/Surface.h"
 #include "cinder/gl/Texture.h"
 
@@ -53,17 +54,21 @@ namespace pockets
     ci::Vec2i       size;
     ci::Vec2f       registration_point;
   };
+
+
+  typedef std::unique_ptr<class TextureAtlas> TextureAtlasUniqueRef;
+  typedef std::shared_ptr<class TextureAtlas> TextureAtlasRef;
   /**
    TextureAtlas:
    A texture and lookup information for named sprites on that texture.
    Not a component, but used by the SpriteAnimationSystem
   */
-  typedef std::unique_ptr<class TextureAtlas> TextureAtlasUniqueRef;
   class TextureAtlas
   {
   public:
     TextureAtlas() = default;
     TextureAtlas( const ci::Surface &images, const ci::JsonTree &description );
+
     //! returns SpriteData with string id \a sprite_name or default sprite if none exists
     inline const SpriteData& get( const std::string &sprite_name ) const
     {
@@ -74,13 +79,19 @@ namespace pockets
       }
       return mErrorData;
     }
+
     //! returns SpriteData with string id \a sprite_name or default sprite if none exists
     inline const SpriteData&  operator [] ( const std::string &sprite_name ) const
     {
       return get( sprite_name );
     }
+
     //! returns the texture where sprites are stored on GPU
     ci::gl::TextureRef  getTexture() const { return mTexture; }
+
+    //! Returns the list of sprite ids.
+    std::vector<std::string>  getKeys();
+
     //! create a new texture atlas from a surface and json description
     static TextureAtlasUniqueRef create( const ci::Surface &images, const ci::JsonTree &description );
   private:
