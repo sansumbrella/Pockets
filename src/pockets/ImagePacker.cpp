@@ -72,7 +72,10 @@ ImagePacker::ImageDataRef ImagePacker::addString( const string &id, const Font &
   layout.clear( ColorA( 0, 0, 0, 0 ) );
   layout.setFont( font );
   layout.setColor( ColorA::white() );
-  layout.addLine( str );
+  auto lines = split( str, "\n" );
+  for( auto &line : lines ) {
+    layout.addLine( line );
+  }
   Surface image = layout.render( true, false );
   return addImage( id, image, trim_alpha );
 }
@@ -165,7 +168,7 @@ void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const int wi
     while ( !placed )
     {
       for( int j = 0; j < i; ++j )
-      { // check whether we're inside the bounds of any placed image (including padding)
+      { // check whether we're inside the bounds of any previously placed image (including padding)
         auto bounds = mImages.at( j )->getPlacedBounds().inflated( padding );
         if( bounds.contains( loc ) )
         { // jump to right edge of image
@@ -193,6 +196,12 @@ void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const int wi
       // move to next row of pixels for continued evaluation
       loc.x = padding.x;
       loc.y += 1;
+
+      // if we would never fit on the page, we need to issue a warning
+      if( img->getWidth() > width ) {
+        app::console() << "WARNING: Source image too wide. Omitting " << img->getId() << endl;
+        break;
+      }
     }
   }
   mWidth = width;
