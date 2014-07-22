@@ -159,6 +159,7 @@ void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const int wi
   int bottom_y = 0;
   // place largest image at top-left
   mImages.at( 0 )->setLoc( padding );
+
   for( int i = 1; i < mImages.size(); ++i )
   { // for each following image, start at top-left and look on each
     // pixel row for a potential free space
@@ -198,7 +199,7 @@ void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const int wi
       loc.y += 1;
 
       // if we would never fit on the page, we need to issue a warning
-      if( img->getWidth() > width ) {
+      if( img->getWidth() + padding.x > width ) {
         app::console() << "WARNING: Source image too wide. Omitting " << img->getId() << endl;
         break;
       }
