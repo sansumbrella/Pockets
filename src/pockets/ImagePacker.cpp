@@ -165,6 +165,13 @@ void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const int wi
     // pixel row for a potential free space
     Vec2i loc{ padding };
     auto img = mImages.at( i );
+
+    // if we would never fit on the page, we need to issue a warning
+    if( (img->getWidth() + padding.x * 2) > width ) {
+      app::console() << "WARNING: Source image too wide. Omitting " << img->getId() << endl;
+      continue;
+    }
+
     bool placed = false;
     while ( !placed )
     {
@@ -197,12 +204,6 @@ void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const int wi
       // move to next row of pixels for continued evaluation
       loc.x = padding.x;
       loc.y += 1;
-
-      // if we would never fit on the page, we need to issue a warning
-      if( img->getWidth() + padding.x > width ) {
-        app::console() << "WARNING: Source image too wide. Omitting " << img->getId() << endl;
-        break;
-      }
     }
   }
   mWidth = width;
