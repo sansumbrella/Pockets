@@ -68,6 +68,7 @@ namespace pockets
   public:
     TextureAtlas() = default;
     TextureAtlas( const ci::Surface &images, const ci::JsonTree &description );
+    TextureAtlas( const ci::Channel &images, const ci::JsonTree &description );
 
     //! returns SpriteData with string id \a sprite_name or default sprite if none exists
     inline const SpriteData& get( const std::string &sprite_name ) const
@@ -98,6 +99,8 @@ namespace pockets
     std::map<std::string, SpriteData>   mData;
     ci::gl::TextureRef                  mTexture;
     SpriteData                          mErrorData;
+
+    void parseDescription( const ci::JsonTree &description );
   };
 
 } // pockets::
