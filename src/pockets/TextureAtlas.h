@@ -87,6 +87,14 @@ namespace pockets
       return get( sprite_name );
     }
 
+    //! returns SpriteData for the Nth texture in our map. Not guaranteed to match the order in json description.
+    inline const SpriteData& get( size_t index ) const
+    {
+      auto iter = mData.begin();
+      std::advance( iter, index % mData.size() );
+      return iter->second;
+    }
+
     //! returns the texture where sprites are stored on GPU
     ci::gl::TextureRef  getTexture() const { return mTexture; }
 

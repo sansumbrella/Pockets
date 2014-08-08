@@ -69,6 +69,9 @@ class ImagePacker
     int                 getWidth() const { return mSurface.getWidth(); }
     int                 getHeight() const { return mSurface.getHeight(); }
     std::string         getId() const { return mId; }
+
+    void                setUserData( const ci::JsonTree &data ) { mUserData = data; }
+
     ci::JsonTree        toJson()
     {
       using ci::JsonTree;
@@ -80,9 +83,13 @@ class ImagePacker
       tree.pushBack( JsonTree( "y2", mLoc.y + getBounds().getHeight() ) );
       tree.pushBack( JsonTree( "rx", mRegistrationPoint.x ) );
       tree.pushBack( JsonTree( "ry", mRegistrationPoint.y ) );
+      if( mUserData.hasChildren() ) {
+        tree.pushBack( mUserData );
+      }
       return tree;
     }
   private:
+    ci::JsonTree    mUserData;
     ci::Surface     mSurface;
     ci::Vec2i       mLoc = ci::Vec2i::zero();
     ci::Vec2i       mRegistrationPoint = ci::Vec2i::zero();
@@ -92,7 +99,7 @@ class ImagePacker
 	ImagePacker();
 	~ImagePacker();
 
-  //! add an image to the sheet. If trim_alpha, trims image bounds to non-alpha area
+  //! add an image to the sheet. If \a trim_alpha, trims image bounds to non-alpha area
   ImageDataRef              addImage( const std::string &id, ci::Surface surface, bool trim_alpha=false );
 
   //! add the specified glyphs from a font; id is equal to the character, e.g. "a"
