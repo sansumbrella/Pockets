@@ -280,7 +280,7 @@ public:
 
   //! Create a Sequence that is connected out to \a output.
   template<typename T>
-  Motion<T>& drive( T *output )
+  Motion<T>& move( T *output )
   {
     auto c = std::make_shared<Motion<T>>();
     c->sequence = std::make_shared<Sequence<T>>();
@@ -292,7 +292,7 @@ public:
 
   //! Create a Motion that plays \a sequence into \a output.
   template<typename T>
-  Motion<T>& drive( T *output, std::shared_ptr<Sequence<T>> sequence )
+  Motion<T>& move( T *output, std::shared_ptr<Sequence<T>> sequence )
   {
     auto c = std::make_shared<Motion<T>>();
     c->sequence = sequence;
@@ -305,7 +305,7 @@ public:
   // Thinking about this one
   // Create a Sequence with an output slot for type T.
   template<typename T>
-  Sequence<T>& move( uint32_t label )
+  Motion<T>& move( uint32_t label )
   {
 
   }

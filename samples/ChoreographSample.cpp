@@ -40,10 +40,12 @@ ChoreographSample::~ChoreographSample()
 
 void ChoreographSample::setup()
 {
-  auto &rotation = _anim.drive( &_ball_y )
+
+  auto &rotation = _anim.move( &_ball_y )
     .startFn( [] (Motion<float> &c) { cout << "Start red" << endl; } )
     .getSequence().set( 5.0f ).hold( 1.0f ).rampTo( 500.0f, 3.0f ).hold( 500.0f, 1.0f ).rampTo( 20.0f, 2.0f ).hold( 20.0f, 1.0f ).hold( 400.0f, 1.0f );
   _anim.drive( &_ball_2 )
+  _anim.move( &_ball_2 )
     .startFn( [] (Motion<Vec2f> &c) { cout << "Start blue" << endl; } )
     .finishFn( [] (Motion<Vec2f> &c) { c.speed( c.getSpeed() * -1.0f ); }  )
     .continuous( true )
