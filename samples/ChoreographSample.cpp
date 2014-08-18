@@ -39,8 +39,8 @@ ChoreographSample::~ChoreographSample()
 
 void ChoreographSample::setup()
 {
-  auto &rotation = _anim.move( &_ball_y ).hold( 5.0f, 1.0f ).rampTo( 500.0f, 3.0f ).hold( 500.0f, 1.0f ).rampTo( 20.0f, 2.0f ).hold( 20.0f, 1.0f ).hold( 400.0f, 1.0f );
-  _anim.move( &_ball_2 ).hold( app::getWindowSize() / 2.0f, 2.0f ).rampTo( app::getWindowSize(), 2.0f ).rampTo( Vec2f( app::getWindowWidth() / 2.0f, 10.0f ), 3.0f ).rampTo( app::getWindowSize() / 2.0f, 0.5f );
+  auto &rotation = _anim.sequence( &_ball_y ).hold( 5.0f, 1.0f ).rampTo( 500.0f, 3.0f ).hold( 500.0f, 1.0f ).rampTo( 20.0f, 2.0f ).hold( 20.0f, 1.0f ).hold( 400.0f, 1.0f );
+  _anim.sequence( &_ball_2 ).hold( app::getWindowSize() / 2.0f, 2.0f ).rampTo( app::getWindowSize(), 2.0f ).rampTo( Vec2f( app::getWindowWidth() / 2.0f, 10.0f ), 3.0f ).rampTo( app::getWindowSize() / 2.0f, 0.5f );
 
   for( float t = -1.0f; t < rotation.getDuration() + 0.2f; t += 0.1f )
   {

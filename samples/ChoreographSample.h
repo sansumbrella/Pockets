@@ -32,47 +32,54 @@
 namespace choreograph
 {
 
-/*
- Act on a type.
- */
-template<typename T>
-class Motion
+// A motion describes a one-dimensional change through time.
+// These can be ease equations, always return the same value, or sample some data. Whatever you want.
+// For classic motion, Motion( 0 ) = 0, Motion( 1 ) = 1.
+// set( 0.0f ).move( )
+typedef std::function<float (float)> Motion;
+
+struct Hold
 {
-public:
-  virtual ~Motion() = default;
-  virtual T getValue( float atTime ) = 0;
-  inline float normalizedTime( float t ) const
+  float operator() ( float t ) const { return 0.0f; }
+};
+
+struct LinearRamp
+{
+  float operator() ( float t ) const { return t; }
+};
+
+// A position describes a point in time.
+
+template<typename T>
+struct Position
+{
+  T     value;
+  float time;
+};
+
+template<typename T>
+T lerpT( const T &a, const T &b, float t )
+{
+  return a + (b - a) * t;
+}
+
+template<typename T>
+struct Segment
+{
+  Position<T> start;
+  Position<T> end;
+  Motion      motion;
+  std::function<T (const T&, const T&, float)> lerpFn = &lerpT<T>;
+
+  T getValue( float atTime ) const
   {
-    return (end == start) ? 1.0f : (t - start) / (end - start);
+    float t = (atTime - start.time) / (end.time - start.time);
+    return lerpFn( start.value, end.value, motion( t ) );
   }
-
-  float start = 0.0f;
-  float end = 0.0f;
-};
-
-template<typename T>
-class Ramp : public Motion<T>
-{
-public:
-  T getValue( float atTime ) override
-  {
-    return start_value + (end_value - start_value) * Motion<T>::normalizedTime( atTime );
-  }
-  T start_value;
-  T end_value;
-  // ease function, etc.
-};
-
-template<typename T>
-class Hold : public Motion<T>
-{
-public:
-  T getValue( float atTime ) override { return value; }
-  T value;
 };
 
 /*
- Sequence of motions on a given type.
+ Sequence of Positions on a given type, interpolated with Motions.
  Give an output pointer to send the value to.
 */
 template<typename T>
@@ -83,26 +90,30 @@ public:
 
   Sequence<T>& hold( const T &value, float duration )
   {
-    auto hold = std::make_shared<Hold<T>>();
-    hold->value = value;
-    hold->start = _end_time;
-    hold->end = _end_time = _end_time + duration;
+    Segment<T> s;
+    s.start = Position<T>{ value, _end_time };
+    s.end = Position<T>{ value, _end_time + duration };
+    s.motion = Hold();
+
+    _segments.push_back( s );
+
     _end_value = value;
-    _events.push_back( hold );
+    _end_time += duration;
 
     return *this;
   }
 
   Sequence<T>& rampTo( const T &value, float duration )
   {
-    auto ramp = std::make_shared<Ramp<T>>();
-    ramp->start_value = _end_value;
-    ramp->end_value = value;
-    ramp->start = _end_time;
-    ramp->end = _end_time = _end_time + duration;
-    _end_value = value;
+    Segment<T> s;
+    s.start = Position<T>{ _end_value, _end_time };
+    s.end = Position<T>{ value, _end_time + duration };
+    s.motion = LinearRamp();
 
-    _events.push_back( ramp );
+    _segments.push_back( s );
+
+    _end_value = value;
+    _end_time += duration;
 
     return *this;
   }
@@ -110,7 +121,7 @@ public:
   float getDuration() const { return _end_time; }
 
 private:
-  std::vector<std::shared_ptr<Motion<T>>> _events;
+  std::vector<Segment<T>>  _segments;
   T     _end_value;
   float _end_time = 0.0f;
 };
@@ -118,18 +129,19 @@ private:
 template<typename T>
 T Sequence<T>::getValue( float atTime )
 {
-  auto iter = _events.begin();
-  while( iter < _events.end() ) {
-    if( (*iter)->end > atTime )
+  auto iter = _segments.begin();
+  while( iter < _segments.end() ) {
+    if( (*iter).end.time > atTime )
     {
-      return (*iter)->getValue( atTime );
+      return (*iter).getValue( atTime );
     }
     ++iter;
   }
   // past the end, get the final value
-  return _events.back()->getValue( _events.back()->end );
+  return _end_value;
 }
 
+// Non-templated base type so we can store in a polymorphic container.
 class Connect
 {
 public:
@@ -137,6 +149,7 @@ public:
   virtual void step( float dt ) = 0;
 };
 
+// Pipes the value from a Sequence out to a user-defined variable.
 template<typename T>
 class Connection : public Connect
 {
@@ -161,14 +174,30 @@ class Animation
 {
 public:
 
+  //! Create a Sequence that is connected out to \a output.
   template<typename T>
-  Sequence<T>& move( T *output )
+  Sequence<T>& sequence( T *output )
   {
     auto c = std::make_shared<Connection<T>>();
     c->sequence = std::make_shared<Sequence<T>>();
     c->output = output;
     _connections.push_back( c );
     return *(c->sequence);
+  }
+
+  // Thinking about this one
+  // Create a Sequence with an output slot for type T.
+  template<typename T>
+  Sequence<T>& sequence( uint32_t label )
+  {
+
+  }
+
+  // Assign the output slot of Sequence at \a label to \a output.
+  template<typename T>
+  void connect( uint32_t label, T *output )
+  {
+
   }
 
   void step( float dt )
