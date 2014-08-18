@@ -57,6 +57,7 @@
 		1563A4ED18FCE00200D1FF54 /* System.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4DE18FCE00200D1FF54 /* System.cc */; };
 		1563A4EE18FCE00200D1FF54 /* TagsComponent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4E118FCE00200D1FF54 /* TagsComponent.cc */; };
 		1563A4EF18FCE00200D1FF54 /* TagsComponent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4E118FCE00200D1FF54 /* TagsComponent.cc */; };
+		15850ED519A1B413007B3627 /* ChoreographSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15850ED319A1B413007B3627 /* ChoreographSample.cpp */; };
 		159A3E401927E12800935D8F /* TreentGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159A3E3F1927E12800935D8F /* TreentGui.cpp */; };
 		159A3E431927E86700935D8F /* GuiSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159A3E411927E86700935D8F /* GuiSystem.cpp */; };
 		159A3E441927E86700935D8F /* GuiSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159A3E411927E86700935D8F /* GuiSystem.cpp */; };
@@ -167,6 +168,8 @@
 		1563A4DF18FCE00200D1FF54 /* System.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
 		1563A4E118FCE00200D1FF54 /* TagsComponent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TagsComponent.cc; sourceTree = "<group>"; };
 		1563A4E218FCE00200D1FF54 /* TagsComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsComponent.h; sourceTree = "<group>"; };
+		15850ED319A1B413007B3627 /* ChoreographSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChoreographSample.cpp; sourceTree = "<group>"; };
+		15850ED419A1B413007B3627 /* ChoreographSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoreographSample.h; sourceTree = "<group>"; };
 		159A3E3E1927E12800935D8F /* TreentGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreentGui.h; sourceTree = "<group>"; };
 		159A3E3F1927E12800935D8F /* TreentGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TreentGui.cpp; sourceTree = "<group>"; };
 		159A3E411927E86700935D8F /* GuiSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiSystem.cpp; sourceTree = "<group>"; };
@@ -314,6 +317,8 @@
 				15027AC118CB9844005473FB /* TexturePackingSample.cpp */,
 				15027AB918CB66AE005473FB /* PhysicsScrolling.cpp */,
 				15027ABA18CB66AE005473FB /* PhysicsScrolling.h */,
+				15850ED319A1B413007B3627 /* ChoreographSample.cpp */,
+				15850ED419A1B413007B3627 /* ChoreographSample.h */,
 			);
 			name = Samples;
 			path = ../../../samples;
@@ -701,6 +706,7 @@
 				1563A4EA18FCE00200D1FF54 /* Event.cc in Sources */,
 				1563A4EE18FCE00200D1FF54 /* TagsComponent.cc in Sources */,
 				155BEF9D18CBA749000A36FC /* SimpleButton.cpp in Sources */,
+				15850ED519A1B413007B3627 /* ChoreographSample.cpp in Sources */,
 				155BEFAB18CBA749000A36FC /* TypeNode.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
