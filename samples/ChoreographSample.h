@@ -162,7 +162,7 @@ class Animation
 public:
 
   template<typename T>
-  Sequence<T>& add( T *output )
+  Sequence<T>& move( T *output )
   {
     auto c = std::make_shared<Connection<T>>();
     c->sequence = std::make_shared<Sequence<T>>();
@@ -178,6 +178,7 @@ public:
       c->step( dt );
     }
   }
+
 private:
   std::vector<std::shared_ptr<Connect>> _connections;
 };
