@@ -66,6 +66,10 @@ T lerpT( const T &a, const T &b, float t )
   return a + (b - a) * t;
 }
 
+/*
+ A Segment is a part of a sequence.
+ It describes the motion between two positions.
+ */
 template<typename T>
 struct Segment
 {
@@ -82,8 +86,8 @@ struct Segment
 };
 
 /*
- Sequence of Positions on a given type, interpolated with Motions.
- Give an output pointer to send the value to.
+ A Sequence of motions.
+ Our essential compositional tool, describing all the transformations to one element.
 */
 template<typename T>
 class Sequence
@@ -174,11 +178,16 @@ T Sequence<T>::getValue( float atTime )
   return endValue();
 }
 
-// Non-templated base type so we can store in a polymorphic container.
-class Connect
+/**
+ A connection between a continuous, independent Sequence and an output.
+ Non-templated base type so we can store in a polymorphic container.
+ */
+class ConnectionBase
 {
 public:
-  virtual ~Connect() = default;
+  virtual ~ConnectionBase() = default;
+
+  //! Move forward in time.
   virtual void step( float dt ) = 0;
 
   virtual float getDuration() const = 0;
@@ -193,10 +202,13 @@ public:
   bool        _continuous = false;
 };
 
-// Drives a Sequence and sends its value to a user-defined variable.
-// Might mirror the Sequence interface for easier animation.
+/**
+ A connection between a continuous, independent Sequence and an output.
+ Drives a Sequence and sends its value to a user-defined variable.
+ Might mirror the Sequence interface for easier animation.
+ */
 template<typename T>
-class Connection : public Connect
+class Connection : public ConnectionBase
 {
 public:
   void step( float dt ) override
@@ -248,7 +260,7 @@ public:
   // shared_ptr to sequence since many connections could share the same sequence
   // this enables us to to pseudo-instancing on our animations, reducing their memory footprint.
   std::shared_ptr<Sequence<T>> sequence;
-  T           *output;
+  T             *output;
   Callback      _finishFn = nullptr;
   Callback      _startFn = nullptr;
   DataCallback  _updateFn = nullptr;
@@ -313,18 +325,18 @@ public:
 
     if( _auto_clear )
     {
-      _connections.erase( std::remove_if( _connections.begin(), _connections.end(), [=] (const std::shared_ptr<Connect> &c ) { return !c->_continuous && c->time >= c->getDuration(); } ), _connections.end() );
+      _connections.erase( std::remove_if( _connections.begin(), _connections.end(), [=] (const std::shared_ptr<ConnectionBase> &c ) { return !c->_continuous && c->time >= c->getDuration(); } ), _connections.end() );
     }
   }
 
-  void remove( const std::shared_ptr<Connect> &connection )
+  void remove( const std::shared_ptr<ConnectionBase> &connection )
   {
-    _connections.erase( std::remove_if( _connections.begin(), _connections.end(), [=] (const std::shared_ptr<Connect> &c ) { return c == connection; } ), _connections.end() );
+    _connections.erase( std::remove_if( _connections.begin(), _connections.end(), [=] (const std::shared_ptr<ConnectionBase> &c ) { return c == connection; } ), _connections.end() );
   }
 
 private:
   bool                                  _auto_clear = true;
-  std::vector<std::shared_ptr<Connect>> _connections;
+  std::vector<std::shared_ptr<ConnectionBase>> _connections;
 };
 
 } // namespace choreograph
