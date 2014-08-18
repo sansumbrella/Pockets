@@ -40,10 +40,13 @@ ChoreographSample::~ChoreographSample()
 
 void ChoreographSample::setup()
 {
-  auto &rotation = _anim.drive( &_ball_y ).getSequence().set( 5.0f ).hold( 1.0f ).rampTo( 500.0f, 3.0f ).hold( 500.0f, 1.0f ).rampTo( 20.0f, 2.0f ).hold( 20.0f, 1.0f ).hold( 400.0f, 1.0f );
+  auto &rotation = _anim.drive( &_ball_y )
+    .startFn( [] (Connection<float> &c) { cout << "Start red" << endl; } )
+    .getSequence().set( 5.0f ).hold( 1.0f ).rampTo( 500.0f, 3.0f ).hold( 500.0f, 1.0f ).rampTo( 20.0f, 2.0f ).hold( 20.0f, 1.0f ).hold( 400.0f, 1.0f );
   _anim.drive( &_ball_2 )
     .startFn( [] (Connection<Vec2f> &c) { cout << "Start blue" << endl; } )
     .finishFn( [] (Connection<Vec2f> &c) { c.speed( c.getSpeed() * -1.0f ); }  )
+    .continuous( true )
     .updateFn( [&] (const Vec2f &v) {
       Vec2f size = app::getWindowSize();
       float shortest = min( v.x, size.x - v.x );

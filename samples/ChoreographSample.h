@@ -148,12 +148,18 @@ private:
   friend class Animation;
 };
 
+// Get the value of this sequence for a given point in time.
+// Wondering if there is a way to get the value in constant time.
 template<typename T>
 T Sequence<T>::getValue( float atTime )
 {
   if( atTime < 0.0f )
   {
     return _initial_value;
+  }
+  else if ( atTime > _duration )
+  {
+    return endValue();
   }
 
   auto iter = _segments.begin();
@@ -174,6 +180,17 @@ class Connect
 public:
   virtual ~Connect() = default;
   virtual void step( float dt ) = 0;
+
+  virtual float getDuration() const = 0;
+
+  // Playback speed. Set to negative to go in reverse.
+  float       _speed = 1.0f;
+  // Current animation time in seconds.
+  float       time = 0.0f;
+  // Previous animation time in seconds.
+  float       last_time = 0.0f;
+  // True if the underlying Sequence should play forever.
+  bool        _continuous = false;
 };
 
 // Drives a Sequence and sends its value to a user-defined variable.
@@ -207,6 +224,9 @@ public:
     }
   }
 
+  void* getOutput() const { return output; }
+  float getDuration() const override { return sequence->getDuration(); }
+
   //! Returns the underlying sequence for extension.
   Sequence<T>&  getSequence() { return *sequence; }
 
@@ -222,20 +242,17 @@ public:
   float          getSpeed() const { return _speed; }
   Connection<T>& speed( float s ) { _speed = s; return *this; }
 
+  //! Set the connection to play continuously.
+  Connection<T>& continuous( bool c ) { _continuous = c; return *this; }
+
   // shared_ptr to sequence since many connections could share the same sequence
   // this enables us to to pseudo-instancing on our animations, reducing their memory footprint.
   std::shared_ptr<Sequence<T>> sequence;
   T           *output;
-  Callback    _finishFn = nullptr;
-  Callback    _startFn = nullptr;
-  DataCallback _updateFn = nullptr;
+  Callback      _finishFn = nullptr;
+  Callback      _startFn = nullptr;
+  DataCallback  _updateFn = nullptr;
 
-  // Playback speed. Set to negative to go in reverse.
-  float       _speed = 1.0f;
-  // Current animation time in seconds.
-  float       time = 0.0f;
-  // Previous animation time in seconds.
-  float       last_time = 0.0f;
 };
 
 /*
@@ -243,7 +260,6 @@ public:
  Maybe variadic templates to specify an animation with different channel types,
  or one composed of n existing channels...
  */
-
 class Animation
 {
 public:
@@ -294,13 +310,24 @@ public:
     {
       c->step( dt );
     }
+
+    if( _auto_clear )
+    {
+      _connections.erase( std::remove_if( _connections.begin(), _connections.end(), [=] (const std::shared_ptr<Connect> &c ) { return !c->_continuous && c->time >= c->getDuration(); } ), _connections.end() );
+    }
+  }
+
+  void remove( const std::shared_ptr<Connect> &connection )
+  {
+    _connections.erase( std::remove_if( _connections.begin(), _connections.end(), [=] (const std::shared_ptr<Connect> &c ) { return c == connection; } ), _connections.end() );
   }
 
 private:
+  bool                                  _auto_clear = true;
   std::vector<std::shared_ptr<Connect>> _connections;
 };
 
-}
+} // namespace choreograph
 
 namespace co = choreograph;
 
