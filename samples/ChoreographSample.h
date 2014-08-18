@@ -127,12 +127,12 @@ public:
     return *this;
   }
 
-  Sequence<T>& rampTo( const T &value, float duration )
+  Sequence<T>& rampTo( const T &value, float duration, const EaseFn &ease = LinearRamp() )
   {
     Phrase<T> s;
     s.start = Position<T>{ endValue(), _duration };
     s.end = Position<T>{ value, _duration + duration };
-    s.motion = LinearRamp();
+    s.motion = ease;
 
     _segments.push_back( s );
 
