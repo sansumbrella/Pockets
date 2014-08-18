@@ -28,6 +28,8 @@
 #pragma once
 
 #include "pockets/Scene.h"
+#include "cinder/Text.h"
+#include "cinder/gl/Texture.h"
 
 namespace choreograph
 {
@@ -36,6 +38,7 @@ namespace choreograph
 // These can be ease equations, always return the same value, or sample some data. Whatever you want.
 // For classic motion, Motion( 0 ) = 0, Motion( 1 ) = 1.
 // set( 0.0f ).move( )
+// then again, might just make a curve struct that is callable and have a way to set its initial and final derivatives.
 typedef std::function<float (float)> Motion;
 
 struct Hold
@@ -88,17 +91,33 @@ class Sequence
 public:
   T getValue( float atTime );
 
+  Sequence<T>& set( const T &value )
+  {
+    if( _segments.empty() ) {
+      _initial_value = value;
+    }
+    else {
+      hold( 0.0f );
+    }
+
+    return *this;
+  }
+
+  Sequence<T>& hold( float duration )
+  {
+    return hold( endValue(), duration );
+  }
+
   Sequence<T>& hold( const T &value, float duration )
   {
     Segment<T> s;
-    s.start = Position<T>{ value, _end_time };
-    s.end = Position<T>{ value, _end_time + duration };
+    s.start = Position<T>{ value, _duration };
+    s.end = Position<T>{ value, _duration + duration };
     s.motion = Hold();
 
     _segments.push_back( s );
 
-    _end_value = value;
-    _end_time += duration;
+    _duration += duration;
 
     return *this;
   }
@@ -106,29 +125,37 @@ public:
   Sequence<T>& rampTo( const T &value, float duration )
   {
     Segment<T> s;
-    s.start = Position<T>{ _end_value, _end_time };
-    s.end = Position<T>{ value, _end_time + duration };
+    s.start = Position<T>{ endValue(), _duration };
+    s.end = Position<T>{ value, _duration + duration };
     s.motion = LinearRamp();
 
     _segments.push_back( s );
 
-    _end_value = value;
-    _end_time += duration;
+    _duration += duration;
 
     return *this;
   }
 
-  float getDuration() const { return _end_time; }
+  float getDuration() const { return _duration; }
 
 private:
   std::vector<Segment<T>>  _segments;
-  T     _end_value;
-  float _end_time = 0.0f;
+  T     _initial_value;
+  T     endValue() const { return _segments.empty() ? _initial_value : _segments.back().end.value; }
+  Segment<T>& endSegment() const { return _segments.back(); }
+  float _duration = 0.0f;
+
+  friend class Animation;
 };
 
 template<typename T>
 T Sequence<T>::getValue( float atTime )
 {
+  if( atTime < 0.0f )
+  {
+    return _initial_value;
+  }
+
   auto iter = _segments.begin();
   while( iter < _segments.end() ) {
     if( (*iter).end.time > atTime )
@@ -138,7 +165,7 @@ T Sequence<T>::getValue( float atTime )
     ++iter;
   }
   // past the end, get the final value
-  return _end_value;
+  return endValue();
 }
 
 // Non-templated base type so we can store in a polymorphic container.
@@ -149,19 +176,66 @@ public:
   virtual void step( float dt ) = 0;
 };
 
-// Pipes the value from a Sequence out to a user-defined variable.
+// Drives a Sequence and sends its value to a user-defined variable.
+// Might mirror the Sequence interface for easier animation.
 template<typename T>
 class Connection : public Connect
 {
 public:
   void step( float dt ) override
   {
-    time += dt;
+    last_time = time;
+    time += dt * _speed;
+
+    if( _startFn ) {
+      if( _speed > 0.0f && time > 0.0f && last_time <= 0.0f )
+        _startFn( *this );
+      else if( _speed < 0.0f && time < sequence->getDuration() && last_time >= sequence->getDuration() )
+        _startFn( *this );
+    }
+
     *output = sequence->getValue( time );
+    if( _updateFn ) {
+      _updateFn( *output );
+    }
+
+    if( _finishFn ){
+      if( _speed > 0.0f && time >= sequence->getDuration() && last_time < sequence->getDuration() )
+        _finishFn( *this );
+      else if( _speed < 0.0f && time <= 0.0f && last_time > 0.0f )
+        _finishFn( *this );
+    }
   }
+
+  //! Returns the underlying sequence for extension.
+  Sequence<T>&  getSequence() { return *sequence; }
+
+  typedef std::function<void (const T&)>        DataCallback;
+  typedef std::function<void (Connection<T> &)> Callback;
+  //! Set a function to be called when we reach the end of the sequence.
+  Connection<T>& finishFn( const Callback &c ) { _finishFn = c; return *this; }
+  //! Set a function to be called when we start the sequence.
+  Connection<T>& startFn( const Callback &c ) { _startFn = c; return *this; }
+  //! Set a function to be called at each update step of the sequence. Called immediately after setting the target value.
+  Connection<T>& updateFn( const DataCallback &c ) { _updateFn = c; return *this; }
+
+  float          getSpeed() const { return _speed; }
+  Connection<T>& speed( float s ) { _speed = s; return *this; }
+
+  // shared_ptr to sequence since many connections could share the same sequence
+  // this enables us to to pseudo-instancing on our animations, reducing their memory footprint.
   std::shared_ptr<Sequence<T>> sequence;
   T           *output;
+  Callback    _finishFn = nullptr;
+  Callback    _startFn = nullptr;
+  DataCallback _updateFn = nullptr;
+
+  // Playback speed. Set to negative to go in reverse.
+  float       _speed = 1.0f;
+  // Current animation time in seconds.
   float       time = 0.0f;
+  // Previous animation time in seconds.
+  float       last_time = 0.0f;
 };
 
 /*
@@ -176,19 +250,32 @@ public:
 
   //! Create a Sequence that is connected out to \a output.
   template<typename T>
-  Sequence<T>& sequence( T *output )
+  Connection<T>& drive( T *output )
   {
     auto c = std::make_shared<Connection<T>>();
     c->sequence = std::make_shared<Sequence<T>>();
     c->output = output;
+    c->sequence->_initial_value = *output;
     _connections.push_back( c );
-    return *(c->sequence);
+    return *c;
+  }
+
+  //! Create a Connection that plays \a sequence into \a output.
+  template<typename T>
+  Connection<T>& drive( T *output, std::shared_ptr<Sequence<T>> sequence )
+  {
+    auto c = std::make_shared<Connection<T>>();
+    c->sequence = sequence;
+    c->output = output;
+    c->sequence->_initial_value = *output;
+    _connections.push_back( c );
+    return *c;
   }
 
   // Thinking about this one
   // Create a Sequence with an output slot for type T.
   template<typename T>
-  Sequence<T>& sequence( uint32_t label )
+  Sequence<T>& move( uint32_t label )
   {
 
   }
@@ -200,6 +287,7 @@ public:
 
   }
 
+  // Advance all current connections.
   void step( float dt )
   {
     for( auto &c : _connections )
@@ -229,5 +317,8 @@ public:
 private:
   float                 _ball_y;
   ci::Vec2f             _ball_2;
+  float                 _ball_radius;
   co::Animation         _anim;
+  ci::gl::TextureRef    _text;
+
 };

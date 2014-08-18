@@ -26,6 +26,7 @@
  */
 
 #include "ChoreographSample.h"
+#include "cinder/Utilities.h"
 
 using namespace std;
 using namespace cinder;
@@ -39,13 +40,36 @@ ChoreographSample::~ChoreographSample()
 
 void ChoreographSample::setup()
 {
-  auto &rotation = _anim.sequence( &_ball_y ).hold( 5.0f, 1.0f ).rampTo( 500.0f, 3.0f ).hold( 500.0f, 1.0f ).rampTo( 20.0f, 2.0f ).hold( 20.0f, 1.0f ).hold( 400.0f, 1.0f );
-  _anim.sequence( &_ball_2 ).hold( app::getWindowSize() / 2.0f, 2.0f ).rampTo( app::getWindowSize(), 2.0f ).rampTo( Vec2f( app::getWindowWidth() / 2.0f, 10.0f ), 3.0f ).rampTo( app::getWindowSize() / 2.0f, 0.5f );
+  auto &rotation = _anim.drive( &_ball_y ).getSequence().set( 5.0f ).hold( 1.0f ).rampTo( 500.0f, 3.0f ).hold( 500.0f, 1.0f ).rampTo( 20.0f, 2.0f ).hold( 20.0f, 1.0f ).hold( 400.0f, 1.0f );
+  _anim.drive( &_ball_2 )
+    .startFn( [] (Connection<Vec2f> &c) { cout << "Start blue" << endl; } )
+    .finishFn( [] (Connection<Vec2f> &c) { c.speed( c.getSpeed() * -1.0f ); }  )
+    .updateFn( [&] (const Vec2f &v) {
+      Vec2f size = app::getWindowSize();
+      float shortest = min( v.x, size.x - v.x );
+      shortest = min( shortest, size.y - v.y );
+      shortest = min( shortest, v.y );
+      _ball_radius = shortest;
+    } )
+    .getSequence().rampTo( app::getWindowSize() / 2.0f, 2.0f ).rampTo( app::getWindowSize(), 2.0f ).rampTo( Vec2f( app::getWindowWidth() / 2.0f, 10.0f ), 3.0f ).rampTo( app::getWindowSize() / 2.0f, 0.5f );
 
   for( float t = -1.0f; t < rotation.getDuration() + 0.2f; t += 0.1f )
   {
     app::console() << "Animation time: " << t << "\t\t, value: " << rotation.getValue( t ) << endl;
   }
+
+  Font font( "Monaco", 24.0f );
+  string urdu = loadString( loadFile( "/Users/davidwicks/Client/Active/soso/urdu-utf8.txt" ) );
+  string chinese = loadString( loadFile( "/Users/davidwicks/Client/Active/soso/chinese-utf8.txt" ) );
+  string kana = loadString( loadFile( "/Users/davidwicks/Client/Active/soso/kana-utf8.txt" ) );
+  TextLayout layout;
+  layout.clear( Color::black() );
+  layout.setColor( Color::white() );
+  layout.setFont( font );
+  layout.addLine( urdu );
+  layout.addLine( chinese );
+  layout.addLine( kana );
+  _text = gl::Texture::create( layout.render( true, true ) );
 }
 
 void ChoreographSample::update(double dt)
@@ -55,10 +79,17 @@ void ChoreographSample::update(double dt)
 
 void ChoreographSample::draw()
 {
+  gl::disableDepthRead();
+  gl::disableDepthWrite();
+
   gl::clear( Color( 0, 0, 0 ) );
   gl::color( Color( 1.0f, 0.0f, 0.0f ) );
   gl::drawSolidCircle( Vec2f( 200.0f, _ball_y ), 120.0f );
   gl::color( 0.0f, 0.0f, 1.0f );
-  gl::drawSolidCircle( _ball_2, 60.0f );
+  gl::drawSolidCircle( _ball_2, _ball_radius );
+
+  gl::enableAlphaBlending( true );
+  gl::color( Color::white() );
+  gl::draw( _text );
 }
 
