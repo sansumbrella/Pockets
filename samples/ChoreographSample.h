@@ -36,10 +36,10 @@ namespace choreograph
 
 // A motion describes a one-dimensional change through time.
 // These can be ease equations, always return the same value, or sample some data. Whatever you want.
-// For classic motion, Motion( 0 ) = 0, Motion( 1 ) = 1.
+// For classic motion, EaseFn( 0 ) = 0, EaseFn( 1 ) = 1.
 // set( 0.0f ).move( )
 // then again, might just make a curve struct that is callable and have a way to set its initial and final derivatives.
-typedef std::function<float (float)> Motion;
+typedef std::function<float (float)> EaseFn;
 
 struct Hold
 {
@@ -67,15 +67,15 @@ T lerpT( const T &a, const T &b, float t )
 }
 
 /*
- A Segment is a part of a sequence.
+ A Phrase is a part of a Sequence.
  It describes the motion between two positions.
  */
 template<typename T>
-struct Segment
+struct Phrase
 {
   Position<T> start;
   Position<T> end;
-  Motion      motion;
+  EaseFn      motion;
   std::function<T (const T&, const T&, float)> lerpFn = &lerpT<T>;
 
   T getValue( float atTime ) const
@@ -88,6 +88,7 @@ struct Segment
 /*
  A Sequence of motions.
  Our essential compositional tool, describing all the transformations to one element.
+ The platonic idea of an animation sequence; this describes a motion for all possible points in time.
 */
 template<typename T>
 class Sequence
@@ -114,7 +115,7 @@ public:
 
   Sequence<T>& hold( const T &value, float duration )
   {
-    Segment<T> s;
+    Phrase<T> s;
     s.start = Position<T>{ value, _duration };
     s.end = Position<T>{ value, _duration + duration };
     s.motion = Hold();
@@ -128,7 +129,7 @@ public:
 
   Sequence<T>& rampTo( const T &value, float duration )
   {
-    Segment<T> s;
+    Phrase<T> s;
     s.start = Position<T>{ endValue(), _duration };
     s.end = Position<T>{ value, _duration + duration };
     s.motion = LinearRamp();
@@ -143,17 +144,17 @@ public:
   float getDuration() const { return _duration; }
 
 private:
-  std::vector<Segment<T>>  _segments;
+  std::vector<Phrase<T>>  _segments;
   T     _initial_value;
   T     endValue() const { return _segments.empty() ? _initial_value : _segments.back().end.value; }
-  Segment<T>& endSegment() const { return _segments.back(); }
+  Phrase<T>& endPhrase() const { return _segments.back(); }
   float _duration = 0.0f;
 
-  friend class Animation;
+  friend class Timeline;
 };
 
-// Get the value of this sequence for a given point in time.
-// Wondering if there is a way to get the value in constant time.
+//! Returns the value of this sequence for a given point in time.
+// Is there a way to get the value in constant time (without a while loop)?
 template<typename T>
 T Sequence<T>::getValue( float atTime )
 {
@@ -182,10 +183,10 @@ T Sequence<T>::getValue( float atTime )
  A connection between a continuous, independent Sequence and an output.
  Non-templated base type so we can store in a polymorphic container.
  */
-class ConnectionBase
+class MotionBase
 {
 public:
-  virtual ~ConnectionBase() = default;
+  virtual ~MotionBase() = default;
 
   //! Move forward in time.
   virtual void step( float dt ) = 0;
@@ -203,12 +204,13 @@ public:
 };
 
 /**
+ Motion: a sequence embedded in time and connected to an output.
  A connection between a continuous, independent Sequence and an output.
  Drives a Sequence and sends its value to a user-defined variable.
  Might mirror the Sequence interface for easier animation.
  */
 template<typename T>
-class Connection : public ConnectionBase
+class Motion : public MotionBase
 {
 public:
   void step( float dt ) override
@@ -243,19 +245,19 @@ public:
   Sequence<T>&  getSequence() { return *sequence; }
 
   typedef std::function<void (const T&)>        DataCallback;
-  typedef std::function<void (Connection<T> &)> Callback;
+  typedef std::function<void (Motion<T> &)> Callback;
   //! Set a function to be called when we reach the end of the sequence.
-  Connection<T>& finishFn( const Callback &c ) { _finishFn = c; return *this; }
+  Motion<T>& finishFn( const Callback &c ) { _finishFn = c; return *this; }
   //! Set a function to be called when we start the sequence.
-  Connection<T>& startFn( const Callback &c ) { _startFn = c; return *this; }
+  Motion<T>& startFn( const Callback &c ) { _startFn = c; return *this; }
   //! Set a function to be called at each update step of the sequence. Called immediately after setting the target value.
-  Connection<T>& updateFn( const DataCallback &c ) { _updateFn = c; return *this; }
+  Motion<T>& updateFn( const DataCallback &c ) { _updateFn = c; return *this; }
 
   float          getSpeed() const { return _speed; }
-  Connection<T>& speed( float s ) { _speed = s; return *this; }
+  Motion<T>& speed( float s ) { _speed = s; return *this; }
 
   //! Set the connection to play continuously.
-  Connection<T>& continuous( bool c ) { _continuous = c; return *this; }
+  Motion<T>& continuous( bool c ) { _continuous = c; return *this; }
 
   // shared_ptr to sequence since many connections could share the same sequence
   // this enables us to to pseudo-instancing on our animations, reducing their memory footprint.
@@ -272,15 +274,15 @@ public:
  Maybe variadic templates to specify an animation with different channel types,
  or one composed of n existing channels...
  */
-class Animation
+class Timeline
 {
 public:
 
   //! Create a Sequence that is connected out to \a output.
   template<typename T>
-  Connection<T>& drive( T *output )
+  Motion<T>& drive( T *output )
   {
-    auto c = std::make_shared<Connection<T>>();
+    auto c = std::make_shared<Motion<T>>();
     c->sequence = std::make_shared<Sequence<T>>();
     c->output = output;
     c->sequence->_initial_value = *output;
@@ -288,11 +290,11 @@ public:
     return *c;
   }
 
-  //! Create a Connection that plays \a sequence into \a output.
+  //! Create a Motion that plays \a sequence into \a output.
   template<typename T>
-  Connection<T>& drive( T *output, std::shared_ptr<Sequence<T>> sequence )
+  Motion<T>& drive( T *output, std::shared_ptr<Sequence<T>> sequence )
   {
-    auto c = std::make_shared<Connection<T>>();
+    auto c = std::make_shared<Motion<T>>();
     c->sequence = sequence;
     c->output = output;
     c->sequence->_initial_value = *output;
@@ -325,18 +327,18 @@ public:
 
     if( _auto_clear )
     {
-      _connections.erase( std::remove_if( _connections.begin(), _connections.end(), [=] (const std::shared_ptr<ConnectionBase> &c ) { return !c->_continuous && c->time >= c->getDuration(); } ), _connections.end() );
+      _connections.erase( std::remove_if( _connections.begin(), _connections.end(), [=] (const std::shared_ptr<MotionBase> &c ) { return !c->_continuous && c->time >= c->getDuration(); } ), _connections.end() );
     }
   }
 
-  void remove( const std::shared_ptr<ConnectionBase> &connection )
+  void remove( const std::shared_ptr<MotionBase> &connection )
   {
-    _connections.erase( std::remove_if( _connections.begin(), _connections.end(), [=] (const std::shared_ptr<ConnectionBase> &c ) { return c == connection; } ), _connections.end() );
+    _connections.erase( std::remove_if( _connections.begin(), _connections.end(), [=] (const std::shared_ptr<MotionBase> &c ) { return c == connection; } ), _connections.end() );
   }
 
 private:
   bool                                  _auto_clear = true;
-  std::vector<std::shared_ptr<ConnectionBase>> _connections;
+  std::vector<std::shared_ptr<MotionBase>> _connections;
 };
 
 } // namespace choreograph
@@ -357,7 +359,7 @@ private:
   float                 _ball_y;
   ci::Vec2f             _ball_2;
   float                 _ball_radius;
-  co::Animation         _anim;
+  co::Timeline          _anim;
   ci::gl::TextureRef    _text;
 
 };
