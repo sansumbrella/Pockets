@@ -111,7 +111,7 @@ void TreentTest::setup()
   _treent.systems->add<RotationSystem>();
   _treent.systems->configure();
 
-  _treent_root = _treent.createRoot();
+  _treent_root = _treent.createRoot2D();
   _treent_root->setPosition( getWindowCenter() );
   _treent_root->setSize( getWindowSize() / 4 );
   auto shape = _treent_root->assign<treent::ShapeComponent>();
