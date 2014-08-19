@@ -51,6 +51,26 @@ struct LinearRamp
   float operator() ( float t ) const { return t; }
 };
 
+struct CubicBezierEase
+{
+  CubicBezierEase( const ci::Vec2f &p1, const ci::Vec2f &p2 ):
+    p1( p1 ),
+    p2( p2 )
+  {}
+
+  float operator() ( float t ) const
+  { // so how does the x matter to the y?
+    ci::Vec2f p = 3.0f * (1.0f - t*t) * (t * p1) + 3.0f * (1 - t) * (t*t*p2) + (t*t*t) * p3;
+    return p.y;
+  }
+
+  ci::Vec2f p0 = ci::Vec2f( 0.0f, 0.0f );
+  ci::Vec2f p1;
+  ci::Vec2f p2;
+  ci::Vec2f p3 = ci::Vec2f( 1.0f, 1.0f );
+
+};
+
 // A position describes a point in time.
 
 template<typename T>

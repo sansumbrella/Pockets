@@ -44,7 +44,7 @@ void ChoreographSample::setup()
 
   auto &rotation = _anim.move( &_ball_y )
     .startFn( [] (Motion<float> &c) { cout << "Start red" << endl; } )
-    .getSequence().set( 5.0f ).hold( 1.0f ).rampTo( 500.0f, 3.0f, EaseInOutQuad() ).hold( 500.0f, 1.0f ).rampTo( 20.0f, 2.0f ).hold( 20.0f, 1.0f ).set( 400.0f );
+    .getSequence().set( 5.0f ).hold( 1.0f ).rampTo( 500.0f, 3.0f, EaseInOutQuad() ).hold( 500.0f, 1.0f ).rampTo( 700.0f, 3.0f, CubicBezierEase( Vec2f( 0.25f, 0.5f ), Vec2f( 0.75f, 0.5f ) ) ).hold( 20.0f, 1.0f ).hold( 400.0f, 1.0f );
 
   _anim.move( &_ball_2 )
     .startFn( [] (Motion<Vec2f> &c) { cout << "Start blue" << endl; } )
