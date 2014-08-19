@@ -30,6 +30,7 @@
 #include "pockets/Scene.h"
 #include "cinder/Text.h"
 #include "cinder/gl/Texture.h"
+#include "pockets/CollectionUtilities.hpp"
 
 namespace choreograph
 {
@@ -202,6 +203,8 @@ public:
   float       last_time = 0.0f;
   // True if the underlying Sequence should play forever.
   bool        _continuous = false;
+
+  void      *_target = nullptr;
 };
 
 /**
@@ -256,8 +259,8 @@ public:
   //! Set a function to be called at each update step of the sequence. Called immediately after setting the target value.
   Motion<T>& updateFn( const DataCallback &c ) { _updateFn = c; return *this; }
 
-  float          getSpeed() const { return _speed; }
-  Motion<T>& speed( float s ) { _speed = s; return *this; }
+  float         getPlaybackSpeed() const { return _speed; }
+  Motion<T>&    playbackSpeed( float s ) { _speed = s; return *this; }
 
   //! Set the connection to play continuously.
   Motion<T>& continuous( bool c ) { _continuous = c; return *this; }
@@ -284,64 +287,56 @@ public:
   //! Create a Sequence that is connected out to \a output.
   template<typename T>
   Motion<T>& move( T *output )
-  {
+  { // remove any existing motions that affect the same variable (because that doesn't make sense within a single timeline)
+    pk::vector_erase_if( &_motions, [=] (std::shared_ptr<MotionBase> m) { return m->_target == output; } );
+
     auto c = std::make_shared<Motion<T>>();
     c->sequence = std::make_shared<Sequence<T>>();
     c->output = output;
+    c->_target = output;
     c->sequence->_initial_value = *output;
-    _connections.push_back( c );
+    _motions.push_back( c );
     return *c;
   }
 
   //! Create a Motion that plays \a sequence into \a output.
   template<typename T>
   Motion<T>& move( T *output, std::shared_ptr<Sequence<T>> sequence )
-  {
+  { // remove any existing motions that affect the same variable (because that doesn't make sense within a single timeline)
+    pk::vector_erase_if( &_motions, [=] (const std::shared_ptr<MotionBase> &m) { return m->_target == output; } );
+
     auto c = std::make_shared<Motion<T>>();
     c->sequence = sequence;
     c->output = output;
+    c->_target = output;
     c->sequence->_initial_value = *output;
-    _connections.push_back( c );
+    _motions.push_back( c );
     return *c;
-  }
-
-  // Thinking about this one
-  // Create a Sequence with an output slot for type T.
-  template<typename T>
-  Motion<T>& move( uint32_t label )
-  {
-
-  }
-
-  // Assign the output slot of Sequence at \a label to \a output.
-  template<typename T>
-  void connect( uint32_t label, T *output )
-  {
-
   }
 
   // Advance all current connections.
   void step( float dt )
   {
-    for( auto &c : _connections )
+    for( auto &c : _motions )
     {
       c->step( dt );
     }
 
     if( _auto_clear )
     {
-      _connections.erase( std::remove_if( _connections.begin(), _connections.end(), [=] (const std::shared_ptr<MotionBase> &c ) { return !c->_continuous && c->time >= c->getDuration(); } ), _connections.end() );
+      pk::vector_erase_if( &_motions, [=] (const std::shared_ptr<MotionBase> &c ) { return !c->_continuous && c->time >= c->getDuration(); } );
+//      _motions.erase( std::remove_if( _motions.begin(), _motions.end(), [=] (const std::shared_ptr<MotionBase> &c ) { return !c->_continuous && c->time >= c->getDuration(); } ), _motions.end() );
     }
   }
 
-  void remove( const std::shared_ptr<MotionBase> &connection )
+  void remove( const std::shared_ptr<MotionBase> &motion )
   {
-    _connections.erase( std::remove_if( _connections.begin(), _connections.end(), [=] (const std::shared_ptr<MotionBase> &c ) { return c == connection; } ), _connections.end() );
+    _motions.erase( std::remove_if( _motions.begin(), _motions.end(), [=] (const std::shared_ptr<MotionBase> &c ) { return c == motion; } ), _motions.end() );
   }
 
 private:
-  bool                                  _auto_clear = true;
-  std::vector<std::shared_ptr<MotionBase>> _connections;
+  bool                                      _auto_clear = true;
+  std::vector<std::shared_ptr<MotionBase>>  _motions;
 };
 
 } // namespace choreograph
@@ -360,8 +355,8 @@ public:
 
 private:
   float                 _ball_y;
-  ci::Vec2f             _ball_2;
-  float                 _ball_radius;
+  ci::Vec2f             _ball_2 = ci::Vec2f( 400.0f, 400.0f );
+  float                 _ball_radius = 50.0f;
   co::Timeline          _anim;
   ci::gl::TextureRef    _text;
 

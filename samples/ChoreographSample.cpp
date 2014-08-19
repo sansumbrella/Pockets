@@ -47,7 +47,7 @@ void ChoreographSample::setup()
 
   _anim.move( &_ball_2 )
     .startFn( [] (Motion<Vec2f> &c) { cout << "Start blue" << endl; } )
-    .finishFn( [] (Motion<Vec2f> &c) { c.speed( c.getSpeed() * -1.0f ); }  )
+    .finishFn( [] (Motion<Vec2f> &c) { c.playbackSpeed( c.getPlaybackSpeed() * -1.0f ); } )
     .continuous( true )
     .updateFn( [&] (const Vec2f &v) {
       Vec2f size = app::getWindowSize();
@@ -57,6 +57,10 @@ void ChoreographSample::setup()
       _ball_radius = shortest;
     } )
     .getSequence().rampTo( app::getWindowSize() / 2.0f, 2.0f ).rampTo( app::getWindowSize(), 2.0f ).rampTo( Vec2f( app::getWindowWidth() / 2.0f, 10.0f ), 3.0f ).rampTo( app::getWindowSize() / 2.0f, 0.5f );
+
+  _anim.move( &_ball_2 )
+    .getSequence().set( Vec2f( 100.0f, 100.0f ) ).rampTo( Vec2f( 500.0f, 600.0f ), 6.0f, EaseOutBack() );
+
 
 
   for( float t = -1.0f; t < sequence.getDuration() + 0.2f; t += 0.1f )
