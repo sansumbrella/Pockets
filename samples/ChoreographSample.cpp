@@ -41,10 +41,9 @@ ChoreographSample::~ChoreographSample()
 
 void ChoreographSample::setup()
 {
-
-  auto &rotation = _anim.move( &_ball_y )
+  auto &sequence = _anim.move( &_ball_y )
     .startFn( [] (Motion<float> &c) { cout << "Start red" << endl; } )
-    .getSequence().set( 5.0f ).hold( 1.0f ).rampTo( 500.0f, 3.0f, EaseInOutQuad() ).hold( 500.0f, 1.0f ).rampTo( 700.0f, 3.0f, CubicBezierEase( Vec2f( 0.25f, 0.5f ), Vec2f( 0.75f, 0.5f ) ) ).hold( 20.0f, 1.0f ).hold( 400.0f, 1.0f );
+    .getSequence().set( 5.0f ).hold( 0.5f ).rampTo( 500.0f, 1.0f, EaseInOutQuad() ).hold( 500.0f, 0.33f ).rampTo( 700.0f, 1.0f ).hold( 20.0f, 1.0f ).set( 400.0f );
 
   _anim.move( &_ball_2 )
     .startFn( [] (Motion<Vec2f> &c) { cout << "Start blue" << endl; } )
@@ -59,9 +58,10 @@ void ChoreographSample::setup()
     } )
     .getSequence().rampTo( app::getWindowSize() / 2.0f, 2.0f ).rampTo( app::getWindowSize(), 2.0f ).rampTo( Vec2f( app::getWindowWidth() / 2.0f, 10.0f ), 3.0f ).rampTo( app::getWindowSize() / 2.0f, 0.5f );
 
-  for( float t = -1.0f; t < rotation.getDuration() + 0.2f; t += 0.1f )
+
+  for( float t = -1.0f; t < sequence.getDuration() + 0.2f; t += 0.1f )
   {
-    app::console() << "Animation time: " << t << "\t\t, value: " << rotation.getValue( t ) << endl;
+    app::console() << "Animation time: " << t << "\t\t, value: " << sequence.getValue( t ) << endl;
   }
 
   Font font( "Monaco", 24.0f );

@@ -51,26 +51,6 @@ struct LinearRamp
   float operator() ( float t ) const { return t; }
 };
 
-struct CubicBezierEase
-{
-  CubicBezierEase( const ci::Vec2f &p1, const ci::Vec2f &p2 ):
-    p1( p1 ),
-    p2( p2 )
-  {}
-
-  float operator() ( float t ) const
-  { // so how does the x matter to the y?
-    ci::Vec2f p = 3.0f * (1.0f - t*t) * (t * p1) + 3.0f * (1 - t) * (t*t*p2) + (t*t*t) * p3;
-    return p.y;
-  }
-
-  ci::Vec2f p0 = ci::Vec2f( 0.0f, 0.0f );
-  ci::Vec2f p1;
-  ci::Vec2f p2;
-  ci::Vec2f p3 = ci::Vec2f( 1.0f, 1.0f );
-
-};
-
 // A position describes a point in time.
 
 template<typename T>
@@ -122,7 +102,7 @@ public:
       _initial_value = value;
     }
     else {
-      hold( 0.0f );
+      hold( value, 0.0f );
     }
 
     return *this;
@@ -182,7 +162,7 @@ T Sequence<T>::getValue( float atTime )
   {
     return _initial_value;
   }
-  else if ( atTime > _duration )
+  else if ( atTime >= _duration )
   {
     return endValue();
   }
@@ -196,6 +176,7 @@ T Sequence<T>::getValue( float atTime )
     ++iter;
   }
   // past the end, get the final value
+  // this should be unreachable, given that we return early if time >= duration
   return endValue();
 }
 
@@ -260,6 +241,8 @@ public:
 
   void* getOutput() const { return output; }
   float getDuration() const override { return sequence->getDuration(); }
+
+  float getProgress() const { return time / sequence->getDuration(); }
 
   //! Returns the underlying sequence for extension.
   Sequence<T>&  getSequence() { return *sequence; }
