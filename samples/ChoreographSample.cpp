@@ -58,8 +58,10 @@ void ChoreographSample::setup()
     } )
     .getSequence().rampTo( app::getWindowSize() / 2.0f, 2.0f ).rampTo( app::getWindowSize(), 2.0f ).rampTo( Vec2f( app::getWindowWidth() / 2.0f, 10.0f ), 3.0f ).rampTo( app::getWindowSize() / 2.0f, 0.5f );
 
+/*
   _anim.move( &_ball_2 )
     .getSequence().set( Vec2f( 100.0f, 100.0f ) ).rampTo( Vec2f( 500.0f, 600.0f ), 6.0f, EaseOutBack() );
+//*/
 
 
 
