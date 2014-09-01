@@ -80,7 +80,7 @@ public:
 
 treent::TreentNodeRef addOrbiter( treent::TreentNodeRef center, bool warm, float max_distance, int depth ) {
 
-  float size = center->getSize().length() / 5.0f;
+  float size = length( center->getSize() ) / 5.0f;
   auto moon = center->createChild<treent::TreentNode>();
   moon->setSize( vec2( 1.0f ) * size );
 
@@ -123,7 +123,7 @@ void TreentTest::setup()
 
   for( int i = 0; i < 1000; ++i )
   {
-    auto moon = addOrbiter( _treent_root, true, getWindowSize().length(), 0 );
+    auto moon = addOrbiter( _treent_root, true, length( vec2( getWindowSize() ) ), 0 );
     if( randFloat() < 0.05f ) {
       moon->assign<treent::TextComponent>( font, "I am planet " + to_string( i ) );
     }
