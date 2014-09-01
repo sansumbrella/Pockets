@@ -65,7 +65,7 @@ void OptionSelector::layoutHorizontallyWithPadding(float padding, float padding_
       x = start_x;
       y = bottom_y + padding_y; // bottom_y is the bottom edge of the current lowest element
     }
-    option.mIcon.setLoc( Vec2f( x, y ) );
+    option.mIcon.setLoc( vec2( x, y ) );
     x += x_inc;
     bottom_y = math<float>::max( y + option.mIcon.getSize().y - option.mIcon.getRegistrationPoint().y, bottom_y );
   }
@@ -73,7 +73,7 @@ void OptionSelector::layoutHorizontallyWithPadding(float padding, float padding_
   setHeight( bottom_y );
 }
 
-bool OptionSelector::Option::contains(const ci::Vec2f &point)
+bool OptionSelector::Option::contains(const ci::vec2 &point)
 {
   return mIcon.contains( point );
 }

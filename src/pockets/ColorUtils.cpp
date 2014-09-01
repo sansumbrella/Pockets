@@ -64,5 +64,5 @@ SurfacePaletteRef SurfacePalette::create(const ci::Surface &surf)
 
 ColorA SurfacePalette::getColor( float t ) const
 {
-  return mSurface.getPixel( Vec2i( math<float>::floor( t * (mSurface.getWidth() - 1) + 0.5f ), 0 ) );
+  return mSurface.getPixel( ivec2( math<float>::floor( t * (mSurface.getWidth() - 1) + 0.5f ), 0 ) );
 }

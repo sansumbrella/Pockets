@@ -20,7 +20,7 @@ namespace pockets
   typedef std::unique_ptr<class Node> NodeUniqueRef;
   /**
    Base node type in a simple scene graph.
-   
+
    The graph is modeled loosely on AS3 Sprites.
    Nodes are connected in a tree, with a single root node connecting to
    window UI events and propagating them to all of its children.
@@ -65,22 +65,22 @@ namespace pockets
     void            deepCancelInteractions();
 
     //! Set top-left of element.
-    void            setPosition( const ci::Vec2f &pos ){ mLocus.position = pos; }
+    void            setPosition( const ci::vec2 &pos ){ mLocus.position = pos; }
     //! Get top-left of element.
-    ci::Vec2f       getPosition() const { return mLocus.position; }
+    ci::vec2       getPosition() const { return mLocus.position; }
     //! Set xy scale of element.
-    void            setScale( const ci::Vec2f &scale ){ mLocus.scale = scale; }
-    ci::Vec2f       getScale() const { return mLocus.scale; }
+    void            setScale( const ci::vec2 &scale ){ mLocus.scale = scale; }
+    ci::vec2       getScale() const { return mLocus.scale; }
     //! Set element rotation around z-axis.
     void            setRotation( float radians ){ mLocus.rotation = radians; }
     //! Set registration point for rotation and scaling.
-    void            setRegistrationPoint( const ci::Vec2f &loc ){ mLocus.registration_point = loc; }
+    void            setRegistrationPoint( const ci::vec2 &loc ){ mLocus.registration_point = loc; }
     //! Returns this node's locus.
     pk::Locus2D&    getLocus(){ return mLocus; }
     //! Returns this node's transform, as transformed by its parents.
-    ci::MatrixAffine2f  getFullTransform() const;
+    ci::mat4        getFullTransform() const;
     //! Returns this node's transform, ignoring parent transformations.
-    ci::MatrixAffine2f  getLocalTransform() const { return mLocus.toMatrix(); }
+    ci::mat4        getLocalTransform() const { return mLocus.toMatrix(); }
 
     //! called when a child is added to this Node
     virtual void    childAdded( NodeRef element ){}

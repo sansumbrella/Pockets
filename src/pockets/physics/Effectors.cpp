@@ -36,5 +36,5 @@ using namespace std;
 
 void Acceleration::apply( Node *node, double dt ) const
 {
-  node->pos += mForce * dt;
+  node->pos += mForce * (float)dt;
 }

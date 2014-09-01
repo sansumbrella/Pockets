@@ -57,9 +57,9 @@ namespace pockets
       mDirty = true;
     }
     //! Move the front of the path, popping off the last element
-    void shiftFront( const ci::Vec2f &pos );
+    void shiftFront( const ci::vec2 &pos );
     //! Move the back of the path, popping off the first element
-    void shiftBack( const ci::Vec2f &pos );
+    void shiftBack( const ci::vec2 &pos );
     void setWidth( float w ){ mLineHalfWidth = w / 2; }
     void draw();
     static ExpandedPath2dUniqueRef create( size_t vertex_count ){
@@ -70,10 +70,10 @@ namespace pockets
     float getHalfWidth( float t );
     ShapeFn                 mShapeFn = [](float f){ return 1.0f; };
     //! skeleton of vertices
-    std::deque<ci::Vec2f>  mSkeleton;
+    std::deque<ci::vec2>  mSkeleton;
     //! expanded vertices
-    std::vector<ci::Vec2f>  mOutline;
-    std::vector<ci::Vec2f>  mTexCoords;
+    std::vector<ci::vec2>  mOutline;
+    std::vector<ci::vec2>  mTexCoords;
     float                   mLineHalfWidth = 4.0f;
     bool                    mClosed = false;
     bool                    mDirty = true;

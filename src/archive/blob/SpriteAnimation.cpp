@@ -97,7 +97,7 @@ void SpriteAnimation::updateGraphics()
 {
   const auto sprite = currentData().sprite;
   Rectf tex_coord_rect = sprite.getTextureBounds();
-  Rectf position_rect( Vec2f::zero(), sprite.getSize() );
+  Rectf position_rect( vec2( 0 ), sprite.getSize() );
   position_rect -= sprite.getRegistrationPoint();
 
   mVertices[0].position = { position_rect.getX2(), position_rect.getY1() };

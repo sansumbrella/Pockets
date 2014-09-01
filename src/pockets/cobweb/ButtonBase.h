@@ -32,7 +32,7 @@ namespace pockets
     //! returns hit box size in points
     ci::Rectf     	getHitBounds() const { return mHitBounds; }
     //!
-    ci::Vec2f       getSize() const { return ci::Vec2f( getWidth(), getHeight() ); }
+    ci::vec2       getSize() const { return ci::vec2( getWidth(), getHeight() ); }
     float           getHeight() const { return mHitBounds.getHeight(); }
     float           getWidth() const { return mHitBounds.getWidth(); }
     //! set the hit bounds in points
@@ -68,9 +68,12 @@ namespace pockets
     void            endHovering( bool selected );
 
     //! returns whether a point is inside the button's hit box
-    bool            contains( const ci::Vec2i point ) { return mHitBounds.contains( transformedPoint(point) ); }
+    bool            contains( const ci::ivec2 point ) { return mHitBounds.contains( transformedPoint(point) ); }
     //! unproject point from our drawing space
-    ci::Vec2f       transformedPoint( const ci::Vec2f &point ) { return getFullTransform().invertCopy().transformPoint( point ); }
+    ci::vec2       transformedPoint( const ci::vec2 &point )
+    {
+      return ci::vec2( ci::inverse( getFullTransform() ) * ci::vec4( point, 0.0f, 1.0f ) );
+    }
   };
   } // cobweb::
 } // pockets::

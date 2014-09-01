@@ -72,7 +72,7 @@ public:
   bool            deepMouseUp( ci::app::MouseEvent &event );
 
   //! Call to update the entire TreentNode hierarchy.
-  void            updateTree( const ci::MatrixAffine2f &matrix );
+  void            updateTree( const ci::mat4 &matrix );
 
   //
   // Mirror Entity interface
@@ -125,25 +125,25 @@ public:
   void            deepCancelInteractions();
 
   //! Set top-left of element.
-  void            setPosition( const ci::Vec2f &pos ){ mTransform->position = pos; }
+  void            setPosition( const ci::vec2 &pos ){ mTransform->position = pos; }
   //! Get top-left of element.
-  ci::Vec2f       getPosition() const { return mTransform->position; }
+  ci::vec2       getPosition() const { return mTransform->position; }
   //! Set xy scale of element.
-  void            setScale( const ci::Vec2f &scale ){ mTransform->scale = scale; }
-  ci::Vec2f       getScale() const { return mTransform->scale; }
+  void            setScale( const ci::vec2 &scale ){ mTransform->scale = scale; }
+  ci::vec2       getScale() const { return mTransform->scale; }
   //! Set element rotation around z-axis.
   void            setRotation( float radians ){ mTransform->rotation = radians; }
   //! Set registration point for rotation and scaling.
-  void            setRegistrationPoint( const ci::Vec2f &loc ){ mTransform->registration_point = loc; }
+  void            setRegistrationPoint( const ci::vec2 &loc ){ mTransform->registration_point = loc; }
 
   //! Returns nominal width and height. Up to users to set correctly at this point.
-  ci::Vec2f       getSize() const { return mSize->size; }
-  void            setSize( const ci::Vec2f &size ) { mSize->size = size; }
+  ci::vec2       getSize() const { return mSize->size; }
+  void            setSize( const ci::vec2 &size ) { mSize->size = size; }
 
   //! Returns this TreentNode's world transform, as transformed by its parents.
-  ci::MatrixAffine2f    getWorldTransform() const { return mTransform->matrix; }
+  ci::mat4        getWorldTransform() const { return mTransform->matrix; }
   //! Returns this TreentNode's transform, ignoring parent transformations.
-  ci::MatrixAffine2f    getLocalTransform() const { return mTransform->calcLocalMatrix(); }
+  ci::mat4        getLocalTransform() const { return mTransform->calcLocalMatrix(); }
 
   LocationComponentRef  getTransform() const { return mTransform; }
 

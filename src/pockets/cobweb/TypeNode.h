@@ -35,7 +35,7 @@ namespace pockets
 	void setText( const std::string &text );
   private:
     ci::gl::TextureFontRef							mFont;
-    std::vector< std::pair< uint16_t, ci::Vec2f > > mGlyphs;
+    std::vector< std::pair< uint16_t, ci::vec2 > > mGlyphs;
 	bool											mFlipped;
   };
   } // cobweb::

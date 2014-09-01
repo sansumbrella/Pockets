@@ -41,7 +41,7 @@ namespace pockets
 {
   namespace physics
   {
-    typedef ci::Vec2f Vec;
+    typedef ci::vec2 Vec;
     struct Node
     {
       Vec pos;

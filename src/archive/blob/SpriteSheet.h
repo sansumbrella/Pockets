@@ -77,16 +77,16 @@ namespace pockets
     inline void unbind(){ mTexture.unbind(); }
 
     //! draw named sprite with registration point at location
-    void        draw( const std::string &sprite_name, const ci::Vec2f &loc );
-    void        draw( const SpriteData &sprite, const ci::Vec2f &loc );
+    void        draw( const std::string &sprite_name, const ci::vec2 &loc );
+    void        draw( const SpriteData &sprite, const ci::vec2 &loc );
     //! draw sprite at location with texture scroll; for sliding texture within bounds (like a rectangular mask)
-    void        drawScrolled( const std::string &sprite_name, const ci::Vec2f &loc, const ci::Vec2f &scroll );
-    void        drawScrolled( const SpriteData &sprite, const ci::Vec2f &loc, const ci::Vec2f &scroll );
+    void        drawScrolled( const std::string &sprite_name, const ci::vec2 &loc, const ci::vec2 &scroll );
+    void        drawScrolled( const SpriteData &sprite, const ci::vec2 &loc, const ci::vec2 &scroll );
     //! draws sprite clipped to rect
-    void        drawInRect( const std::string &sprite_name, const ci::Vec2f &loc, const ci::Rectf &bounding_rect );
-    void        drawInRect( const SpriteData &sprite, const ci::Vec2f &loc, const ci::Rectf &bounding_rect );
+    void        drawInRect( const std::string &sprite_name, const ci::vec2 &loc, const ci::Rectf &bounding_rect );
+    void        drawInRect( const SpriteData &sprite, const ci::vec2 &loc, const ci::Rectf &bounding_rect );
     //! draw portion of sprite at location (used by drawInRect)
-    void        drawPortion( const SpriteData &sprite, const ci::Vec2f &loc, const ci::Rectf &portion );
+    void        drawPortion( const SpriteData &sprite, const ci::vec2 &loc, const ci::Rectf &portion );
     // TODO: return animations based on info from the JsonTree description
 
     //! construct a sprite sheet from files located at base_path; this is the preferred way to build a SpriteSheet

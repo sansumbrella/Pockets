@@ -74,7 +74,7 @@ namespace pockets
     Locus2d&  getLocus(){ return mLocus; }
     //! get the sprite data for the current frame
     const Drawing& currentData() const { return mData.at(mCurrentIndex); }
-    ci::Vec2i getSize() const { return currentData().sprite.getSize(); }
+    ci::ivec2 getSize() const { return currentData().sprite.getSize(); }
   private:
     Locus2d               mLocus;
     std::vector<Drawing>  mData;

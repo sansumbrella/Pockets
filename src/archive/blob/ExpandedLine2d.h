@@ -45,10 +45,10 @@ namespace pockets
   class ExpandedLine2d : public SimpleRenderer::Renderable
   {
   public:
-    ExpandedLine2d( const ci::Vec2f &begin, const ci::Vec2f &end );
+    ExpandedLine2d( const ci::vec2 &begin, const ci::vec2 &end );
     ~ExpandedLine2d();
     //! reset the line end points
-    void setEndPoints( const ci::Vec2f &begin, const ci::Vec2f &end );
+    void setEndPoints( const ci::vec2 &begin, const ci::vec2 &end );
     void setWidth( float width ){ mWidth = width; buildOutline( mBegin, mBegin + mRay ); }
     //! scales the length of the line with the beginning fixed (end point moves)
     void scaleLength( float scale );
@@ -59,17 +59,17 @@ namespace pockets
     //! returns the total length of the line (without scaling)
     float getLength() const { return mRay.length(); }
     void render();
-    static ExpandedLine2dUniqueRef create( const ci::Vec2f &begin, const ci::Vec2f &end )
+    static ExpandedLine2dUniqueRef create( const ci::vec2 &begin, const ci::vec2 &end )
     {
       return ExpandedLine2dUniqueRef( new ExpandedLine2d( begin, end ) );
     }
   private:
-    ci::Vec2f                 mBegin, mRay;
-    std::array<ci::Vec2f, 8>  mPositions;
-    std::array<ci::Vec2f, 8>  mTexCoords;
+    ci::vec2                 mBegin, mRay;
+    std::array<ci::vec2, 8>  mPositions;
+    std::array<ci::vec2, 8>  mTexCoords;
     float                     mWidth = 6.0f;
     float                     mScale = 1.0f;
-    void  buildOutline( const ci::Vec2f &begin, const ci::Vec2f &end );
+    void  buildOutline( const ci::vec2 &begin, const ci::vec2 &end );
     void  buildTexCoords( const ci::Rectf &bounds = ci::Rectf( 0, 0, 1, 1 ) );
   };
 

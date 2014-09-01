@@ -98,24 +98,24 @@ void PocketsApp::buildMenu()
     mRoot.appendChild( button );
     auto fn = pair.second;
     button->setSelectFn( [this,index,fn]() { mIndex = index; playScene( fn ); } );
-    button->setPosition( Vec2f( 0.0f, y ) );
+    button->setPosition( vec2( 0.0f, y ) );
     y += button->getHeight() + 2;
     widest = math<float>::max( button->getWidth(), widest );
     index++;
   }
 
   auto prev = cobweb::SimpleButton::createLabelButton( "Previous", arial );
-  prev->setPosition( Vec2f( 0.0f, y ) );
+  prev->setPosition( vec2( 0.0f, y ) );
   prev->setSelectFn( [this](){ prevScene(); } );
   auto next = cobweb::SimpleButton::createLabelButton( "Next", arial );
-  next->setPosition( Vec2f( prev->getWidth() + 2, y ) );
+  next->setPosition( vec2( prev->getWidth() + 2, y ) );
   next->setSelectFn( [this](){ nextScene(); } );
   widest = math<float>::max( next->getWidth() + next->getPosition().x, widest );
 
   mRoot.appendChild( prev );
   mRoot.appendChild( next );
 
-  mRoot.setPosition( Vec2f( getWindowWidth() - (widest + 10.0f), 10.0f ) );
+  mRoot.setPosition( vec2( getWindowWidth() - (widest + 10.0f), 10.0f ) );
   mRoot.connect( getWindow() );
 }
 

@@ -31,7 +31,7 @@ using namespace pockets;
 using namespace ci;
 using namespace std;
 
-SpriteData::SpriteData( const Vec2i &size, const Rectf &texture_bounds, const Vec2f &registration_point ):
+SpriteData::SpriteData( const ivec2 &size, const Rectf &texture_bounds, const vec2 &registration_point ):
 mSize( app::toPoints( size ) )
 , mTextureBounds( texture_bounds )
 , mRegistrationPoint( app::toPoints( registration_point ) )
@@ -41,7 +41,7 @@ Sprite::Sprite( const SpriteData &sprite ):
 mData( sprite )
 {
   Rectf tex_coord_rect = sprite.getTextureBounds();
-  Rectf position_rect( Vec2f::zero(), sprite.getSize() );
+  Rectf position_rect( vec2( 0 ), sprite.getSize() );
   mTransformedVertices.assign( mVertices.begin(), mVertices.end() );
   setTint( ColorA8u::white() );
   updatePositions( position_rect );
@@ -51,7 +51,7 @@ mData( sprite )
 Sprite::~Sprite()
 {}
 
-bool Sprite::contains(const ci::Vec2f &point)
+bool Sprite::contains(const ci::vec2 &point)
 {
   return getLocalBounds().contains( getLocus().getTransform().invertCopy().transformPoint( point ) );
 }
@@ -102,7 +102,7 @@ void Sprite::updateTransformedVertices()
 
 void Sprite::clipBy(const ci::Rectf &bounding_rect)
 {
-  Rectf sprite_bounds( Vec2f::zero(), mData.getSize() );
+  Rectf sprite_bounds( vec2( 0 ), mData.getSize() );
   sprite_bounds.offset( getLoc() - mData.getRegistrationPoint() );
   Rectf clipped_size = sprite_bounds.getClipBy( bounding_rect );
   clipped_size.offset( mData.getRegistrationPoint() - getLoc() );
@@ -119,8 +119,8 @@ void Sprite::setRegion(const ci::Rectf &portion)
   tex_coords.y1 = lerp( mData.getTextureBounds().getY1(), mData.getTextureBounds().getY2(), portion.getY1() );
   tex_coords.y2 = lerp( mData.getTextureBounds().getY1(), mData.getTextureBounds().getY2(), portion.getY2() );
 
-  Vec2f tl( 0, 0 );
-  Vec2f br( mData.getSize() );
+  vec2 tl( 0, 0 );
+  vec2 br( mData.getSize() );
   Rectf positions;
   positions.x1 = lerp( tl.x, br.x, portion.getX1() );
   positions.x2 = lerp( tl.x, br.x, portion.getX2() );

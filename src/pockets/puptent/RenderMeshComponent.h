@@ -38,16 +38,16 @@ namespace puptent
   {
     struct Vertex
     {
-      Vertex( const ci::Vec2f &position = ci::Vec2f::zero(),
+      Vertex( const ci::vec2 &position = ci::vec2( 0 ),
              const ci::ColorA &color = ci::ColorA::white(),
-             const ci::Vec2f &uv = ci::Vec2f::zero() ):
+             const ci::vec2 &uv = ci::vec2( 0 ) ):
       position( position ),
       color( color ),
       tex_coord( uv )
       {}
-      ci::Vec2f     position;
+      ci::vec2     position;
       ci::ColorA    color;
-      ci::Vec2f     tex_coord;
+      ci::vec2     tex_coord;
     };
     /**
      RenderMesh:
@@ -73,7 +73,7 @@ namespace puptent
       std::vector<Vertex> vertices;
       //! Convenience method for making circular shapes
       //! If you aren't dynamically changing the circle, consider using a Sprite
-      void setAsCircle( const ci::Vec2f &radius, float start_radians=0, float end_radians=M_PI * 2, size_t segments=0 );
+      void setAsCircle( const ci::vec2 &radius, float start_radians=0, float end_radians=M_PI * 2, size_t segments=0 );
       //! Set the mesh bounds to a box shape
       void setAsBox( const ci::Rectf &bounds );
       //! Set the texture coords to those specified by the sprite data
@@ -82,15 +82,15 @@ namespace puptent
       //! Set the mesh as a box of sprite's size with correct texture coordinates
       void matchTexture( const SpriteData &sprite_data );
       //! Transform all vertices by \a mat
-      void transform( const ci::MatrixAffine2f &mat );
-      //! Make an expanded ribbon from a ci::Vec2f skeleton
+      void transform( const ci::mat4 &mat );
+      //! Make an expanded ribbon from a ci::vec2 skeleton
       //! the skeleton is a collection of points describing the path of the ribbon
       template<typename T>
       void setAsRibbon( const T &skeleton, float width, bool closed=false );
       //! Make a fat line between two points
-      void setAsLine( const ci::Vec2f &point_a, const ci::Vec2f &point_b, float width=10.0f );
-      void setAsCappedLine( const ci::Vec2f &point_a, const ci::Vec2f &point_b, float width=10.0f );
-      void setAsTriangle( const ci::Vec2f &a, const ci::Vec2f &b, const ci::Vec2f &c );
+      void setAsLine( const ci::vec2 &point_a, const ci::vec2 &point_b, float width=10.0f );
+      void setAsCappedLine( const ci::vec2 &point_a, const ci::vec2 &point_b, float width=10.0f );
+      void setAsTriangle( const ci::vec2 &a, const ci::vec2 &b, const ci::vec2 &c );
       //! Set the color of all vertices in one go
       void setColor( const ci::ColorA8u &color );
     };
@@ -99,16 +99,16 @@ namespace puptent
     template<typename T>
     void RenderMesh::setAsRibbon( const T &skeleton, float width, bool closed )
     {
-      using ci::Vec2f;
+      using ci::vec2;
       if( vertices.size() != skeleton.size() * 2 )
       { vertices.assign( skeleton.size() * 2, Vertex{} ); }
-      Vec2f a, b, c;
+      vec2 a, b, c;
       // first vertex
       a = skeleton.at( 0 );
       b = skeleton.at( 1 );
-      Vec2f edge = (b - a);
-      Vec2f tangent = Vec2f( -edge.y, edge.x );
-      Vec2f north = tangent.normalized() * width;
+      vec2 edge = (b - a);
+      vec2 tangent = vec2( -edge.y, edge.x );
+      vec2 north = tangent.normalized() * width;
       vertices.at( 0 ).position = a + north;
       vertices.at( 0 + 1 ).position = a - north;
       // remaining vertices
@@ -118,7 +118,7 @@ namespace puptent
         b = skeleton.at(i);
         c = skeleton.at(i + 1);
         edge = ((b - a).normalized() + (c - b).normalized()) * 0.5;
-        tangent = Vec2f( -edge.y, edge.x );
+        tangent = vec2( -edge.y, edge.x );
         north = tangent.normalized() * width;
         vertices.at( i * 2 ).position = b + north;
         vertices.at( i * 2 + 1 ).position = b - north;
@@ -126,7 +126,7 @@ namespace puptent
       // final vertex
       c = skeleton.back();
       edge = closed ? (skeleton.at( 1 ) - c) : (c - b);
-      tangent = Vec2f( -edge.y, edge.x );
+      tangent = vec2( -edge.y, edge.x );
       north = tangent.normalized() * width;
       size_t end = skeleton.size() - 1;
       vertices.at( end * 2 ).position = c + north;

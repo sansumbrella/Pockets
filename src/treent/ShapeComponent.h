@@ -42,27 +42,27 @@ namespace treent
 struct Vertex2D
 {
   Vertex2D() = default;
-  Vertex2D( const ci::Vec2f &position, const ci::ColorA8u &color, const ci::Vec2f &uv ):
+  Vertex2D( const ci::vec2 &position, const ci::ColorA8u &color, const ci::vec2 &uv ):
     position( position ),
     color( color ),
     tex_coord( uv )
   {}
-  ci::Vec2f     position    = ci::Vec2f::zero();
+  ci::vec2     position    = ci::vec2( 0 );
   ci::ColorA8u  color       = ci::ColorA8u::white();
-  ci::Vec2f     tex_coord   = ci::Vec2f::zero();
+  ci::vec2     tex_coord   = ci::vec2( 0 );
 };
 
 struct Vertex3D
 {
   Vertex3D() = default;
-  Vertex3D( const ci::Vec3f &position, const ci::ColorA8u &color, const ci::Vec2f &uv ):
+  Vertex3D( const ci::vec3 &position, const ci::ColorA8u &color, const ci::vec2 &uv ):
     position( position ),
     color( color ),
     tex_coord( uv )
   {}
-  ci::Vec3f     position  = ci::Vec3f::zero();
+  ci::vec3     position  = ci::vec3( 0 );
   ci::ColorA8u  color     = ci::ColorA8u::white();
-  ci::Vec2f     tex_coord = ci::Vec2f::zero();
+  ci::vec2     tex_coord = ci::vec2( 0 );
 };
 
 /**
@@ -89,7 +89,7 @@ struct ShapeComponent : Component<ShapeComponent>
   std::vector<Vertex2D> vertices;
   //! Convenience method for making circular shapes
   //! If you aren't dynamically changing the circle, consider using a Sprite
-  void setAsCircle( const ci::Vec2f &radius, float start_radians=0, float end_radians=M_PI * 2, size_t segments=0 );
+  void setAsCircle( const ci::vec2 &radius, float start_radians=0, float end_radians=M_PI * 2, size_t segments=0 );
   //! Set the mesh bounds to a box shape
   void setAsBox( const ci::Rectf &bounds );
   //! Set the texture coords to those specified by the sprite data
@@ -98,15 +98,15 @@ struct ShapeComponent : Component<ShapeComponent>
   //! Set the mesh as a box of sprite's size with correct texture coordinates
   void matchTexture( const pockets::SpriteData &sprite_data );
   //! Transform all vertices by \a mat
-  void transform( const ci::MatrixAffine2f &mat );
-  //! Make an expanded ribbon from a ci::Vec2f skeleton
+  void transform( const ci::mat4 &mat );
+  //! Make an expanded ribbon from a ci::vec2 skeleton
   //! the skeleton is a collection of points describing the path of the ribbon
   template<typename T>
   void setAsRibbon( const T &skeleton, float width, bool closed=false );
   //! Make a fat line between two points
-  void setAsLine( const ci::Vec2f &point_a, const ci::Vec2f &point_b, float width=10.0f );
-  void setAsCappedLine( const ci::Vec2f &point_a, const ci::Vec2f &point_b, float width=10.0f );
-  void setAsTriangle( const ci::Vec2f &a, const ci::Vec2f &b, const ci::Vec2f &c );
+  void setAsLine( const ci::vec2 &point_a, const ci::vec2 &point_b, float width=10.0f );
+  void setAsCappedLine( const ci::vec2 &point_a, const ci::vec2 &point_b, float width=10.0f );
+  void setAsTriangle( const ci::vec2 &a, const ci::vec2 &b, const ci::vec2 &c );
   //! Set the color of all vertices in one go
   void setColor( const ci::ColorA8u &color );
 };
@@ -115,16 +115,18 @@ struct ShapeComponent : Component<ShapeComponent>
 template<typename T>
 void ShapeComponent::setAsRibbon( const T &skeleton, float width, bool closed )
 {
-  using ci::Vec2f;
+  using ci::vec2;
+  using ci::normalize;
+
   if( vertices.size() != skeleton.size() * 2 )
   { vertices.assign( skeleton.size() * 2, Vertex2D{} ); }
-  Vec2f a, b, c;
+  vec2 a, b, c;
   // first vertex2D
   a = skeleton.at( 0 );
   b = skeleton.at( 1 );
-  Vec2f edge = (b - a);
-  Vec2f tangent = Vec2f( -edge.y, edge.x );
-  Vec2f north = tangent.normalized() * width;
+  vec2 edge = (b - a);
+  vec2 tangent = vec2( -edge.y, edge.x );
+  vec2 north = normalize( tangent ) * width;
   vertices.at( 0 ).position = a + north;
   vertices.at( 0 + 1 ).position = a - north;
   // remaining vertices
@@ -133,17 +135,17 @@ void ShapeComponent::setAsRibbon( const T &skeleton, float width, bool closed )
     a = skeleton.at(i - 1);
     b = skeleton.at(i);
     c = skeleton.at(i + 1);
-    edge = ((b - a).normalized() + (c - b).normalized()) * 0.5;
-    tangent = Vec2f( -edge.y, edge.x );
-    north = tangent.normalized() * width;
+    edge = (normalize( b - a ) + normalize( c - b )) * 0.5;
+    tangent = vec2( -edge.y, edge.x );
+    north = normalize( tangent ) * width;
     vertices.at( i * 2 ).position = b + north;
     vertices.at( i * 2 + 1 ).position = b - north;
   }
   // final vertex2D
   c = skeleton.back();
   edge = closed ? (skeleton.at( 1 ) - c) : (c - b);
-  tangent = Vec2f( -edge.y, edge.x );
-  north = tangent.normalized() * width;
+  tangent = vec2( -edge.y, edge.x );
+  north = normalize( tangent ) * width;
   size_t end = skeleton.size() - 1;
   vertices.at( end * 2 ).position = c + north;
   vertices.at( end * 2 + 1 ).position = c - north;

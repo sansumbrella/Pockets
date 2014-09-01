@@ -30,12 +30,12 @@
 using namespace cinder;
 using namespace treent;
 
-Matrix44f Transform3D::calcLocalMatrix() const
+mat4 Transform3D::calcLocalMatrix() const
 {
   const auto axis = orientation.getAxis();
   const auto angle = orientation.getAngle();
 
-  Matrix44f mat;
+  mat4 mat;
   mat.setTranslate( position + pivot );
 
   if( ci::math<float>::abs( angle ) > 0.0 ) {
@@ -47,7 +47,7 @@ Matrix44f Transform3D::calcLocalMatrix() const
   return mat;
 }
 
-void Transform3D::updateMatrix( ci::Matrix44f parentMatrix )
+void Transform3D::updateMatrix( ci::mat4 parentMatrix )
 {
   const auto axis = orientation.getAxis();
   const auto angle = orientation.getAngle();

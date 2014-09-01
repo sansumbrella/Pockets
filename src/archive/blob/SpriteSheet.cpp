@@ -96,12 +96,12 @@ SpriteSheet::SpriteDataCollection SpriteSheet::defaultParseFunction( const JsonT
   SpriteDataCollection ret;
   JsonTree sprites = desc["sprites"];
   JsonTree meta = desc["meta"];
-  Vec2i bitmap_size( meta["width"].getValue<int>(), meta["height"].getValue<int>() );
+  ivec2 bitmap_size( meta["width"].getValue<int>(), meta["height"].getValue<int>() );
   for( const auto &child : sprites )
   {
     Rectf bounds( child["x1"].getValue<int>(), child["y1"].getValue<int>()
                  , child["x2"].getValue<int>(), child["y2"].getValue<int>() );
-    Vec2i registration_point( child["rx"].getValue<float>(), child["ry"].getValue<float>() );
+    ivec2 registration_point( child["rx"].getValue<float>(), child["ry"].getValue<float>() );
     string id = child["id"].getValue();
     SpriteData sprite( bounds.getSize()
                      , Rectf( bounds.getUpperLeft() / bitmap_size
@@ -120,11 +120,11 @@ void SpriteSheet::enableAndBind()
   bind();
 }
 
-void SpriteSheet::draw(const string &sprite_name, const Vec2f &loc)
+void SpriteSheet::draw(const string &sprite_name, const vec2 &loc)
 {
   draw( mSpriteData[sprite_name], loc );
 }
-void SpriteSheet::draw( const SpriteData &sprite, const Vec2f &loc )
+void SpriteSheet::draw( const SpriteData &sprite, const vec2 &loc )
 {
   Rectf coords = sprite.getTextureBounds();
   Rectf rect( loc, loc + sprite.getSize() );
@@ -133,12 +133,12 @@ void SpriteSheet::draw( const SpriteData &sprite, const Vec2f &loc )
 }
 
 
-void SpriteSheet::drawScrolled(const string &sprite_name, const Vec2f &loc, const Vec2f &offsets)
+void SpriteSheet::drawScrolled(const string &sprite_name, const vec2 &loc, const vec2 &offsets)
 {
   drawScrolled( mSpriteData[sprite_name], loc, offsets );
 }
 
-void SpriteSheet::drawScrolled( const SpriteData &sprite, const Vec2f &loc, const Vec2f &offsets )
+void SpriteSheet::drawScrolled( const SpriteData &sprite, const vec2 &loc, const vec2 &offsets )
 {
   Rectf coords = sprite.getTextureBounds();
   Rectf rect( loc, loc + sprite.getSize() );
@@ -167,14 +167,14 @@ void SpriteSheet::drawScrolled( const SpriteData &sprite, const Vec2f &loc, cons
   drawRect( rect - sprite.getRegistrationPoint(), coords );
 }
 
-void SpriteSheet::drawInRect(const std::string &sprite_name, const ci::Vec2f &loc, const ci::Rectf &bounding_rect)
+void SpriteSheet::drawInRect(const std::string &sprite_name, const ci::vec2 &loc, const ci::Rectf &bounding_rect)
 {
   drawInRect( getSpriteData(sprite_name), loc, bounding_rect );
 }
 
-void SpriteSheet::drawInRect( const SpriteData &sprite, const Vec2f &loc, const Rectf &bounding_rect )
+void SpriteSheet::drawInRect( const SpriteData &sprite, const vec2 &loc, const Rectf &bounding_rect )
 {
-  Rectf sprite_bounds( Vec2f::zero(), sprite.getSize() );
+  Rectf sprite_bounds( vec2( 0 ), sprite.getSize() );
   sprite_bounds.offset( loc - sprite.getRegistrationPoint() );
   Rectf clipped_size = sprite_bounds.getClipBy( bounding_rect );
   clipped_size.offset( sprite.getRegistrationPoint() - loc );
@@ -183,7 +183,7 @@ void SpriteSheet::drawInRect( const SpriteData &sprite, const Vec2f &loc, const 
   drawPortion( sprite, loc, portion );
 }
 
-void SpriteSheet::drawPortion( const SpriteData &sprite, const Vec2f &loc, const Rectf &portion )
+void SpriteSheet::drawPortion( const SpriteData &sprite, const vec2 &loc, const Rectf &portion )
 {
   Rectf tex_coords;
   tex_coords.x1 = lerp( sprite.getTextureBounds().getX1(), sprite.getTextureBounds().getX2(), portion.getX1() );
@@ -191,7 +191,7 @@ void SpriteSheet::drawPortion( const SpriteData &sprite, const Vec2f &loc, const
   tex_coords.y1 = lerp( sprite.getTextureBounds().getY1(), sprite.getTextureBounds().getY2(), portion.getY1() );
   tex_coords.y2 = lerp( sprite.getTextureBounds().getY1(), sprite.getTextureBounds().getY2(), portion.getY2() );
 
-  Vec2f br( loc + sprite.getSize() );
+  vec2 br( loc + sprite.getSize() );
   Rectf positions;
   positions.x1 = lerp( loc.x, br.x, portion.getX1() );
   positions.x2 = lerp( loc.x, br.x, portion.getX2() );

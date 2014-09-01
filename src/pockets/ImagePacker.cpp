@@ -117,7 +117,7 @@ Surface ImagePacker::packedSurface( bool premultiply )
   return output;
 }
 
-void ImagePacker::calculatePositions( const ci::Vec2i &padding, const int width )
+void ImagePacker::calculatePositions( const ci::ivec2 &padding, const int width )
 {
   //  auto rev_area_compare = []( const ImageData &lhs, const ImageData &rhs )
   //  {
@@ -128,7 +128,7 @@ void ImagePacker::calculatePositions( const ci::Vec2i &padding, const int width 
     return lhs->getBounds().getHeight() > rhs->getBounds().getHeight();
   };
   sort( mImages.begin(), mImages.end(), rev_height_compare );
-  Vec2i loc( 0, 0 );
+  ivec2 loc( 0, 0 );
   int bottom_y = 0;
   for( ImageDataRef sprite : mImages )
   {
@@ -145,7 +145,7 @@ void ImagePacker::calculatePositions( const ci::Vec2i &padding, const int width 
   mHeight = math<int>::max( bottom_y, width );
 }
 
-void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const int width )
+void ImagePacker::calculatePositionsScanline( const ivec2 &padding, const int width )
 {
   // auto rev_area_compare = []( const ImageDataRef &lhs, const ImageDataRef &rhs )
   // {
@@ -163,7 +163,7 @@ void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const int wi
   for( int i = 1; i < mImages.size(); ++i )
   { // for each following image, start at top-left and look on each
     // pixel row for a potential free space
-    Vec2i loc{ padding };
+    ivec2 loc{ padding };
     auto img = mImages.at( i );
 
     // if we would never fit on the page, we need to issue a warning
@@ -183,7 +183,7 @@ void ImagePacker::calculatePositionsScanline( const Vec2i &padding, const int wi
           loc.x = bounds.getX2();
         }
       }
-      
+
       if( loc.x + img->getWidth() < width - padding.x )
       { // we fit on the page, though we may still overlap other images
         // tentatively set the image location here

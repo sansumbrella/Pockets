@@ -31,9 +31,9 @@ using namespace cinder;
 using namespace pockets;
 using namespace puptent;
 
-MatrixAffine2f Locus::calcLocalMatrix() const
+mat4 Locus::calcLocalMatrix() const
 {
-  MatrixAffine2f mat;
+  mat4 mat;
   mat.translate( position + registration_point );
   mat.rotate( rotation );
   mat.scale( scale );
@@ -41,7 +41,7 @@ MatrixAffine2f Locus::calcLocalMatrix() const
   return mat;
 }
 
-void Locus::updateMatrix( ci::MatrixAffine2f parentMatrix )
+void Locus::updateMatrix( ci::mat4 parentMatrix )
 {
   parentMatrix.translate( position + registration_point );
   parentMatrix.rotate( rotation );

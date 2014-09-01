@@ -172,10 +172,10 @@ void LayeredShapeRenderSystem::update( EntityManagerRef es, EventManagerRef even
       // create degenerate triangle between previous and current shape
       v.push_back( v.back() );
       auto vert = mesh->vertices.front();
-      v.emplace_back( Vertex2D{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
+      v.emplace_back( Vertex2D{ vec2(mat * vec4( vert.position, 0.0f, 1.0f )), vert.color, vert.tex_coord } );
     }
     for( auto &vert : mesh->vertices ) {
-      v.emplace_back( Vertex2D{ mat.transformPoint( vert.position ), vert.color, vert.tex_coord } );
+      v.emplace_back( Vertex2D{ vec2(mat * vec4( vert.position, 0.0f, 1.0f )), vert.color, vert.tex_coord } );
     }
   }
 

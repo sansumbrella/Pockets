@@ -33,7 +33,7 @@
 namespace treent
 {
 
-typedef std::vector<std::pair<uint16_t, ci::Vec2f>> GlyphPlacements;
+typedef std::vector<std::pair<uint16_t, ci::vec2>> GlyphPlacements;
 typedef std::shared_ptr<struct TextComponent>       TextComponentRef;
 
 struct TextComponent : Component<TextComponent>

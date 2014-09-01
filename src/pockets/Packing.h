@@ -41,20 +41,20 @@ namespace pockets
 	class LocatedRectf : public ci::Rectf
 	{
 	public:
-		LocatedRectf( const ci::Vec2f &loc = ci::Vec2f::zero() ):
+		LocatedRectf( const ci::vec2 &loc = ci::vec2( 0 ) ):
 		mLoc( loc )
 		{}
 		ci::Rectf   getPlacedBounds() const { return *this + getLoc(); }
-		ci::Vec2i   getLoc() const { return mLoc; }
-		void        setLoc( const ci::Vec2i &loc ){ mLoc = loc; }
+		ci::ivec2   getLoc() const { return mLoc; }
+		void        setLoc( const ci::ivec2 &loc ){ mLoc = loc; }
 	private:
-		ci::Vec2f	mLoc;
+		ci::vec2	mLoc;
 	};
 	*/
 
 	/**
 	 ScanlinePacker:
-	 
+
 	 An online rectangle packer.
 	 Pushing a rectangle into the collection adds it.
 	 Need some kind of id system before allowing removal of objects.
@@ -75,7 +75,7 @@ namespace pockets
 		//! returns the packed rectangle at \a index
 		ci::Rectf	getRect ( size_t index ) const { return mRectangles.at( index ); }
 		//! set the padding between rectangles
-		void		setPadding( float gap ) { mPadding.set( gap, gap ); }
+		void		setPadding( float gap ) { mPadding = ci::vec2( gap, gap ); }
 		void		clear() { mRectangles.clear(); }
 		//! iterators for traversal through rectangles
 		std::vector<ci::Rectf>::const_iterator begin() const { return mRectangles.begin(); }
@@ -83,8 +83,8 @@ namespace pockets
 	private:
 		std::vector<ci::Rectf>	mRectangles;
 		size_t					mLastPackedRect;
-		ci::Vec2f				mConstraints;
-		ci::Vec2f				mPadding;
+		ci::vec2				mConstraints;
+		ci::vec2				mPadding;
 	};
 	//! from a list of rectangles, get a list of located rectangles such that
 	//! all fit in a space \a containerWidth wide

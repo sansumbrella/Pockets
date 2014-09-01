@@ -36,8 +36,8 @@ using namespace std;
 
 Range::Range( NodeRef node, Vec first, Vec second ):
 mNode( node ),
-mMin( min( first.x, second.x ), min( first.y, second.y ) ),
-mMax( max( first.x, second.x ), max( first.y, second.y ) )
+mMin( std::min( first.x, second.x ), std::min( first.y, second.y ) ),
+mMax( std::max( first.x, second.x ), std::max( first.y, second.y ) )
 {}
 
 void Range::apply() const
@@ -52,7 +52,7 @@ void Range::apply() const
 Spring::Spring( NodeRef a, NodeRef b, float stiffness ):
 mA( a ),
 mB( b ),
-mRestLength( a->pos.distance( b->pos ) ),
+mRestLength( distance( a->pos, b->pos ) ),
 mStiffness( stiffness )
 {}
 

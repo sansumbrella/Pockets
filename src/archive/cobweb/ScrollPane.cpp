@@ -12,7 +12,7 @@ using namespace pockets;
 using namespace cinder;
 using namespace std;
 
-ScrollPane::ScrollPane( const Vec2i &size ):
+ScrollPane::ScrollPane( const ivec2 &size ):
 Node( size )
 , mViewport( 0, 0, app::toPixels(size.x), app::toPixels(size.y) )
 , mDrawBounds( app::toPoints( mViewport ) )
@@ -45,7 +45,7 @@ void ScrollPane::touchesBegan(ci::app::TouchEvent &event)
     mAccumulatedDelta = 0;
   }
   mScrollMin = math<float>::min( mScrollMax, getHeight() * mScrollBottom - childHeight() );
-  mScrollDirection = Vec2f::yAxis();
+  mScrollDirection = vec2::yAxis();
   mScrollDirection.rotate( getLocus()->getAccumulatedRotation() );
   mTimeline->removeTarget( &mScrollPosition );
 }
@@ -59,7 +59,7 @@ void ScrollPane::touchesMoved(ci::app::TouchEvent &event)
     {
       if( touch.getId() == mTrackedTouch )
       {
-        Vec2f d = touch.getPos() - touch.getPrevPos();
+        vec2 d = touch.getPos() - touch.getPrevPos();
         delta = d.dot( mScrollDirection );
         mAccumulatedDelta += delta;
         if( !mScrolling && math<float>::abs(mAccumulatedDelta) > mScrollThreshold )
@@ -91,7 +91,7 @@ void ScrollPane::touchesEnded(ci::app::TouchEvent &event)
         }
         else
         {
-          Vec2f d = touch.getPos() - touch.getPrevPos();
+          vec2 d = touch.getPos() - touch.getPrevPos();
           float delta = d.dot( mScrollDirection );
           float distance = delta * 3;
           //        float ease_time = lmap<float>( math<float>::clamp( math<float>::abs(distance), 0, 36 ), 0, 36, 0.2f, 0.6f );
@@ -112,7 +112,7 @@ void ScrollPane::update()
 
 void ScrollPane::updateScroll()
 {
-  mScrollParent->setLoc( Vec2f( 0, mScrollPosition ) );
+  mScrollParent->setLoc( vec2( 0, mScrollPosition ) );
 }
 
 void ScrollPane::setScroll(float pos)

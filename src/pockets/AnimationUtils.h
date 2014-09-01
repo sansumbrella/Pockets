@@ -40,9 +40,9 @@ namespace pockets
   ci::ColorA lerpHSVA( const ci::ColorA &start, const ci::ColorA &finish, float time );
 
   //! calculate a grid with at least \a minCells and an aspect ratio close to
-  //! \a targetAspect (columns:rows). Returns Vec2i with the number of columns
+  //! \a targetAspect (columns:rows). Returns ivec2 with the number of columns
   //! and rows that such a grid would contain
-  ci::Vec2i	calcProportionalGridToFit( size_t minCells, float targetAspect );
+  ci::vec2	calcProportionalGridToFit( size_t minCells, float targetAspect );
 
   //! Lerp from value a to value b, wrapping around a circle where
   //! a value of w is equivalent to a value of zero (e.g. 2π)
@@ -57,10 +57,10 @@ namespace pockets
   }
 
   //! are all components of a vector finite?
-  inline bool isfinite( const ci::Vec3f &vec );
+  inline bool isfinite( const ci::vec3 &vec );
 
   //! quaternion lerp function suitable for passing to ci::Timeline
   //! NOTE: as of Cinder 0.8.5, there is a template specialization to ci::tweenLerp<T> that does this.
   //! https://github.com/cinder/Cinder/commit/c987159dc28f72e94a568f6dd824bf759ebfb43f
-  ci::Quatf lerpQuaternion( const ci::Quatf &start, const ci::Quatf &end, float time );
+  ci::quat lerpQuaternion( const ci::quat &start, const ci::quat &end, float time );
 }

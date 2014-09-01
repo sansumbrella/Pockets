@@ -144,7 +144,7 @@ bool Node::deepMouseUp( ci::app::MouseEvent &event )
 void Node::deepDraw()
 {
   gl::ScopedModelMatrix matrix;
-  gl::multModelMatrix( Matrix44f( mLocus.toMatrix() ) );
+  gl::multModelMatrix( mat4( mLocus.toMatrix() ) );
 
   draw();
 
@@ -163,9 +163,9 @@ void Node::deepCancelInteractions()
   }
 }
 
-MatrixAffine2f Node::getFullTransform() const
+mat4 Node::getFullTransform() const
 {
-  MatrixAffine2f mat = mLocus.toMatrix();
+  mat4 mat = mLocus.toMatrix();
   if( mParent )
     { mat = mParent->getFullTransform() * mat; }
   return mat;

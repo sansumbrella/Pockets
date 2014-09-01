@@ -35,7 +35,7 @@ namespace pockets
 
   struct ParticleEmitter : Component<ParticleEmitter>
   {
-    ci::Vec3f   direction;  // direction in which to fire particles
+    ci::vec3   direction;  // direction in which to fire particles
     float       rate;
     float       hold;
     // called whenever a particle is created from this emitter
@@ -57,9 +57,9 @@ namespace pockets
     float     friction = 0.5f;
     float     rotation_friction = 0.5f;
     float     scale_friction = 0.5f;
-    ci::Vec2f p_position = ci::Vec2f::zero();
+    ci::vec2 p_position = ci::vec2( 0 );
     float     p_rotation = 0.0f;
-    ci::Vec2f p_scale = ci::Vec2f::one();
+    ci::vec2 p_scale = ci::vec2( 1 );
   };
 
   /**
@@ -81,7 +81,7 @@ namespace pockets
   private:
     std::vector<Entity>       mParticles;
     std::vector<Entity>       mEmitters;
-    ci::Vec3f                 mGravity;
+    ci::vec3                 mGravity;
     bool                      mHandleEvents;
   };
 

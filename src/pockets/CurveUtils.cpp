@@ -82,8 +82,8 @@ vector<T> pockets::curveThrough(const vector<T> &points)
 	return curvePoints;
 }
 
-template vector<Vec2f> pockets::curveThrough<Vec2f>(const vector<Vec2f> &points);
-template vector<Vec3f> pockets::curveThrough<Vec3f>(const vector<Vec3f> &points);
+template vector<vec2> pockets::curveThrough<vec2>(const vector<vec2> &points);
+template vector<vec3> pockets::curveThrough<vec3>(const vector<vec3> &points);
 
 using namespace pockets;
 void SplineArcLengthParameterizer::sampleCurve( const ci::BSpline3f &spline, const int numSamples )
@@ -114,7 +114,7 @@ float SplineArcLengthParameterizer::getTime( float s ) const
   return t;
 }
 
-Vec3f SplineArcLengthParameterizer::getPosition( float s ) const
+vec3 SplineArcLengthParameterizer::getPosition( float s ) const
 {
   return mSpline.getPosition( getTime( s ) );
 }

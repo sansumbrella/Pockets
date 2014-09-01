@@ -44,21 +44,21 @@ namespace pockets
   struct Locus : Component<Locus>
   {
     Locus() = default;
-    Locus( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, std::shared_ptr<Locus> parent=nullptr ):
+    Locus( const ci::vec2 &pos, const ci::vec2 &registration, float rot, std::shared_ptr<Locus> parent=nullptr ):
     position( pos ),
     registration_point( registration ),
     rotation( rot )
     {}
 
-    ci::Vec2f           position = ci::Vec2f::zero();
-    ci::Vec2f           registration_point = ci::Vec2f::zero();
+    ci::vec2           position = ci::vec2( 0 );
+    ci::vec2           registration_point = ci::vec2( 0 );
     float               rotation = 0.0f;
-    ci::Vec2f           scale = ci::Vec2f::one();
-    ci::MatrixAffine2f  matrix = ci::MatrixAffine2f::identity();
+    ci::vec2           scale = ci::vec2( 1 );
+    ci::mat4  matrix = ci::mat4::identity();
 
-    void updateMatrix( ci::MatrixAffine2f parentMatrix );
+    void updateMatrix( ci::mat4 parentMatrix );
     //! returns a matrix that will transform points based on Locus properties
-    ci::MatrixAffine2f  calcLocalMatrix() const;
+    ci::mat4  calcLocalMatrix() const;
   };
 } // puptent::
 } // pockets::

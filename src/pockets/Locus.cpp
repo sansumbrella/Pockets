@@ -30,18 +30,18 @@
 using namespace pockets;
 using namespace cinder;
 
-MatrixAffine2f Locus2D::toMatrix() const
+mat4 Locus2D::toMatrix() const
 {
-  MatrixAffine2f mat;
-  mat.translate( position + registration_point );
-  mat.rotate( rotation );
-  mat.scale( scale );
-  mat.translate( -registration_point );
+  mat4 mat;
+  mat = translate( mat, vec3( position + registration_point, 0.0f ) );
+  mat = rotate( mat, rotation, vec3( 0.0f, 0.0f, 1.0f ) );
+  mat = ci::scale( mat, vec3( scale, 1.0f ) );
+  mat = translate( mat, vec3( -registration_point, 0.0f ) );
   if( parent ){ mat = parent->toMatrix() * mat; }
   return mat;
 }
 
-ci::Vec2f Locus2D::worldScale() const
+ci::vec2 Locus2D::worldScale() const
 {
   return parent ? parent->worldScale() * scale : scale;
 }
@@ -51,9 +51,9 @@ float Locus2D::worldRotation() const
   return parent ? parent->worldRotation() + rotation : rotation;
 }
 
-Vec2f Locus2D::worldPosition() const
+vec2 Locus2D::worldPosition() const
 {
-  return parent ? parent->toMatrix().transformPoint( position ) : position;
+  return parent ? vec2(parent->toMatrix() * vec4(position, 0.0f, 1.0f)) : position;
 }
 
 void Locus2D::detachFromParent()
@@ -62,7 +62,7 @@ void Locus2D::detachFromParent()
   {
     scale *= parent->worldScale();
     rotation += parent->worldRotation();
-    position = parent->toMatrix().transformPoint( position );
+    position = vec2(parent->toMatrix() * vec4(position, 0.0f, 1.0f));
 
     parent.reset();
   }

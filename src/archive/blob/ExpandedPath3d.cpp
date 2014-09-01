@@ -15,16 +15,16 @@ using namespace ci;
 
 ExpandedPath3d::ExpandedPath3d( size_t length )
 {
-  mSkeleton.assign( length, Vec3f::zero() );
-  mOutline.assign( length * 2, Vec3f::zero() );
+  mSkeleton.assign( length, vec3( 0 ) );
+  mOutline.assign( length * 2, vec3( 0 ) );
 
-  vector<Vec2f> texcoords;
+  vector<vec2> texcoords;
 //  vector<Color> colors;
   for ( int i = 0; i != length; ++i )
   {
     float factor = i / (length - 1.0f);
-    texcoords.push_back( Vec2f( factor, 0 ) ); // north
-    texcoords.push_back( Vec2f( factor, 1 ) ); // south
+    texcoords.push_back( vec2( factor, 0 ) ); // north
+    texcoords.push_back( vec2( factor, 1 ) ); // south
 //    colors.push_back( Color( CM_HSV, lmap<float>( i, 0, length-1, 0.0f, 1.0f ), 1.0f, 1.0f ) );
 //    colors.push_back( Color( CM_HSV, 0.0f, 0.0f, 1.0f ) );
   }
@@ -55,7 +55,7 @@ ExpandedPath3dUniqueRef ExpandedPath3d::create( size_t length )
   return ExpandedPath3dUniqueRef{ new ExpandedPath3d{ length } };
 }
 
-void ExpandedPath3d::setPositions( const vector<Vec3f> &positions, const Vec3f &eye_axis )
+void ExpandedPath3d::setPositions( const vector<vec3> &positions, const vec3 &eye_axis )
 {
   assert( positions.size() == mSkeleton.size() );
   mSkeleton = move( positions );
@@ -65,15 +65,15 @@ void ExpandedPath3d::setPositions( const vector<Vec3f> &positions, const Vec3f &
 
 void ExpandedPath3d::buildOutline()
 {
-  Vec3f a, b;
+  vec3 a, b;
   const float last_index = mSkeleton.size() - 1.0f;
   // first vertex
   a = mSkeleton.at( 0 );
   b = mSkeleton.at( 1 );
-  Vec3f edge = (b - a).normalized();
-  Vec3f tangent = edge.cross( mEyeAxis );
-  Vec3f north = tangent.normalized() * getHalfWidth( 0 );
-  Vec3f south = -north;
+  vec3 edge = (b - a).normalized();
+  vec3 tangent = edge.cross( mEyeAxis );
+  vec3 north = tangent.normalized() * getHalfWidth( 0 );
+  vec3 south = -north;
   mOutline.at( 0 ) = a + north;
   mOutline.at( 0 + 1) = a + south;
   // remaining vertices

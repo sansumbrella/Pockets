@@ -64,7 +64,7 @@ public:
   virtual ~Node3D();
 
   //! Call to update the entire Node3D hierarchy.
-  void    updateTree( const ci::Matrix44f &matrix );
+  void    updateTree( const ci::mat4 &matrix );
 
   //
   // Mirror Entity interface
@@ -123,25 +123,25 @@ public:
   void            clearChildren();
 
   //! Set top-left of element.
-  void            setPosition( const ci::Vec3f &pos ){ mTransform->position = pos; }
+  void            setPosition( const ci::vec3 &pos ){ mTransform->position = pos; }
 
   //! Get top-left of element.
-  ci::Vec3f       getPosition() const { return mTransform->position; }
+  ci::vec3       getPosition() const { return mTransform->position; }
 
   //! Set xy scale of element.
-  void            setScale( const ci::Vec3f &scale ){ mTransform->scale = scale; }
-  ci::Vec3f       getScale() const { return mTransform->scale; }
+  void            setScale( const ci::vec3 &scale ){ mTransform->scale = scale; }
+  ci::vec3       getScale() const { return mTransform->scale; }
 
   //! Set element rotation around z-axis.
 //  void            setRotation( float radians ){ mTransform->rotation = radians; }
 
   //! Set pivot point for rotation and scaling.
-  void            setPivot( const ci::Vec3f &pivot ){ mTransform->pivot = pivot; }
+  void            setPivot( const ci::vec3 &pivot ){ mTransform->pivot = pivot; }
 
   //! Returns this Node3D's world transform, as transformed by its parents.
-  ci::Matrix44f   getWorldTransform() const { return mTransform->matrix; }
+  ci::mat4   getWorldTransform() const { return mTransform->matrix; }
   //! Returns this Node3D's transform, ignoring parent transformations.
-  ci::Matrix44f   getLocalTransform() const { return mTransform->calcLocalMatrix(); }
+  ci::mat4   getLocalTransform() const { return mTransform->calcLocalMatrix(); }
 
   //
   Transform3DRef  getTransform() const { return mTransform; }

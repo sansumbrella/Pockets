@@ -49,7 +49,7 @@ NodeRef World::nearestNode( const Vec &pos )
   NodeRef nearest = mNodes.front();
   for( auto &node : mNodes )
   {
-    if( node->pos.distanceSquared( pos ) < nearest->pos.distanceSquared( pos ) )
+    if( distance2( node->pos, pos ) < distance2( nearest->pos, pos ) )
     {
       nearest = node;
     }
@@ -61,7 +61,7 @@ void World::drawNodes()
 {
   for( auto &node : mNodes )
   {
-    gl::drawSolidCircle( Vec2f( node->pos.x, node->pos.y ), 12.0f );
+    gl::drawSolidCircle( vec2( node->pos.x, node->pos.y ), 12.0f );
   }
 }
 

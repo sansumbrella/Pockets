@@ -81,11 +81,11 @@ public:
 
 treent::TreentNodeRef addOrbiter( treent::TreentNodeRef center, bool warm, float max_distance, int depth ) {
 
-  float size = center->getSize().length() / 5.0f;
+  float size = length( center->getSize() ) / 5.0f;
   auto moon = center->createChild<treent::TreentNode>();
-  moon->setSize( Vec2f::one() * size );
+  moon->setSize( vec2( 1.0f ) * size );
 
-  Vec2f position = randVec2f() * randFloat( max_distance / 4, max_distance );
+  vec2 position = randVec2f() * randFloat( max_distance / 4, max_distance );
   moon->setPosition( position );
   moon->setRegistrationPoint( -position );
   auto shape = moon->assign<treent::ShapeComponent>();
@@ -95,7 +95,7 @@ treent::TreentNodeRef addOrbiter( treent::TreentNodeRef center, bool warm, float
   shape->setAsBox( box );
   shape->setColor( color );
   moon->assign<treent::LayeredShapeRenderData>( shape, moon->getTransform(), depth );
-  moon->assign<RotationComponent>( lmap<float>( position.length(), 0.0f, getWindowSize().length(), 1.0f, 0.1f ) );
+  moon->assign<RotationComponent>( lmap<float>( length( position ), 0.0f, length( vec2(getWindowSize()) ), 1.0f, 0.1f ) );
   auto button = moon->assign<treent::ButtonComponent>();
   button->interaction_bounds = box;
   button->select_fn = [shape]() {
@@ -123,7 +123,7 @@ void TreentGui::setup()
   _treent_root->setPosition( getWindowCenter() );
   _treent_root->setSize( getWindowSize() / 4 );
   auto shape = _treent_root->assign<treent::ShapeComponent>();
-  shape->setAsCircle( Vec2f::one() * getWindowWidth() / 6, 0, M_PI * 2, 6 );  // hexagon
+  shape->setAsCircle( vec2( 1.0f ) * (getWindowWidth() / 6.0f), 0, M_PI * 2, 6 );  // hexagon
   _treent_root->assign<treent::LayeredShapeRenderData>( shape, _treent_root->getTransform(), 0 );
 
   Font arial( "Arial Bold", 24.0f );
@@ -131,7 +131,7 @@ void TreentGui::setup()
 
   for( int i = 0; i < 1000; ++i )
   {
-    auto moon = addOrbiter( _treent_root, true, getWindowSize().length(), 0 );
+    auto moon = addOrbiter( _treent_root, true, length( vec2(getWindowSize()) ), 0 );
     if( randFloat() < 0.05f ) {
       moon->assign<treent::TextComponent>( font, "I am planet " + to_string( i ) );
     }
@@ -173,7 +173,7 @@ void TreentGui::update( double dt )
   _treent_root->setPosition( _node_start + delta );
 
   _treent.systems->update<RotationSystem>( dt );
-  _treent_root->updateTree( MatrixAffine2f::identity() );
+  _treent_root->updateTree( mat4() );
   _treent.systems->update<treent::LayeredShapeRenderSystem>( dt );
   _treent.systems->update<treent::TextRenderSystem>( dt );
 }

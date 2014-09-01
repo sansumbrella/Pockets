@@ -48,7 +48,7 @@ namespace pockets
       mValue( value )
       , mIcon( icon )
       {}
-      bool            contains( const ci::Vec2f &point );
+      bool            contains( const ci::vec2 &point );
       boost::any      mValue;
       pk::Sprite      mIcon;
       bool            mDrawBacking = false;

@@ -42,8 +42,8 @@ namespace pockets
   class Locus2d
   {
   public:
-    ci::Vec2f           getLoc() const { return mLoc; }
-    void                setLoc( const ci::Vec2f &loc ){ mLoc = loc; setDirty(); }
+    ci::vec2           getLoc() const { return mLoc; }
+    void                setLoc( const ci::vec2 &loc ){ mLoc = loc; setDirty(); }
     //! get local rotation
     float               getRotation() const { return mRotation; }
     //! get final rotation after all parent transformations
@@ -53,15 +53,15 @@ namespace pockets
     //! increment rotation by \a radians
     void                rotate( float radians ){ mRotation += radians; setDirty(); }
     //! returns the point around which rotation occurs, in local coordinates
-    ci::Vec2f           getRegistrationPoint() const { return mRegistrationPoint; }
+    ci::vec2           getRegistrationPoint() const { return mRegistrationPoint; }
     //! set the point around which rotation occurs, in local coordinates
-    void                setRegistrationPoint( const ci::Vec2f &loc ){ mRegistrationPoint = loc; setDirty(); }
+    void                setRegistrationPoint( const ci::vec2 &loc ){ mRegistrationPoint = loc; setDirty(); }
     //! returns transformation matrix multiplied by parent (if any)
-    inline ci::MatrixAffine2f getTransform() { calculateTransform(); return mParent ? mParent->getTransform() * mTransform : mTransform; }
-    inline ci::MatrixAffine2f getTransform() const { return mParent ? mParent->getTransform() * mTransform : mTransform; }
+    inline ci::mat4 getTransform() { calculateTransform(); return mParent ? mParent->getTransform() * mTransform : mTransform; }
+    inline ci::mat4 getTransform() const { return mParent ? mParent->getTransform() * mTransform : mTransform; }
     //! returns this locus' local transformation matrix, with no parent transforms
-    inline ci::MatrixAffine2f getLocalTransform() { calculateTransform(); return mTransform; }
-    inline ci::MatrixAffine2f getLocalTransform() const { return mTransform; }
+    inline ci::mat4 getLocalTransform() { calculateTransform(); return mTransform; }
+    inline ci::mat4 getLocalTransform() const { return mTransform; }
     //! set a locus as a parent for this one; we then inherit transformations
     void                setParent( Locus2dRef parent ){ mParent = parent; }
     //! stop having a parent locus
@@ -70,14 +70,14 @@ namespace pockets
     void                calculateTransform();
     //! we've made changes and will need updating
     void                setDirty(){ mDirty = true; }
-    //! conversion to Matrix44f for OpenGL transformation; just pass the Locus to gl::multModelView();
-    operator            ci::Matrix44f() const { return ci::Matrix44f(getTransform()); }
+    //! conversion to mat4 for OpenGL transformation; just pass the Locus to gl::multModelView();
+    operator            ci::mat4() const { return ci::mat4(getTransform()); }
 
     Vertex2d            transform( const Vertex2d &vertex ) const;
   private:
-    ci::MatrixAffine2f          mTransform;
-    ci::Vec2f                   mLoc = ci::Vec2f::zero();
-    ci::Vec2f                   mRegistrationPoint = ci::Vec2f::zero();
+    ci::mat4          mTransform;
+    ci::vec2                   mLoc = ci::vec2( 0 );
+    ci::vec2                   mRegistrationPoint = ci::vec2( 0 );
     float                       mRotation = 0.0f;
     Locus2dRef                  mParent = nullptr;
     bool                        mDirty = true;

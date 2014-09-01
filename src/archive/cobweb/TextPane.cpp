@@ -38,11 +38,11 @@ TextPane::TextPane( const Font &font, int width )
 void TextPane::setTextSoft( const std::string &text, float delay )
 {
   // slide down, change when hidden
-  mTimeline->appendTo( &mTextureOffset, Vec2f( 0, app::toPixels(-getHeight()) ), 0.33f, EaseInQuint() )
+  mTimeline->appendTo( &mTextureOffset, vec2( 0, app::toPixels(-getHeight()) ), 0.33f, EaseInQuint() )
   .delay( delay )
   .finishFn( [=](){ setText( text ); } );
   // slide up
-  mTimeline->appendTo( &mTextureOffset, Vec2f::zero(), 0.4f, EaseInOutQuint() );
+  mTimeline->appendTo( &mTextureOffset, vec2( 0 ), 0.4f, EaseInOutQuint() );
 }
 
 void TextPane::setText(const std::string &text)
@@ -56,7 +56,7 @@ void TextPane::setText(const std::string &text)
   ip::fill( &mSurface, ColorA( 0, 0, 0, 0 ) );
   if( mCentered )
   {
-    mSurface.copyFrom( render, render.getBounds(), Vec2i( (mSurface.getWidth() - render.getWidth())/2, 0 ) );
+    mSurface.copyFrom( render, render.getBounds(), ivec2( (mSurface.getWidth() - render.getWidth())/2, 0 ) );
   }
   else
   {

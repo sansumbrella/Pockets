@@ -39,7 +39,7 @@ TextureAtlas::TextureAtlas( const Surface &images, const ci::JsonTree &descripti
 {
   gl::Texture::Format format;
   format.enableMipmapping();  // looks like my additions of num levels aren't in Cinder yet...
-  
+
   mTexture = gl::Texture::create( images, format );
   parseDescription( description );
 }
@@ -58,18 +58,18 @@ void TextureAtlas::parseDescription( const ci::JsonTree &description )
 {
   JsonTree sprites = description["sprites"];
   JsonTree meta = description["meta"];
-  Vec2i bitmap_size( meta["width"].getValue<int>(), meta["height"].getValue<int>() );
+  ivec2 bitmap_size( meta["width"].getValue<int>(), meta["height"].getValue<int>() );
 
   for( const auto &child : sprites )
   {
     Rectf bounds( child["x1"].getValue<int>(), child["y1"].getValue<int>(),
                   child["x2"].getValue<int>(), child["y2"].getValue<int>() );
 
-    Vec2i registration_point( child["rx"].getValue<float>(), child["ry"].getValue<float>() );
+    ivec2 registration_point( child["rx"].getValue<float>(), child["ry"].getValue<float>() );
 
     string id = child["id"].getValue();
 
-    mData[ id ] = SpriteData{ { bounds.getUpperLeft() / bitmap_size, bounds.getLowerRight() / bitmap_size },
+    mData[ id ] = SpriteData{ { bounds.getUpperLeft() / vec2(bitmap_size), bounds.getLowerRight() / vec2(bitmap_size) },
       bounds.getSize(),
       registration_point };
   }

@@ -40,13 +40,13 @@ typedef std::shared_ptr<struct SizeComponent> SizeComponentRef;
 struct SizeComponent : Component<SizeComponent>
 {
   SizeComponent() = default;
-  SizeComponent( const ci::Vec2f &size ):
+  SizeComponent( const ci::vec2 &size ):
     size( size )
   {}
 
   float width() const { return size.x; }
   float height() const { return size.y; }
-  ci::Vec2f size = ci::Vec2f::zero();
+  ci::vec2 size = ci::vec2( 0 );
 };
 
 }

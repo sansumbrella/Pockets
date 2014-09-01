@@ -104,8 +104,8 @@ void ParticleSystem::update( EntityManagerRef es, EventManagerRef events, double
     LocusRef l = entity.component<Locus>();
     if( l )
     {
-      Vec2f position = l->position;
-      Vec2f velocity = position - p->p_position;
+      vec2 position = l->position;
+      vec2 velocity = position - p->p_position;
       l->position = position + velocity * p->friction;
       p->p_position = position;
 
@@ -114,8 +114,8 @@ void ParticleSystem::update( EntityManagerRef es, EventManagerRef events, double
       l->rotation = rotation + r_vel * p->rotation_friction;
       p->p_rotation = rotation;
 
-      Vec2f scale = l->scale;
-      Vec2f s_vel = scale - p->p_scale;
+      vec2 scale = l->scale;
+      vec2 s_vel = scale - p->p_scale;
       l->scale = scale + s_vel * p->scale_friction;
       p->p_scale = scale;
     }

@@ -61,9 +61,9 @@ private:
   ci::params::InterfaceGlRef mParams;
   const int                  cOutputSize = 1024;
   float                   mWindowScaling = 1.0f;
-  ci::Vec2f               mPreviewOffset;
+  ci::vec2               mPreviewOffset;
   int                     mHeight = 1;
   pk::ImagePacker         mImagePacker;
   int                     mWidestImage = 0;
-  ci::Vec2i               mMargin = { 20, 20 };
+  ci::ivec2               mMargin = { 20, 20 };
 };

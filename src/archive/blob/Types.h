@@ -36,15 +36,15 @@ namespace pockets
   */
   struct Vertex2d
   {
-    ci::Vec2f     position;
+    ci::vec2     position;
     ci::ColorA8u  color;
-    ci::Vec2f     tex_coord;
+    ci::vec2     tex_coord;
   };
 
   struct Vertex3d
   {
-    ci::Vec3f     position;
+    ci::vec3     position;
     ci::ColorA8u  color;
-    ci::Vec2f     tex_coord;
+    ci::vec2     tex_coord;
   };
 }

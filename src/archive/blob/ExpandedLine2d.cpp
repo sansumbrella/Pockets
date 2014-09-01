@@ -29,7 +29,7 @@
 using namespace pockets;
 using namespace ci;
 
-ExpandedLine2d::ExpandedLine2d( const Vec2f &begin, const Vec2f &end ):
+ExpandedLine2d::ExpandedLine2d( const vec2 &begin, const vec2 &end ):
 mBegin( begin )
 , mRay( end - begin )
 {
@@ -40,7 +40,7 @@ mBegin( begin )
 ExpandedLine2d::~ExpandedLine2d()
 {}
 
-void ExpandedLine2d::setEndPoints(const ci::Vec2f &begin, const ci::Vec2f &end)
+void ExpandedLine2d::setEndPoints(const ci::vec2 &begin, const ci::vec2 &end)
 {
   mBegin = begin;
   mRay = end - begin;
@@ -65,15 +65,15 @@ void ExpandedLine2d::scaleLengthInverse(float scale)
   buildOutline( mBegin + mRay - mRay * scale, mBegin + mRay );
 }
 
-void ExpandedLine2d::buildOutline( const Vec2f &begin, const Vec2f &end )
+void ExpandedLine2d::buildOutline( const vec2 &begin, const vec2 &end )
 {
-  Vec2f cap = mRay.normalized() * mWidth;
-  Vec2f N( -cap.y, cap.x );
-  Vec2f S = -N;
-  Vec2f NW = N - cap;
-  Vec2f NE = N + cap;
-  Vec2f SE = -NW;
-  Vec2f SW = -NE;
+  vec2 cap = mRay.normalized() * mWidth;
+  vec2 N( -cap.y, cap.x );
+  vec2 S = -N;
+  vec2 NW = N - cap;
+  vec2 NE = N + cap;
+  vec2 SE = -NW;
+  vec2 SW = -NE;
 
   mPositions.at(0) = begin + SW;
   mPositions.at(1) = begin + NW;
@@ -88,14 +88,14 @@ void ExpandedLine2d::buildOutline( const Vec2f &begin, const Vec2f &end )
 void ExpandedLine2d::buildTexCoords( const ci::Rectf &bounds )
 {
   float mid_s = bounds.getX1() + bounds.getWidth() * 0.5f;
-  mTexCoords.at(0) = Vec2f( bounds.getX1(), bounds.getY2() );
-  mTexCoords.at(1) = Vec2f( bounds.getX1(), bounds.getY1() );
-  mTexCoords.at(2) = Vec2f( mid_s, bounds.getY2() );
-  mTexCoords.at(3) = Vec2f( mid_s, bounds.getY1() );
-  mTexCoords.at(4) = Vec2f( mid_s, bounds.getY2() );
-  mTexCoords.at(5) = Vec2f( mid_s, bounds.getY1() );
-  mTexCoords.at(6) = Vec2f( bounds.getX2(), bounds.getY2() );
-  mTexCoords.at(7) = Vec2f( bounds.getX2(), bounds.getY1() );
+  mTexCoords.at(0) = vec2( bounds.getX1(), bounds.getY2() );
+  mTexCoords.at(1) = vec2( bounds.getX1(), bounds.getY1() );
+  mTexCoords.at(2) = vec2( mid_s, bounds.getY2() );
+  mTexCoords.at(3) = vec2( mid_s, bounds.getY1() );
+  mTexCoords.at(4) = vec2( mid_s, bounds.getY2() );
+  mTexCoords.at(5) = vec2( mid_s, bounds.getY1() );
+  mTexCoords.at(6) = vec2( bounds.getX2(), bounds.getY2() );
+  mTexCoords.at(7) = vec2( bounds.getX2(), bounds.getY1() );
 }
 
 void ExpandedLine2d::render()

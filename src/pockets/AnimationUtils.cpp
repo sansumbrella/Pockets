@@ -32,7 +32,7 @@ using namespace ci;
 using namespace pockets;
 using namespace std;
 
-ci::Vec2i pk::calcProportionalGridToFit( size_t minCells, float targetAspect )
+ci::vec2 pk::calcProportionalGridToFit( size_t minCells, float targetAspect )
 {
 	float square = math<float>::sqrt( minCells );
 	float aspectSquare = math<float>::sqrt( targetAspect );
@@ -40,7 +40,7 @@ ci::Vec2i pk::calcProportionalGridToFit( size_t minCells, float targetAspect )
 	// we could do square/aspectSquare here, but using minCells gets a tighter fit
 	int columns = math<float>::ceil( static_cast<float>(minCells) / rows );
 	assert( rows * columns >= minCells );
-	return Vec2i( columns, rows );
+	return vec2( columns, rows );
 }
 
 float pk::quantize( float f, float steps )
@@ -61,10 +61,10 @@ ColorA pk::lerpHSVA( const ci::ColorA &start, const ci::ColorA &finish, float ti
                 , lerp( start.a, finish.a, time ) );
 }
 
-Quatf pk::lerpQuaternion( const ci::Quatf &start, const ci::Quatf &end, float time )
+quat pk::lerpQuaternion( const ci::quat &start, const ci::quat &end, float time )
 {
-  auto val = start.slerp( time, end ).normalized();
-	return isfinite( val.getAxis() ) ? val : Quatf::identity();
+  quat val = normalize( slerp( start, end, time ) );
+	return isfinite( axis( val ) ) ? val : quat();
 }
 
-bool pk::isfinite( const ci::Vec3f &vec ){ return std::isfinite( vec.x ) && std::isfinite( vec.y ) && std::isfinite( vec.z ); }
+bool pk::isfinite( const ci::vec3 &vec ){ return std::isfinite( vec.x ) && std::isfinite( vec.y ) && std::isfinite( vec.z ); }

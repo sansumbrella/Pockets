@@ -42,14 +42,14 @@ namespace treent
 struct Vertex3D
 {
   Vertex3D() = default;
-  Vertex3D( const ci::Vec3f &position, const ci::ColorA8u &color, const ci::Vec2f &uv ):
+  Vertex3D( const ci::vec3 &position, const ci::ColorA8u &color, const ci::vec2 &uv ):
     position( position ),
     color( color ),
     tex_coord( uv )
   {}
-  ci::Vec3f     position  = ci::Vec3f::zero();
+  ci::vec3     position  = ci::vec3( 0 );
   ci::ColorA8u  color     = ci::ColorA8u::white();
-  ci::Vec2f     tex_coord = ci::Vec2f::zero();
+  ci::vec2     tex_coord = ci::vec2( 0 );
 };
 
 /**
@@ -89,15 +89,15 @@ struct Shape3D : Component<Shape3D>
   //! Transform all vertices by \a mat
   void transform( const ci::Matrix33f &mat );
 
-  //! Make an expanded ribbon from a ci::Vec2f skeleton
+  //! Make an expanded ribbon from a ci::vec2 skeleton
   //! the skeleton is a collection of points describing the path of the ribbon
   template<typename T>
-  void setAsRibbon( const T &skeleton, float width, const ci::Vec3f &eyeDir = ci::Vec3f::zAxis(), bool closed=false );
+  void setAsRibbon( const T &skeleton, float width, const ci::vec3 &eyeDir = ci::vec3::zAxis(), bool closed=false );
 
   //! Make a fat line between two points
-  void setAsLine( const ci::Vec2f &point_a, const ci::Vec2f &point_b, float width=10.0f );
-  void setAsCappedLine( const ci::Vec2f &point_a, const ci::Vec2f &point_b, float width=10.0f );
-  void setAsTriangle( const ci::Vec3f &a, const ci::Vec3f &b, const ci::Vec3f &c );
+  void setAsLine( const ci::vec2 &point_a, const ci::vec2 &point_b, float width=10.0f );
+  void setAsCappedLine( const ci::vec2 &point_a, const ci::vec2 &point_b, float width=10.0f );
+  void setAsTriangle( const ci::vec3 &a, const ci::vec3 &b, const ci::vec3 &c );
 
   //! Set the color of all vertices in one go
   void setColor( const ci::ColorA8u &color );
@@ -105,12 +105,12 @@ struct Shape3D : Component<Shape3D>
 
 
 template<typename T>
-void Shape3D::setAsRibbon( const T &skeleton, float width, const ci::Vec3f &eyeDir, bool closed )
+void Shape3D::setAsRibbon( const T &skeleton, float width, const ci::vec3 &eyeDir, bool closed )
 {
-  using ci::Vec3f;
+  using ci::vec3;
   if( vertices.size() != skeleton.size() * 2 )
   { vertices.assign( skeleton.size() * 2, Vertex3D{} ); }
-  Vec3f a, b, c;
+  vec3 a, b, c;
   // first vertex2D
   a = skeleton.at( 0 );
   b = skeleton.at( 1 );

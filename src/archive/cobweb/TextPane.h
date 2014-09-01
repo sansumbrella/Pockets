@@ -33,7 +33,7 @@ namespace pockets
     ci::gl::Texture     mTexture;
     ci::Rectf           mScreenBounds;  // in points
     ci::Area            mTextureRegion; // in pixels
-    ci::Anim<ci::Vec2f> mTextureOffset = ci::Vec2f::zero(); // in pixels
+    ci::Anim<ci::vec2> mTextureOffset = ci::vec2( 0 ); // in pixels
     bool                mCentered = false;
     ci::TimelineRef     mTimeline = ci::Timeline::create();
 	};

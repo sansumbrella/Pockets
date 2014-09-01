@@ -38,7 +38,7 @@ void TypeNode::draw()
   if( mFlipped )
   { gl::scale( 1.0f, -1.0f ); }
 
-  mFont->drawGlyphs( mGlyphs, Vec2f::zero() );
+  mFont->drawGlyphs( mGlyphs, vec2( 0 ) );
 }
 
 TypeNodeUniqueRef TypeNode::create( gl::TextureFontRef font, const std::string &text )

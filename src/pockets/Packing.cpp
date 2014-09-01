@@ -34,12 +34,12 @@ using namespace pockets;
 size_t ScanlinePacker::pushRect( Rectf rect )
 {	// TODO: better error handling
 	assert( rect.getWidth() < mConstraints.x );
-	if( rect.getUpperLeft() != Vec2f::zero() )
+	if( rect.getUpperLeft() != vec2( 0 ) )
 	{
 		rect -= rect.getUpperLeft();
 	}
 
-	Vec2f loc( mPadding );
+	vec2 loc( mPadding );
 	bool placed = false;
 	while( !placed )
 	{
@@ -54,7 +54,7 @@ size_t ScanlinePacker::pushRect( Rectf rect )
 		if( loc.x + rect.getWidth() < mConstraints.x - mPadding.x )
 		{	// probably placed, let's check our boundaries
 			placed = true;
-			Rectf potentialBounds = (rect + loc).inflated( Vec2f( -1.0f, -1.0f ) );
+			Rectf potentialBounds = (rect + loc).inflated( vec2( -1.0f, -1.0f ) );
 			for( const Rectf &r : mRectangles )
 			{
 				Rectf bounds = r.inflated( mPadding );

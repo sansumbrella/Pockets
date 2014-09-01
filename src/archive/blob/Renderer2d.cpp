@@ -168,7 +168,7 @@ void Renderer2dStripVbo::render()
 		glEnableClientState( GL_COLOR_ARRAY );
 		glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 
-		const auto color_offset = sizeof( Vec2f );
+		const auto color_offset = sizeof( vec2 );
 		const auto tex_coord_offset = color_offset + sizeof( ColorA8u );
 		glBindBuffer( GL_ARRAY_BUFFER, mVBO );
 		glVertexPointer( 2, GL_FLOAT, sizeof( Vertex2d ), 0 );

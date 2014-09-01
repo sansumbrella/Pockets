@@ -43,7 +43,7 @@ void ImageRenderSystem::draw( EntityManagerRef entities ) const
     entity.unpack( location, texture );
 
     gl::ScopedModelMatrix matrix;
-    gl::multModelMatrix( Matrix44f( location->matrix ) );
+    gl::multModelMatrix( mat4( location->matrix ) );
 	if( texture->flipped ) {
 		gl::scale( 1.0f, -1.0f );
 	}

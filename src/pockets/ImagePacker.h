@@ -61,11 +61,11 @@ class ImagePacker
     ci::Rectf           getPlacedBounds() const { return mSurface.getBounds() + getLoc(); }
     ci::Area            getBounds() const { return mSurface.getBounds(); }
     const ci::Surface&  getSurface() const { return mSurface; }
-    ci::Vec2i           getLoc() const { return mLoc; }
-    void                setLoc( const ci::Vec2i &loc ){ mLoc = loc; }
-    void                setRegistrationPoint( const ci::Vec2i &reg ){ mRegistrationPoint = reg; }
-    ci::Vec2i           getRegistrationPoint() const { return mRegistrationPoint; }
-    ci::Vec2i           getSize() const { return mSurface.getSize(); }
+    ci::ivec2           getLoc() const { return mLoc; }
+    void                setLoc( const ci::ivec2 &loc ){ mLoc = loc; }
+    void                setRegistrationPoint( const ci::ivec2 &reg ){ mRegistrationPoint = reg; }
+    ci::ivec2           getRegistrationPoint() const { return mRegistrationPoint; }
+    ci::ivec2           getSize() const { return mSurface.getSize(); }
     int                 getWidth() const { return mSurface.getWidth(); }
     int                 getHeight() const { return mSurface.getHeight(); }
     std::string         getId() const { return mId; }
@@ -91,8 +91,8 @@ class ImagePacker
   private:
     ci::JsonTree    mUserData;
     ci::Surface     mSurface;
-    ci::Vec2i       mLoc = ci::Vec2i::zero();
-    ci::Vec2i       mRegistrationPoint = ci::Vec2i::zero();
+    ci::ivec2       mLoc;
+    ci::ivec2       mRegistrationPoint;
     std::string     mId;
   };
   typedef std::shared_ptr<ImageData> ImageDataRef;
@@ -109,10 +109,10 @@ class ImagePacker
   ImageDataRef              addString( const std::string &id, const ci::Font &font, const std::string &str, bool trim_alpha=false );
 
   //! assign positions to images
-  void                      calculatePositions( const ci::Vec2i &padding, const int width=1024 );
+  void                      calculatePositions( const ci::ivec2 &padding, const int width=1024 );
 
   //! use a scanline algorithm to calculate positions (slower to run, more compact)
-  void                      calculatePositionsScanline( const ci::Vec2i &padding, const int width=1024 );
+  void                      calculatePositionsScanline( const ci::ivec2 &padding, const int width=1024 );
 
   //! generates a surface containing all added images in their packed locations
   //! premultiply unless you are using this spritesheet on iOS, in which case XCode will do that later

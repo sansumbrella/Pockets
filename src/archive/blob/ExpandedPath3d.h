@@ -46,7 +46,7 @@ namespace pockets
     typedef std::function<float (float)> ShapeFn;
     //! set the shape function for the width of the line along its length
     void setShapeFn( ShapeFn fn ){ mShapeFn = fn; mDirty = true; }
-    void setPositions( const std::vector<ci::Vec3f> &positions, const ci::Vec3f &eye_axis=ci::Vec3f::zAxis() );
+    void setPositions( const std::vector<ci::vec3> &positions, const ci::vec3 &eye_axis=ci::vec3::zAxis() );
     void setWidth( float w ){ mLineHalfWidth = w / 2; mDirty = true; }
     void draw();
     //! create and expanded path with \a length spine vertices
@@ -57,11 +57,11 @@ namespace pockets
     ShapeFn                 mShapeFn = [](float f){ return 1.0f; };
     bool                    mDirty = true;
     //! skeleton of vertices
-    std::vector<ci::Vec3f>  mSkeleton;
+    std::vector<ci::vec3>  mSkeleton;
     //! expanded vertices
-    std::vector<ci::Vec3f>  mOutline;
+    std::vector<ci::vec3>  mOutline;
     float                   mLineHalfWidth = 4.0f;
-    ci::Vec3f               mEyeAxis;
+    ci::vec3               mEyeAxis;
     ci::gl::VboMesh         mVbo;
   };
 

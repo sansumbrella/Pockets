@@ -50,17 +50,17 @@ static const uint32_t MOUSE_ID = std::numeric_limits<uint32_t>::max();
 struct GuiComponent : treent::Component<GuiComponent>
 {
   virtual ~GuiComponent() = default;
-  virtual bool    touchesBegan( ci::app::TouchEvent &event, const ci::MatrixAffine2f &world_transform ) { return false; }
-  virtual bool    touchesMoved( ci::app::TouchEvent &event, const ci::MatrixAffine2f &world_transform ) { return false; }
-  virtual bool    touchesEnded( ci::app::TouchEvent &event, const ci::MatrixAffine2f &world_transform ) { return false; }
-  virtual bool    mouseDown( ci::app::MouseEvent &event, const ci::MatrixAffine2f &world_transform ) { return false; }
-  virtual bool    mouseDrag( ci::app::MouseEvent &event, const ci::MatrixAffine2f &world_transform ) { return false; }
-  virtual bool    mouseUp( ci::app::MouseEvent &event, const ci::MatrixAffine2f &world_transform ) { return false; }
+  virtual bool    touchesBegan( ci::app::TouchEvent &event, const ci::mat4 &world_transform ) { return false; }
+  virtual bool    touchesMoved( ci::app::TouchEvent &event, const ci::mat4 &world_transform ) { return false; }
+  virtual bool    touchesEnded( ci::app::TouchEvent &event, const ci::mat4 &world_transform ) { return false; }
+  virtual bool    mouseDown( ci::app::MouseEvent &event, const ci::mat4 &world_transform ) { return false; }
+  virtual bool    mouseDrag( ci::app::MouseEvent &event, const ci::mat4 &world_transform ) { return false; }
+  virtual bool    mouseUp( ci::app::MouseEvent &event, const ci::mat4 &world_transform ) { return false; }
 
   //! Returns true if \a point lies within our interaction_bounds
-  bool            contains( const ci::Vec2f &point, const ci::MatrixAffine2f &world_transform );
+  bool            contains( const ci::vec2 &point, const ci::mat4 &world_transform );
 
-  ci::Vec2f       bounds_padding;
+  ci::vec2       bounds_padding;
   ci::Rectf       interaction_bounds;
 };
 
@@ -71,12 +71,12 @@ struct GuiComponent : treent::Component<GuiComponent>
  */
 struct ButtonComponent : public GuiComponent
 {
-  virtual bool    touchesBegan( ci::app::TouchEvent &event, const ci::MatrixAffine2f &world_transform );
-  virtual bool    touchesMoved( ci::app::TouchEvent &event, const ci::MatrixAffine2f &world_transform );
-  virtual bool    touchesEnded( ci::app::TouchEvent &event, const ci::MatrixAffine2f &world_transform );
-  virtual bool    mouseDown( ci::app::MouseEvent &event, const ci::MatrixAffine2f &world_transform );
-  virtual bool    mouseDrag( ci::app::MouseEvent &event, const ci::MatrixAffine2f &world_transform );
-  virtual bool    mouseUp( ci::app::MouseEvent &event, const ci::MatrixAffine2f &world_transform );
+  virtual bool    touchesBegan( ci::app::TouchEvent &event, const ci::mat4 &world_transform );
+  virtual bool    touchesMoved( ci::app::TouchEvent &event, const ci::mat4 &world_transform );
+  virtual bool    touchesEnded( ci::app::TouchEvent &event, const ci::mat4 &world_transform );
+  virtual bool    mouseDown( ci::app::MouseEvent &event, const ci::mat4 &world_transform );
+  virtual bool    mouseDrag( ci::app::MouseEvent &event, const ci::mat4 &world_transform );
+  virtual bool    mouseUp( ci::app::MouseEvent &event, const ci::mat4 &world_transform );
 
   //! Returns true if a tracked touch is inside component's bounds.
   bool isHovering() const { return _is_hovering; }

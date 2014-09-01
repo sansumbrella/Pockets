@@ -201,7 +201,7 @@ bool TreentNode::deepMouseUp( ci::app::MouseEvent &event )
   return captured;
 }
 
-void TreentNode::updateTree( const ci::MatrixAffine2f &matrix )
+void TreentNode::updateTree( const ci::mat4 &matrix )
 {
   mTransform->updateMatrix( matrix );
   for( TreentNodeRef &child : mChildren ) {

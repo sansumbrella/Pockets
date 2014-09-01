@@ -45,10 +45,10 @@ void Shape3D::transform(const ci::Matrix33f &mat)
 void Shape3D::setAsBox( const Rectf &bounds )
 {
   if( vertices.size() != 4 ){ vertices.assign( 4, Vertex3D{} ); }
-  vertices[0].position = Vec3f( bounds.getUpperRight(), 0.0f );
-  vertices[1].position = Vec3f( bounds.getUpperLeft() );
-  vertices[2].position = Vec3f( bounds.getLowerRight() );
-  vertices[3].position = Vec3f( bounds.getLowerLeft() );
+  vertices[0].position = vec3( bounds.getUpperRight(), 0.0f );
+  vertices[1].position = vec3( bounds.getUpperLeft() );
+  vertices[2].position = vec3( bounds.getLowerRight() );
+  vertices[3].position = vec3( bounds.getLowerLeft() );
 }
 
 void Shape3D::setBoxTextureCoords( const SpriteData &sprite_data )
@@ -64,17 +64,17 @@ void Shape3D::matchTexture(const SpriteData &sprite_data)
   if( vertices.size() != 4 ){ vertices.assign( 4, Vertex3D{} ); }
   Rectf screen_bounds{ { 0.0f, 0.0f }, sprite_data.size };
   screen_bounds -= sprite_data.registration_point;
-  vertices[0].position = Vec3f( screen_bounds.getUpperRight() );
-  vertices[1].position = Vec3f( screen_bounds.getUpperLeft() );
-  vertices[2].position = Vec3f( screen_bounds.getLowerRight() );
-  vertices[3].position = Vec3f( screen_bounds.getLowerLeft() );
+  vertices[0].position = vec3( screen_bounds.getUpperRight() );
+  vertices[1].position = vec3( screen_bounds.getUpperLeft() );
+  vertices[2].position = vec3( screen_bounds.getLowerRight() );
+  vertices[3].position = vec3( screen_bounds.getLowerLeft() );
   vertices[0].tex_coord = sprite_data.texture_bounds.getUpperRight();
   vertices[1].tex_coord = sprite_data.texture_bounds.getUpperLeft();
   vertices[2].tex_coord = sprite_data.texture_bounds.getLowerRight();
   vertices[3].tex_coord = sprite_data.texture_bounds.getLowerLeft();
 }
 
-void Shape3D::setAsTriangle(const ci::Vec3f &a, const ci::Vec3f &b, const ci::Vec3f &c)
+void Shape3D::setAsTriangle(const ci::vec3 &a, const ci::vec3 &b, const ci::vec3 &c)
 {
   if( vertices.size() != 3 ){ vertices.assign( 3, Vertex3D{} ); }
   vertices[0].position = a;
@@ -82,42 +82,42 @@ void Shape3D::setAsTriangle(const ci::Vec3f &a, const ci::Vec3f &b, const ci::Ve
   vertices[2].position = c;
 }
 
-void Shape3D::setAsLine( const Vec2f &begin, const Vec2f &end, float width )
+void Shape3D::setAsLine( const vec2 &begin, const vec2 &end, float width )
 {
-  Vec2f ray = end - begin;
-  Vec2f side = ray.normalized() * width;
-  Vec2f N( -side.y, side.x );
-  Vec2f S = -N;
+  vec2 ray = end - begin;
+  vec2 side = ray.normalized() * width;
+  vec2 N( -side.y, side.x );
+  vec2 S = -N;
 
   if( vertices.size() != 4 )
   { vertices.assign( 4, Vertex3D{} ); }
-  vertices.at(0).position = Vec3f( begin + S, 0.0f );
-  vertices.at(1).position = Vec3f( begin + N, 0.0f );
-  vertices.at(2).position = Vec3f( end + S, 0.0f );
-  vertices.at(3).position = Vec3f( end + N, 0.0f );
+  vertices.at(0).position = vec3( begin + S, 0.0f );
+  vertices.at(1).position = vec3( begin + N, 0.0f );
+  vertices.at(2).position = vec3( end + S, 0.0f );
+  vertices.at(3).position = vec3( end + N, 0.0f );
 }
 
-void Shape3D::setAsCappedLine( const ci::Vec2f &begin, const ci::Vec2f &end, float width )
+void Shape3D::setAsCappedLine( const ci::vec2 &begin, const ci::vec2 &end, float width )
 {
-  Vec2f ray = end - begin;
-  Vec2f cap = ray.normalized() * width;
-  Vec2f N( -cap.y, cap.x );
-  Vec2f S = -N;
-  Vec2f NW = N - cap;
-  Vec2f NE = N + cap;
-  Vec2f SE = -NW;
-  Vec2f SW = -NE;
+  vec2 ray = end - begin;
+  vec2 cap = ray.normalized() * width;
+  vec2 N( -cap.y, cap.x );
+  vec2 S = -N;
+  vec2 NW = N - cap;
+  vec2 NE = N + cap;
+  vec2 SE = -NW;
+  vec2 SW = -NE;
 
   if( vertices.size() != 8 )
   { vertices.assign( 8, Vertex3D{} ); }
-  vertices.at(0).position = Vec3f( begin + SW, 0.0f );
-  vertices.at(1).position = Vec3f( begin + NW, 0.0f );
-  vertices.at(2).position = Vec3f( begin + S, 0.0f );
-  vertices.at(3).position = Vec3f( begin + N, 0.0f );
-  vertices.at(4).position = Vec3f( end + S, 0.0f );
-  vertices.at(5).position = Vec3f( end + N, 0.0f );
-  vertices.at(6).position = Vec3f( end + SE, 0.0f );
-  vertices.at(7).position = Vec3f( end + NE, 0.0f );
+  vertices.at(0).position = vec3( begin + SW, 0.0f );
+  vertices.at(1).position = vec3( begin + NW, 0.0f );
+  vertices.at(2).position = vec3( begin + S, 0.0f );
+  vertices.at(3).position = vec3( begin + N, 0.0f );
+  vertices.at(4).position = vec3( end + S, 0.0f );
+  vertices.at(5).position = vec3( end + N, 0.0f );
+  vertices.at(6).position = vec3( end + SE, 0.0f );
+  vertices.at(7).position = vec3( end + NE, 0.0f );
 }
 
 void Shape3D::setColor( const ColorA8u &color )

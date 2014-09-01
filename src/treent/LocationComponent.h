@@ -45,21 +45,21 @@ namespace treent
   struct LocationComponent : Component<LocationComponent>
   {
     LocationComponent() = default;
-    LocationComponent( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot ):
+    LocationComponent( const ci::vec2 &pos, const ci::vec2 &registration, float rot ):
     position( pos ),
     registration_point( registration ),
     rotation( rot )
     {}
 
-    ci::Anim<ci::Vec2f>           position = ci::Vec2f::zero();
-    ci::Anim<ci::Vec2f>           registration_point = ci::Vec2f::zero();
-    ci::Anim<float>               rotation = 0.0f;
-    ci::Anim<ci::Vec2f>           scale = ci::Vec2f::one();
-    ci::MatrixAffine2f  matrix = ci::MatrixAffine2f::identity();
+    ci::Anim<ci::vec2>          position = ci::vec2( 0 );
+    ci::Anim<ci::vec2>          registration_point = ci::vec2( 0 );
+    ci::Anim<float>             rotation = 0.0f;
+    ci::Anim<ci::vec2>          scale = ci::vec2( 1 );
+    ci::mat4                    matrix;
 
-    void updateMatrix( ci::MatrixAffine2f parentMatrix );
+    void updateMatrix( const ci::mat4 &parentMatrix );
     //! returns a matrix that will transform points based on LocationComponent properties
-    ci::MatrixAffine2f  calcLocalMatrix() const;
+    ci::mat4  calcLocalMatrix() const;
   };
 
 } // treent::

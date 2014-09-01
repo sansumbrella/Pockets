@@ -37,7 +37,7 @@ namespace pockets
 
 /**
 returns a vector of points and control points suitable for constructing
-a ci::BSpline. Accepts a collection of either Vec2fs or Vec3fs.
+a ci::BSpline. Accepts a collection of either vec2s or vec3s.
 e.g. BSpline3f spline( curveThrough( points ), 3, false, true );
 */
 template <typename T>
@@ -56,7 +56,7 @@ public:
   //! Get the curve time from normalized arc-length s[0,1] on sampled curve
   float getTime( float s ) const;
   //! Get the curve position from normalized arc-length s[0,1] on sampled curve
-  ci::Vec3f getPosition( float s ) const;
+  ci::vec3 getPosition( float s ) const;
   //! Calculates t/s relationship for \a spline and stores spline for position lookup.
   void sampleCurve( const ci::BSpline3f &spline, const int numSamples = 64 );
 private:

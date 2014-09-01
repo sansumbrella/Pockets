@@ -30,23 +30,14 @@
 using namespace cinder;
 using namespace treent;
 
-MatrixAffine2f LocationComponent::calcLocalMatrix() const
+mat4 LocationComponent::calcLocalMatrix() const
 {
-  MatrixAffine2f mat;
-  mat.translate( position() + registration_point() );
-  mat.rotate( rotation );
-  mat.scale( scale );
-  mat.translate( -registration_point() );
-  return mat;
+  return translate( ci::scale( rotate( translate( mat4(), vec3(position() + registration_point(), 0.0f) ), rotation(), vec3( 0.0f, 0.0f, 1.0f ) ), vec3( scale(), 1.0f ) ), vec3( -registration_point(), 0.0f ) );
 }
 
-void LocationComponent::updateMatrix( ci::MatrixAffine2f parentMatrix )
+void LocationComponent::updateMatrix( const ci::mat4 &parentMatrix )
 {
-  parentMatrix.translate( position() + registration_point() );
-  parentMatrix.rotate( rotation );
-  parentMatrix.scale( scale );
-  parentMatrix.translate( -registration_point() );
-  matrix = parentMatrix;
+  matrix = translate( ci::scale( rotate( translate( parentMatrix, vec3(position() + registration_point(), 0.0f) ), rotation(), vec3( 0.0f, 0.0f, 1.0f ) ), vec3( scale(), 1.0f ) ), vec3( -registration_point(), 0.0f ) );
 }
 
 /*

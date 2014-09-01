@@ -46,18 +46,18 @@ namespace pockets
   public:
     SpriteData(){}; // need default constructor to use in a std::map
     //! construct sprite data from its pixel size and normalized texture coordinates
-    SpriteData( const ci::Vec2i &pixel_size, const ci::Rectf &textureBounds, const ci::Vec2f &registration_point=ci::Vec2f::zero() );
+    SpriteData( const ci::ivec2 &pixel_size, const ci::Rectf &textureBounds, const ci::vec2 &registration_point=ci::vec2( 0 ) );
     //! returns the Sprite's pixel dimensions
-    inline ci::Vec2i getSize() const { return mSize; }
+    inline ci::ivec2 getSize() const { return mSize; }
     //! returns the normalized texture coordinates of the sprite graphic
     inline ci::Rectf getTextureBounds() const { return mTextureBounds; }
     //! returns the registration point of the sprite, treated as the origin of the artwork
-    inline ci::Vec2f getRegistrationPoint() const { return mRegistrationPoint; }
-    void setRegistrationPoint( const ci::Vec2i &point ){ mRegistrationPoint = point; }
+    inline ci::vec2 getRegistrationPoint() const { return mRegistrationPoint; }
+    void setRegistrationPoint( const ci::ivec2 &point ){ mRegistrationPoint = point; }
   private:
     // assign values where default-constructed sprite data is obvious
-    ci::Vec2f mRegistrationPoint = ci::Vec2f::zero();
-    ci::Vec2i mSize = ci::Vec2i( 48, 48 );
+    ci::vec2 mRegistrationPoint = ci::vec2( 0 );
+    ci::ivec2 mSize = ci::ivec2( 48, 48 );
     ci::Rectf mTextureBounds = ci::Rectf(0,0,1,1);
   };
 
@@ -82,16 +82,16 @@ namespace pockets
     void        draw();
     void        setTint( const ci::ColorA &color );
     ci::ColorA  getTint() const { return mTint; }
-    void        setRegistrationPoint( const ci::Vec2i &point )
-    { mData.setRegistrationPoint( point ); updatePositions( ci::Rectf( ci::Vec2f::zero(), mData.getSize() ) ); }
-    ci::Vec2i   getSize() const { return mData.getSize(); }
-    ci::Vec2i   getLoc() const { return mLocus.getLoc(); }
-    void        setLoc( const ci::Vec2i &loc ){ setDirty(); mLocus.setLoc( loc ); }
-    ci::Vec2f   getRegistrationPoint() const { return mData.getRegistrationPoint(); }
-    bool        contains( const ci::Vec2f &point );
+    void        setRegistrationPoint( const ci::ivec2 &point )
+    { mData.setRegistrationPoint( point ); updatePositions( ci::Rectf( ci::vec2( 0 ), mData.getSize() ) ); }
+    ci::ivec2   getSize() const { return mData.getSize(); }
+    ci::ivec2   getLoc() const { return mLocus.getLoc(); }
+    void        setLoc( const ci::ivec2 &loc ){ setDirty(); mLocus.setLoc( loc ); }
+    ci::vec2   getRegistrationPoint() const { return mData.getRegistrationPoint(); }
+    bool        contains( const ci::vec2 &point );
     //! returns boundaries in local coordinates
-    ci::Rectf   getLocalBounds() const { return ci::Rectf( ci::Vec2f::zero(), getSize() ) - getRegistrationPoint(); }
-    void        setLoc( const ci::Vec2f &loc ){ mLocus.setLoc( loc ); }
+    ci::Rectf   getLocalBounds() const { return ci::Rectf( ci::vec2( 0 ), getSize() ) - getRegistrationPoint(); }
+    void        setLoc( const ci::vec2 &loc ){ mLocus.setLoc( loc ); }
     //    void setParent( Locus2dRef parent ){ mLocus.setParent( parent ); }
     // assume it will change and set us dirty
     Locus2d&    getLocus(){ setDirty(); return mLocus; }

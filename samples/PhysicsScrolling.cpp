@@ -46,8 +46,8 @@ void PhysicsScrolling::setup()
   mTargetPosition = mWorld.createNode( getWindowCenter() );
   mWorld.createConstraint<physics::Lashing>( mActualPosition, mTargetPosition, 0.054f );
 
-  mWorld.createConstraint<physics::Range>( mTargetPosition, Vec2f( 100.0f, 0.0f ), Vec2f( 100.0f, getWindowHeight() - 200.0f ) );
-  mWorld.createConstraint<physics::Range>( mActualPosition, Vec2f( 100.0f, -100.0f ), Vec2f( 100.0f, getWindowHeight() - 100.0f ) );
+  mWorld.createConstraint<physics::Range>( mTargetPosition, vec2( 100.0f, 0.0f ), vec2( 100.0f, getWindowHeight() - 200.0f ) );
+  mWorld.createConstraint<physics::Range>( mActualPosition, vec2( 100.0f, -100.0f ), vec2( 100.0f, getWindowHeight() - 100.0f ) );
 }
 
 void PhysicsScrolling::connect( app::WindowRef window )
@@ -97,8 +97,8 @@ void PhysicsScrolling::draw()
 	gl::clear( Color( 0, 0, 0 ) );
 
   gl::color( Color( 1.0f, 1.0f, 0.0f ) );
-  gl::drawSolidRect( Rectf( mActualPosition->pos, mActualPosition->pos + Vec2f( 200.0f, 200.0f ) ) );
+  gl::drawSolidRect( Rectf( mActualPosition->pos, mActualPosition->pos + vec2( 200.0f, 200.0f ) ) );
   gl::color( Color( 1.0f, 0.0f, 1.0f ) );
-  gl::drawSolidRect( Rectf( mTargetPosition->pos, mTargetPosition->pos + Vec2f( 20.0f, 20.0f ) ) );
+  gl::drawSolidRect( Rectf( mTargetPosition->pos, mTargetPosition->pos + vec2( 20.0f, 20.0f ) ) );
 }
 

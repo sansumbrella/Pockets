@@ -34,15 +34,15 @@ using namespace cinder;
 namespace treent
 {
 
-void ShapeComponent::transform(const ci::MatrixAffine2f &mat)
+void ShapeComponent::transform(const ci::mat4 &mat)
 {
   for( Vertex2D &v : vertices )
   {
-    v.position = mat.transformVec( v.position );
+    v.position = vec2( mat * vec4( v.position, 0.0f, 1.0f ) );
   }
 }
 
-void ShapeComponent::setAsCircle(const ci::Vec2f &radius, float start_radians, float end_radians, size_t segments )
+void ShapeComponent::setAsCircle(const ci::vec2 &radius, float start_radians, float end_radians, size_t segments )
 {
   if( segments < 2 ) { // based off of cinder, though we're less generous with the vertices
     segments = math<float>::floor( math<float>::max( radius.x, radius.y ) * abs(end_radians - start_radians) / 3 );
@@ -54,13 +54,13 @@ void ShapeComponent::setAsCircle(const ci::Vec2f &radius, float start_radians, f
   {
     vertices.assign( segments * 5, Vertex2D{} );
   }
-  Vec2f a{ 0.0f, 0.0f };
+  vec2 a{ 0.0f, 0.0f };
   for( int i = 0; i < segments; ++i )
   {
     float t1 = lmap<float>( i, 0, segments, start_radians, end_radians );
     float t2 = lmap<float>( i + 1, 0, segments, start_radians, end_radians );
-    Vec2f b = Vec2f{ math<float>::cos( t1 ), math<float>::sin( t1 ) } * radius;
-    Vec2f c = Vec2f{ math<float>::cos( t2 ), math<float>::sin( t2 ) } * radius;
+    vec2 b = vec2{ math<float>::cos( t1 ), math<float>::sin( t1 ) } * radius;
+    vec2 c = vec2{ math<float>::cos( t2 ), math<float>::sin( t2 ) } * radius;
     vertices.at(i * 5 + 0).position = a;
     vertices.at(i * 5 + 1).position = b;
     vertices.at(i * 5 + 2).position = c;
@@ -101,7 +101,7 @@ void ShapeComponent::matchTexture(const SpriteData &sprite_data)
   vertices[3].tex_coord = sprite_data.texture_bounds.getLowerLeft();
 }
 
-void ShapeComponent::setAsTriangle(const ci::Vec2f &a, const ci::Vec2f &b, const ci::Vec2f &c)
+void ShapeComponent::setAsTriangle(const ci::vec2 &a, const ci::vec2 &b, const ci::vec2 &c)
 {
   if( vertices.size() != 3 ){ vertices.assign( 3, Vertex2D{} ); }
   vertices[0].position = a;
@@ -109,12 +109,12 @@ void ShapeComponent::setAsTriangle(const ci::Vec2f &a, const ci::Vec2f &b, const
   vertices[2].position = c;
 }
 
-void ShapeComponent::setAsLine( const Vec2f &begin, const Vec2f &end, float width )
+void ShapeComponent::setAsLine( const vec2 &begin, const vec2 &end, float width )
 {
-  Vec2f ray = end - begin;
-  Vec2f side = ray.normalized() * width;
-  Vec2f N( -side.y, side.x );
-  Vec2f S = -N;
+  vec2 ray = end - begin;
+  vec2 side = normalize( ray ) * width;
+  vec2 N( -side.y, side.x );
+  vec2 S = -N;
 
   if( vertices.size() != 4 )
   { vertices.assign( 4, Vertex2D{} ); }
@@ -124,16 +124,16 @@ void ShapeComponent::setAsLine( const Vec2f &begin, const Vec2f &end, float widt
   vertices.at(3).position = end + N;
 }
 
-void ShapeComponent::setAsCappedLine( const ci::Vec2f &begin, const ci::Vec2f &end, float width )
+void ShapeComponent::setAsCappedLine( const ci::vec2 &begin, const ci::vec2 &end, float width )
 {
-  Vec2f ray = end - begin;
-  Vec2f cap = ray.normalized() * width;
-  Vec2f N( -cap.y, cap.x );
-  Vec2f S = -N;
-  Vec2f NW = N - cap;
-  Vec2f NE = N + cap;
-  Vec2f SE = -NW;
-  Vec2f SW = -NE;
+  vec2 ray = end - begin;
+  vec2 cap = normalize( ray ) * width;
+  vec2 N( -cap.y, cap.x );
+  vec2 S = -N;
+  vec2 NW = N - cap;
+  vec2 NE = N + cap;
+  vec2 SE = -NW;
+  vec2 SW = -NE;
 
   if( vertices.size() != 8 )
   { vertices.assign( 8, Vertex2D{} ); }

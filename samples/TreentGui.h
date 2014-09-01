@@ -48,8 +48,8 @@ public:
 private:
   treent::Treent          _treent;
   treent::RootNodeRef     _treent_root;
-  ci::Vec2f               _mouse_position = ci::Vec2f::zero();
-  ci::Vec2f               _mouse_start = ci::Vec2f::zero();
-  ci::Vec2f               _node_start = ci::Vec2f::zero();
+  ci::vec2               _mouse_position;
+  ci::vec2               _mouse_start;
+  ci::vec2               _node_start;
   bool                    _mouse_down = false;
 };

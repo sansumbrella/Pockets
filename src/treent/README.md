@@ -31,7 +31,7 @@ auto grandchild = child->createChild<CustomTreentSubclass>( "other", "constructo
 
 Update your root node to propagate matrix transforms throughout the tree.
 ```c++
-root->updateTree( MatrixAffine2f::identity() );
+root->updateTree( mat4::identity() );
 treent.systems->update<treent::LayeredShapeRenderSystem>( dt );
 treent.systems->update<treent::TextRenderSystem>( dt );
 ```

@@ -35,15 +35,15 @@ using namespace ci;
 
 ExpandedPath2d::ExpandedPath2d( size_t length )
 {
-  mSkeleton.assign( length, Vec2f::zero() );
-  mOutline.assign( length * 2, Vec2f::zero() );
+  mSkeleton.assign( length, vec2( 0 ) );
+  mOutline.assign( length * 2, vec2( 0 ) );
 
-  vector<Vec2f> texcoords;
+  vector<vec2> texcoords;
   for ( int i = 0; i != length; ++i )
   {
     float factor = i / (length - 1.0f);
-    texcoords.push_back( Vec2f( factor, 0 ) ); // north
-    texcoords.push_back( Vec2f( factor, 1 ) ); // south
+    texcoords.push_back( vec2( factor, 0 ) ); // north
+    texcoords.push_back( vec2( factor, 1 ) ); // south
   }
 
   // if( !mVbo )
@@ -56,7 +56,7 @@ ExpandedPath2d::ExpandedPath2d( size_t length )
   //   auto iter = mVbo.mapVertexBuffer();
   //   for( const auto &loc : mOutline )
   //   {
-  //     iter.setPosition( Vec3f(loc, 0) );
+  //     iter.setPosition( vec3(loc, 0) );
   //     ++iter;
   //   }
   // }
@@ -65,14 +65,14 @@ ExpandedPath2d::ExpandedPath2d( size_t length )
 ExpandedPath2d::~ExpandedPath2d()
 {}
 
-void ExpandedPath2d::shiftFront( const Vec2f &pos )
+void ExpandedPath2d::shiftFront( const vec2 &pos )
 {
   mSkeleton.push_front( pos );
   mSkeleton.pop_back();
   mDirty = true;
 }
 
-void ExpandedPath2d::shiftBack( const Vec2f &pos )
+void ExpandedPath2d::shiftBack( const vec2 &pos )
 {
   mSkeleton.push_back( pos );
   mSkeleton.pop_front();
@@ -81,14 +81,14 @@ void ExpandedPath2d::shiftBack( const Vec2f &pos )
 
 void ExpandedPath2d::buildOutline()
 {
-  Vec2f a, b, c;
+  vec2 a, b, c;
   const float last_index = mSkeleton.size() - 1.0f;
   // first vertex
   a = mSkeleton.at( 0 );
   b = mSkeleton.at( 1 );
-  Vec2f edge = (b - a);
-  Vec2f tangent = Vec2f( -edge.y, edge.x );
-  Vec2f north = tangent.normalized() * getHalfWidth( 0 );
+  vec2 edge = (b - a);
+  vec2 tangent = vec2( -edge.y, edge.x );
+  vec2 north = tangent.normalized() * getHalfWidth( 0 );
   mOutline.at( 0 ) = a + north;
   mOutline.at( 0 + 1) = a - north;
   // remaining vertices
@@ -98,7 +98,7 @@ void ExpandedPath2d::buildOutline()
     b = mSkeleton.at(i);
     c = mSkeleton.at(i + 1);
     edge = ((b - a).normalized() + (c - b).normalized()) * 0.5;
-    tangent = Vec2f( -edge.y, edge.x );
+    tangent = vec2( -edge.y, edge.x );
     north = tangent.normalized() * getHalfWidth( i / last_index );
     mOutline.at( i * 2 ) = b + north;
     mOutline.at( i * 2 + 1 ) = b - north;
@@ -106,7 +106,7 @@ void ExpandedPath2d::buildOutline()
   // final vertex
   c = mSkeleton.back();
   edge = mClosed ? (mSkeleton.at( 1 ) - c) : (c - b);
-  tangent = Vec2f( -edge.y, edge.x );
+  tangent = vec2( -edge.y, edge.x );
   north = tangent.normalized() * getHalfWidth( 1.0f );
   size_t end = mSkeleton.size() - 1;
   mOutline.at( end * 2 ) = c + north;
@@ -116,7 +116,7 @@ void ExpandedPath2d::buildOutline()
   // auto iter = mVbo.mapVertexBuffer();
   // for( const auto &loc : mOutline )
   // {
-  //   iter.setPosition( Vec3f(loc, 0) );
+  //   iter.setPosition( vec3(loc, 0) );
   //   ++iter;
   // }
 }

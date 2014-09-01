@@ -38,16 +38,16 @@ namespace treent
 //  MARK: - GuiComponent
 //
 
-bool GuiComponent::contains( const ci::Vec2f &point, const MatrixAffine2f &world_transform )
+bool GuiComponent::contains( const ci::vec2 &point, const mat4 &world_transform )
 {
-  return interaction_bounds.contains( world_transform.invertCopy().transformPoint( point ) );
+  return interaction_bounds.contains( ci::vec2( ci::inverse( world_transform ) * ci::vec4( point, 0.0f, 1.0f ) ) );
 }
 
 //
 //  MARK: - ButtonComponent
 //
 
-bool ButtonComponent::touchesBegan( ci::app::TouchEvent &event, const MatrixAffine2f &world_transform )
+bool ButtonComponent::touchesBegan( ci::app::TouchEvent &event, const mat4 &world_transform )
 {
   for( auto &touch : event.getTouches() )
   {
@@ -60,7 +60,7 @@ bool ButtonComponent::touchesBegan( ci::app::TouchEvent &event, const MatrixAffi
   }
   return false;
 }
-bool ButtonComponent::touchesMoved( ci::app::TouchEvent &event, const MatrixAffine2f &world_transform )
+bool ButtonComponent::touchesMoved( ci::app::TouchEvent &event, const mat4 &world_transform )
 {
   for( auto &touch : event.getTouches() )
   {
@@ -75,7 +75,7 @@ bool ButtonComponent::touchesMoved( ci::app::TouchEvent &event, const MatrixAffi
   // don't capture moving touches
   return false;
 }
-bool ButtonComponent::touchesEnded( ci::app::TouchEvent &event, const MatrixAffine2f &world_transform )
+bool ButtonComponent::touchesEnded( ci::app::TouchEvent &event, const mat4 &world_transform )
 {
   bool selected = false;
   for( auto &touch : event.getTouches() )
@@ -98,7 +98,7 @@ bool ButtonComponent::touchesEnded( ci::app::TouchEvent &event, const MatrixAffi
   }
   return false;
 }
-bool ButtonComponent::mouseDown( ci::app::MouseEvent &event, const MatrixAffine2f &world_transform )
+bool ButtonComponent::mouseDown( ci::app::MouseEvent &event, const mat4 &world_transform )
 {
   if( contains( event.getPos(), world_transform ) )
   {
@@ -108,13 +108,13 @@ bool ButtonComponent::mouseDown( ci::app::MouseEvent &event, const MatrixAffine2
   }
   return false;
 }
-bool ButtonComponent::mouseDrag( ci::app::MouseEvent &event, const MatrixAffine2f &world_transform )
+bool ButtonComponent::mouseDrag( ci::app::MouseEvent &event, const mat4 &world_transform )
 {
   _is_hovering = contains( event.getPos(), world_transform );
 
   return false;
 }
-bool ButtonComponent::mouseUp( ci::app::MouseEvent &event, const MatrixAffine2f &world_transform )
+bool ButtonComponent::mouseUp( ci::app::MouseEvent &event, const mat4 &world_transform )
 {
   bool selected = false;
   _tracked_touch = 0;

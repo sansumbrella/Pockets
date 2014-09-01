@@ -44,9 +44,7 @@ public:
 
 private:
   float                 _ball_y;
-  ci::Vec2f             _ball_2 = ci::Vec2f( 400.0f, 400.0f );
+  ci::vec2             _ball_2 = ci::vec2( 400.0f, 400.0f );
   float                 _ball_radius = 50.0f;
   co::Timeline          _anim;
-  ci::gl::TextureRef    _text;
-
 };

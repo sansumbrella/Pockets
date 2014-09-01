@@ -41,7 +41,7 @@ using namespace std;
 
 void TexturePackingSample::setup()
 {
-  mParams = params::InterfaceGl::create( "SpriteSheet Generator", Vec2i( 200, 200 ) );
+  mParams = params::InterfaceGl::create( "SpriteSheet Generator", ivec2( 200, 200 ) );
   mParams->setOptions( "", "position='10 20'" );
   mParams->addButton( "Reset packer", [this](){ mImagePacker.clear(); } );
 }
@@ -78,7 +78,7 @@ void TexturePackingSample::addFile(const fs::path &file)
       string id = file.stem().string();
       cout << "File: " << file << endl;
       cout << "=> Id: " << id << endl;
-      mWidestImage = max( img.getWidth(), mWidestImage );
+      mWidestImage = std::max( img.getWidth(), mWidestImage );
       auto sprite = mImagePacker.addImage( id, img );
       sprite->setRegistrationPoint( sprite->getSize() / 2 );
     }

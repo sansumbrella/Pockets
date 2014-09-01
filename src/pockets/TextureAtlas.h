@@ -44,15 +44,15 @@ namespace pockets
   struct SpriteData
   { // build from texture bounds, screen size, and local registration point
     SpriteData( const ci::Rectf &bounds = ci::Rectf{ 0.0f, 0.0f, 1.0f, 1.0f },
-               const ci::Vec2i &size = ci::Vec2i{ 96, 96 },
-               const ci::Vec2f &registration = ci::Vec2f::zero() ):
+               const ci::ivec2 &size = ci::ivec2{ 96, 96 },
+               const ci::vec2 &registration = ci::vec2( 0 ) ):
     texture_bounds( bounds ),
     size( size ),
     registration_point( registration )
     {}
     ci::Rectf       texture_bounds;
-    ci::Vec2i       size;
-    ci::Vec2f       registration_point;
+    ci::ivec2       size;
+    ci::vec2       registration_point;
   };
 
 

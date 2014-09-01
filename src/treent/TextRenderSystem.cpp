@@ -78,8 +78,8 @@ void TextRenderSystem::draw() const
       TextComponentRef text = pair.second;
 
       gl::ScopedModelMatrix matrix;
-      gl::multModelMatrix( Matrix44f( location->matrix ) );
-      text->_font->drawGlyphs( text->_glyph_placements, Vec2f::zero() );
+      gl::multModelMatrix( mat4( location->matrix ) );
+      text->_font->drawGlyphs( text->_glyph_placements, vec2( 0 ) );
     }
   }
 }

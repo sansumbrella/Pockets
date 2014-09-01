@@ -46,42 +46,34 @@ void ChoreographSample::setup()
     .getSequence().set( 5.0f ).hold( 0.5f ).rampTo( 500.0f, 1.0f, EaseInOutQuad() ).hold( 500.0f, 0.33f ).rampTo( 700.0f, 1.0f ).hold( 20.0f, 1.0f ).set( 400.0f );
 
   _anim.move( &_ball_2 )
-    .startFn( [] (Motion<Vec2f> &c) { cout << "Start blue" << endl; } )
-    .finishFn( [] (Motion<Vec2f> &c) { c.playbackSpeed( c.getPlaybackSpeed() * -1.0f ); } )
+    .startFn( [] (Motion<vec2> &c) { cout << "Start blue" << endl; } )
+    .finishFn( [] (Motion<vec2> &c) { c.playbackSpeed( c.getPlaybackSpeed() * -1.0f ); } )
     .continuous( true )
-    .updateFn( [&] (const Vec2f &v) {
-      Vec2f size = app::getWindowSize();
-      float shortest = min( v.x, size.x - v.x );
-      shortest = min( shortest, size.y - v.y );
-      shortest = min( shortest, v.y );
+    .updateFn( [&] (const vec2 &v) {
+      vec2 size = app::getWindowSize();
+      float shortest = std::min( v.x, size.x - v.x );
+      shortest = std::min( shortest, size.y - v.y );
+      shortest = std::min( shortest, v.y );
       _ball_radius = shortest;
     } )
-    .getSequence().rampTo( app::getWindowSize() / 2.0f, 2.0f ).rampTo( app::getWindowSize(), 2.0f ).rampTo( Vec2f( app::getWindowWidth() / 2.0f, 10.0f ), 3.0f ).rampTo( app::getWindowSize() / 2.0f, 0.5f );
+    .getSequence().rampTo( vec2( app::getWindowSize() ) / 2.0f, 2.0f ).rampTo( vec2( app::getWindowSize() ), 2.0f ).rampTo( vec2( app::getWindowWidth() / 2.0f, 10.0f ), 3.0f ).rampTo( vec2( app::getWindowSize() ) / 2.0f, 0.5f );
 
 /*
   _anim.move( &_ball_2 )
     .getSequence().set( Vec2f( 100.0f, 100.0f ) ).rampTo( Vec2f( 500.0f, 600.0f ), 6.0f, EaseOutBack() );
 //*/
 
-
-
   for( float t = -1.0f; t < sequence.getDuration() + 0.2f; t += 0.1f )
   {
     app::console() << "Animation time: " << t << "\t\t, value: " << sequence.getValue( t ) << endl;
   }
 
-  Font font( "Monaco", 24.0f );
-  string urdu = loadString( loadFile( "/Users/davidwicks/Client/Active/soso/urdu-utf8.txt" ) );
-  string chinese = loadString( loadFile( "/Users/davidwicks/Client/Active/soso/chinese-utf8.txt" ) );
-  string kana = loadString( loadFile( "/Users/davidwicks/Client/Active/soso/kana-utf8.txt" ) );
-  TextLayout layout;
-  layout.clear( Color::black() );
-  layout.setColor( Color::white() );
-  layout.setFont( font );
-  layout.addLine( urdu );
-  layout.addLine( chinese );
-  layout.addLine( kana );
-  _text = gl::Texture::create( layout.render( true, true ) );
+  // example of reading time from string
+  // for conversion operators, see http://en.cppreference.com/w/cpp/io/manip/get_time
+  std::tm tm;
+  std::stringstream ss("Jan 9 2014 12:35:34");
+  ss >> std::get_time(&tm, "%b %d %Y %H:%M:%S");
+  auto tp = std::chrono::system_clock::from_time_t(std::mktime(&tm));
 }
 
 void ChoreographSample::update(double dt)
@@ -96,12 +88,11 @@ void ChoreographSample::draw()
 
   gl::clear( Color( 0, 0, 0 ) );
   gl::color( Color( 1.0f, 0.0f, 0.0f ) );
-  gl::drawSolidCircle( Vec2f( 200.0f, _ball_y ), 120.0f );
+  gl::drawSolidCircle( vec2( 200.0f, _ball_y ), 120.0f );
   gl::color( 0.0f, 0.0f, 1.0f );
   gl::drawSolidCircle( _ball_2, _ball_radius );
 
   gl::enableAlphaBlending( true );
   gl::color( Color::white() );
-  gl::draw( _text );
 }
 

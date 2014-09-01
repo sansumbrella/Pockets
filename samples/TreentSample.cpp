@@ -82,9 +82,9 @@ treent::TreentNodeRef addOrbiter( treent::TreentNodeRef center, bool warm, float
 
   float size = center->getSize().length() / 5.0f;
   auto moon = center->createChild<treent::TreentNode>();
-  moon->setSize( Vec2f::one() * size );
+  moon->setSize( vec2( 1.0f ) * size );
 
-  Vec2f position = randVec2f() * randFloat( max_distance / 4, max_distance );
+  vec2 position = randVec2f() * randFloat( max_distance / 4, max_distance );
   moon->setPosition( position );
   moon->setRegistrationPoint( -position );
   auto shape = moon->assign<treent::ShapeComponent>();
@@ -93,7 +93,7 @@ treent::TreentNodeRef addOrbiter( treent::TreentNodeRef center, bool warm, float
   shape->setAsBox( Rectf( -size, -size, size, size ) );
   shape->setColor( color );
   moon->assign<treent::LayeredShapeRenderData>( shape, moon->getTransform(), depth );
-  moon->assign<RotationComponent>( lmap<float>( position.length(), 0.0f, getWindowSize().length(), 1.0f, 0.1f ) );
+  moon->assign<RotationComponent>( lmap<float>( length( position ), 0.0f, length( vec2(getWindowSize()) ), 1.0f, 0.1f ) );
 
   if( size > 10.0f && randFloat() < 0.5f ) {
     addOrbiter( moon, !warm, max_distance / 8, depth + 1 );
@@ -115,7 +115,7 @@ void TreentTest::setup()
   _treent_root->setPosition( getWindowCenter() );
   _treent_root->setSize( getWindowSize() / 4 );
   auto shape = _treent_root->assign<treent::ShapeComponent>();
-  shape->setAsCircle( Vec2f::one() * getWindowWidth() / 6, 0, M_PI * 2, 6 );  // hexagon
+  shape->setAsCircle( vec2( 1.0f ) * (getWindowWidth() / 6.0f), 0, M_PI * 2, 6 );  // hexagon
   _treent_root->assign<treent::LayeredShapeRenderData>( shape, _treent_root->getTransform(), 0 );
 
   Font arial( "Arial Bold", 24.0f );
@@ -165,7 +165,7 @@ void TreentTest::update( double dt )
   _treent_root->setPosition( _node_start + delta );
 
   _treent.systems->update<RotationSystem>( dt );
-  _treent_root->updateTree( MatrixAffine2f::identity() );
+  _treent_root->updateTree( mat4() );
   _treent.systems->update<treent::LayeredShapeRenderSystem>( dt );
   _treent.systems->update<treent::TextRenderSystem>( dt );
 }

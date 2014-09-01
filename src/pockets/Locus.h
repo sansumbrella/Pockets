@@ -46,7 +46,7 @@ namespace pockets
   struct Locus2D
   {
     Locus2D() = default;
-    Locus2D( const ci::Vec2f &pos, const ci::Vec2f &registration, float rot, Locus2DRef parent=nullptr ):
+    Locus2D( const ci::vec2 &pos, const ci::vec2 &registration, float rot, Locus2DRef parent=nullptr ):
       position( pos ),
       registration_point( registration ),
       rotation( rot ),
@@ -54,24 +54,24 @@ namespace pockets
     {}
 
     //! Local world offset.
-    ci::Vec2f           position = ci::Vec2f::zero();
+    ci::vec2           position = ci::vec2( 0 );
     //! Local origin for scale and rotation.
-    ci::Vec2f           registration_point = ci::Vec2f::zero();
+    ci::vec2           registration_point = ci::vec2( 0 );
     //! Local rotation in radians.
     float               rotation = 0.0f;
     //! Local scale.
-    ci::Vec2f           scale = ci::Vec2f::one();
+    ci::vec2           scale = ci::vec2( 1 );
     //! transform parent; toMatrix() is multiplied by parent->toMatrix() if present
     Locus2DRef          parent = nullptr;
 
     //! Returns total rotation including any accumulated from parents.
     float               worldRotation() const;
     //! Returns total scale including any accumulated from parents.
-    ci::Vec2f           worldScale() const;
+    ci::vec2           worldScale() const;
     //! Returns total position including any accumulated from parents.
-    ci::Vec2f           worldPosition() const;
+    ci::vec2           worldPosition() const;
     //! Returns a matrix combining all transformations multiplied by parent's matrix.
-    ci::MatrixAffine2f  toMatrix() const;
+    ci::mat4  toMatrix() const;
 
     //! Remove parent after composing its transformations into our own.
     void                detachFromParent();
@@ -85,9 +85,9 @@ namespace pockets
    */
   struct Locus3D
   { // TODO: provide nice conversion method to matrix, parenting
-    ci::Vec3f         position      = ci::Vec3f::zero();
-    ci::Vec3f         pivot         = ci::Vec3f::zero();
-    ci::Quatf         orientation   = ci::Quatf::identity();
-    ci::Vec3f         scale         = ci::Vec3f::one();
+    ci::vec3         position      = ci::vec3( 0 );
+    ci::vec3         pivot         = ci::vec3( 0 );
+    ci::quat         orientation;
+    ci::vec3         scale         = ci::vec3( 1 );
   };
 }

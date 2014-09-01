@@ -36,7 +36,7 @@ namespace pockets
     void resume() { mConnections.resume(); }
 
     //! returns normalized force along xy axes
-    const ci::Vec2f&        direction() const { return mForce; }
+    const ci::vec2&        direction() const { return mForce; }
     //! returns true if the key with code key is down
     bool                    isKeyDown( int key ) const;
     //! returns true if the key with code key was pressed this frame
@@ -47,7 +47,7 @@ namespace pockets
     static KeyboardInputRef create();
   private:
     pk::ConnectionManager           mConnections;
-    ci::Vec2f                       mForce = ci::Vec2f::zero();
+    ci::vec2                       mForce = ci::vec2( 0 );
     std::vector<int>                mHeldKeys;
     std::set<int>                   mPressedKeys;
     std::set<int>                   mReleasedKeys;
