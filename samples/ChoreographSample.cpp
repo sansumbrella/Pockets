@@ -68,12 +68,14 @@ void ChoreographSample::setup()
     app::console() << "Animation time: " << t << "\t\t, value: " << sequence.getValue( t ) << endl;
   }
 
+  /*
   // example of reading time from string
   // for conversion operators, see http://en.cppreference.com/w/cpp/io/manip/get_time
   std::tm tm;
   std::stringstream ss("Jan 9 2014 12:35:34");
   ss >> std::get_time(&tm, "%b %d %Y %H:%M:%S");
   auto tp = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+  */
 }
 
 void ChoreographSample::update(double dt)
