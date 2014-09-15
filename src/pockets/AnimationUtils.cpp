@@ -60,11 +60,3 @@ ColorA pk::lerpHSVA( const ci::ColorA &start, const ci::ColorA &finish, float ti
                 , lerp( s_hsv.z, f_hsv.z, time )
                 , lerp( start.a, finish.a, time ) );
 }
-
-quat pk::lerpQuaternion( const ci::quat &start, const ci::quat &end, float time )
-{
-  quat val = normalize( slerp( start, end, time ) );
-	return isfinite( axis( val ) ) ? val : quat();
-}
-
-bool pk::isfinite( const ci::vec3 &vec ){ return std::isfinite( vec.x ) && std::isfinite( vec.y ) && std::isfinite( vec.z ); }

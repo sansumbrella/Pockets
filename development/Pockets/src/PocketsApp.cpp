@@ -11,7 +11,7 @@
 #include "TexturePackingSample.h"
 #include "TreentSample.h"
 #include "TreentGui.h"
-#include "ChoreographSample.h"
+//#include "ChoreographSample.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -46,7 +46,7 @@ void PocketsApp::setup()
 {
   gl::enableVerticalSync();
 
-  mScenes.push_back( make_pair( "Choreograph Placeholder", &make_shared<ChoreographSample> ) );
+//  mScenes.push_back( make_pair( "Choreograph Placeholder", &make_shared<ChoreographSample> ) );
   mScenes.push_back( make_pair( "Physics Scrolling Thing", &make_shared<PhysicsScrolling> ) );
   // Rotating things.
   mScenes.push_back( make_pair( "Treant Test", &make_shared<TreentTest> ) );

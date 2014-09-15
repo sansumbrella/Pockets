@@ -30,7 +30,7 @@
 #include "pockets/Scene.h"
 #include "cinder/Text.h"
 #include "cinder/gl/Texture.h"
-#include "../../../../Choreograph/src/choreograph/Choreograph.hpp"
+#include "../../sc-Choreograph/src/choreograph/Choreograph.hpp"
 
 class ChoreographSample : public pk::Scene
 {

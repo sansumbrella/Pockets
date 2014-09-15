@@ -59,7 +59,6 @@
 		1563A4EF18FCE00200D1FF54 /* TagsComponent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1563A4E118FCE00200D1FF54 /* TagsComponent.cc */; };
 		1574A45619B4BE1900CA33BF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1574A45519B4BE1900CA33BF /* AVFoundation.framework */; };
 		1574A45819B4BE6C00CA33BF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1574A45719B4BE6C00CA33BF /* CoreMedia.framework */; };
-		15850ED519A1B413007B3627 /* ChoreographSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15850ED319A1B413007B3627 /* ChoreographSample.cpp */; };
 		159A3E401927E12800935D8F /* TreentGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159A3E3F1927E12800935D8F /* TreentGui.cpp */; };
 		159A3E431927E86700935D8F /* GuiSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159A3E411927E86700935D8F /* GuiSystem.cpp */; };
 		159A3E441927E86700935D8F /* GuiSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159A3E411927E86700935D8F /* GuiSystem.cpp */; };
@@ -714,7 +713,6 @@
 				1563A4EA18FCE00200D1FF54 /* Event.cc in Sources */,
 				1563A4EE18FCE00200D1FF54 /* TagsComponent.cc in Sources */,
 				155BEF9D18CBA749000A36FC /* SimpleButton.cpp in Sources */,
-				15850ED519A1B413007B3627 /* ChoreographSample.cpp in Sources */,
 				155BEFAB18CBA749000A36FC /* TypeNode.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
