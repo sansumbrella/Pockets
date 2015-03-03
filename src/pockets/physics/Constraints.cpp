@@ -59,7 +59,7 @@ mStiffness( stiffness )
 void Spring::apply() const
 {
   Vec delta = mB->pos - mA->pos;
-  float distance = delta.length();
+  float distance = length(delta);
   float offset = mRestLength - distance;
   if( distance > ci::EPSILON_VALUE )
   { offset /= distance; }

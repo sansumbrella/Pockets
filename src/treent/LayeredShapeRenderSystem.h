@@ -29,6 +29,7 @@
 
 #include "treent/Treent.h"
 #include "treent/ShapeComponent.h"
+#include "cinder/gl/Texture.h"
 #include "cinder/gl/VboMesh.h"
 #include "cinder/gl/Vbo.h"
 
