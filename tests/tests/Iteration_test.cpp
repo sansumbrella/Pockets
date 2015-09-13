@@ -66,7 +66,7 @@ TEST_CASE("Iteration_test")
     REQUIRE(last == (vector<int>{ 4, 5, 6 }));
   }
 
-  SECTION("Create a range...")
+  SECTION("Ascending and descending numeric ranges can be used as generators.")
   {
     for (auto i: pk::range(0.0f, 10.0f, 1.0f))
     {

@@ -50,6 +50,9 @@ private:
   Collection &_collection;
 };
 
+///
+/// Generates a range expression that travels a collection in reverse.
+///
 template <typename Collection>
 ReverseViewT<Collection> reverse_view(Collection &c)
 {
@@ -137,6 +140,10 @@ private:
   Number _step = 1;
 };
 
+///
+/// Generates a range expression so you can get numbers from a range-based for loop.
+/// for (auto i: range(0, 1000));
+///
 template <typename Number>
 RangeT<Number> range(Number begin, Number end, Number step=1)
 {
@@ -147,7 +154,7 @@ template <typename Collection>
 class EnumeratingViewT
 {
 public:
-  EnumeratingViewT(Collection &collection)
+  explicit EnumeratingViewT(Collection &collection)
   : _collection(collection)
   {}
 
