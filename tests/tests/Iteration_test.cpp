@@ -8,6 +8,7 @@
 #include "catch.hpp"
 #include "pockets/Iteration.h"
 #include <vector>
+#include <unordered_set>
 #include <iostream>
 
 using namespace std;
@@ -18,6 +19,7 @@ TEST_CASE("Iteration_test")
 	auto b = 1;
 
   auto collection = vector<int>{ 1, 2, 3, 4, 5, 6 };
+  auto unordered_collection = set<string>{ "hi", "hello", "tony" };
 
 	SECTION("reverse_view allows us to walk a collection backwards.")
 	{
@@ -77,8 +79,17 @@ TEST_CASE("Iteration_test")
     }
   }
 
-  SECTION("enumerate allows us to walk a collection and get indices into it.")
+  SECTION("enumerate allows us to walk a collection with corresponding counting numbers.")
   {
+    for (auto p: pk::enumerate(collection))
+    {
+      REQUIRE(p.value == collection.at(p.index));
+    }
 
+    // For non-sequential containers, the indices can still be used with std::next.
+    for (auto p: pk::enumerate(unordered_collection))
+    {
+      REQUIRE(p.value == *std::next(unordered_collection.begin(), p.index));
+    }
   }
 }

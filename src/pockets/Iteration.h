@@ -151,25 +151,57 @@ public:
   : _collection(collection)
   {}
 
-  using ItemT = decltype(Collection().front());
+  using ItemT = decltype(*Collection().begin());
   using CollectionIterator = decltype(Collection().begin());
 
-  struct Object
+  /// A Point in the collection.
+  struct Point
+  {
+    size_t index;
+    ItemT& value;
+  };
+
+  struct Iterator
   {
   public:
-    size_t index() const { return _index; }
-    ItemT& value() const { return *_iterator; }
+    Iterator(size_t index, CollectionIterator iterator)
+    : _index(index),
+      _iterator(iterator)
+    {}
+
+    const Iterator& operator ++()
+    {
+      _index += 1;
+      ++_iterator;
+      return *this;
+    }
+
+    Point operator *() const
+    {
+      return Point{_index, *_iterator};
+    }
+
+    bool operator != (const Iterator &rhs)
+    {
+      return _iterator != rhs._iterator;
+    }
   private:
     size_t              _index = 0;
     CollectionIterator  _iterator;
   };
 
-  auto begin() { return std::make_pair(0, _collection.begin()); }
-  auto end() { return std::make_pair(_collection.size() - 1, _collection.end()); }
+  auto begin() { return Iterator(0, _collection.begin()); }
+  auto end() { return Iterator(_collection.size(), _collection.end()); }
 private:
   Collection &_collection;
 };
 
+///
+/// Generates a range expression such that a counting number is provided with each element in the original collection.
+/// for(auto p: enumerate(vector)) {
+///   p.value == vector[p.index];
+/// }
+///
 template <typename Collection>
 EnumeratingViewT<Collection> enumerate(Collection &c)
 {
