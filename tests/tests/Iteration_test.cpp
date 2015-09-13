@@ -6,14 +6,71 @@
 //
 
 #include "catch.hpp"
+#include "pockets/Iteration.h"
+#include <vector>
+#include <iostream>
+
+using namespace std;
 
 TEST_CASE("Iteration_test")
 {
 	auto a = 0;
 	auto b = 1;
 
-	SECTION("Write a failing test first to confirm your new test is run.")
+  auto collection = vector<int>{ 1, 2, 3, 4, 5, 6 };
+
+	SECTION("reverse_view allows us to walk a collection backwards.")
 	{
-		REQUIRE(a == b);
+    auto forward = vector<int>();
+    auto reversed = vector<int>();
+
+    for (auto &i: collection)
+    {
+      forward.push_back(i);
+    }
+
+    for (auto &i: pk::reverse_view(collection))
+    {
+      reversed.push_back(i);
+    }
+
+    REQUIRE(forward == collection);
+    REQUIRE(reversed == (vector<int>{ 6, 5, 4, 3, 2, 1 }));
 	}
+
+  SECTION("partial_view allows us to look at a subset of a collection.")
+  {
+    auto first = vector<int>();
+    auto last = vector<int>();
+    auto copy = vector<int>();
+
+    for (auto &i: pk::partial_view(collection, 0, collection.size() / 2))
+    {
+      first.push_back(i);
+    }
+
+    for (auto &i: pk::partial_view(collection, 0, collection.size()))
+    {
+      copy.push_back(i);
+    }
+
+    for (auto &i: pk::partial_view(collection, 3, collection.size()))
+    {
+      last.push_back(i);
+    }
+
+    REQUIRE(copy == collection);
+    REQUIRE(first == (vector<int>{ 1, 2, 3 }));
+    REQUIRE(last == (vector<int>{ 4, 5, 6 }));
+  }
+
+  SECTION("views can be combined")
+  {
+
+  }
+
+  SECTION("enumerate allows us to walk a collection and get indices into it.")
+  {
+
+  }
 }
