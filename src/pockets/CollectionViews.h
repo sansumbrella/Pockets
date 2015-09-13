@@ -25,4 +25,54 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "Iteration.h"
+#pragma once
+
+#pragma once
+#include "Pockets.h"
+#include "CollectionViews.inl"
+
+namespace pockets
+{
+  ///
+  /// Generates a range expression that traverses a collection in reverse.
+  /// for (auto &value: reverse_view(c));
+  ///
+  template <typename Collection>
+  ReverseViewT<Collection> reverse_view(Collection &c)
+  {
+    return ReverseViewT<Collection>(c);
+  }
+
+  ///
+  /// Returns a view for iterating over part of a collection.
+  /// for (auto &value: partial_view(c, 0, 5));
+  ///
+  template <typename Collection>
+  ViewT<Collection> partial_view(Collection &c, size_t begin, size_t end)
+  {
+    return ViewT<Collection>(std::next(c.begin(), begin), std::next(c.begin(), end));
+  }
+
+  ///
+  /// Generates a range expression so you can get numbers from a range-based for loop.
+  /// for (auto i: range(0, 1000));
+  ///
+  template <typename Number>
+  RangeT<Number> range(Number begin, Number end, Number step=1)
+  {
+    return RangeT<Number>(begin, end, step);
+  }
+
+  ///
+  /// Generates a range expression such that a counting number is provided with each element in the original collection.
+  /// for(auto p: enumerate(vector)) {
+  ///   p.value == vector[p.index];
+  /// }
+  ///
+  template <typename Collection>
+  EnumeratingViewT<Collection> enumerate(Collection &c)
+  {
+    return EnumeratingViewT<Collection>(c);
+  }
+
+} // namespace pockets

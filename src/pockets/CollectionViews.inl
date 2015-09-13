@@ -26,13 +26,15 @@
  */
 
 #pragma once
-#include "Pockets.h"
 #include <utility>
 #include <iterator>
 
 namespace pockets
 {
 
+///
+/// Views a collection in reverse.
+///
 template <typename Collection>
 class ReverseViewT
 {
@@ -51,14 +53,8 @@ private:
 };
 
 ///
-/// Generates a range expression that travels a collection in reverse.
+/// Views a range of iterators.
 ///
-template <typename Collection>
-ReverseViewT<Collection> reverse_view(Collection &c)
-{
-  return ReverseViewT<Collection>(c);
-}
-
 template <typename Collection>
 class ViewT
 {
@@ -77,15 +73,6 @@ private:
   Iterator _begin;
   Iterator _end;
 };
-
-///
-/// Returns a view for iterating over part of a collection.
-///
-template <typename Collection>
-ViewT<Collection> partial_view(Collection &c, size_t begin, size_t end)
-{
-  return ViewT<Collection>(std::next(c.begin(), begin), std::next(c.begin(), end));
-}
 
 ///
 /// A numeric range.
@@ -141,15 +128,8 @@ private:
 };
 
 ///
-/// Generates a range expression so you can get numbers from a range-based for loop.
-/// for (auto i: range(0, 1000));
+/// Views a collection and pairs each element with an index.
 ///
-template <typename Number>
-RangeT<Number> range(Number begin, Number end, Number step=1)
-{
-  return RangeT<Number>(begin, end, step);
-}
-
 template <typename Collection>
 class EnumeratingViewT
 {
@@ -203,16 +183,4 @@ private:
   Collection &_collection;
 };
 
-///
-/// Generates a range expression such that a counting number is provided with each element in the original collection.
-/// for(auto p: enumerate(vector)) {
-///   p.value == vector[p.index];
-/// }
-///
-template <typename Collection>
-EnumeratingViewT<Collection> enumerate(Collection &c)
-{
-  return EnumeratingViewT<Collection>(c);
-}
-
-}
+} // namespace pockets

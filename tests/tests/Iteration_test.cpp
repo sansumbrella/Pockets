@@ -6,7 +6,7 @@
 //
 
 #include "catch.hpp"
-#include "pockets/Iteration.h"
+#include "pockets/CollectionViews.h"
 #include <vector>
 #include <unordered_set>
 #include <iostream>
@@ -15,14 +15,11 @@ using namespace std;
 
 TEST_CASE("Iteration_test")
 {
-	auto a = 0;
-	auto b = 1;
-
   auto collection = vector<int>{ 1, 2, 3, 4, 5, 6 };
   auto unordered_collection = set<string>{ "hi", "hello", "tony" };
 
-	SECTION("reverse_view allows us to walk a collection backwards.")
-	{
+  SECTION("reverse_view allows us to walk a collection backwards.")
+  {
     auto forward = vector<int>();
     auto reversed = vector<int>();
 
@@ -38,7 +35,7 @@ TEST_CASE("Iteration_test")
 
     REQUIRE(forward == collection);
     REQUIRE(reversed == (vector<int>{ 6, 5, 4, 3, 2, 1 }));
-	}
+  }
 
   SECTION("partial_view allows us to look at a subset of a collection.")
   {
@@ -92,4 +89,7 @@ TEST_CASE("Iteration_test")
       REQUIRE(p.value == *std::next(unordered_collection.begin(), p.index));
     }
   }
+
+  // Untested (and hence currently unsupported):
+  // combining different views onto the same collection.
 }
