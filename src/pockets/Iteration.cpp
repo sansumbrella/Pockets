@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, David Wicks
+ * Copyright (c) 2015 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -25,14 +25,4 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#pragma once
-
-/**
- Pockets contains a variety of utilities of varying utility.
-
- Hopefully you can find some things of use to you here.
- */
-namespace pockets
-{
-}
-namespace pk = pockets;
+#include "Iteration.h"
