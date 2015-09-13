@@ -65,12 +65,12 @@ TEST_CASE("Iteration_test")
 
   SECTION("Ascending and descending numeric ranges can be used as generators.")
   {
-    for (auto i: pk::range(0.0f, 10.0f, 1.0f))
+    for (auto i: pk::range(0.0f, 10.0f, 3.0f))
     {
       cout << i << endl;
     }
 
-    for (auto i: pk::range(20.0f, 0.0f, -1.0f))
+    for (auto i: pk::range(5.0f, 0.0f, -1.0f))
     {
       cout << i << endl;
     }
