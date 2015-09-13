@@ -84,11 +84,70 @@ ViewT<Collection> partial_view(Collection &c, size_t begin, size_t end)
   return ViewT<Collection>(std::next(c.begin(), begin), std::next(c.begin(), end));
 }
 
-template <typename Collection>
-class EnumeratorT
+///
+/// A numeric range.
+///
+template <typename Number>
+class RangeT
 {
 public:
-  EnumeratorT(Collection &collection)
+  explicit RangeT(Number end)
+  : _end(end)
+  {}
+
+  RangeT(Number begin, Number end, Number step)
+  : _begin(begin),
+    _end(end),
+    _step(step)
+  {}
+
+  struct Iterator
+  {
+    Iterator(Number value, Number step, Number end)
+    : _value(value),
+      _step(step),
+      _end(end)
+    {}
+
+    /// Dereferencing returns the iterator's value.
+    Number operator *() { return _value; }
+    const Iterator& operator ++()
+    {
+      _value += _step;
+      return *this;
+    }
+
+    /// Comparator for range-based for loops. Not generally useful.
+    bool operator !=(const Iterator &rhs)
+    {
+      return _step > 0 ? _value < rhs._end : _value > rhs._end;
+    }
+  private:
+    Number _value;
+    Number _step;
+    Number _end;
+  };
+
+  auto begin() const { return Iterator{_begin, _step, _end}; }
+  auto end() const { return Iterator{_end, _step, _end}; }
+
+private:
+  Number _begin = 0;
+  Number _end = 0;
+  Number _step = 1;
+};
+
+template <typename Number>
+RangeT<Number> range(Number begin, Number end, Number step=1)
+{
+  return RangeT<Number>(begin, end, step);
+}
+
+template <typename Collection>
+class EnumeratingViewT
+{
+public:
+  EnumeratingViewT(Collection &collection)
   : _collection(collection)
   {}
 
@@ -112,9 +171,9 @@ private:
 };
 
 template <typename Collection>
-EnumeratorT<Collection> enumerate(Collection &c)
+EnumeratingViewT<Collection> enumerate(Collection &c)
 {
-  return EnumeratorT<Collection>(c);
+  return EnumeratingViewT<Collection>(c);
 }
 
 }

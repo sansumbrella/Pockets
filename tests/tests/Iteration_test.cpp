@@ -64,9 +64,17 @@ TEST_CASE("Iteration_test")
     REQUIRE(last == (vector<int>{ 4, 5, 6 }));
   }
 
-  SECTION("views can be combined")
+  SECTION("Create a range...")
   {
+    for (auto i: pk::range(0.0f, 10.0f, 1.0f))
+    {
+      cout << i << endl;
+    }
 
+    for (auto i: pk::range(20.0f, 0.0f, -1.0f))
+    {
+      cout << i << endl;
+    }
   }
 
   SECTION("enumerate allows us to walk a collection and get indices into it.")
