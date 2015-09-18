@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, David Wicks
+ * Copyright (c) 2015 David Wicks, sansumbrella.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or
@@ -26,18 +26,69 @@
  */
 
 #pragma once
+#include "Pockets.h"
 
-#if ! defined(CINDER_CINDER)
-#include <memory>
-#include <vector>
-#endif
+namespace pockets {
 
-/**
- Pockets contains a variety of utilities of varying utility.
-
- Hopefully you can find some things of use to you here.
- */
-namespace pockets
+///
+/// A Simple Markov Node.
+/// Stores a shared_ptr to some meaningful node-y type.
+/// Could store by value for better performance, but whatever for now.
+///
+template <typename T>
+struct MarkovNode
 {
+  using ThingRef = std::shared_ptr<T>;
+  using MarkovRef = std::shared_ptr<MarkovNode>;
+
+  explicit MarkovNode(const ThingRef &thing)
+  : thing(thing)
+  {}
+
+  struct Exit
+  {
+    MarkovRef  exit;
+    float     weight = 1.0f;
+  };
+
+  void addExit(const MarkovRef &t, float weight)
+  {
+    exits.push_back({t, weight});
+  }
+
+  /// Return the exit at normalized position t.
+  MarkovRef findExit(float t)
+  {
+    auto possibilities = 0.0f;
+    for (auto &e: exits)
+    {
+      possibilities += e.weight;
+    }
+    auto value = t * possibilities;
+
+    for (auto &e: exits)
+    {
+      value -= e.weight;
+      if (value <= 0.0f)
+      {
+        return e.exit;
+      }
+    }
+    return nullptr;
+  }
+
+  std::vector<Exit>    exits;
+  std::shared_ptr<T>   thing;
+};
+
+///
+/// Create a markov node.
+/// Uses shared_ptr since we need to store the nodes inside of other nodes.
+///
+template <typename T>
+std::shared_ptr<MarkovNode<T>> createNode(const std::shared_ptr<T> &thing)
+{
+  return std::make_shared<MarkovNode<T>>(thing);
 }
-namespace pk = pockets;
+
+} // namespace pockets
