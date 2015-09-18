@@ -7,6 +7,7 @@
 
 #include "catch.hpp"
 #include "SimpleMarkov.h"
+#include <iostream>
 
 using namespace pockets;
 using namespace std;
@@ -51,5 +52,21 @@ TEST_CASE("Markov_test")
     REQUIRE(thing->findExit(0.05f)->thing->name == "Exit One");
     REQUIRE(thing->findExit(0.15f)->thing->name == "Exit Two");
     REQUIRE(thing->findExit(0.9f)->thing->name == "Exit Two");
+  }
+
+  SECTION("Alternative markov structure")
+  {
+    MarkovGraph<string> string_graph;
+    // Keep in mind that the map implementation means that the paths aren't
+    // necessarily traversed in the order they are added.
+    string_graph.addPathway("Hello", "Goodbye", 1.0f);
+    string_graph.addPathway("Hello", "Hello", 0.5f);
+
+    string_graph.addPathway("Goodbye", "Hello", 0.5f);
+    string_graph.addPathway("Goodbye", "Goodbye", 0.5f);
+
+    cout << string_graph.nextNode("Hello", 0.32f) << endl;
+    cout << string_graph.nextNode("Hello", 1.0f) << endl;
+    cout << string_graph.nextNode("Goodbye", 0.4f) << endl;
   }
 }

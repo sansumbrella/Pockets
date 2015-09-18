@@ -27,6 +27,7 @@
 
 #pragma once
 #include "Pockets.h"
+#include <unordered_map>
 
 namespace pockets {
 
@@ -90,5 +91,51 @@ std::shared_ptr<MarkovNode<T>> createNode(const std::shared_ptr<T> &thing)
 {
   return std::make_shared<MarkovNode<T>>(thing);
 }
+
+template <typename T>
+class MarkovGraph
+{
+public:
+  struct Pair
+  {
+    T     value;
+    float weight = 0.0f;
+  };
+
+  ///
+  /// Return the next node in the graph at normalized position t.
+  /// If there is no next node in the graph, returns start_node.
+  ///
+  const T& nextNode(const T &start_node, float t)
+  {
+    auto &list = _elements[start_node];
+
+    auto possibilities = 0.0f;
+    for (auto &pair: list)
+    {
+      possibilities += pair.second;
+    }
+    auto value = t * possibilities;
+
+    for (auto &pair: list)
+    {
+      value -= pair.second;
+      if (value <= 0.0f)
+      {
+        return pair.first;
+      }
+    }
+
+    return start_node;
+  }
+
+  void addPathway(const T &from_node, const T &to_node, float weight)
+  {
+    _elements[from_node][to_node] = weight;
+  }
+
+private:
+  std::unordered_map<T, std::unordered_map<T, float>> _elements;
+};
 
 } // namespace pockets
