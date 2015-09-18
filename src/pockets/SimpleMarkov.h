@@ -34,7 +34,7 @@ namespace pockets {
 ///
 /// A Simple Markov Node.
 /// Stores a shared_ptr to some meaningful node-y type.
-/// Could store by value for better performance, but whatever for now.
+/// Based on my previous javascript implementation.
 ///
 template <typename T>
 struct MarkovNode
@@ -92,6 +92,11 @@ std::shared_ptr<MarkovNode<T>> createNode(const std::shared_ptr<T> &thing)
   return std::make_shared<MarkovNode<T>>(thing);
 }
 
+///
+/// Markov graph structure.
+/// Stores weighted relationships between value types.
+/// Allows traversal from one value to another.
+///
 template <typename T>
 class MarkovGraph
 {
