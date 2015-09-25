@@ -10,6 +10,7 @@
 		1522AD811BA5EE7B0066B7D6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1522AD801BA5EE7B0066B7D6 /* main.cpp */; };
 		1522AD831BA5EF000066B7D6 /* Iteration_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1522AD821BA5EF000066B7D6 /* Iteration_test.cpp */; };
 		15D43B841BAB910F003857FA /* Markov_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D43B831BAB910F003857FA /* Markov_test.cpp */; settings = {ASSET_TAGS = (); }; };
+		15DA74201BB4C9F90059EEEB /* Streams_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15DA741F1BB4C9F90059EEEB /* Streams_test.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,6 +35,7 @@
 		1522AD8F1BA60AF20066B7D6 /* CollectionViews.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = CollectionViews.inl; sourceTree = "<group>"; };
 		15D43B811BAB8F28003857FA /* SimpleMarkov.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleMarkov.h; sourceTree = "<group>"; };
 		15D43B831BAB910F003857FA /* Markov_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Markov_test.cpp; sourceTree = "<group>"; };
+		15DA741F1BB4C9F90059EEEB /* Streams_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Streams_test.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 				1522AD801BA5EE7B0066B7D6 /* main.cpp */,
 				1522AD821BA5EF000066B7D6 /* Iteration_test.cpp */,
 				15D43B831BAB910F003857FA /* Markov_test.cpp */,
+				15DA741F1BB4C9F90059EEEB /* Streams_test.cpp */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -146,6 +149,7 @@
 				1522AD811BA5EE7B0066B7D6 /* main.cpp in Sources */,
 				1522AD831BA5EF000066B7D6 /* Iteration_test.cpp in Sources */,
 				15D43B841BAB910F003857FA /* Markov_test.cpp in Sources */,
+				15DA74201BB4C9F90059EEEB /* Streams_test.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
