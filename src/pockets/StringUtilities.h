@@ -32,18 +32,21 @@
 namespace pockets
 {
 
+/// Returns a string that is a copy of \a str with all spaces removed from the end.
 inline std::string trim_right(const std::string &str)
 {
 	auto end = std::find_if_not(str.rbegin(), str.rend(), [] (int c) { return std::isspace(c); } ).base();
 	return std::string(str.begin(), end);
 }
 
+/// Returns a string that is a copy of \a str with all spaces removed from the beginning.
 inline std::string trim_left(const std::string &str)
 {
 	auto begin = std::find_if_not(str.begin(), str.end(), [] (int c) { return std::isspace(c); } );
 	return std::string(begin, str.end());
 }
 
+/// Returns a string that is a copy of \a str with all spaces removed from the beginning and end.
 inline std::string trim(const std::string &str)
 {
 	auto begin = std::find_if_not(str.begin(), str.end(), [] (int c) { return std::isspace(c); } );

@@ -12,6 +12,11 @@
 using namespace pockets;
 using namespace std;
 
+///
+/// Unicode information (and standard): http://unicode.org/charts/
+/// Unicode chart including hex values for code points: http://www.utf8-chartable.de/unicode-utf8-table.pl
+///
+
 TEST_CASE("Strings_test")
 {
 
@@ -51,7 +56,7 @@ TEST_CASE("Strings_test")
     REQUIRE(trim(spaces) == empty);
   }
 
-  SECTION("Text with UTF-8 characters might break trim and trim_right")
+  SECTION("Text with UTF-8 characters works since multibyte unicode hex values never end in range [0, 127]")
   {
     const auto unicode_stuff = string(u8"\u0121\u0107\u0120\u0A20\u0C20");
     const auto left_space = string(u8" ");
