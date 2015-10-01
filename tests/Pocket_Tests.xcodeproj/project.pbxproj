@@ -11,6 +11,7 @@
 		1522AD831BA5EF000066B7D6 /* Iteration_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1522AD821BA5EF000066B7D6 /* Iteration_test.cpp */; };
 		15D43B841BAB910F003857FA /* Markov_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D43B831BAB910F003857FA /* Markov_test.cpp */; settings = {ASSET_TAGS = (); }; };
 		15DA74201BB4C9F90059EEEB /* Streams_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15DA741F1BB4C9F90059EEEB /* Streams_test.cpp */; settings = {ASSET_TAGS = (); }; };
+		9C7A23D41BBDBB23002EBB0F /* Strings_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C7A23D31BBDBB23002EBB0F /* Strings_test.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,6 +37,8 @@
 		15D43B811BAB8F28003857FA /* SimpleMarkov.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleMarkov.h; sourceTree = "<group>"; };
 		15D43B831BAB910F003857FA /* Markov_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Markov_test.cpp; sourceTree = "<group>"; };
 		15DA741F1BB4C9F90059EEEB /* Streams_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Streams_test.cpp; sourceTree = "<group>"; };
+		9C7A23D11BBDBA6E002EBB0F /* StringUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtilities.h; sourceTree = "<group>"; };
+		9C7A23D31BBDBB23002EBB0F /* Strings_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Strings_test.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +60,7 @@
 				1522AD7F1BA5EE7B0066B7D6 /* tests */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		15067F5C1BA5EDD200F7957C /* Products */ = {
 			isa = PBXGroup;
@@ -73,6 +77,7 @@
 				1522AD821BA5EF000066B7D6 /* Iteration_test.cpp */,
 				15D43B831BAB910F003857FA /* Markov_test.cpp */,
 				15DA741F1BB4C9F90059EEEB /* Streams_test.cpp */,
+				9C7A23D31BBDBB23002EBB0F /* Strings_test.cpp */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -85,6 +90,7 @@
 				1522AD861BA5EF720066B7D6 /* Pockets.h */,
 				1522AD8B1BA609FD0066B7D6 /* CollectionViews.h */,
 				15D43B811BAB8F28003857FA /* SimpleMarkov.h */,
+				9C7A23D11BBDBA6E002EBB0F /* StringUtilities.h */,
 			);
 			name = pockets;
 			path = ../src/pockets;
@@ -149,6 +155,7 @@
 				1522AD811BA5EE7B0066B7D6 /* main.cpp in Sources */,
 				1522AD831BA5EF000066B7D6 /* Iteration_test.cpp in Sources */,
 				15D43B841BAB910F003857FA /* Markov_test.cpp in Sources */,
+				9C7A23D41BBDBB23002EBB0F /* Strings_test.cpp in Sources */,
 				15DA74201BB4C9F90059EEEB /* Streams_test.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
