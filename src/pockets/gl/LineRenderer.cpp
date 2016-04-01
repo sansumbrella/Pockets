@@ -74,7 +74,7 @@ void main() {
 			vec2 normal = vec2(-ab.y, ab.x);
 			vec2 miter = vec2(-tangent.y, tangent.x);
 			dir = tangent;
-			len = EdgeOffset / clamp(dot(miter, normal), 0.0, 1.0);
+			len = EdgeOffset / clamp(dot(miter, normal), 0.1, 1.0);
 		}
 		else {
 			dir = ab;
