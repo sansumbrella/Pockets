@@ -125,6 +125,8 @@ void LineRenderer::clear()
 {
     _indices.clear();
     _vertices.clear();
+
+    _needs_buffering = true;
 }
 
 void LineRenderer::addLine(const std::vector<ci::vec3> &positions, float width, const ColorA &frontColor, const ColorA &backColor, bool mitered)
@@ -163,17 +165,24 @@ void LineRenderer::addLine(const std::vector<ci::vec3> &positions, float width, 
         _vertices.push_back(Vertex{ positions[i], previous(i), next(i), color(i), half_width, mitered_int });
         _vertices.push_back(Vertex{ positions[i], previous(i), next(i), color(i), -half_width, mitered_int });
     }
+
+    _needs_buffering = true;
 }
 
 void LineRenderer::bufferData()
 {
-    const auto vb = sizeof(Vertex) * _vertices.size();
-    _vertex_buffer->ensureMinimumSize(vb);
-    _vertex_buffer->bufferSubData(0, vb, _vertices.data());
+    if (_needs_buffering)
+    {
+        const auto vb = sizeof(Vertex) * _vertices.size();
+        _vertex_buffer->ensureMinimumSize(vb);
+        _vertex_buffer->bufferSubData(0, vb, _vertices.data());
 
-    const auto ib = sizeof(uint32_t) * _indices.size();
-    _index_buffer->ensureMinimumSize(ib);
-    _index_buffer->bufferSubData(0, ib, _indices.data());
+        const auto ib = sizeof(uint32_t) * _indices.size();
+        _index_buffer->ensureMinimumSize(ib);
+        _index_buffer->bufferSubData(0, ib, _indices.data());
+
+        _needs_buffering = false;
+    }
 }
 
 void LineRenderer::draw()

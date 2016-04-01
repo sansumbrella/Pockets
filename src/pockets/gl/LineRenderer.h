@@ -33,6 +33,7 @@ private:
     std::vector<Vertex>     _vertices;
     ci::gl::BatchRef        _batch;
 
+    bool _needs_buffering = true;
     void bufferData();
 };
 
